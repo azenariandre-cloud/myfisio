@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a73e8">
+  <meta name="description" content="myFisio — Fisioterapia onde você estiver">
+  <title>myFisio — App do Paciente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── RESET & BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: #e8edf5;
+      font-family: 'Nunito Sans', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    /* ── PHONE FRAME ── */
+    .app-frame {
+      width: 375px;
+      height: 812px;
+      background: #f0f4f8;
+      border-radius: 40px;
+      overflow: hidden;
+      position: relative;
+      border: 10px solid #1a1a2e;
+      box-shadow:
+        0 0 0 2px #2d2d4e,
+        0 32px 80px rgba(0,0,0,0.35),
+        0 8px 24px rgba(0,0,0,0.2);
+    }
+
+    /* ── SCREENS ── */
+    .screen {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      background: #f0f4f8;
+    }
+    .screen.active { display: flex; }
+
+    /* ── STATUS BAR ── */
+    .status-bar {
+      height: 44px;
+      background: #1a73e8;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      font-size: 12px;
+      color: white;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .status-bar .time { font-size: 15px; font-weight: 700; }
+
+    /* ── BOTTOM NAV ── */
+    .nav-bar {
+      height: 70px;
+      background: white;
+      border-top: 0.5px solid #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-shrink: 0;
+      padding-bottom: 8px;
+    }
+    .nav-item {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 4px; cursor: pointer; padding: 6px 14px;
+      border-radius: 14px; transition: background 0.15s; flex: 1;
+    }
+    .nav-item:hover { background: #f0f4ff; }
+    .nav-icon { font-size: 22px; color: #9aa0b0; line-height: 1; }
+    .nav-label { font-size: 10px; color: #9aa0b0; font-weight: 600; }
+    .nav-item.active .nav-icon { color: #1a73e8; }
+    .nav-item.active .nav-label { color: #1a73e8; font-weight: 700; }
+
+    /* ── SCROLL AREA ── */
+    .scroll-area {
+      flex: 1; overflow-y: auto; padding: 14px 16px;
+      scrollbar-width: thin; scrollbar-color: #e0e0e0 transparent;
+    }
+
+    /* ── LOGO ── */
+    .logo-text { font-family: 'Nunito', sans-serif; font-weight: 800; color: white; font-size: 16px; }
+    .logo-accent { color: #93c5fd; }
+
+    /* ── MAP SCREEN ── */
+    .map-view { flex: 1; position: relative; background: #dce8f7; overflow: hidden; }
+    .map-bg { position: absolute; inset: 0; }
+
+    .map-pin {
+      position: absolute; cursor: pointer;
+      transform: translate(-50%, -100%);
+      display: flex; flex-direction: column; align-items: center;
+      transition: transform 0.2s; z-index: 10;
+    }
+    .map-pin:hover { transform: translate(-50%, -100%) scale(1.15); }
+    .pin-bubble {
+      background: #1a73e8; color: white;
+      padding: 5px 10px; border-radius: 12px;
+      font-size: 11px; font-weight: 700; white-space: nowrap;
+      font-family: 'Nunito', sans-serif;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .pin-bubble.green { background: #34a853; }
+    .pin-bubble.orange { background: #ea8c00; }
+    .pin-triangle { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 9px solid #1a73e8; }
+    .pin-triangle.green { border-top-color: #34a853; }
+    .pin-triangle.orange { border-top-color: #ea8c00; }
+
+    .map-search-bar {
+      position: absolute; top: 12px; left: 12px; right: 12px;
+      background: white; border-radius: 14px;
+      padding: 10px 14px; display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15); z-index: 20;
+    }
+    .map-search-bar input {
+      border: none; outline: none; flex: 1;
+      font-size: 14px; font-family: 'Nunito Sans', sans-serif;
+      color: #333; background: transparent;
+    }
+    .map-search-icon { font-size: 18px; color: #9aa0b0; }
+
+    .my-loc-btn {
+      position: absolute; right: 14px; bottom: 250px;
+      background: white; border: none; width: 42px; height: 42px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+      cursor: pointer; z-index: 20;
+    }
+
+    .map-overlay-bottom {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: white; border-radius: 24px 24px 0 0;
+      padding: 10px 16px 14px;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.12); z-index: 20;
+      max-height: 55%;
+    }
+    .drag-handle {
+      width: 40px; height: 4px; background: #ddd;
+      border-radius: 2px; margin: 0 auto 12px;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background: #1a73e8; padding: 16px 16px 18px; flex-shrink: 0;
+    }
+    .page-title { font-size: 20px; font-weight: 800; color: white; font-family: 'Nunito', sans-serif; }
+    .page-subtitle { font-size: 13px; color: rgba(255,255,255,0.8); margin-top: 3px; }
+
+    /* ── SEARCH BAR ── */
+    .search-bar {
+      background: white; border-radius: 14px;
+      padding: 10px 14px; display: flex; align-items: center; gap: 10px;
+      margin: 12px 16px 0; border: 0.5px solid #e0e7ff;
+    }
+    .search-bar input {
+      border: none; outline: none; font-size: 14px;
+      font-family: 'Nunito Sans', sans-serif; color: #5f6368; flex: 1; background: transparent;
+    }
+
+    /* ── CHIP ROW ── */
+    .chip-row {
+      display: flex; gap: 8px; overflow-x: auto; padding: 10px 16px 0;
+      scrollbar-width: none;
+    }
+    .chip-row::-webkit-scrollbar { display: none; }
+    .chip {
+      background: white; border: 1.5px solid #e0e7ff; border-radius: 24px;
+      padding: 6px 14px; font-size: 12px; font-weight: 700; color: #5f6368;
+      cursor: pointer; white-space: nowrap; font-family: 'Nunito', sans-serif;
+      transition: all 0.15s; flex-shrink: 0;
+    }
+    .chip.active { background: #1a73e8; border-color: #1a73e8; color: white; }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-size: 12px; font-weight: 700; color: #5f6368;
+      text-transform: uppercase; letter-spacing: 0.6px;
+      margin: 14px 0 10px;
+    }
+
+    /* ── FISIO CARD ── */
+    .fisio-card {
+      background: white; border-radius: 18px; padding: 14px;
+      margin-bottom: 12px; border: 0.5px solid #e8edf5;
+      cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .fisio-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(26,115,232,0.13); }
+    .fisio-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+
+    .avatar {
+      width: 48px; height: 48px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 16px; font-family: 'Nunito', sans-serif; flex-shrink: 0;
+    }
+    .av-blue { background: #e8f0fe; color: #1a73e8; }
+    .av-green { background: #e6f4ea; color: #1e8e3e; }
+    .av-purple { background: #f0e6ff; color: #8430ce; }
+    .av-orange { background: #fef3e0; color: #ea8c00; }
+
+    .fisio-info { flex: 1; }
+    .fisio-name { font-size: 15px; font-weight: 700; color: #1a1a2e; font-family: 'Nunito', sans-serif; }
+    .fisio-spec { font-size: 12px; color: #5f6368; margin-top: 2px; }
+
+    .badge-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .badge {
+      font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 24px;
+    }
+    .badge-blue { background: #e8f0fe; color: #1a56db; }
+    .badge-green { background: #e6f4ea; color: #137333; }
+    .badge-star { background: #fef3e0; color: #b45309; }
+
+    .fisio-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 10px; padding-top: 10px; border-top: 0.5px solid #f0f0f0;
+      gap: 8px;
+    }
+    .dist-label { font-size: 12px; color: #5f6368; }
+    .price-label { font-size: 14px; font-weight: 700; color: #1a73e8; font-family: 'Nunito', sans-serif; }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      background: #1a73e8; color: white; border: none;
+      border-radius: 14px; padding: 10px 18px; font-size: 13px;
+      font-weight: 700; cursor: pointer; font-family: 'Nunito', sans-serif;
+      transition: background 0.15s;
+    }
+    .btn-primary:hover { background: #1557b0; }
+    .btn-outline {
+      background: white; color: #1a73e8;
+      border: 1.5px solid #1a73e8; border-radius: 14px;
+      padding: 8px 14px; font-size: 13px; font-weight: 700;
+      cursor: pointer; font-family: 'Nunito', sans-serif;
+    }
+
+    /* ── DETAIL SCREEN ── */
+    .detail-header {
+      background: linear-gradient(160deg, #1a73e8, #0d47a1);
+      padding: 14px 16px 22px; flex-shrink: 0;
+    }
+    .back-btn {
+      background: rgba(255,255,255,0.2); border: none; border-radius: 10px;
+      color: white; padding: 6px 14px; font-size: 13px; font-weight: 700;
+      cursor: pointer; font-family: 'Nunito', sans-serif; margin-bottom: 14px;
+    }
+    .detail-avatar-row { display: flex; align-items: center; gap: 14px; }
+    .detail-avatar {
+      width: 64px; height: 64px; border-radius: 50%; background: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 800; color: #1a73e8; font-family: 'Nunito', sans-serif;
+    }
+    .detail-name { font-size: 19px; font-weight: 800; color: white; font-family: 'Nunito', sans-serif; }
+    .detail-crm { font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 2px; }
+    .detail-spec { font-size: 13px; color: rgba(255,255,255,0.9); margin-top: 4px; }
+    .rating-big { display: flex; align-items: center; gap: 5px; margin-top: 5px; }
+    .rating-num { font-size: 14px; font-weight: 700; color: white; }
+    .rating-cnt { font-size: 12px; color: rgba(255,255,255,0.7); }
+
+    .info-card {
+      background: white; border-radius: 16px; padding: 14px;
+      margin-bottom: 12px; border: 0.5px solid #e8edf5;
+    }
+    .info-card-title {
+      font-size: 12px; font-weight: 700; color: #1a73e8; margin-bottom: 10px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .info-row { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; font-size: 13px; color: #3c4043; }
+    .info-icon { font-size: 16px; width: 22px; text-align: center; }
+    .service-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 7px 0; border-bottom: 0.5px solid #f5f5f5; font-size: 13px;
+    }
+    .service-item:last-child { border-bottom: none; }
+    .service-name { color: #3c4043; }
+    .service-price { font-weight: 700; color: #1a73e8; font-family: 'Nunito', sans-serif; }
+
+    .booking-bar {
+      background: white; padding: 12px 16px;
+      border-top: 0.5px solid #e8edf5; display: flex; gap: 10px; align-items: center; flex-shrink: 0;
+    }
+    .time-selector {
+      background: #f8faff; border: 1.5px solid #e0e7ff;
+      border-radius: 12px; padding: 8px 14px; font-size: 12px;
+      font-weight: 700; color: #1a73e8; cursor: pointer; flex: 1;
+      text-align: center; font-family: 'Nunito', sans-serif;
+    }
+
+    /* ── APPOINTMENTS SCREEN ── */
+    .appt-card {
+      background: white; border-radius: 16px; padding: 14px;
+      margin-bottom: 12px; border-left: 4px solid #1a73e8;
+    }
+    .appt-card.done { border-left-color: #34a853; }
+    .appt-card.cancel { border-left-color: #ea4335; }
+    .appt-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .appt-name { font-size: 15px; font-weight: 700; color: #1a1a2e; font-family: 'Nunito', sans-serif; }
+    .appt-type { font-size: 12px; color: #5f6368; margin-top: 2px; }
+    .appt-date { font-size: 12px; font-weight: 700; color: #1a73e8; text-align: right; }
+    .appt-time { font-size: 12px; color: #5f6368; text-align: right; }
+    .status-pill {
+      display: inline-block; font-size: 11px; font-weight: 700;
+      padding: 3px 10px; border-radius: 24px; margin-top: 8px;
+    }
+    .status-scheduled { background: #e8f0fe; color: #1a56db; }
+    .status-done { background: #e6f4ea; color: #137333; }
+    .status-cancelled { background: #fce8e8; color: #b71c1c; }
+
+    /* ── PROFILE SCREEN ── */
+    .profile-header {
+      background: #1a73e8; padding: 24px 16px 28px; flex-shrink: 0;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .profile-big-avatar {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; font-weight: 800; color: white;
+      font-family: 'Nunito', sans-serif; border: 2px solid rgba(255,255,255,0.5);
+    }
+    .profile-name { font-size: 19px; font-weight: 800; color: white; font-family: 'Nunito', sans-serif; }
+    .profile-email { font-size: 13px; color: rgba(255,255,255,0.8); margin-top: 3px; }
+
+    .menu-item {
+      background: white; border-radius: 14px; padding: 14px;
+      margin-bottom: 10px; display: flex; align-items: center; gap: 14px;
+      cursor: pointer; border: 0.5px solid #e8edf5; transition: background 0.15s;
+    }
+    .menu-item:hover { background: #f8faff; }
+    .menu-icon {
+      font-size: 20px; width: 40px; height: 40px; background: #e8f0fe;
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    }
+    .menu-label { font-size: 14px; font-weight: 600; color: #1a1a2e; flex: 1; font-family: 'Nunito', sans-serif; }
+    .menu-arrow { color: #9aa0b0; font-size: 18px; }
+
+    /* ── FILTER BTN ── */
+    .filter-btn {
+      background: white; border: 1.5px solid #e0e7ff; border-radius: 12px;
+      padding: 7px 12px; font-size: 12px; font-weight: 700; color: #1a73e8;
+      cursor: pointer; display: flex; align-items: center; gap: 5px;
+      font-family: 'Nunito', sans-serif; white-space: nowrap;
+    }
+
+    /* ── SHEET HEADER ── */
+    .sheet-header {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
+    }
+    .sheet-count { font-size: 14px; font-weight: 700; color: #1a1a2e; font-family: 'Nunito', sans-serif; }
+
+    /* ── DESKTOP CENTERING (large screens) ── */
+    @media (max-width: 420px) {
+      .app-frame {
+        width: 100vw; height: 100vh;
+        border-radius: 0; border: none; box-shadow: none;
+      }
+      html, body { align-items: flex-start; background: white; }
+    }
+
+    /* ── DESKTOP NAV PILLS ── */
+    .desktop-nav {
+      position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 8px; z-index: 100;
+      background: white; border-radius: 24px; padding: 6px 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12); border: 0.5px solid #e0e7ff;
+    }
+    @media (max-width: 420px) { .desktop-nav { display: none; } }
+
+    .dnav-btn {
+      padding: 7px 16px; border-radius: 18px; border: none;
+      font-size: 12px; font-weight: 700; cursor: pointer;
+      font-family: 'Nunito', sans-serif; background: transparent; color: #5f6368;
+      transition: all 0.15s;
+    }
+    .dnav-btn.active { background: #1a73e8; color: white; }
+    .dnav-btn:hover:not(.active) { background: #f0f4ff; color: #1a73e8; }
+  </style>
+</head>
+<body>
+
+  <!-- Desktop navigation pills (só visível em telas grandes) -->
+  <div class="desktop-nav">
+    <button class="dnav-btn active" onclick="showScreen('map');setDNav(this)">🗺 Mapa</button>
+    <button class="dnav-btn" onclick="showScreen('list');setDNav(this)">🔍 Buscar</button>
+    <button class="dnav-btn" onclick="showScreen('detail');setDNav(this)">👤 Detalhe</button>
+    <button class="dnav-btn" onclick="showScreen('appointments');setDNav(this)">📅 Sessões</button>
+    <button class="dnav-btn" onclick="showScreen('profile');setDNav(this)">⚙️ Perfil</button>
+  </div>
+
+  <div class="app-frame">
+
+    <!-- ══════════════ MAPA ══════════════ -->
+    <div class="screen active" id="screen-map">
+      <div class="status-bar">
+        <span class="time">9:41</span>
+        <span class="logo-text">my<span class="logo-accent">Fisio</span></span>
+        <span>📶 🔋</span>
+      </div>
+
+      <div class="map-view">
+        <!-- Mapa SVG ilustrativo -->
+        <svg class="map-bg" viewBox="0 0 375 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="375" height="600" fill="#dce8f7"/>
+          <!-- Ruas horizontais -->
+          <rect x="0" y="90" width="375" height="16" fill="#c5d5ea" opacity=".7"/>
+          <rect x="0" y="210" width="375" height="16" fill="#c5d5ea" opacity=".7"/>
+          <rect x="0" y="330" width="375" height="16" fill="#c5d5ea" opacity=".7"/>
+          <rect x="0" y="450" width="375" height="16" fill="#c5d5ea" opacity=".7"/>
+          <!-- Ruas verticais -->
+          <rect x="70" y="0" width="16" height="600" fill="#c5d5ea" opacity=".7"/>
+          <rect x="190" y="0" width="16" height="600" fill="#c5d5ea" opacity=".7"/>
+          <rect x="300" y="0" width="16" height="600" fill="#c5d5ea" opacity=".7"/>
+          <!-- Quadras -->
+          <rect x="10" y="116" width="50" height="86" rx="6" fill="#bccfe6" opacity=".75"/>
+          <rect x="96" y="116" width="86" height="86" rx="6" fill="#bccfe6" opacity=".75"/>
+          <rect x="210" y="120" width="80" height="82" rx="6" fill="#bccfe6" opacity=".75"/>
+          <rect x="316" y="116" width="50" height="86" rx="6" fill="#bccfe6" opacity=".75"/>
+          <rect x="10" y="234" width="50" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
+          <rect x="96" y="234" width="86" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
+          <rect x="210" y="234" width="80" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
+          <rect x="10" y="354" width="50" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
+          <rect x="96" y="354" width="86" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
+          <rect x="210" y="354" width="80" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
+          <!-- Localização do usuário -->
+          <circle cx="187" cy="300" r="16" fill="#1a73e8" opacity=".18"/>
+          <circle cx="187" cy="300" r="8" fill="white"/>
+          <circle cx="187" cy="300" r="5" fill="#1a73e8"/>
+        </svg>
+
+        <!-- Barra de pesquisa -->
+        <div class="map-search-bar">
+          <span class="map-search-icon">🔍</span>
+          <input type="text" placeholder="Buscar fisioterapeuta..." readonly>
+          <span style="font-size:18px;cursor:pointer;">⚙️</span>
+        </div>
+
+        <!-- Pins dos fisioterapeutas -->
+        <div class="map-pin" style="left:27%;top:44%;" onclick="showScreen('detail');setDNav(document.querySelectorAll('.dnav-btn')[2])">
+          <div class="pin-bubble green">Dra. Ana · R$120</div>
+          <div class="pin-triangle green"></div>
+        </div>
+        <div class="map-pin" style="left:63%;top:30%;" onclick="showScreen('detail');setDNav(document.querySelectorAll('.dnav-btn')[2])">
+          <div class="pin-bubble">Dr. Carlos · R$150</div>
+          <div class="pin-triangle"></div>
+        </div>
+        <div class="map-pin" style="left:80%;top:60%;" onclick="showScreen('detail');setDNav(document.querySelectorAll('.dnav-btn')[2])">
+          <div class="pin-bubble orange">Dra. Lúcia · R$130</div>
+          <div class="pin-triangle orange"></div>
+        </div>
+
+        <!-- Botão localização -->
+        <button class="my-loc-btn" onclick="alert('Localizando...')">📍</button>
+
+        <!-- Bottom Sheet -->
+        <div class="map-overlay-bottom">
+          <div class="drag-handle"></div>
+          <div class="sheet-header">
+            <span class="sheet-count">3 disponíveis perto de você</span>
+            <button class="filter-btn">⚡ Filtros</button>
+          </div>
+          <div class="chip-row" style="padding: 0; margin-bottom: 12px;">
+            <div class="chip active">Todos</div>
+            <div class="chip" onclick="chipSel(this)">Ortopedia</div>
+            <div class="chip" onclick="chipSel(this)">Neurológico</div>
+            <div class="chip" onclick="chipSel(this)">Esportivo</div>
+            <div class="chip" onclick="chipSel(this)">Domiciliar</div>
+          </div>
+
+          <div class="fisio-card" onclick="showScreen('detail');setDNav(document.querySelectorAll('.dnav-btn')[2])">
+            <div class="fisio-card-header">
+              <div class="avatar av-green">AN</div>
+              <div class="fisio-info">
+                <div class="fisio-name">Dra. Ana Nascimento</div>
+                <div class="fisio-spec">Fisioterapia Ortopédica · CREFITO 12345</div>
+              </div>
+              <div class="badge badge-star">⭐ 4.9</div>
+            </div>
+            <div class="badge-row">
+              <div class="badge badge-green">✓ Disponível agora</div>
+              <div class="badge badge-blue">Domiciliar</div>
+            </div>
+            <div class="fisio-footer">
+              <span class="dist-label">📍 0.8 km · ~10 min</span>
+              <span class="price-label">R$ 120/sessão</span>
+              <button class="btn-primary" onclick="event.stopPropagation();showScreen('detail');setDNav(document.querySelectorAll('.dnav-btn')[2])">Agendar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-bar">
+        <div class="nav-item active" onclick="showScreen('map');setDNav(document.querySelectorAll('.dnav-btn')[0])">
+          <div class="nav-icon">🗺</div><div class="nav-label">Mapa</div>
+        </div>
+        <div class="nav-item" onclick="showScreen('list');setDNav(document.querySelectorAll('.dnav-btn')[1])">
+          <div class="nav-icon">🔍</div><div class="nav-label">Buscar</div>
+        </div>
+        <div class="nav-item" onclick="showScreen('appointments');setDNav(document.querySelectorAll('.dnav-btn')[3])">
+          <div class="nav-icon">📅</div><div class="nav-label">Sessões</div>
+        </div>
+        <div class="nav-item" onclick="showScreen('profile');setDNav(document.querySelectorAll('.dnav-btn')[4])">
+          <div class="nav-icon">👤</div><div class="nav-label">Perfil</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ LISTA ══════════════ -->
+    <div class="screen" id="screen-list">
+      <div class="status-bar">
+        <span class="time">9:41</span>
+        <span class="logo-text">my<span class="logo-accent">Fisio</span></span>
+        <span>📶 🔋</span>
+      </div>
+      <div class="page-header">
+        <div class="page-title">Fisioterapeutas</div>
+        <div class="page-subtitle">São Paulo · SP · Perto de você</div>
+      </div>
+      <div style="background:white; flex-shrink:0; padding: 0 0 10px;">
+        <div class="search-bar" style="margin: 12px 16px 0;">
+          <span>🔍</span>
+          <input type="text" placeholder="Especialidade, nome...">
+        </div>
+        <div class="chip-row" style="padding: 10px 16px 0;">
+          <div class="chip active">Todos</div>
+          <div class="chip" onclick="chipSel(this)">Ortopedia</div>
+          <div class="chip" onclick="chipSel(this)">Neurológico</div>
+          <div class="chip" onclick="chipSel(this)">Esportivo</div>
+          <div class="chip" onclick="chipSel(this)">Pediátrico</div>
+        </div>
+      </div>
+
+      <div class="scroll-area">
+        <div class="section-label">Disponíveis agora</div>
+
+        <div class="fisio-card" onclick="showScreen('detail');setDNav(document.querySelectorAll('.dnav-btn')[2])">
+          <div class="fisio-card-header">
+            <div class="avatar av-green">AN</div>
+            <div class="fisio-info">
+              <div class="fisio-name">Dra. Ana Nascimento</div>
+              <div class="fisio-spec">Fisioterapia Ortopédica</div>
+            </div>
+            <div class="badge badge-star">⭐ 4.9</div>
+          </div>
+          <div class="badge-row"><div class="badge badge-green">✓ Disponível</div><div class="badge badge-blue">Domiciliar</div></div>
+          <div class="fisio-footer"><span class="dist-label">📍 0.8 km</span><span class="price-label">R$ 120</span><button class="btn-primary">Agendar</button></div>
+        </div>
+
+        <div class="fisio-card" onclick="showScreen('detail');setDNav(document.querySelectorAll('.dnav-btn')[2])">
+          <div class="fisio-card-header">
+            <div class="avatar av-blue">CB</div>
+            <div class="fisio-info">
+              <div class="fisio-name">Dr. Carlos Barros</div>
+              <div class="fisio-spec">Fisioterapia Esportiva</div>
+            </div>
+            <div class="badge badge-star">⭐ 4.8</div>
+          </div>
+          <div class="badge-row"><div class="badge badge-green">✓ Disponível</div><div class="badge badge-blue">Clínica</div></div>
+          <div class="fisio-footer"><span class="dist-label">📍 1.3 km</span><span class="price-label">R$ 150</span><button class="btn-primary">Agendar</button></div>
+        </div>
+
+        <div class="fisio-card" onclick="showScreen('detail');setDNav(document.querySelectorAll('.dnav-btn')[2])">
+          <div class="fisio-card-header">
+            <div class="avatar av-purple">LM</div>
+            <div class="fisio-info">
+              <div class="fisio-name">Dra. Lúcia Mendes</div>
+              <div class="fisio-spec">Fisioterapia Neurológica</div>
+            </div>
+            <div class="badge badge-star">⭐ 4.7</div>
+          </div>
+          <div class="badge-row"><div class="badge badge-green">✓ Disponível</div><div class="badge badge-blue">Domiciliar</div></div>
+          <div class="fisio-footer"><span class="dist-label">📍 2.1 km</span><span class="price-label">R$ 130</span><button class="btn-primary">Agendar</button></div>
+        </div>
+
+        <div class="section-label">Outros disponíveis hoje</div>
+
+        <div class="fisio-card">
+          <div class="fisio-card-header">
+            <div class="avatar av-orange">RF</div>
+            <div class="fisio-info">
+              <div class="fisio-name">Dr. Ricardo Fonseca</div>
+              <div class="fisio-spec">Fisioterapia Respiratória</div>
+            </div>
+            <div class="badge badge-star">⭐ 4.6</div>
+          </div>
+          <div class="badge-row"><div class="badge" style="background:#fff0e6;color:#b45309;">📅 Hoje 15h</div><div class="badge badge-blue">Domiciliar</div></div>
+          <div class="fisio-footer"><span class="dist-label">📍 3.0 km</span><span class="price-label">R$ 110</span><button class="btn-outline">Ver agenda</button></div>
+        </div>
+      </div>
+
+      <div class="nav-bar">
+        <div class="nav-item" onclick="showScreen('map');setDNav(document.querySelectorAll('.dnav-btn')[0])"><div class="nav-icon">🗺</div><div class="nav-label">Mapa</div></div>
+        <div class="nav-item active"><div class="nav-icon">🔍</div><div class="nav-label">Buscar</div></div>
+        <div class="nav-item" onclick="showScreen('appointments');setDNav(document.querySelectorAll('.dnav-btn')[3])"><div class="nav-icon">📅</div><div class="nav-label">Sessões</div></div>
+        <div class="nav-item" onclick="showScreen('profile');setDNav(document.querySelectorAll('.dnav-btn')[4])"><div class="nav-icon">👤</div><div class="nav-label">Perfil</div></div>
+      </div>
+    </div>
+
+    <!-- ══════════════ DETALHE ══════════════ -->
+    <div class="screen" id="screen-detail">
+      <div class="status-bar">
+        <span class="time">9:41</span>
+        <span class="logo-text">my<span class="logo-accent">Fisio</span></span>
+        <span>📶 🔋</span>
+      </div>
+      <div class="detail-header">
+        <button class="back-btn" onclick="showScreen('list');setDNav(document.querySelectorAll('.dnav-btn')[1])">← Voltar</button>
+        <div class="detail-avatar-row">
+          <div class="detail-avatar">AN</div>
+          <div>
+            <div class="detail-name">Dra. Ana Nascimento</div>
+            <div class="detail-crm">CREFITO: 12345-F · SP</div>
+            <div class="detail-spec">Fisioterapia Ortopédica e Esportiva</div>
+            <div class="rating-big">
+              <span>⭐</span>
+              <span class="rating-num">4.9</span>
+              <span class="rating-cnt">(128 avaliações)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-area">
+        <div class="info-card">
+          <div class="info-card-title">Informações</div>
+          <div class="info-row"><span class="info-icon">📍</span>Vila Madalena, São Paulo · 0.8 km</div>
+          <div class="info-row"><span class="info-icon">🕐</span>Disponível agora · Atende até 20h</div>
+          <div class="info-row"><span class="info-icon">🏠</span>Atendimento domiciliar e em clínica</div>
+          <div class="info-row"><span class="info-icon">🎓</span>USP · Pós em Ortopedia — UNIFESP</div>
+          <div class="info-row"><span class="info-icon">📋</span>8 anos de experiência</div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-title">Serviços</div>
+          <div class="service-item"><span class="service-name">Avaliação inicial (60 min)</span><span class="service-price">R$ 120</span></div>
+          <div class="service-item"><span class="service-name">Sessão de fisioterapia (50 min)</span><span class="service-price">R$ 120</span></div>
+          <div class="service-item"><span class="service-name">Pilates terapêutico (50 min)</span><span class="service-price">R$ 140</span></div>
+          <div class="service-item"><span class="service-name">Drenagem linfática (60 min)</span><span class="service-price">R$ 150</span></div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-title">Avaliações recentes</div>
+          <div style="font-size:13px;color:#3c4043;margin-bottom:8px;padding-bottom:8px;border-bottom:0.5px solid #f0f0f0;">
+            <div style="font-weight:700;margin-bottom:3px;">⭐⭐⭐⭐⭐ Marcos S.</div>
+            Excelente profissional! Resolveu minha lombar em 5 sessões.
+          </div>
+          <div style="font-size:13px;color:#3c4043;">
+            <div style="font-weight:700;margin-bottom:3px;">⭐⭐⭐⭐⭐ Carla M.</div>
+            Pontual, atenciosa e muito competente. Voltarei com certeza!
+          </div>
+        </div>
+      </div>
+      <div class="booking-bar">
+        <div class="time-selector">📅 Hoje, 14h</div>
+        <button class="btn-primary" style="flex:1;padding:12px;" onclick="alert('Sessão agendada com sucesso! ✅')">Agendar agora</button>
+      </div>
+    </div>
+
+    <!-- ══════════════ SESSÕES ══════════════ -->
+    <div class="screen" id="screen-appointments">
+      <div class="status-bar">
+        <span class="time">9:41</span>
+        <span class="logo-text">my<span class="logo-accent">Fisio</span></span>
+        <span>📶 🔋</span>
+      </div>
+      <div class="page-header">
+        <div class="page-title">Minhas Sessões</div>
+        <div class="page-subtitle">Histórico e agendamentos</div>
+      </div>
+      <div class="scroll-area">
+        <div class="section-label">Próximas</div>
+        <div class="appt-card">
+          <div class="appt-top">
+            <div><div class="appt-name">Dra. Ana Nascimento</div><div class="appt-type">Fisioterapia Ortopédica</div></div>
+            <div><div class="appt-date">25 Abr</div><div class="appt-time">14:00 · 50min</div></div>
+          </div>
+          <div style="font-size:12px;color:#5f6368;margin-top:5px;">📍 Domiciliar · R$ 120</div>
+          <span class="status-pill status-scheduled">Confirmado</span>
+        </div>
+
+        <div class="section-label">Anteriores</div>
+        <div class="appt-card done">
+          <div class="appt-top">
+            <div><div class="appt-name">Dr. Carlos Barros</div><div class="appt-type">Fisioterapia Esportiva</div></div>
+            <div><div class="appt-date">18 Abr</div><div class="appt-time">10:00 · 50min</div></div>
+          </div>
+          <div style="font-size:12px;color:#5f6368;margin-top:5px;">📍 Clínica · R$ 150</div>
+          <span class="status-pill status-done">Concluído</span>
+        </div>
+        <div class="appt-card done">
+          <div class="appt-top">
+            <div><div class="appt-name">Dra. Ana Nascimento</div><div class="appt-type">Fisioterapia Ortopédica</div></div>
+            <div><div class="appt-date">11 Abr</div><div class="appt-time">14:00 · 50min</div></div>
+          </div>
+          <div style="font-size:12px;color:#5f6368;margin-top:5px;">📍 Domiciliar · R$ 120</div>
+          <span class="status-pill status-done">Concluído</span>
+        </div>
+        <div class="appt-card cancel">
+          <div class="appt-top">
+            <div><div class="appt-name">Dra. Lúcia Mendes</div><div class="appt-type">Fisioterapia Neurológica</div></div>
+            <div><div class="appt-date">5 Abr</div><div class="appt-time">16:00 · 50min</div></div>
+          </div>
+          <div style="font-size:12px;color:#5f6368;margin-top:5px;">📍 Domiciliar · R$ 130</div>
+          <span class="status-pill status-cancelled">Cancelado</span>
+        </div>
+      </div>
+      <div class="nav-bar">
+        <div class="nav-item" onclick="showScreen('map');setDNav(document.querySelectorAll('.dnav-btn')[0])"><div class="nav-icon">🗺</div><div class="nav-label">Mapa</div></div>
+        <div class="nav-item" onclick="showScreen('list');setDNav(document.querySelectorAll('.dnav-btn')[1])"><div class="nav-icon">🔍</div><div class="nav-label">Buscar</div></div>
+        <div class="nav-item active"><div class="nav-icon">📅</div><div class="nav-label">Sessões</div></div>
+        <div class="nav-item" onclick="showScreen('profile');setDNav(document.querySelectorAll('.dnav-btn')[4])"><div class="nav-icon">👤</div><div class="nav-label">Perfil</div></div>
+      </div>
+    </div>
+
+    <!-- ══════════════ PERFIL ══════════════ -->
+    <div class="screen" id="screen-profile">
+      <div class="status-bar">
+        <span class="time">9:41</span>
+        <span class="logo-text">my<span class="logo-accent">Fisio</span></span>
+        <span>📶 🔋</span>
+      </div>
+      <div class="profile-header">
+        <div class="profile-big-avatar">JS</div>
+        <div>
+          <div class="profile-name">João Silva</div>
+          <div class="profile-email">joao.silva@email.com</div>
+          <div style="margin-top:8px;"><div class="badge badge-blue" style="display:inline-block;font-size:11px;">✓ Plano Basic</div></div>
+        </div>
+      </div>
+      <div class="scroll-area">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+          <div style="background:white;border-radius:14px;padding:14px;text-align:center;border:0.5px solid #e8edf5;">
+            <div style="font-size:24px;font-weight:800;color:#1a73e8;font-family:'Nunito',sans-serif;">12</div>
+            <div style="font-size:12px;color:#5f6368;margin-top:3px;">Sessões realizadas</div>
+          </div>
+          <div style="background:white;border-radius:14px;padding:14px;text-align:center;border:0.5px solid #e8edf5;">
+            <div style="font-size:24px;font-weight:800;color:#34a853;font-family:'Nunito',sans-serif;">3</div>
+            <div style="font-size:12px;color:#5f6368;margin-top:3px;">Profissionais favoritos</div>
+          </div>
+        </div>
+        <div class="menu-item"><div class="menu-icon">👤</div><div class="menu-label">Editar perfil</div><div class="menu-arrow">›</div></div>
+        <div class="menu-item"><div class="menu-icon">❤️</div><div class="menu-label">Favoritos</div><div class="menu-arrow">›</div></div>
+        <div class="menu-item"><div class="menu-icon">💳</div><div class="menu-label">Pagamento</div><div class="menu-arrow">›</div></div>
+        <div class="menu-item"><div class="menu-icon">📍</div><div class="menu-label">Endereços salvos</div><div class="menu-arrow">›</div></div>
+        <div class="menu-item"><div class="menu-icon">🔔</div><div class="menu-label">Notificações</div><div class="menu-arrow">›</div></div>
+        <div class="menu-item"><div class="menu-icon">⭐</div><div class="menu-label">Avaliações</div><div class="menu-arrow">›</div></div>
+        <div class="menu-item"><div class="menu-icon">❓</div><div class="menu-label">Ajuda e suporte</div><div class="menu-arrow">›</div></div>
+        <div class="menu-item" style="border-color:#fce8e8;">
+          <div class="menu-icon" style="background:#fce8e8;">🚪</div>
+          <div class="menu-label" style="color:#b71c1c;">Sair</div>
+        </div>
+      </div>
+      <div class="nav-bar">
+        <div class="nav-item" onclick="showScreen('map');setDNav(document.querySelectorAll('.dnav-btn')[0])"><div class="nav-icon">🗺</div><div class="nav-label">Mapa</div></div>
+        <div class="nav-item" onclick="showScreen('list');setDNav(document.querySelectorAll('.dnav-btn')[1])"><div class="nav-icon">🔍</div><div class="nav-label">Buscar</div></div>
+        <div class="nav-item" onclick="showScreen('appointments');setDNav(document.querySelectorAll('.dnav-btn')[3])"><div class="nav-icon">📅</div><div class="nav-label">Sessões</div></div>
+        <div class="nav-item active"><div class="nav-icon">👤</div><div class="nav-label">Perfil</div></div>
+      </div>
+    </div>
+
+  </div><!-- .app-frame -->
+
+  <script>
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen-' + id).classList.add('active');
+    }
+
+    function setDNav(el) {
+      if (!el) return;
+      document.querySelectorAll('.dnav-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function chipSel(el) {
+      el.closest('.chip-row, .map-overlay-bottom').querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+    }
+  </script>
+</body>
+</html>
