@@ -1,0 +1,73 @@
+:root {
+  /* Cores principais */
+  --color-primary-blue: #1a73e8;
+  --color-primary-blue-dark: #0d47a1;
+  --color-primary-cyan: #4fc3f7;
+  --color-primary-dark: #0d2137;
+  
+  /* Cores de fundo */
+  --color-background-primary: #f0f4f8;
+  --color-background-secondary: #ffffff;
+  --color-background-tertiary: #f8faff;
+  --color-background-info: #e8f0fe;
+  --color-background-success: #e6f4ea;
+  --color-background-warning: #fef3e0;
+  --color-background-error: #fce8e8;
+  
+  /* Cores de texto */
+  --color-text-primary: #1a1a2e;
+  --color-text-secondary: #5f6368;
+  --color-text-tertiary: #9aa0b0;
+  --color-text-info: #0066cc;
+  
+  /* Cores de borda */
+  --color-border-primary: #e0e7ff;
+  --color-border-secondary: #e8edf5;
+  --color-border-tertiary: #f0f0f0;
+  
+  /* Status colors */
+  --color-success: #34a853;
+  --color-warning: #ea8c00;
+  --color-error: #ea4335;
+  --color-info: #1a73e8;
+  
+  /* Espaçamento */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 20px;
+  --spacing-2xl: 24px;
+  
+  /* Border radius */
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 16px;
+  --border-radius-xl: 20px;
+  --border-radius-full: 9999px;
+  
+  /* Fontes */
+  --font-family-base: 'Nunito Sans', sans-serif;
+  --font-family-display: 'Nunito', sans-serif;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 22px;
+  --font-size-3xl: 28px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family-base);
+  background: var(--color-background-primary);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+}
