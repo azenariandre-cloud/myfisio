@@ -4,7 +4,7 @@
 //  <script src="../shared/api.js"></script>
 // ─────────────────────────────────────────────
 
-const API_URL = 'https://myfisio-api.onrender.com'; // ← substitua pela URL real do Render
+const API_URL = 'https://github.com/azenariandre-cloud/myfisio/blob/main/docs/API.md'; // ← substitua pela URL real do Render
 
 const Api = (() => {
   // ── Token ──────────────────────────────────
