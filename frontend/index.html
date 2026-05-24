@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1a73e8">
+<meta name="description" content="myFisio — Fisioterapia onde você estiver">
+<title>myFisio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+/* ═══════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{
+  height:100%;min-height:100vh;
+  background:#c9d8ee;
+  font-family:'Nunito Sans',sans-serif;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ═══════════════════════════════════════════
+   PHONE SHELL
+═══════════════════════════════════════════ */
+#app{
+  width:375px;height:812px;
+  background:#f0f4f8;
+  border-radius:44px;
+  overflow:hidden;
+  position:relative;
+  border:10px solid #111827;
+  box-shadow:0 0 0 2px #374151,0 40px 100px rgba(0,0,0,.45),0 10px 30px rgba(0,0,0,.25);
+}
+
+/* ═══════════════════════════════════════════
+   SCREENS — cada tela ocupa 100% do frame
+═══════════════════════════════════════════ */
+.page{
+  position:absolute;inset:0;
+  display:none;flex-direction:column;
+  background:#f0f4f8;
+  transition:opacity .18s;
+}
+.page.active{display:flex;}
+
+/* ═══════════════════════════════════════════
+   STATUS BAR
+═══════════════════════════════════════════ */
+.sbar{
+  height:44px;display:flex;align-items:center;
+  justify-content:space-between;padding:0 20px;
+  font-size:12px;font-weight:600;flex-shrink:0;
+}
+.sbar-blue{background:#1a73e8;color:#fff;}
+.sbar-dark{background:#0a1628;color:#7fb3e8;}
+.sbar .time{font-size:15px;font-weight:700;}
+.sbar .logo{font-family:'Nunito',sans-serif;font-weight:800;}
+.sbar .logo-acc{color:#93c5fd;}
+.sbar-dark .logo-acc{color:#4fc3f7;}
+
+/* ═══════════════════════════════════════════
+   HERO HEADER (login / cadastro)
+═══════════════════════════════════════════ */
+.hero-blue{background:#1a73e8;padding:28px 20px 32px;text-align:center;flex-shrink:0;}
+.hero-dark{background:#0d2137;padding:20px 20px 24px;flex-shrink:0;}
+.hero-sm{padding:18px 20px 22px;}
+
+.logo-mark{
+  width:60px;height:60px;border-radius:18px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;margin:0 auto 14px;
+  background:rgba(255,255,255,.2);color:#fff;
+}
+.app-name-hero{font-size:24px;font-weight:800;color:#fff;font-family:'Nunito',sans-serif;letter-spacing:-.3px;}
+.app-name-hero span{opacity:.75;}
+.app-sub-hero{font-size:13px;color:rgba(255,255,255,.7);margin-top:5px;}
+
+/* ═══════════════════════════════════════════
+   FORM AREA
+═══════════════════════════════════════════ */
+.form-area{flex:1;padding:20px 18px 18px;overflow-y:auto;scrollbar-width:none;background:#fff;}
+.form-area::-webkit-scrollbar{display:none;}
+
+/* CSS vars substitutos (sem depender do claude.ai) */
+:root{
+  --c-border:#e2e8f0;
+  --c-border2:#cbd5e1;
+  --c-bg2:#f8fafc;
+  --c-bg3:#f1f5f9;
+  --c-text1:#0f172a;
+  --c-text2:#475569;
+  --c-text3:#94a3b8;
+  --c-r-lg:12px;
+  --c-r-md:8px;
+}
+
+.field{margin-bottom:14px;}
+.field label{font-size:12px;color:var(--c-text2);display:block;margin-bottom:5px;font-weight:600;}
+.finput{
+  width:100%;height:42px;
+  border:1px solid var(--c-border);border-radius:var(--c-r-md);
+  background:var(--c-bg2);color:var(--c-text1);
+  font-size:14px;padding:0 38px 0 12px;outline:none;
+  font-family:'Nunito Sans',sans-serif;
+  transition:border-color .15s,box-shadow .15s;
+}
+.finput:focus{border-color:#1a73e8;box-shadow:0 0 0 3px rgba(26,115,232,.12);}
+.finput.pro:focus{border-color:#4fc3f7;box-shadow:0 0 0 3px rgba(79,195,247,.12);}
+
+.fselect{
+  width:100%;height:42px;
+  border:1px solid var(--c-border);border-radius:var(--c-r-md);
+  background:var(--c-bg2);color:var(--c-text1);
+  font-size:14px;padding:0 12px;outline:none;cursor:pointer;
+  appearance:none;font-family:'Nunito Sans',sans-serif;
+}
+
+.finput-wrap{position:relative;}
+.fi-icon{
+  position:absolute;right:11px;top:50%;transform:translateY(-50%);
+  font-size:17px;color:var(--c-text3);pointer-events:none;
+}
+.fi-icon.clickable{pointer-events:auto;cursor:pointer;}
+.fi-icon.clickable:hover{color:var(--c-text2);}
+
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.field-hint{font-size:11px;color:var(--c-text3);margin-top:4px;}
+
+/* Buttons */
+.btn-main{
+  width:100%;height:46px;border:none;border-radius:var(--c-r-lg);
+  font-size:14px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font-family:'Nunito',sans-serif;transition:opacity .15s,transform .1s;
+}
+.btn-main:hover{opacity:.9;}
+.btn-main:active{transform:scale(.98);}
+.btn-blue{background:#1a73e8;color:#fff;}
+.btn-pro-c{background:#4fc3f7;color:#0d2137;}
+.btn-ghost{
+  width:100%;height:42px;border:1px solid var(--c-border);
+  border-radius:var(--c-r-lg);font-size:13px;color:var(--c-text2);
+  background:transparent;cursor:pointer;font-family:'Nunito',sans-serif;
+  transition:background .15s;
+}
+.btn-ghost:hover{background:var(--c-bg3);}
+
+/* Divider */
+.divider{display:flex;align-items:center;gap:10px;margin:14px 0;}
+.div-line{flex:1;height:1px;background:var(--c-border);}
+.div-txt{font-size:12px;color:var(--c-text3);}
+
+/* Social */
+.social-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.btn-social{
+  height:42px;border:1px solid var(--c-border);border-radius:var(--c-r-md);
+  background:var(--c-bg2);font-size:13px;color:var(--c-text2);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;
+  transition:background .15s;font-family:'Nunito Sans',sans-serif;
+}
+.btn-social:hover{background:var(--c-bg3);}
+
+/* Links */
+.link-txt{font-size:13px;color:var(--c-text2);text-align:center;margin-top:14px;}
+.link-txt a{color:#1a73e8;cursor:pointer;text-decoration:none;font-weight:600;}
+.link-txt a:hover{text-decoration:underline;}
+.link-txt a.pro{color:#0891b2;}
+.forgot{font-size:12px;color:#1a73e8;text-align:right;margin-top:-8px;margin-bottom:14px;cursor:pointer;}
+
+/* Back row */
+.back-row{
+  display:flex;align-items:center;gap:6px;
+  margin-bottom:16px;cursor:pointer;
+  color:var(--c-text2);font-size:13px;font-weight:600;
+}
+.back-row:hover{color:var(--c-text1);}
+
+/* Section title */
+.sec-title{
+  font-size:12px;font-weight:700;color:var(--c-text2);
+  text-transform:uppercase;letter-spacing:.5px;
+  margin:18px 0 10px;padding-bottom:8px;
+  border-bottom:1px solid var(--c-border);
+  display:flex;align-items:center;gap:6px;
+}
+.sec-title i{font-size:15px;color:#1a73e8;}
+.sec-title.pro-t i{color:#4fc3f7;}
+
+/* Step bar */
+.step-bar{display:flex;align-items:center;margin-bottom:6px;}
+.sdot{
+  width:26px;height:26px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;flex-shrink:0;
+}
+.sdot-on{background:#1a73e8;color:#fff;}
+.sdot-on-pro{background:#4fc3f7;color:#0d2137;}
+.sdot-off{background:var(--c-bg3);border:1px solid var(--c-border);color:var(--c-text3);}
+.sline{flex:1;height:2px;background:var(--c-border);}
+.sline.done{background:#1a73e8;}
+.sline.done-pro{background:#4fc3f7;}
+.step-labels{display:grid;grid-template-columns:repeat(3,1fr);font-size:10px;color:var(--c-text3);text-align:center;margin-bottom:18px;}
+.step-labels .sl-on{color:#1a73e8;font-weight:700;}
+.step-labels .sl-on-pro{color:#4fc3f7;font-weight:700;}
+
+/* Type cards */
+.type-select{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.type-card{
+  padding:16px 10px;border:1px solid var(--c-border);
+  border-radius:var(--c-r-lg);cursor:pointer;text-align:center;
+  background:var(--c-bg2);transition:all .15s;
+}
+.type-card i{font-size:30px;color:var(--c-text3);display:block;margin-bottom:8px;}
+.tc-name{font-size:13px;font-weight:700;color:var(--c-text1);}
+.tc-sub{font-size:11px;color:var(--c-text2);margin-top:3px;line-height:1.4;}
+.type-card.pc:hover{border-color:#1a73e8;background:#eff6ff;}
+.type-card.pc:hover i{color:#1a73e8;}
+.type-card.prc:hover{border-color:#4fc3f7;background:#ecfeff;}
+.type-card.prc:hover i{color:#0891b2;}
+
+/* Check chips */
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px;}
+.check-chip{
+  display:flex;align-items:center;gap:7px;padding:9px 10px;
+  border:1px solid var(--c-border);border-radius:var(--c-r-md);
+  cursor:pointer;font-size:12px;color:var(--c-text2);
+  background:var(--c-bg2);transition:all .15s;user-select:none;
+}
+.check-chip.sel{border-color:#4fc3f7;background:#ecfeff;color:#0e7490;}
+.cbox{
+  width:15px;height:15px;border-radius:4px;
+  border:1px solid var(--c-border);display:flex;
+  align-items:center;justify-content:center;flex-shrink:0;
+}
+.check-chip.sel .cbox{background:#4fc3f7;border-color:#4fc3f7;color:#fff;}
+
+/* Atend cards */
+.atend-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.atend-card{
+  padding:12px 10px;border:1px solid var(--c-border);
+  border-radius:var(--c-r-md);cursor:pointer;text-align:center;
+  background:var(--c-bg2);transition:all .15s;
+}
+.atend-card.sel{border-color:#4fc3f7;background:#ecfeff;}
+.atend-card i{font-size:22px;color:var(--c-text3);display:block;margin-bottom:4px;}
+.atend-card.sel i{color:#0891b2;}
+.atend-card span{font-size:12px;color:var(--c-text2);font-weight:600;}
+
+/* Upload */
+.upload-zone{
+  border:1.5px dashed var(--c-border2);border-radius:var(--c-r-md);
+  padding:16px;text-align:center;cursor:pointer;
+  background:var(--c-bg2);transition:border-color .15s;margin-bottom:14px;
+}
+.upload-zone:hover{border-color:#4fc3f7;}
+.upload-zone i{font-size:26px;color:var(--c-text3);display:block;margin-bottom:5px;}
+.upload-zone p{font-size:12px;color:var(--c-text2);}
+.upload-zone small{font-size:11px;color:var(--c-text3);}
+
+/* Terms */
+.terms-row{
+  display:flex;align-items:flex-start;gap:9px;
+  margin-bottom:16px;font-size:12px;color:var(--c-text2);line-height:1.5;
+}
+.terms-row input[type=checkbox]{margin-top:2px;flex-shrink:0;accent-color:#1a73e8;}
+.terms-row a{color:#1a73e8;font-weight:600;}
+.terms-row a.pro{color:#0891b2;}
+
+/* Info box */
+.info-box{
+  background:var(--c-bg2);border-radius:var(--c-r-lg);
+  padding:14px;border:1px solid var(--c-border);
+}
+.info-box-title{font-size:12px;font-weight:700;color:var(--c-text1);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.info-box p{font-size:12px;color:var(--c-text2);line-height:1.6;}
+
+/* Taxa notice */
+.taxa-notice{
+  background:#ecfeff;border:1px solid #a5f3fc;border-radius:var(--c-r-md);
+  padding:12px;margin-bottom:14px;
+  display:flex;gap:8px;align-items:flex-start;
+  font-size:12px;color:#0e7490;line-height:1.5;
+}
+.taxa-notice i{font-size:16px;flex-shrink:0;margin-top:1px;}
+
+/* Success */
+.success-page{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;flex:1;padding:28px 20px;text-align:center;
+  background:#fff;
+}
+.success-icon{
+  width:72px;height:72px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 18px;
+}
+.si-blue{background:#eff6ff;}
+.si-pro{background:#ecfeff;}
+.success-page h2{font-size:20px;font-weight:800;color:#0f172a;font-family:'Nunito',sans-serif;margin-bottom:8px;}
+.success-page p{font-size:13px;color:#475569;line-height:1.7;margin-bottom:22px;}
+
+.analysis-steps{
+  width:100%;background:var(--c-bg2);border-radius:var(--c-r-lg);
+  padding:14px;border:1px solid var(--c-border);
+  margin-bottom:22px;text-align:left;
+}
+.as-item{
+  display:flex;align-items:center;gap:9px;
+  font-size:12px;color:var(--c-text2);padding:5px 0;
+}
+.as-item i{font-size:15px;flex-shrink:0;}
+.as-item.done{color:#059669;}
+.as-item.done i{color:#059669;}
+
+/* ═══════════════════════════════════════════
+   SPLASH
+═══════════════════════════════════════════ */
+#page-splash{background:#1a73e8;display:flex;align-items:center;justify-content:center;}
+.splash-inner{text-align:center;padding:40px 30px;}
+.splash-mark{
+  width:80px;height:80px;border-radius:24px;
+  background:rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 20px;
+}
+.splash-mark i{font-size:40px;color:#fff;}
+.splash-name{font-size:32px;font-weight:800;color:#fff;font-family:'Nunito',sans-serif;}
+.splash-name span{color:#93c5fd;}
+.splash-sub{font-size:14px;color:rgba(255,255,255,.75);margin-top:6px;}
+.loader{width:160px;height:3px;background:rgba(255,255,255,.2);border-radius:2px;margin:32px auto 0;overflow:hidden;}
+.loader-bar{width:0;height:100%;background:white;border-radius:2px;animation:load 2s ease-out forwards;}
+@keyframes load{0%{width:0}80%{width:90%}100%{width:100%}}
+
+/* ═══════════════════════════════════════════
+   APP — TOP BAR
+═══════════════════════════════════════════ */
+.app-topbar{
+  height:56px;background:#1a73e8;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;flex-shrink:0;
+}
+.app-topbar.dark-bar{background:#0a1628;}
+.topbar-logo{font-family:'Nunito',sans-serif;font-weight:800;font-size:18px;color:#fff;}
+.topbar-logo .acc{color:#93c5fd;}
+.topbar-logo .pro-acc{color:#4fc3f7;}
+.topbar-logo .pro-label{font-size:11px;font-weight:700;background:#4fc3f7;color:#0d2137;padding:2px 6px;border-radius:6px;margin-left:5px;vertical-align:1px;}
+.topbar-back{
+  background:rgba(255,255,255,.18);border:none;border-radius:10px;
+  color:#fff;padding:6px 12px;font-size:13px;font-weight:700;
+  cursor:pointer;font-family:'Nunito',sans-serif;
+}
+.topbar-icon{
+  background:rgba(255,255,255,.18);border:none;border-radius:50%;
+  width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:18px;cursor:pointer;
+}
+
+/* ═══════════════════════════════════════════
+   APP — PAGE HEADER
+═══════════════════════════════════════════ */
+.page-hdr{background:#1a73e8;padding:16px 16px 18px;flex-shrink:0;}
+.page-hdr.dark-hdr{background:#132840;}
+.ph-title{font-size:20px;font-weight:800;color:#fff;font-family:'Nunito',sans-serif;}
+.ph-sub{font-size:13px;color:rgba(255,255,255,.8);margin-top:3px;}
+
+/* ═══════════════════════════════════════════
+   APP — SCROLL
+═══════════════════════════════════════════ */
+.scroll{flex:1;overflow-y:auto;padding:14px 16px;scrollbar-width:none;}
+.scroll::-webkit-scrollbar{display:none;}
+
+/* ═══════════════════════════════════════════
+   APP — BOTTOM NAV (paciente)
+═══════════════════════════════════════════ */
+.bot-nav{
+  height:70px;background:#fff;border-top:1px solid #e2e8f0;
+  display:flex;align-items:center;justify-content:space-around;
+  flex-shrink:0;padding-bottom:6px;
+}
+.bot-nav.dark-nav{background:#0a1628;border-top-color:#1e3a5f;}
+.nav-it{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  cursor:pointer;padding:6px 14px;border-radius:14px;
+  transition:background .15s;flex:1;
+}
+.nav-it:hover{background:#f0f4ff;}
+.dark-nav .nav-it:hover{background:#1e3a5f;}
+.nv-icon{font-size:22px;color:#94a3b8;line-height:1;}
+.nv-lbl{font-size:10px;color:#94a3b8;font-weight:600;}
+.nav-it.on .nv-icon{color:#1a73e8;}
+.nav-it.on .nv-lbl{color:#1a73e8;font-weight:700;}
+.dark-nav .nav-it.on .nv-icon{color:#4fc3f7;}
+.dark-nav .nav-it.on .nv-lbl{color:#4fc3f7;}
+
+/* ═══════════════════════════════════════════
+   SECTION LABEL
+═══════════════════════════════════════════ */
+.slbl{
+  font-size:11px;font-weight:700;color:#64748b;
+  text-transform:uppercase;letter-spacing:.6px;margin:14px 0 10px;
+}
+.slbl.dk{color:#4a6fa5;}
+
+/* ═══════════════════════════════════════════
+   MAP
+═══════════════════════════════════════════ */
+.map-wrap{flex:1;position:relative;background:#dce8f7;overflow:hidden;}
+.map-svg{position:absolute;inset:0;width:100%;height:100%;}
+
+.map-pin{
+  position:absolute;cursor:pointer;
+  transform:translate(-50%,-100%);
+  display:flex;flex-direction:column;align-items:center;
+  transition:transform .2s;z-index:10;
+}
+.map-pin:hover{transform:translate(-50%,-100%) scale(1.12);}
+.pin-lbl{
+  color:#fff;padding:5px 10px;border-radius:12px;
+  font-size:11px;font-weight:700;white-space:nowrap;
+  font-family:'Nunito',sans-serif;
+  box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+.pin-tri{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;}
+
+.map-search{
+  position:absolute;top:12px;left:12px;right:12px;
+  background:#fff;border-radius:14px;
+  padding:10px 14px;display:flex;align-items:center;gap:10px;
+  box-shadow:0 2px 12px rgba(0,0,0,.15);z-index:20;
+}
+.map-search input{
+  border:none;outline:none;flex:1;font-size:14px;
+  font-family:'Nunito Sans',sans-serif;color:#333;background:transparent;
+}
+
+.loc-btn{
+  position:absolute;right:14px;bottom:248px;
+  background:#fff;border:none;width:42px;height:42px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:20px;box-shadow:0 2px 10px rgba(0,0,0,.15);
+  cursor:pointer;z-index:20;
+}
+
+.map-sheet{
+  position:absolute;bottom:0;left:0;right:0;
+  background:#fff;border-radius:22px 22px 0 0;
+  padding:10px 16px 14px;
+  box-shadow:0 -4px 20px rgba(0,0,0,.1);z-index:20;
+}
+.drag-hdl{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 12px;}
+.sheet-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.sheet-cnt{font-size:14px;font-weight:700;color:#0f172a;font-family:'Nunito',sans-serif;}
+.filter-btn{
+  background:#fff;border:1.5px solid #c7d7f5;border-radius:12px;
+  padding:6px 12px;font-size:12px;font-weight:700;color:#1a73e8;
+  cursor:pointer;font-family:'Nunito',sans-serif;
+  display:flex;align-items:center;gap:5px;
+}
+
+/* Chips */
+.chip-row{display:flex;gap:8px;overflow-x:auto;margin-bottom:12px;scrollbar-width:none;}
+.chip-row::-webkit-scrollbar{display:none;}
+.chip{
+  background:#fff;border:1.5px solid #e0e7ff;border-radius:24px;
+  padding:6px 14px;font-size:12px;font-weight:700;color:#64748b;
+  cursor:pointer;white-space:nowrap;font-family:'Nunito',sans-serif;
+  transition:all .15s;flex-shrink:0;
+}
+.chip.on{background:#1a73e8;border-color:#1a73e8;color:#fff;}
+
+/* ═══════════════════════════════════════════
+   FISIO CARD
+═══════════════════════════════════════════ */
+.fc{
+  background:#fff;border-radius:18px;padding:14px;
+  margin-bottom:12px;border:1px solid #e8edf5;
+  cursor:pointer;transition:transform .15s,box-shadow .15s;
+}
+.fc:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(26,115,232,.13);}
+.fc-hdr{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.av{
+  width:48px;height:48px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:16px;font-family:'Nunito',sans-serif;flex-shrink:0;
+}
+.av-g{background:#dcfce7;color:#16a34a;}
+.av-b{background:#dbeafe;color:#2563eb;}
+.av-p{background:#f3e8ff;color:#7c3aed;}
+.av-o{background:#fef3c7;color:#d97706;}
+.av-c{background:#ecfeff;color:#0891b2;}
+.fc-info{flex:1;}
+.fc-name{font-size:15px;font-weight:700;color:#0f172a;font-family:'Nunito',sans-serif;}
+.fc-spec{font-size:12px;color:#64748b;margin-top:2px;}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap;}
+.bdg{font-size:11px;font-weight:700;padding:3px 9px;border-radius:24px;}
+.bdg-b{background:#dbeafe;color:#1d4ed8;}
+.bdg-g{background:#dcfce7;color:#15803d;}
+.bdg-s{background:#fef3c7;color:#b45309;}
+.fc-foot{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:10px;padding-top:10px;border-top:1px solid #f1f5f9;gap:8px;
+}
+.fc-dist{font-size:12px;color:#64748b;}
+.fc-price{font-size:14px;font-weight:700;color:#1a73e8;font-family:'Nunito',sans-serif;}
+.btn-sm{
+  background:#1a73e8;color:#fff;border:none;border-radius:12px;
+  padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;
+  font-family:'Nunito',sans-serif;transition:background .15s;
+}
+.btn-sm:hover{background:#1557b0;}
+.btn-sm-out{
+  background:#fff;color:#1a73e8;border:1.5px solid #1a73e8;
+  border-radius:12px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;
+}
+
+/* ═══════════════════════════════════════════
+   DETALHE FISIO
+═══════════════════════════════════════════ */
+.detail-hero{
+  background:linear-gradient(160deg,#1a73e8,#0d47a1);
+  padding:14px 16px 22px;flex-shrink:0;
+}
+.detail-av-row{display:flex;align-items:center;gap:14px;margin-top:10px;}
+.detail-av{
+  width:66px;height:66px;border-radius:50%;background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:800;color:#1a73e8;font-family:'Nunito',sans-serif;
+}
+.d-name{font-size:19px;font-weight:800;color:#fff;font-family:'Nunito',sans-serif;}
+.d-crm{font-size:12px;color:rgba(255,255,255,.75);margin-top:2px;}
+.d-spec{font-size:13px;color:rgba(255,255,255,.9);margin-top:4px;}
+.d-rating{display:flex;align-items:center;gap:5px;margin-top:5px;}
+.d-rnum{font-size:14px;font-weight:700;color:#fff;}
+.d-rcnt{font-size:12px;color:rgba(255,255,255,.7);}
+
+.info-card{background:#fff;border-radius:16px;padding:14px;margin-bottom:12px;border:1px solid #e8edf5;}
+.ic-title{font-size:11px;font-weight:700;color:#1a73e8;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px;}
+.ic-row{display:flex;align-items:center;gap:10px;margin-bottom:7px;font-size:13px;color:#374151;}
+.ic-icon{font-size:16px;width:22px;text-align:center;flex-shrink:0;}
+.svc-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:7px 0;border-bottom:1px solid #f8fafc;font-size:13px;color:#374151;
+}
+.svc-row:last-child{border:none;}
+.svc-p{font-weight:700;color:#1a73e8;font-family:'Nunito',sans-serif;}
+
+.booking-bar{
+  background:#fff;padding:12px 16px;border-top:1px solid #e8edf5;
+  display:flex;gap:10px;align-items:center;flex-shrink:0;
+}
+.time-sel{
+  background:#f0f7ff;border:1.5px solid #bfdbfe;border-radius:12px;
+  padding:10px 14px;font-size:12px;font-weight:700;color:#1a73e8;
+  cursor:pointer;flex:1;text-align:center;font-family:'Nunito',sans-serif;
+}
+
+/* ═══════════════════════════════════════════
+   SESSÕES
+═══════════════════════════════════════════ */
+.appt{
+  background:#fff;border-radius:16px;padding:14px;
+  margin-bottom:12px;border-left:4px solid #1a73e8;
+}
+.appt.done{border-left-color:#16a34a;}
+.appt.cancel{border-left-color:#dc2626;}
+.appt-top{display:flex;justify-content:space-between;align-items:flex-start;}
+.appt-name{font-size:15px;font-weight:700;color:#0f172a;font-family:'Nunito',sans-serif;}
+.appt-type{font-size:12px;color:#64748b;margin-top:2px;}
+.appt-date{font-size:12px;font-weight:700;color:#1a73e8;text-align:right;}
+.appt-time{font-size:12px;color:#64748b;text-align:right;}
+.status-pill{
+  display:inline-block;font-size:11px;font-weight:700;
+  padding:3px 10px;border-radius:24px;margin-top:8px;
+}
+.sp-sched{background:#dbeafe;color:#1d4ed8;}
+.sp-done{background:#dcfce7;color:#15803d;}
+.sp-cancel{background:#fee2e2;color:#b91c1c;}
+
+/* ═══════════════════════════════════════════
+   PERFIL
+═══════════════════════════════════════════ */
+.profile-hdr{
+  background:#1a73e8;padding:24px 16px 28px;flex-shrink:0;
+  display:flex;align-items:center;gap:16px;
+}
+.profile-hdr.dark-phdr{background:#0a1628;}
+.p-av-big{
+  width:72px;height:72px;border-radius:50%;
+  background:rgba(255,255,255,.22);
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;font-weight:800;color:#fff;
+  font-family:'Nunito',sans-serif;border:2px solid rgba(255,255,255,.4);
+}
+.p-name{font-size:19px;font-weight:800;color:#fff;font-family:'Nunito',sans-serif;}
+.p-email{font-size:13px;color:rgba(255,255,255,.8);margin-top:3px;}
+.menu-it{
+  background:#fff;border-radius:14px;padding:14px;
+  margin-bottom:10px;display:flex;align-items:center;gap:14px;
+  cursor:pointer;border:1px solid #e8edf5;transition:background .15s;
+}
+.menu-it:hover{background:#f8faff;}
+.menu-icon-box{
+  font-size:20px;width:40px;height:40px;background:#eff6ff;
+  border-radius:12px;display:flex;align-items:center;justify-content:center;
+}
+.menu-lbl{font-size:14px;font-weight:600;color:#0f172a;flex:1;font-family:'Nunito',sans-serif;}
+.menu-arr{color:#94a3b8;font-size:18px;}
+.stat-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.stat-mini{background:#fff;border-radius:14px;padding:14px;text-align:center;border:1px solid #e8edf5;}
+.sm-num{font-size:24px;font-weight:800;font-family:'Nunito',sans-serif;}
+.sm-lbl{font-size:12px;color:#64748b;margin-top:3px;}
+
+/* ═══════════════════════════════════════════
+   PRO — PAINEL
+═══════════════════════════════════════════ */
+.online-toggle{
+  display:flex;align-items:center;gap:12px;
+  background:#132840;border-radius:16px;padding:14px;
+  margin-bottom:14px;cursor:pointer;border:1px solid #1e3a5f;
+}
+.tog-track{
+  width:48px;height:26px;border-radius:13px;background:#4fc3f7;
+  position:relative;transition:background .2s;flex-shrink:0;
+}
+.tog-track.off{background:#2d4a6a;}
+.tog-knob{
+  position:absolute;top:3px;left:3px;width:20px;height:20px;
+  background:#fff;border-radius:50%;transition:transform .2s;
+  transform:translateX(22px);
+}
+.tog-track.off .tog-knob{transform:none;}
+.tog-info{flex:1;}
+.tog-title{font-size:14px;font-weight:700;color:#fff;font-family:'Nunito',sans-serif;}
+.tog-sub{font-size:11px;color:#7fb3e8;margin-top:2px;}
+
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.stat-card{background:#132840;border-radius:14px;padding:12px;border:1px solid #1e3a5f;}
+.stat-n{font-size:22px;font-weight:800;font-family:'Nunito',sans-serif;}
+.stat-n.blue{color:#4fc3f7;}
+.stat-n.green{color:#4caf82;}
+.stat-n.amber{color:#fbbf24;}
+.stat-l{font-size:11px;color:#7fb3e8;margin-top:2px;}
+
+.demand-card{
+  background:#132840;border-radius:14px;padding:12px;
+  margin-bottom:10px;border:1px solid #1e3a5f;cursor:pointer;
+  transition:border-color .15s;
+}
+.demand-card.urgent{border-left:4px solid #4fc3f7;}
+.demand-card:hover{border-color:#4fc3f7;}
+.d-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
+.d-patient{font-size:14px;font-weight:700;color:#fff;font-family:'Nunito',sans-serif;}
+.d-type{font-size:11px;color:#7fb3e8;margin-top:2px;}
+.d-det{font-size:12px;color:#7fb3e8;margin-bottom:8px;}
+.urg-badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;background:rgba(79,195,247,.15);color:#4fc3f7;}
+.d-actions{display:flex;gap:7px;}
+.btn-accept{
+  background:#4fc3f7;color:#0d2137;border:none;border-radius:10px;
+  padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;
+  font-family:'Nunito',sans-serif;flex:1;transition:background .15s;
+}
+.btn-accept:hover{background:#29b6f6;}
+.btn-refuse{
+  background:transparent;color:#ef5350;border:1.5px solid #2d4a6a;
+  border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;
+  cursor:pointer;font-family:'Nunito',sans-serif;transition:border-color .15s;
+}
+.btn-refuse:hover{border-color:#ef5350;}
+
+.sch-item{
+  background:#132840;border-radius:12px;padding:11px 12px;
+  margin-bottom:8px;display:flex;align-items:center;gap:12px;
+  border-left:4px solid #4fc3f7;
+}
+.sch-item.done{border-left-color:#4caf82;}
+.sch-time{font-size:13px;font-weight:800;color:#4fc3f7;min-width:44px;font-family:'Nunito',sans-serif;}
+.sch-item.done .sch-time{color:#4caf82;}
+.sch-info{flex:1;}
+.sch-name{font-size:13px;font-weight:700;color:#fff;font-family:'Nunito',sans-serif;}
+.sch-det{font-size:11px;color:#7fb3e8;margin-top:1px;}
+
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
+#toast{
+  position:absolute;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:#1e293b;color:#fff;padding:10px 18px;border-radius:24px;
+  font-size:13px;font-weight:600;white-space:nowrap;
+  opacity:0;pointer-events:none;transition:all .3s;z-index:999;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media(max-width:420px){
+  #app{width:100vw;height:100vh;border-radius:0;border:none;box-shadow:none;}
+  html,body{background:#fff;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- ══════════════════════════════════════
+     SPLASH
+══════════════════════════════════════ -->
+<div id="page-splash" class="page active">
+  <div class="splash-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;background:#1a73e8;">
+    <div class="splash-mark"><i class="ti ti-heart-pulse"></i></div>
+    <div class="splash-name">my<span>Fisio</span></div>
+    <div class="splash-sub">Fisioterapia onde você estiver</div>
+    <div class="loader"><div class="loader-bar"></div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     LOGIN
+══════════════════════════════════════ -->
+<div id="page-login" class="page">
+  <div class="sbar sbar-blue">
+    <span class="time">9:41</span>
+    <span class="logo">my<span class="logo-acc">Fisio</span></span>
+    <span><i class="ti ti-wifi"></i> <i class="ti ti-battery-2"></i></span>
+  </div>
+  <div class="hero-blue">
+    <div class="logo-mark"><i class="ti ti-heart-pulse" style="font-size:30px;"></i></div>
+    <div class="app-name-hero">my<span>Fisio</span></div>
+    <div class="app-sub-hero">Fisioterapia onde você estiver</div>
+  </div>
+  <div class="form-area">
+    <div class="field">
+      <label>E-mail ou CPF</label>
+      <div class="finput-wrap">
+        <input class="finput" type="email" placeholder="seu@email.com" id="login-email" autocomplete="email">
+        <i class="ti ti-mail fi-icon"></i>
+      </div>
+    </div>
+    <div class="field">
+      <label>Senha</label>
+      <div class="finput-wrap">
+        <input class="finput" type="password" placeholder="••••••••" id="login-pw" autocomplete="current-password">
+        <i class="ti ti-eye fi-icon clickable" id="eye-login" onclick="togglePw('login-pw','eye-login')" aria-label="Mostrar senha"></i>
+      </div>
+    </div>
+    <div class="forgot" onclick="toast('Link enviado para seu e-mail!')">Esqueci minha senha</div>
+    <button class="btn-main btn-blue" onclick="doLogin()">
+      <i class="ti ti-login"></i> Entrar
+    </button>
+    <div class="divider"><div class="div-line"></div><div class="div-txt">ou continue com</div><div class="div-line"></div></div>
+    <div class="social-row">
+      <button class="btn-social" onclick="toast('Login com Google em breve!')">
+        <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Google
+      </button>
+      <button class="btn-social" onclick="toast('Login com Facebook em breve!')">
+        <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Facebook
+      </button>
+    </div>
+    <button class="btn-ghost" onclick="go('page-tipo')">
+      <i class="ti ti-user-plus" style="vertical-align:-2px;margin-right:6px;"></i> Criar nova conta
+    </button>
+    <div class="link-txt">É fisioterapeuta? <a onclick="go('page-cad-pro')">Cadastre-se como profissional</a></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TIPO DE CONTA
+══════════════════════════════════════ -->
+<div id="page-tipo" class="page">
+  <div class="sbar sbar-blue">
+    <span class="time">9:41</span>
+    <span class="logo">my<span class="logo-acc">Fisio</span></span>
+    <span><i class="ti ti-wifi"></i></span>
+  </div>
+  <div class="hero-blue hero-sm" style="text-align:center;">
+    <div class="app-name-hero" style="font-size:20px;">Criar conta</div>
+    <div class="app-sub-hero">Escolha o tipo de acesso</div>
+  </div>
+  <div class="form-area" style="padding-top:24px;">
+    <div class="back-row" onclick="go('page-login')"><i class="ti ti-arrow-left" style="font-size:16px;"></i> Voltar ao login</div>
+    <p style="font-size:13px;color:#475569;margin-bottom:18px;">Selecione como você vai usar o myFisio:</p>
+    <div class="type-select">
+      <div class="type-card pc" onclick="go('page-cad-pac')">
+        <i class="ti ti-user"></i>
+        <div class="tc-name">Sou paciente</div>
+        <div class="tc-sub">Quero contratar um fisioterapeuta</div>
+      </div>
+      <div class="type-card prc" onclick="go('page-cad-pro')">
+        <i class="ti ti-stethoscope"></i>
+        <div class="tc-name">Sou fisioterapeuta</div>
+        <div class="tc-sub">Quero oferecer meus serviços</div>
+      </div>
+    </div>
+    <div class="info-box">
+      <div class="info-box-title"><i class="ti ti-info-circle" style="color:#1a73e8;font-size:16px;"></i> O que muda entre as contas?</div>
+      <p><strong>Paciente</strong> — busca e agenda sessões com fisioterapeutas próximos.</p>
+      <p style="margin-top:8px;"><strong>Fisioterapeuta</strong> — cadastra CREFITO, especialidades e aparece no mapa para receber pedidos.</p>
+    </div>
+    <div class="link-txt" style="margin-top:18px;">Já tem conta? <a onclick="go('page-login')">Fazer login</a></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     CADASTRO — PACIENTE
+══════════════════════════════════════ -->
+<div id="page-cad-pac" class="page">
+  <div class="sbar sbar-blue"><span class="time">9:41</span><span style="color:#fff;font-size:13px;font-weight:600;">Nova conta — paciente</span><span><i class="ti ti-wifi"></i></span></div>
+  <div class="form-area" style="padding-top:16px;">
+    <div class="back-row" onclick="go('page-tipo')"><i class="ti ti-arrow-left" style="font-size:16px;"></i> Voltar</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+      <div style="width:38px;height:38px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center;">
+        <i class="ti ti-user" style="font-size:18px;color:#2563eb;"></i>
+      </div>
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#0f172a;">Conta de paciente</div>
+        <div style="font-size:12px;color:#64748b;">Preencha seus dados pessoais</div>
+      </div>
+    </div>
+    <div class="step-bar">
+      <div class="sdot sdot-on">1</div>
+      <div class="sline done"></div>
+      <div class="sdot sdot-on">2</div>
+      <div class="sline"></div>
+      <div class="sdot sdot-off">3</div>
+    </div>
+    <div class="step-labels"><span class="sl-on">Dados</span><span class="sl-on">Acesso</span><span>Confirmar</span></div>
+
+    <div class="sec-title"><i class="ti ti-user"></i> Dados pessoais</div>
+    <div class="field">
+      <label>Nome completo</label>
+      <div class="finput-wrap">
+        <input class="finput" type="text" placeholder="João da Silva" autocomplete="name">
+        <i class="ti ti-user fi-icon"></i>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>CPF</label><input class="finput" type="text" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)"></div>
+      <div class="field"><label>Nascimento</label><input class="finput" type="text" placeholder="DD/MM/AAAA" maxlength="10" oninput="maskDate(this)"></div>
+    </div>
+    <div class="field">
+      <label>Telefone / WhatsApp</label>
+      <div class="finput-wrap">
+        <input class="finput" type="tel" placeholder="(11) 99999-9999" maxlength="15" oninput="maskPhone(this)">
+        <i class="ti ti-phone fi-icon"></i>
+      </div>
+    </div>
+    <div class="field">
+      <label>E-mail</label>
+      <div class="finput-wrap">
+        <input class="finput" type="email" placeholder="seu@email.com" autocomplete="email">
+        <i class="ti ti-mail fi-icon"></i>
+      </div>
+    </div>
+    <div class="field">
+      <label>Endereço principal</label>
+      <div class="finput-wrap">
+        <input class="finput" type="text" placeholder="Rua, número — bairro">
+        <i class="ti ti-map-pin fi-icon"></i>
+      </div>
+      <div class="field-hint">Usado para calcular a distância dos profissionais</div>
+    </div>
+    <div class="field">
+      <label>Convênio de saúde (opcional)</label>
+      <select class="fselect">
+        <option value="">Nenhum / Particular</option>
+        <option>Unimed</option><option>Bradesco Saúde</option>
+        <option>Amil</option><option>SulAmérica</option><option>Hapvida</option>
+      </select>
+    </div>
+    <div class="sec-title"><i class="ti ti-lock"></i> Dados de acesso</div>
+    <div class="field">
+      <label>Senha</label>
+      <div class="finput-wrap">
+        <input class="finput" type="password" placeholder="Mínimo 8 caracteres" id="pw-pac" autocomplete="new-password">
+        <i class="ti ti-eye fi-icon clickable" id="eye-pac" onclick="togglePw('pw-pac','eye-pac')" aria-label="Ver senha"></i>
+      </div>
+    </div>
+    <div class="field">
+      <label>Confirmar senha</label>
+      <div class="finput-wrap">
+        <input class="finput" type="password" placeholder="Repita a senha" autocomplete="new-password">
+        <i class="ti ti-eye fi-icon"></i>
+      </div>
+    </div>
+    <div class="terms-row">
+      <input type="checkbox" id="terms-pac">
+      <label for="terms-pac">Li e aceito os <a href="#">Termos de uso</a> e a <a href="#">Política de privacidade</a> do myFisio.</label>
+    </div>
+    <button class="btn-main btn-blue" onclick="go('page-ok-pac')">
+      <i class="ti ti-user-check"></i> Criar minha conta
+    </button>
+    <div class="link-txt">Já tem conta? <a onclick="go('page-login')">Fazer login</a></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     CADASTRO — FISIOTERAPEUTA
+══════════════════════════════════════ -->
+<div id="page-cad-pro" class="page" style="background:#0f1f35;">
+  <div class="sbar sbar-dark"><span class="time" style="color:#7fb3e8;">9:41</span><span class="logo" style="color:#4fc3f7;">my<span class="logo-acc" style="color:#7fb3e8;">Fisio</span> Pro</span><span style="color:#7fb3e8;font-size:12px;"><i class="ti ti-wifi"></i></span></div>
+  <div class="hero-dark" style="text-align:left;display:flex;align-items:center;gap:12px;">
+    <div style="width:44px;height:44px;border-radius:14px;background:rgba(79,195,247,.15);border:1px solid rgba(79,195,247,.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <i class="ti ti-stethoscope" style="font-size:22px;color:#4fc3f7;"></i>
+    </div>
+    <div>
+      <div class="app-name-hero" style="font-size:18px;color:#4fc3f7;">Cadastro profissional</div>
+      <div class="app-sub-hero" style="font-size:12px;">Fisioterapeuta · myFisio Pro</div>
+    </div>
+  </div>
+  <div class="form-area" style="background:#0f1f35;padding-top:14px;">
+    <div class="back-row" style="color:#7fb3e8;" onclick="go('page-tipo')"><i class="ti ti-arrow-left" style="font-size:16px;"></i> Voltar</div>
+    <div class="step-bar">
+      <div class="sdot sdot-on-pro">1</div>
+      <div class="sline"></div>
+      <div class="sdot sdot-off">2</div>
+      <div class="sline"></div>
+      <div class="sdot sdot-off">3</div>
+      <div class="sline"></div>
+      <div class="sdot sdot-off">4</div>
+    </div>
+    <div class="step-labels" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px;">
+      <span class="sl-on-pro" style="color:#4fc3f7;">Pessoal</span>
+      <span style="color:#4a6fa5;">Registro</span><span style="color:#4a6fa5;">Serviços</span><span style="color:#4a6fa5;">Acesso</span>
+    </div>
+
+    <div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-user" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Dados pessoais</span></div>
+    <div class="field">
+      <label style="color:#7fb3e8;">Nome completo</label>
+      <div class="finput-wrap">
+        <input class="finput pro" type="text" placeholder="Dra. Ana Nascimento" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="name">
+        <i class="ti ti-user fi-icon"></i>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label style="color:#7fb3e8;">CPF</label><input class="finput pro" type="text" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+      <div class="field"><label style="color:#7fb3e8;">Nascimento</label><input class="finput pro" type="text" placeholder="DD/MM/AAAA" maxlength="10" oninput="maskDate(this)" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+    </div>
+    <div class="field">
+      <label style="color:#7fb3e8;">Telefone / WhatsApp</label>
+      <div class="finput-wrap">
+        <input class="finput pro" type="tel" placeholder="(11) 99999-9999" maxlength="15" oninput="maskPhone(this)" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+        <i class="ti ti-phone fi-icon"></i>
+      </div>
+    </div>
+    <div class="field">
+      <label style="color:#7fb3e8;">E-mail profissional</label>
+      <div class="finput-wrap">
+        <input class="finput pro" type="email" placeholder="fisio@email.com" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="email">
+        <i class="ti ti-mail fi-icon"></i>
+      </div>
+    </div>
+
+    <div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-id-badge" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Registro profissional</span></div>
+    <div class="field-row" style="grid-template-columns:1fr 80px;">
+      <div class="field"><label style="color:#7fb3e8;">CREFITO</label><input class="finput pro" type="text" placeholder="12345-F" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+      <div class="field"><label style="color:#7fb3e8;">UF</label>
+        <select class="fselect" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+          <option>SP</option><option>RJ</option><option>MG</option><option>RS</option><option>BA</option><option>PR</option>
+        </select>
+      </div>
+    </div>
+    <div class="field-hint" style="color:#4a6fa5;margin-top:-8px;margin-bottom:12px;font-size:11px;">
+      <i class="ti ti-shield-check" style="color:#4fc3f7;font-size:13px;vertical-align:-1px;"></i>
+      Verificaremos seu CREFITO junto ao COFFITO automaticamente.
+    </div>
+    <div class="field">
+      <label style="color:#7fb3e8;">Diploma ou certificado de graduação</label>
+      <div class="upload-zone" style="background:#132840;border-color:#2d4a6a;" onclick="toast('Seleção de arquivo disponível no app mobile')">
+        <i class="ti ti-upload" style="color:#4a6fa5;"></i>
+        <p style="color:#7fb3e8;">Toque para enviar o arquivo</p>
+        <small style="color:#4a6fa5;">PDF ou JPG · máx. 10 MB</small>
+      </div>
+    </div>
+
+    <div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-list-check" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Especialidades</span></div>
+    <div class="check-grid" style="margin-bottom:14px;">
+      <div class="check-chip sel" onclick="toggleChip(this)" style="background:#132840;border-color:#4fc3f7;color:#4fc3f7;"><div class="cbox" style="background:#4fc3f7;border-color:#4fc3f7;"><i class="ti ti-check" style="font-size:10px;color:#0d2137;"></i></div>Ortopédica</div>
+      <div class="check-chip sel" onclick="toggleChip(this)" style="background:#132840;border-color:#4fc3f7;color:#4fc3f7;"><div class="cbox" style="background:#4fc3f7;border-color:#4fc3f7;"><i class="ti ti-check" style="font-size:10px;color:#0d2137;"></i></div>Esportiva</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Neurológica</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Pediátrica</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Respiratória</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Pilates</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Drenagem</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Obstétrica</div>
+    </div>
+
+    <div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-home" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Tipo de atendimento</span></div>
+    <div class="atend-row">
+      <div class="atend-card sel" onclick="this.classList.toggle('sel')" style="background:#132840;border-color:#4fc3f7;">
+        <i class="ti ti-home" style="color:#4fc3f7;font-size:22px;display:block;margin-bottom:4px;"></i><span style="color:#fff;font-size:12px;font-weight:600;">Domiciliar</span>
+      </div>
+      <div class="atend-card" onclick="this.classList.toggle('sel')" style="background:#132840;border-color:#1e3a5f;">
+        <i class="ti ti-building-hospital" style="color:#4a6fa5;font-size:22px;display:block;margin-bottom:4px;"></i><span style="color:#7fb3e8;font-size:12px;font-weight:600;">Clínica</span>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label style="color:#7fb3e8;">Valor por sessão (R$)</label><input class="finput pro" type="number" placeholder="120" id="pro-valor" oninput="calcTaxa()" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+      <div class="field"><label style="color:#7fb3e8;">Raio</label>
+        <select class="fselect" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+          <option>3 km</option><option selected>5 km</option><option>10 km</option><option>15 km</option>
+        </select>
+      </div>
+    </div>
+    <div id="taxa-preview" style="display:none;background:#0a1628;border-radius:10px;padding:12px;margin-bottom:12px;border:1px solid #1e3a5f;font-size:12px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="color:#7fb3e8;">Bruto por sessão</span><span id="tp-bruto" style="color:#fff;font-weight:700;font-family:'Nunito',sans-serif;"></span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="color:#ef5350;">Taxa myFisio (5%)</span><span id="tp-taxa" style="color:#ef5350;font-weight:700;font-family:'Nunito',sans-serif;"></span></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:#fff;font-weight:700;">Você recebe</span><span id="tp-liq" style="color:#4caf82;font-size:14px;font-weight:800;font-family:'Nunito',sans-serif;"></span></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label style="color:#7fb3e8;">Início</label><input class="finput pro" type="time" value="08:00" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+      <div class="field"><label style="color:#7fb3e8;">Fim</label><input class="finput pro" type="time" value="20:00" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+    </div>
+
+    <div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-lock" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Dados de acesso</span></div>
+    <div class="field">
+      <label style="color:#7fb3e8;">Senha</label>
+      <div class="finput-wrap">
+        <input class="finput pro" type="password" placeholder="Mínimo 8 caracteres" id="pw-pro" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="new-password">
+        <i class="ti ti-eye fi-icon clickable" id="eye-pro" onclick="togglePw('pw-pro','eye-pro')" aria-label="Ver senha"></i>
+      </div>
+    </div>
+    <div class="field">
+      <label style="color:#7fb3e8;">Confirmar senha</label>
+      <div class="finput-wrap">
+        <input class="finput pro" type="password" placeholder="Repita a senha" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="new-password">
+        <i class="ti ti-eye fi-icon"></i>
+      </div>
+    </div>
+
+    <div class="taxa-notice">
+      <i class="ti ti-info-circle" style="color:#4fc3f7;font-size:17px;flex-shrink:0;margin-top:1px;"></i>
+      <span>Ao se cadastrar você concorda com a <strong>taxa de 5% por sessão realizada</strong>. Nenhuma cobrança em cancelamentos.</span>
+    </div>
+    <div class="terms-row" style="color:#7fb3e8;">
+      <input type="checkbox" id="terms-pro" style="accent-color:#4fc3f7;">
+      <label for="terms-pro" style="color:#7fb3e8;">Li e aceito os <a href="#" class="pro">Termos para profissionais</a>, a <a href="#" class="pro">Política de privacidade</a> e o <a href="#" class="pro">Contrato de prestação de serviços</a> myFisio.</label>
+    </div>
+    <button class="btn-main btn-pro-c" onclick="go('page-ok-pro')">
+      <i class="ti ti-send"></i> Enviar cadastro para análise
+    </button>
+    <div class="link-txt" style="color:#7fb3e8;">Já tem conta? <a onclick="go('page-login')" style="color:#4fc3f7;">Fazer login</a></div>
+    <div style="height:16px;"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SUCESSO — PACIENTE
+══════════════════════════════════════ -->
+<div id="page-ok-pac" class="page">
+  <div class="sbar sbar-blue"><span class="time">9:41</span><span class="logo">my<span class="logo-acc">Fisio</span></span><span></span></div>
+  <div class="hero-blue hero-sm" style="text-align:center;"><div class="app-name-hero" style="font-size:20px;">Conta criada!</div></div>
+  <div class="success-page">
+    <div class="success-icon si-blue"><i class="ti ti-circle-check" style="font-size:38px;color:#1a73e8;"></i></div>
+    <h2>Bem-vindo ao myFisio!</h2>
+    <p>Sua conta foi criada com sucesso.<br>Enviamos um e-mail de confirmação.</p>
+    <button class="btn-main btn-blue" style="max-width:260px;" onclick="go('page-map')">
+      <i class="ti ti-map-pin"></i> Encontrar fisioterapeutas
+    </button>
+    <p style="font-size:12px;color:#94a3b8;margin-top:14px;margin-bottom:0;">Verifique seu e-mail para ativar a conta</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SUCESSO — FISIO
+══════════════════════════════════════ -->
+<div id="page-ok-pro" class="page" style="background:#0f1f35;">
+  <div class="sbar sbar-dark"><span class="time" style="color:#7fb3e8;">9:41</span><span style="color:#4fc3f7;font-size:13px;font-weight:700;">myFisio Pro</span><span></span></div>
+  <div class="hero-dark hero-sm" style="text-align:center;"><div class="app-name-hero" style="font-size:20px;color:#4fc3f7;">Cadastro enviado!</div></div>
+  <div class="success-page" style="background:#0f1f35;">
+    <div class="success-icon si-pro"><i class="ti ti-clock-check" style="font-size:38px;color:#4fc3f7;"></i></div>
+    <h2 style="color:#fff;">Cadastro em análise</h2>
+    <p style="color:#7fb3e8;">Nossa equipe verificará seu CREFITO junto ao COFFITO em até <strong style="color:#fff;">24 horas úteis</strong>.</p>
+    <div class="analysis-steps" style="background:#132840;border-color:#1e3a5f;">
+      <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:10px;">Próximas etapas:</div>
+      <div class="as-item done"><i class="ti ti-check" style="color:#4caf82;"></i> Cadastro recebido</div>
+      <div class="as-item" style="color:#7fb3e8;"><i class="ti ti-clock" style="color:#4a6fa5;"></i> Verificação do CREFITO (até 24h)</div>
+      <div class="as-item" style="color:#7fb3e8;"><i class="ti ti-clock" style="color:#4a6fa5;"></i> Aprovação e ativação da conta</div>
+      <div class="as-item" style="color:#7fb3e8;"><i class="ti ti-clock" style="color:#4a6fa5;"></i> Aparecer no mapa para pacientes</div>
+    </div>
+    <button class="btn-main btn-pro-c" style="max-width:260px;" onclick="go('page-login')">
+      <i class="ti ti-home"></i> Ir para o início
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     APP — MAPA (paciente)
+══════════════════════════════════════ -->
+<div id="page-map" class="page">
+  <div class="app-topbar">
+    <div class="topbar-logo">my<span class="acc">Fisio</span></div>
+    <button class="topbar-icon" onclick="toast('Notificações')"><i class="ti ti-bell"></i></button>
+  </div>
+  <div class="map-wrap">
+    <svg class="map-svg" viewBox="0 0 375 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <rect width="375" height="600" fill="#dce8f7"/>
+      <rect x="0" y="90" width="375" height="16" fill="#c5d5ea" opacity=".7"/>
+      <rect x="0" y="210" width="375" height="16" fill="#c5d5ea" opacity=".7"/>
+      <rect x="0" y="330" width="375" height="16" fill="#c5d5ea" opacity=".7"/>
+      <rect x="0" y="450" width="375" height="16" fill="#c5d5ea" opacity=".7"/>
+      <rect x="70" y="0" width="16" height="600" fill="#c5d5ea" opacity=".7"/>
+      <rect x="190" y="0" width="16" height="600" fill="#c5d5ea" opacity=".7"/>
+      <rect x="300" y="0" width="16" height="600" fill="#c5d5ea" opacity=".7"/>
+      <rect x="10" y="116" width="50" height="86" rx="6" fill="#bccfe6" opacity=".75"/>
+      <rect x="96" y="116" width="86" height="86" rx="6" fill="#bccfe6" opacity=".75"/>
+      <rect x="210" y="120" width="80" height="82" rx="6" fill="#bccfe6" opacity=".75"/>
+      <rect x="316" y="116" width="50" height="86" rx="6" fill="#bccfe6" opacity=".75"/>
+      <rect x="10" y="234" width="50" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
+      <rect x="96" y="234" width="86" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
+      <rect x="210" y="234" width="80" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
+      <rect x="10" y="354" width="160" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
+      <rect x="210" y="354" width="155" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
+      <circle cx="187" cy="295" r="16" fill="#1a73e8" opacity=".18"/>
+      <circle cx="187" cy="295" r="8" fill="white"/>
+      <circle cx="187" cy="295" r="5" fill="#1a73e8"/>
+    </svg>
+    <div class="map-search">
+      <i class="ti ti-search" style="color:#94a3b8;font-size:17px;"></i>
+      <input type="text" placeholder="Buscar fisioterapeuta...">
+      <i class="ti ti-adjustments-horizontal" style="color:#94a3b8;font-size:17px;cursor:pointer;" onclick="toast('Filtros')"></i>
+    </div>
+    <div class="map-pin" style="left:27%;top:43%;" onclick="go('page-detail')">
+      <div class="pin-lbl" style="background:#16a34a;">Dra. Ana · R$120</div>
+      <div class="pin-tri" style="border-top:9px solid #16a34a;"></div>
+    </div>
+    <div class="map-pin" style="left:64%;top:29%;" onclick="go('page-detail')">
+      <div class="pin-lbl" style="background:#1a73e8;">Dr. Carlos · R$150</div>
+      <div class="pin-tri" style="border-top:9px solid #1a73e8;"></div>
+    </div>
+    <div class="map-pin" style="left:80%;top:58%;" onclick="go('page-detail')">
+      <div class="pin-lbl" style="background:#d97706;">Dra. Lúcia · R$130</div>
+      <div class="pin-tri" style="border-top:9px solid #d97706;"></div>
+    </div>
+    <button class="loc-btn" onclick="toast('Localizando...')"><i class="ti ti-current-location" style="font-size:20px;color:#1a73e8;"></i></button>
+    <div class="map-sheet">
+      <div class="drag-hdl"></div>
+      <div class="sheet-hdr">
+        <span class="sheet-cnt">3 disponíveis perto de você</span>
+        <button class="filter-btn"><i class="ti ti-bolt"></i> Filtros</button>
+      </div>
+      <div class="chip-row">
+        <div class="chip on">Todos</div>
+        <div class="chip" onclick="chipSel(this)">Ortopedia</div>
+        <div class="chip" onclick="chipSel(this)">Neurológico</div>
+        <div class="chip" onclick="chipSel(this)">Esportivo</div>
+        <div class="chip" onclick="chipSel(this)">Domiciliar</div>
+      </div>
+      <div class="fc" onclick="go('page-detail')">
+        <div class="fc-hdr">
+          <div class="av av-g">AN</div>
+          <div class="fc-info"><div class="fc-name">Dra. Ana Nascimento</div><div class="fc-spec">Fisioterapia Ortopédica · CREFITO 12345</div></div>
+          <div class="bdg bdg-s">⭐ 4.9</div>
+        </div>
+        <div class="badge-row"><span class="bdg bdg-g">✓ Disponível agora</span><span class="bdg bdg-b">Domiciliar</span></div>
+        <div class="fc-foot">
+          <span class="fc-dist"><i class="ti ti-map-pin" style="font-size:12px;vertical-align:-1px;"></i> 0.8 km · ~10 min</span>
+          <span class="fc-price">R$ 120/sessão</span>
+          <button class="btn-sm" onclick="event.stopPropagation();go('page-detail')">Agendar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bot-nav">
+    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
+    <div class="nav-it" onclick="go('page-list')"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
+    <div class="nav-it" onclick="go('page-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+    <div class="nav-it" onclick="go('page-profile')"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     APP — LISTA
+══════════════════════════════════════ -->
+<div id="page-list" class="page">
+  <div class="app-topbar">
+    <button class="topbar-back" onclick="go('page-map')"><i class="ti ti-arrow-left"></i></button>
+    <div class="topbar-logo">my<span class="acc">Fisio</span></div>
+    <span></span>
+  </div>
+  <div style="background:#fff;flex-shrink:0;padding:10px 16px 12px;">
+    <div style="display:flex;align-items:center;gap:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:10px 14px;margin-bottom:10px;">
+      <i class="ti ti-search" style="color:#94a3b8;font-size:17px;"></i>
+      <input type="text" placeholder="Especialidade, nome..." style="border:none;outline:none;flex:1;font-size:14px;background:transparent;font-family:'Nunito Sans',sans-serif;color:#0f172a;">
+    </div>
+    <div class="chip-row" style="margin-bottom:0;">
+      <div class="chip on">Todos</div>
+      <div class="chip" onclick="chipSel(this)">Ortopedia</div>
+      <div class="chip" onclick="chipSel(this)">Neurológico</div>
+      <div class="chip" onclick="chipSel(this)">Esportivo</div>
+      <div class="chip" onclick="chipSel(this)">Pediátrico</div>
+    </div>
+  </div>
+  <div class="scroll">
+    <div class="slbl">Disponíveis agora</div>
+    <div class="fc" onclick="go('page-detail')">
+      <div class="fc-hdr"><div class="av av-g">AN</div><div class="fc-info"><div class="fc-name">Dra. Ana Nascimento</div><div class="fc-spec">Fisioterapia Ortopédica</div></div><div class="bdg bdg-s">⭐ 4.9</div></div>
+      <div class="badge-row"><span class="bdg bdg-g">✓ Disponível</span><span class="bdg bdg-b">Domiciliar</span></div>
+      <div class="fc-foot"><span class="fc-dist">📍 0.8 km</span><span class="fc-price">R$ 120</span><button class="btn-sm" onclick="event.stopPropagation();go('page-detail')">Agendar</button></div>
+    </div>
+    <div class="fc" onclick="go('page-detail')">
+      <div class="fc-hdr"><div class="av av-b">CB</div><div class="fc-info"><div class="fc-name">Dr. Carlos Barros</div><div class="fc-spec">Fisioterapia Esportiva</div></div><div class="bdg bdg-s">⭐ 4.8</div></div>
+      <div class="badge-row"><span class="bdg bdg-g">✓ Disponível</span><span class="bdg bdg-b">Clínica</span></div>
+      <div class="fc-foot"><span class="fc-dist">📍 1.3 km</span><span class="fc-price">R$ 150</span><button class="btn-sm" onclick="event.stopPropagation();go('page-detail')">Agendar</button></div>
+    </div>
+    <div class="fc" onclick="go('page-detail')">
+      <div class="fc-hdr"><div class="av av-p">LM</div><div class="fc-info"><div class="fc-name">Dra. Lúcia Mendes</div><div class="fc-spec">Fisioterapia Neurológica</div></div><div class="bdg bdg-s">⭐ 4.7</div></div>
+      <div class="badge-row"><span class="bdg bdg-g">✓ Disponível</span><span class="bdg bdg-b">Domiciliar</span></div>
+      <div class="fc-foot"><span class="fc-dist">📍 2.1 km</span><span class="fc-price">R$ 130</span><button class="btn-sm" onclick="event.stopPropagation();go('page-detail')">Agendar</button></div>
+    </div>
+    <div class="slbl">Outros disponíveis hoje</div>
+    <div class="fc">
+      <div class="fc-hdr"><div class="av av-o">RF</div><div class="fc-info"><div class="fc-name">Dr. Ricardo Fonseca</div><div class="fc-spec">Fisioterapia Respiratória</div></div><div class="bdg bdg-s">⭐ 4.6</div></div>
+      <div class="badge-row"><span class="bdg" style="background:#fef3c7;color:#b45309;">📅 Hoje 15h</span><span class="bdg bdg-b">Domiciliar</span></div>
+      <div class="fc-foot"><span class="fc-dist">📍 3.0 km</span><span class="fc-price">R$ 110</span><button class="btn-sm-out">Ver agenda</button></div>
+    </div>
+  </div>
+  <div class="bot-nav">
+    <div class="nav-it" onclick="go('page-map')"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
+    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
+    <div class="nav-it" onclick="go('page-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+    <div class="nav-it" onclick="go('page-profile')"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     APP — DETALHE FISIO
+══════════════════════════════════════ -->
+<div id="page-detail" class="page">
+  <div class="detail-hero">
+    <button class="topbar-back" onclick="go('page-list')"><i class="ti ti-arrow-left"></i> Voltar</button>
+    <div class="detail-av-row">
+      <div class="detail-av">AN</div>
+      <div>
+        <div class="d-name">Dra. Ana Nascimento</div>
+        <div class="d-crm">CREFITO: 12345-F · SP</div>
+        <div class="d-spec">Fisioterapia Ortopédica e Esportiva</div>
+        <div class="d-rating">⭐ <span class="d-rnum">4.9</span><span class="d-rcnt">(128 avaliações)</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll">
+    <div class="info-card">
+      <div class="ic-title">Informações</div>
+      <div class="ic-row"><span class="ic-icon">📍</span>Vila Madalena, São Paulo · 0.8 km</div>
+      <div class="ic-row"><span class="ic-icon">🕐</span>Disponível agora · Atende até 20h</div>
+      <div class="ic-row"><span class="ic-icon">🏠</span>Atendimento domiciliar e em clínica</div>
+      <div class="ic-row"><span class="ic-icon">🎓</span>USP · Pós em Ortopedia — UNIFESP</div>
+      <div class="ic-row"><span class="ic-icon">📋</span>8 anos de experiência</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-title">Serviços</div>
+      <div class="svc-row"><span>Avaliação inicial (60 min)</span><span class="svc-p">R$ 120</span></div>
+      <div class="svc-row"><span>Sessão de fisioterapia (50 min)</span><span class="svc-p">R$ 120</span></div>
+      <div class="svc-row"><span>Pilates terapêutico (50 min)</span><span class="svc-p">R$ 140</span></div>
+      <div class="svc-row"><span>Drenagem linfática (60 min)</span><span class="svc-p">R$ 150</span></div>
+    </div>
+    <div class="info-card">
+      <div class="ic-title">Avaliações recentes</div>
+      <div style="font-size:13px;color:#374151;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #f8fafc;">
+        <div style="font-weight:700;margin-bottom:3px;">⭐⭐⭐⭐⭐ Marcos S.</div>
+        Excelente profissional! Resolveu minha lombar em 5 sessões.
+      </div>
+      <div style="font-size:13px;color:#374151;">
+        <div style="font-weight:700;margin-bottom:3px;">⭐⭐⭐⭐⭐ Carla M.</div>
+        Pontual, atenciosa e muito competente. Voltarei com certeza!
+      </div>
+    </div>
+  </div>
+  <div class="booking-bar">
+    <div class="time-sel">📅 Hoje, 14h</div>
+    <button class="btn-main btn-blue" style="flex:1;height:44px;" onclick="toast('Sessão agendada! ✅')">Agendar agora</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     APP — SESSÕES
+══════════════════════════════════════ -->
+<div id="page-sessions" class="page">
+  <div class="app-topbar">
+    <div class="topbar-logo">my<span class="acc">Fisio</span></div>
+    <button class="topbar-icon" onclick="toast('Filtrar')"><i class="ti ti-filter"></i></button>
+  </div>
+  <div class="page-hdr">
+    <div class="ph-title">Minhas Sessões</div>
+    <div class="ph-sub">Histórico e agendamentos</div>
+  </div>
+  <div class="scroll">
+    <div class="slbl">Próximas</div>
+    <div class="appt">
+      <div class="appt-top">
+        <div><div class="appt-name">Dra. Ana Nascimento</div><div class="appt-type">Fisioterapia Ortopédica</div></div>
+        <div><div class="appt-date">25 Abr</div><div class="appt-time">14:00 · 50min</div></div>
+      </div>
+      <div style="font-size:12px;color:#64748b;margin-top:5px;">📍 Domiciliar · R$ 120</div>
+      <span class="status-pill sp-sched">Confirmado</span>
+    </div>
+    <div class="slbl">Anteriores</div>
+    <div class="appt done">
+      <div class="appt-top">
+        <div><div class="appt-name">Dr. Carlos Barros</div><div class="appt-type">Fisioterapia Esportiva</div></div>
+        <div><div class="appt-date">18 Abr</div><div class="appt-time">10:00 · 50min</div></div>
+      </div>
+      <div style="font-size:12px;color:#64748b;margin-top:5px;">📍 Clínica · R$ 150</div>
+      <span class="status-pill sp-done">Concluído</span>
+    </div>
+    <div class="appt done">
+      <div class="appt-top">
+        <div><div class="appt-name">Dra. Ana Nascimento</div><div class="appt-type">Fisioterapia Ortopédica</div></div>
+        <div><div class="appt-date">11 Abr</div><div class="appt-time">14:00 · 50min</div></div>
+      </div>
+      <div style="font-size:12px;color:#64748b;margin-top:5px;">📍 Domiciliar · R$ 120</div>
+      <span class="status-pill sp-done">Concluído</span>
+    </div>
+    <div class="appt cancel">
+      <div class="appt-top">
+        <div><div class="appt-name">Dra. Lúcia Mendes</div><div class="appt-type">Fisioterapia Neurológica</div></div>
+        <div><div class="appt-date">5 Abr</div><div class="appt-time">16:00 · 50min</div></div>
+      </div>
+      <div style="font-size:12px;color:#64748b;margin-top:5px;">📍 Domiciliar · R$ 130</div>
+      <span class="status-pill sp-cancel">Cancelado</span>
+    </div>
+  </div>
+  <div class="bot-nav">
+    <div class="nav-it" onclick="go('page-map')"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
+    <div class="nav-it" onclick="go('page-list')"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
+    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+    <div class="nav-it" onclick="go('page-profile')"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     APP — PERFIL
+══════════════════════════════════════ -->
+<div id="page-profile" class="page">
+  <div class="profile-hdr">
+    <div class="p-av-big">JS</div>
+    <div>
+      <div class="p-name">João Silva</div>
+      <div class="p-email">joao.silva@email.com</div>
+      <div style="margin-top:8px;"><span class="bdg bdg-b" style="font-size:11px;">✓ Plano Basic</span></div>
+    </div>
+  </div>
+  <div class="scroll">
+    <div class="stat-mini-grid">
+      <div class="stat-mini"><div class="sm-num" style="color:#1a73e8;">12</div><div class="sm-lbl">Sessões realizadas</div></div>
+      <div class="stat-mini"><div class="sm-num" style="color:#16a34a;">3</div><div class="sm-lbl">Profissionais favoritos</div></div>
+    </div>
+    <div class="menu-it"><div class="menu-icon-box">👤</div><div class="menu-lbl">Editar perfil</div><div class="menu-arr">›</div></div>
+    <div class="menu-it"><div class="menu-icon-box">❤️</div><div class="menu-lbl">Favoritos</div><div class="menu-arr">›</div></div>
+    <div class="menu-it"><div class="menu-icon-box">💳</div><div class="menu-lbl">Pagamento</div><div class="menu-arr">›</div></div>
+    <div class="menu-it"><div class="menu-icon-box">📍</div><div class="menu-lbl">Endereços salvos</div><div class="menu-arr">›</div></div>
+    <div class="menu-it"><div class="menu-icon-box">🔔</div><div class="menu-lbl">Notificações</div><div class="menu-arr">›</div></div>
+    <div class="menu-it"><div class="menu-icon-box">⭐</div><div class="menu-lbl">Avaliações</div><div class="menu-arr">›</div></div>
+    <div class="menu-it"><div class="menu-icon-box">❓</div><div class="menu-lbl">Ajuda e suporte</div><div class="menu-arr">›</div></div>
+    <div class="menu-it" style="border-color:#fee2e2;" onclick="go('page-login')">
+      <div class="menu-icon-box" style="background:#fee2e2;">🚪</div>
+      <div class="menu-lbl" style="color:#b91c1c;">Sair</div>
+    </div>
+  </div>
+  <div class="bot-nav">
+    <div class="nav-it" onclick="go('page-map')"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
+    <div class="nav-it" onclick="go('page-list')"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
+    <div class="nav-it" onclick="go('page-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     APP PRO — PAINEL (fisioterapeuta)
+══════════════════════════════════════ -->
+<div id="page-pro-dash" class="page" style="background:#0f1f35;">
+  <div class="app-topbar dark-bar">
+    <div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div>
+    <button class="topbar-icon" onclick="toast('Notificações')"><i class="ti ti-bell"></i></button>
+  </div>
+  <div class="scroll" style="background:#0f1f35;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;margin-top:4px;">
+      <div style="font-size:13px;color:#7fb3e8;">Olá, Dra. Ana 👋</div>
+      <span style="background:rgba(76,175,130,.15);color:#4caf82;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;">✓ Verificada</span>
+    </div>
+    <div class="online-toggle" onclick="toggleOnline(this)">
+      <div class="tog-track" id="pro-tog"><div class="tog-knob"></div></div>
+      <div class="tog-info">
+        <div class="tog-title" id="tog-title">🟢 Online — Recebendo pedidos</div>
+        <div class="tog-sub" id="tog-sub">Visível no mapa para pacientes</div>
+      </div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-n blue">4</div><div class="stat-l">Pedidos novos</div></div>
+      <div class="stat-card"><div class="stat-n green">3</div><div class="stat-l">Sessões hoje</div></div>
+      <div class="stat-card"><div class="stat-n amber">⭐ 4.9</div><div class="stat-l">Avaliação</div></div>
+      <div class="stat-card"><div class="stat-n blue">R$342</div><div class="stat-l">Ganhos hoje (líq.)</div></div>
+    </div>
+    <div class="slbl dk">Pedido urgente</div>
+    <div class="demand-card urgent">
+      <div class="d-top">
+        <div><div class="d-patient">Roberto Lima, 45a</div><div class="d-type">Dor lombar aguda</div></div>
+        <span class="urg-badge">⚡ Urgente</span>
+      </div>
+      <div class="d-det"><i class="ti ti-map-pin" style="font-size:12px;vertical-align:-1px;"></i> 0.6 km · Vila Madalena &nbsp;|&nbsp; <i class="ti ti-clock" style="font-size:12px;vertical-align:-1px;"></i> Agora</div>
+      <div class="d-actions">
+        <button class="btn-accept" onclick="toast('Pedido aceito! ✅')">✓ Aceitar</button>
+        <button class="btn-refuse" onclick="toast('Pedido recusado')">✕ Recusar</button>
+      </div>
+    </div>
+    <div class="slbl dk">Agenda de hoje</div>
+    <div class="sch-item done"><div class="sch-time">09:00</div><div class="sch-info"><div class="sch-name">Marcos Santos</div><div class="sch-det">Ortopédica · Domiciliar</div></div><i class="ti ti-circle-check" style="color:#4caf82;font-size:20px;"></i></div>
+    <div class="sch-item done"><div class="sch-time">11:00</div><div class="sch-info"><div class="sch-name">Carla Mendonça</div><div class="sch-det">Pilates · Domiciliar</div></div><i class="ti ti-circle-check" style="color:#4caf82;font-size:20px;"></i></div>
+    <div class="sch-item"><div class="sch-time">14:00</div><div class="sch-info"><div class="sch-name">João Alves</div><div class="sch-det">Avaliação · Domiciliar</div></div><i class="ti ti-clock" style="color:#4fc3f7;font-size:20px;"></i></div>
+  </div>
+  <div class="bot-nav dark-nav">
+    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-layout-dashboard"></i></div><div class="nv-lbl">Painel</div></div>
+    <div class="nav-it" onclick="toast('Demandas')"><div class="nv-icon"><i class="ti ti-inbox"></i></div><div class="nv-lbl">Demandas</div></div>
+    <div class="nav-it" onclick="toast('Ganhos')"><div class="nv-icon"><i class="ti ti-coin"></i></div><div class="nv-lbl">Ganhos</div></div>
+    <div class="nav-it" onclick="go('page-cad-pro')"><div class="nv-icon"><i class="ti ti-user-edit"></i></div><div class="nv-lbl">Cadastro</div></div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+</div><!-- #app -->
+
+<script>
+// ── Navegação ──────────────────────────────────
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  var el=document.getElementById(id);
+  if(el) el.classList.add('active');
+}
+
+// ── Splash ─────────────────────────────────────
+window.addEventListener('load',function(){
+  setTimeout(function(){ go('page-login'); }, 2200);
+});
+
+// ── Login ──────────────────────────────────────
+function doLogin(){
+  var em=document.getElementById('login-email').value.trim();
+  var pw=document.getElementById('login-pw').value;
+  if(!em||!pw){ toast('Preencha e-mail e senha'); return; }
+  go('page-map');
+}
+
+// ── Toggle senha ───────────────────────────────
+function togglePw(inputId,iconId){
+  var inp=document.getElementById(inputId);
+  var ico=document.getElementById(iconId);
+  if(!inp||!ico) return;
+  if(inp.type==='password'){
+    inp.type='text';
+    ico.classList.remove('ti-eye'); ico.classList.add('ti-eye-off');
+  } else {
+    inp.type='password';
+    ico.classList.remove('ti-eye-off'); ico.classList.add('ti-eye');
+  }
+}
+
+// ── Chips ──────────────────────────────────────
+function chipSel(el){
+  var row=el.closest('.chip-row');
+  if(row) row.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+}
+
+// ── Check chips (especialidades) ───────────────
+function toggleChip(el){
+  el.classList.toggle('sel');
+  var box=el.querySelector('.cbox');
+  if(el.classList.contains('sel')){
+    box.innerHTML='<i class="ti ti-check" style="font-size:10px;color:#0d2137;"></i>';
+  } else {
+    box.innerHTML='';
+  }
+}
+
+// ── Taxa (cadastro pro) ────────────────────────
+function calcTaxa(){
+  var v=parseFloat(document.getElementById('pro-valor').value)||0;
+  var prev=document.getElementById('taxa-preview');
+  if(v>0){
+    prev.style.display='block';
+    var taxa=v*0.05, liq=v-taxa;
+    document.getElementById('tp-bruto').textContent='R$ '+v.toFixed(2).replace('.',',');
+    document.getElementById('tp-taxa').textContent='- R$ '+taxa.toFixed(2).replace('.',',');
+    document.getElementById('tp-liq').textContent='R$ '+liq.toFixed(2).replace('.',',');
+  } else { prev.style.display='none'; }
+}
+
+// ── Toggle online/offline (Pro) ────────────────
+function toggleOnline(el){
+  var track=document.getElementById('pro-tog');
+  var title=document.getElementById('tog-title');
+  var sub=document.getElementById('tog-sub');
+  var isOn=!track.classList.contains('off');
+  if(isOn){
+    track.classList.add('off');
+    title.textContent='🔴 Offline — Pausado';
+    sub.textContent='Você não aparece no mapa';
+  } else {
+    track.classList.remove('off');
+    title.textContent='🟢 Online — Recebendo pedidos';
+    sub.textContent='Visível no mapa para pacientes';
+  }
+}
+
+// ── Máscaras ───────────────────────────────────
+function maskCPF(el){
+  var v=el.value.replace(/\D/g,'').slice(0,11);
+  el.value=v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/,'$1.$2.$3-$4')
+            .replace(/(\d{3})(\d{3})(\d{1,3})$/,'$1.$2.$3')
+            .replace(/(\d{3})(\d{1,3})$/,'$1.$2');
+}
+function maskDate(el){
+  var v=el.value.replace(/\D/g,'').slice(0,8);
+  el.value=v.replace(/(\d{2})(\d{2})(\d{1,4})/,'$1/$2/$3').replace(/(\d{2})(\d{1,2})$/,'$1/$2');
+}
+function maskPhone(el){
+  var v=el.value.replace(/\D/g,'').slice(0,11);
+  el.value=v.replace(/(\d{2})(\d{5})(\d{1,4})/,'($1) $2-$3')
+            .replace(/(\d{2})(\d{4,5})$/,'($1) $2');
+}
+
+// ── Toast ──────────────────────────────────────
+var toastTimer;
+function toast(msg){
+  var el=document.getElementById('toast');
+  el.textContent=msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>el.classList.remove('show'),2500);
+}
+</script>
+</body>
+</html>
