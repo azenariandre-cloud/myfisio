@@ -70,6 +70,29 @@ app.get('/health', (req, res) => {
   });
 });
 
+// ── Setup — cria as tabelas no banco via URL ───
+// Acesse: /setup?key=SETUP_SECRET (defina a variável de ambiente SETUP_SECRET)
+app.get('/setup', async (req, res) => {
+  const secret = process.env.SETUP_SECRET;
+  if (!secret || req.query.key !== secret) {
+    return res.status(403).json({ error: 'Chave inválida. Acesse /setup?key=SUA_CHAVE' });
+  }
+  try {
+    const fs   = require('fs');
+    const path = require('path');
+    const db   = require('./config/database');
+    const sql  = fs.readFileSync(path.join(__dirname, 'database', 'schema.sql'), 'utf8');
+    await db.query(sql);
+    res.json({
+      status: 'ok',
+      message: '✅ Tabelas criadas/atualizadas com sucesso! O myFisio está pronto.',
+    });
+  } catch (err) {
+    console.error('[setup]', err.message);
+    res.status(500).json({ error: 'Erro ao criar tabelas: ' + err.message });
+  }
+});
+
 // ── Rotas ─────────────────────────────────────
 app.use('/api/auth',          authRoutes);
 app.use('/api/professionals', profRoutes);
