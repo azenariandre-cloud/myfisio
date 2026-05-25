@@ -832,25 +832,25 @@ html,body{
     <div class="field">
       <label>Nome completo</label>
       <div class="finput-wrap">
-        <input class="finput" type="text" placeholder="João da Silva" autocomplete="name">
+        <input id="pac-nome" class="finput" type="text" placeholder="João da Silva" autocomplete="name">
         <i class="ti ti-user fi-icon"></i>
       </div>
     </div>
     <div class="field-row">
-      <div class="field"><label>CPF</label><input class="finput" type="text" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)"></div>
+      <div class="field"><label>CPF</label><input id="pac-cpf" class="finput" type="text" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)"></div>
       <div class="field"><label>Nascimento</label><input class="finput" type="text" placeholder="DD/MM/AAAA" maxlength="10" oninput="maskDate(this)"></div>
     </div>
     <div class="field">
       <label>Telefone / WhatsApp</label>
       <div class="finput-wrap">
-        <input class="finput" type="tel" placeholder="(11) 99999-9999" maxlength="15" oninput="maskPhone(this)">
+        <input id="pac-tel" class="finput" type="tel" placeholder="(11) 99999-9999" maxlength="15" oninput="maskPhone(this)">
         <i class="ti ti-phone fi-icon"></i>
       </div>
     </div>
     <div class="field">
       <label>E-mail</label>
       <div class="finput-wrap">
-        <input class="finput" type="email" placeholder="seu@email.com" autocomplete="email">
+        <input id="pac-email" class="finput" type="email" placeholder="seu@email.com" autocomplete="email">
         <i class="ti ti-mail fi-icon"></i>
       </div>
     </div>
@@ -874,14 +874,14 @@ html,body{
     <div class="field">
       <label>Senha</label>
       <div class="finput-wrap">
-        <input class="finput" type="password" placeholder="Mínimo 8 caracteres" id="pw-pac" autocomplete="new-password">
-        <i class="ti ti-eye fi-icon clickable" id="eye-pac" onclick="togglePw('pw-pac','eye-pac')" aria-label="Ver senha"></i>
+        <input class="finput" type="password" placeholder="Mínimo 8 caracteres" id="pac-pw" autocomplete="new-password">
+        <i class="ti ti-eye fi-icon clickable" id="eye-pac" onclick="togglePw('pac-pw','eye-pac')" aria-label="Ver senha"></i>
       </div>
     </div>
     <div class="field">
       <label>Confirmar senha</label>
       <div class="finput-wrap">
-        <input class="finput" type="password" placeholder="Repita a senha" autocomplete="new-password">
+        <input id="pac-pw2" class="finput" type="password" placeholder="Repita a senha" autocomplete="new-password">
         <i class="ti ti-eye fi-icon"></i>
       </div>
     </div>
@@ -889,7 +889,7 @@ html,body{
       <input type="checkbox" id="terms-pac">
       <label for="terms-pac">Li e aceito os <a href="#">Termos de uso</a> e a <a href="#">Política de privacidade</a> do myFisio.</label>
     </div>
-    <button class="btn-main btn-blue" onclick="go('page-ok-pac')">
+    <button class="btn-main btn-blue" onclick="cadastrarPaciente()">
       <i class="ti ti-user-check"></i> Criar minha conta
     </button>
     <div class="link-txt">Já tem conta? <a onclick="go('page-login')">Fazer login</a></div>
@@ -930,34 +930,34 @@ html,body{
     <div class="field">
       <label style="color:#7fb3e8;">Nome completo</label>
       <div class="finput-wrap">
-        <input class="finput pro" type="text" placeholder="Dra. Ana Nascimento" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="name">
+        <input id="pro-nome" class="finput pro" type="text" placeholder="Dra. Ana Nascimento" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="name">
         <i class="ti ti-user fi-icon"></i>
       </div>
     </div>
     <div class="field-row">
-      <div class="field"><label style="color:#7fb3e8;">CPF</label><input class="finput pro" type="text" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+      <div class="field"><label style="color:#7fb3e8;">CPF</label><input id="pro-cpf" class="finput pro" type="text" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
       <div class="field"><label style="color:#7fb3e8;">Nascimento</label><input class="finput pro" type="text" placeholder="DD/MM/AAAA" maxlength="10" oninput="maskDate(this)" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
     </div>
     <div class="field">
       <label style="color:#7fb3e8;">Telefone / WhatsApp</label>
       <div class="finput-wrap">
-        <input class="finput pro" type="tel" placeholder="(11) 99999-9999" maxlength="15" oninput="maskPhone(this)" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+        <input id="pro-tel" class="finput pro" type="tel" placeholder="(11) 99999-9999" maxlength="15" oninput="maskPhone(this)" style="background:#132840;border-color:#1e3a5f;color:#fff;">
         <i class="ti ti-phone fi-icon"></i>
       </div>
     </div>
     <div class="field">
       <label style="color:#7fb3e8;">E-mail profissional</label>
       <div class="finput-wrap">
-        <input class="finput pro" type="email" placeholder="fisio@email.com" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="email">
+        <input id="pro-email" class="finput pro" type="email" placeholder="fisio@email.com" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="email">
         <i class="ti ti-mail fi-icon"></i>
       </div>
     </div>
 
     <div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-id-badge" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Registro profissional</span></div>
     <div class="field-row" style="grid-template-columns:1fr 80px;">
-      <div class="field"><label style="color:#7fb3e8;">CREFITO</label><input class="finput pro" type="text" placeholder="12345-F" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+      <div class="field"><label style="color:#7fb3e8;">CREFITO</label><input id="pro-crefito" class="finput pro" type="text" placeholder="12345-F" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
       <div class="field"><label style="color:#7fb3e8;">UF</label>
-        <select class="fselect" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+        <select id="pro-uf" class="fselect" style="background:#132840;border-color:#1e3a5f;color:#fff;">
           <option>SP</option><option>RJ</option><option>MG</option><option>RS</option><option>BA</option><option>PR</option>
         </select>
       </div>
@@ -1025,7 +1025,7 @@ html,body{
     <div class="field">
       <label style="color:#7fb3e8;">Confirmar senha</label>
       <div class="finput-wrap">
-        <input class="finput pro" type="password" placeholder="Repita a senha" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="new-password">
+        <input id="pro-pw2" class="finput pro" type="password" placeholder="Repita a senha" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="new-password">
         <i class="ti ti-eye fi-icon"></i>
       </div>
     </div>
@@ -1038,7 +1038,7 @@ html,body{
       <input type="checkbox" id="terms-pro" style="accent-color:#4fc3f7;">
       <label for="terms-pro" style="color:#7fb3e8;">Li e aceito os <a href="#" class="pro">Termos para profissionais</a>, a <a href="#" class="pro">Política de privacidade</a> e o <a href="#" class="pro">Contrato de prestação de serviços</a> myFisio.</label>
     </div>
-    <button class="btn-main btn-pro-c" onclick="go('page-ok-pro')">
+    <button class="btn-main btn-pro-c" onclick="cadastrarPro()">
       <i class="ti ti-send"></i> Enviar cadastro para análise
     </button>
     <div class="link-txt" style="color:#7fb3e8;">Já tem conta? <a onclick="go('page-login')" style="color:#4fc3f7;">Fazer login</a></div>
@@ -1287,41 +1287,8 @@ html,body{
     <div class="ph-title">Minhas Sessões</div>
     <div class="ph-sub">Histórico e agendamentos</div>
   </div>
-  <div class="scroll">
-    <div class="slbl">Próximas</div>
-    <div class="appt">
-      <div class="appt-top">
-        <div><div class="appt-name">Dra. Ana Nascimento</div><div class="appt-type">Fisioterapia Ortopédica</div></div>
-        <div><div class="appt-date">25 Abr</div><div class="appt-time">14:00 · 50min</div></div>
-      </div>
-      <div style="font-size:12px;color:#64748b;margin-top:5px;">📍 Domiciliar · R$ 120</div>
-      <span class="status-pill sp-sched">Confirmado</span>
-    </div>
-    <div class="slbl">Anteriores</div>
-    <div class="appt done">
-      <div class="appt-top">
-        <div><div class="appt-name">Dr. Carlos Barros</div><div class="appt-type">Fisioterapia Esportiva</div></div>
-        <div><div class="appt-date">18 Abr</div><div class="appt-time">10:00 · 50min</div></div>
-      </div>
-      <div style="font-size:12px;color:#64748b;margin-top:5px;">📍 Clínica · R$ 150</div>
-      <span class="status-pill sp-done">Concluído</span>
-    </div>
-    <div class="appt done">
-      <div class="appt-top">
-        <div><div class="appt-name">Dra. Ana Nascimento</div><div class="appt-type">Fisioterapia Ortopédica</div></div>
-        <div><div class="appt-date">11 Abr</div><div class="appt-time">14:00 · 50min</div></div>
-      </div>
-      <div style="font-size:12px;color:#64748b;margin-top:5px;">📍 Domiciliar · R$ 120</div>
-      <span class="status-pill sp-done">Concluído</span>
-    </div>
-    <div class="appt cancel">
-      <div class="appt-top">
-        <div><div class="appt-name">Dra. Lúcia Mendes</div><div class="appt-type">Fisioterapia Neurológica</div></div>
-        <div><div class="appt-date">5 Abr</div><div class="appt-time">16:00 · 50min</div></div>
-      </div>
-      <div style="font-size:12px;color:#64748b;margin-top:5px;">📍 Domiciliar · R$ 130</div>
-      <span class="status-pill sp-cancel">Cancelado</span>
-    </div>
+  <div class="scroll" id="sessions-list">
+    <div style="text-align:center;padding:30px;color:#64748b;">Carregando sessões...</div>
   </div>
   <div class="bot-nav">
     <div class="nav-it" onclick="go('page-map')"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
@@ -1336,17 +1303,17 @@ html,body{
 ══════════════════════════════════════ -->
 <div id="page-profile" class="page">
   <div class="profile-hdr">
-    <div class="p-av-big">JS</div>
+    <div class="p-av-big" id="p-av">JS</div>
     <div>
-      <div class="p-name">João Silva</div>
-      <div class="p-email">joao.silva@email.com</div>
+      <div class="p-name" id="p-name">Carregando...</div>
+      <div class="p-email" id="p-email"></div>
       <div style="margin-top:8px;"><span class="bdg bdg-b" style="font-size:11px;">✓ Plano Basic</span></div>
     </div>
   </div>
   <div class="scroll">
     <div class="stat-mini-grid">
-      <div class="stat-mini"><div class="sm-num" style="color:#1a73e8;">12</div><div class="sm-lbl">Sessões realizadas</div></div>
-      <div class="stat-mini"><div class="sm-num" style="color:#16a34a;">3</div><div class="sm-lbl">Profissionais favoritos</div></div>
+      <div class="stat-mini"><div class="sm-num" style="color:#1a73e8;" id="p-sessions">—</div><div class="sm-lbl">Sessões realizadas</div></div>
+      <div class="stat-mini"><div class="sm-num" style="color:#16a34a;" id="p-pros">—</div><div class="sm-lbl">Profissionais atendidos</div></div>
     </div>
     <div class="menu-it"><div class="menu-icon-box">👤</div><div class="menu-lbl">Editar perfil</div><div class="menu-arr">›</div></div>
     <div class="menu-it"><div class="menu-icon-box">❤️</div><div class="menu-lbl">Favoritos</div><div class="menu-arr">›</div></div>
@@ -1355,7 +1322,7 @@ html,body{
     <div class="menu-it"><div class="menu-icon-box">🔔</div><div class="menu-lbl">Notificações</div><div class="menu-arr">›</div></div>
     <div class="menu-it"><div class="menu-icon-box">⭐</div><div class="menu-lbl">Avaliações</div><div class="menu-arr">›</div></div>
     <div class="menu-it"><div class="menu-icon-box">❓</div><div class="menu-lbl">Ajuda e suporte</div><div class="menu-arr">›</div></div>
-    <div class="menu-it" style="border-color:#fee2e2;" onclick="go('page-login')">
+    <div class="menu-it" style="border-color:#fee2e2;" onclick="doLogout()">
       <div class="menu-icon-box" style="background:#fee2e2;">🚪</div>
       <div class="menu-lbl" style="color:#b91c1c;">Sair</div>
     </div>
@@ -1378,7 +1345,7 @@ html,body{
   </div>
   <div class="scroll" style="background:#0f1f35;">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;margin-top:4px;">
-      <div style="font-size:13px;color:#7fb3e8;">Olá, Dra. Ana 👋</div>
+      <div style="font-size:13px;color:#7fb3e8;" id="pro-greet">Olá, Dra. Ana 👋</div>
       <span style="background:rgba(76,175,130,.15);color:#4caf82;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;">✓ Verificada</span>
     </div>
     <div class="online-toggle" onclick="toggleOnline(this)">
@@ -1425,27 +1392,202 @@ html,body{
 </div><!-- #app -->
 
 <script>
-// ── Navegação ──────────────────────────────────
-function go(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  var el=document.getElementById(id);
-  if(el) el.classList.add('active');
+// ═══════════════════════════════════════════════
+//  myFisio — Integração com API real
+// ═══════════════════════════════════════════════
+var API_URL = 'https://myfisio-api.onrender.com';
+
+// ── Sessão ─────────────────────────────────────
+function getToken(){ return localStorage.getItem('myfisio_token'); }
+function getUser() { try{ return JSON.parse(localStorage.getItem('myfisio_user')||'null'); }catch(e){ return null; } }
+function saveSession(token,user){
+  localStorage.setItem('myfisio_token', token);
+  localStorage.setItem('myfisio_user', JSON.stringify(user));
+}
+function clearSession(){
+  localStorage.removeItem('myfisio_token');
+  localStorage.removeItem('myfisio_user');
 }
 
-// ── Splash ─────────────────────────────────────
-window.addEventListener('load',function(){
-  setTimeout(function(){ go('page-login'); }, 2200);
+// ── Requisição ─────────────────────────────────
+async function api(method, path, body){
+  var headers = {'Content-Type':'application/json'};
+  var token = getToken();
+  if(token) headers['Authorization'] = 'Bearer '+token;
+  var res = await fetch(API_URL+path, {
+    method: method,
+    headers: headers,
+    body: body ? JSON.stringify(body) : undefined
+  });
+  var data = await res.json();
+  if(!res.ok) throw new Error(data.error || 'Erro '+res.status);
+  return data;
+}
+
+// ── Navegação ───────────────────────────────────
+function go(id){
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  var el = document.getElementById(id);
+  if(el) el.classList.add('active');
+  if(id === 'page-profile') loadProfile();
+  if(id === 'page-sessions') loadSessions();
+}
+
+// ── Splash ──────────────────────────────────────
+window.addEventListener('load', function(){
+  var token = getToken();
+  var user  = getUser();
+  if(token && user){
+    // Já logado — vai direto para o mapa
+    setTimeout(function(){ go('page-map'); loadProfile(); }, 400);
+  } else {
+    setTimeout(function(){ go('page-login'); }, 2200);
+  }
 });
 
-// ── Login ──────────────────────────────────────
-function doLogin(){
-  var em=document.getElementById('login-email').value.trim();
-  var pw=document.getElementById('login-pw').value;
+// ── Login ───────────────────────────────────────
+async function doLogin(){
+  var em = document.getElementById('login-email').value.trim();
+  var pw = document.getElementById('login-pw').value;
   if(!em||!pw){ toast('Preencha e-mail e senha'); return; }
-  go('page-map');
+  toast('Entrando...');
+  try{
+    var data = await api('POST','/api/auth/login',{email:em, password:pw});
+    saveSession(data.token, data.user);
+    go(data.user.role === 'professional' ? 'page-pro-dash' : 'page-map');
+    loadProfile();
+  } catch(e){
+    toast(e.message || 'E-mail ou senha incorretos');
+  }
 }
 
-// ── Toggle senha ───────────────────────────────
+// ── Cadastro paciente ───────────────────────────
+async function cadastrarPaciente(){
+  var nome  = document.getElementById('pac-nome')?.value?.trim();
+  var email = document.getElementById('pac-email')?.value?.trim();
+  var cpf   = document.getElementById('pac-cpf')?.value?.trim();
+  var tel   = document.getElementById('pac-tel')?.value?.trim();
+  var pw    = document.getElementById('pac-pw')?.value;
+  var pw2   = document.getElementById('pac-pw2')?.value;
+  var terms = document.getElementById('terms-pac')?.checked;
+  if(!nome||!email||!cpf||!tel||!pw){ toast('Preencha todos os campos obrigatórios'); return; }
+  if(pw !== pw2){ toast('As senhas não conferem'); return; }
+  if(!terms){ toast('Aceite os termos para continuar'); return; }
+  toast('Criando conta...');
+  try{
+    var data = await api('POST','/api/auth/register',{
+      name:nome, email:email, cpf:cpf, phone:tel, password:pw, role:'patient'
+    });
+    saveSession(data.token, data.user);
+    go('page-ok-pac');
+  } catch(e){
+    toast(e.message || 'Erro ao criar conta');
+  }
+}
+
+// ── Cadastro fisioterapeuta ─────────────────────
+async function cadastrarPro(){
+  var nome    = document.getElementById('pro-nome')?.value?.trim();
+  var email   = document.getElementById('pro-email')?.value?.trim();
+  var cpf     = document.getElementById('pro-cpf')?.value?.trim();
+  var tel     = document.getElementById('pro-tel')?.value?.trim();
+  var crefito = document.getElementById('pro-crefito')?.value?.trim();
+  var uf      = document.getElementById('pro-uf')?.value;
+  var valor   = document.getElementById('pro-valor')?.value;
+  var pw      = document.getElementById('pw-pro')?.value;
+  var pw2     = document.getElementById('pro-pw2')?.value;
+  var terms   = document.getElementById('terms-pro')?.checked;
+  var specs   = Array.from(document.querySelectorAll('#spec-grid .check-chip.sel')).map(function(c){ return c.textContent.trim(); });
+  if(!nome||!email||!cpf||!tel||!crefito||!pw){ toast('Preencha todos os campos obrigatórios'); return; }
+  if(pw !== pw2){ toast('As senhas não conferem'); return; }
+  if(!terms){ toast('Aceite os termos para continuar'); return; }
+  toast('Enviando cadastro...');
+  try{
+    var data = await api('POST','/api/auth/register',{
+      name:nome, email:email, cpf:cpf, phone:tel, password:pw, role:'professional',
+      crefito:crefito, crefito_uf:uf, specialties:specs,
+      service_types:['domiciliar'], session_price:parseFloat(valor)||0
+    });
+    saveSession(data.token, data.user);
+    go('page-ok-pro');
+  } catch(e){
+    toast(e.message || 'Erro ao enviar cadastro');
+  }
+}
+
+// ── Logout ──────────────────────────────────────
+function doLogout(){
+  clearSession();
+  go('page-login');
+}
+
+// ── Perfil ──────────────────────────────────────
+async function loadProfile(){
+  var user = getUser();
+  if(!user) return;
+  var initials = user.name ? user.name.split(' ').map(function(w){ return w[0]; }).join('').slice(0,2).toUpperCase() : '?';
+  var av = document.getElementById('p-av');
+  var nm = document.getElementById('p-name');
+  var em = document.getElementById('p-email');
+  if(av) av.textContent = initials;
+  if(nm) nm.textContent = user.name || '';
+  if(em) em.textContent = user.email || '';
+  // Atualiza o saudação no painel pro
+  var greet = document.getElementById('pro-greet');
+  if(greet) greet.textContent = 'Olá, '+(user.name ? user.name.split(' ')[0] : '')+'  👋';
+  // Busca stats reais
+  try{
+    if(user.role === 'patient'){
+      var stats = await api('GET','/api/patients/stats');
+      var se = document.getElementById('p-sessions');
+      var pe = document.getElementById('p-pros');
+      if(se) se.textContent = stats.completed || 0;
+      if(pe) pe.textContent = stats.unique_professionals || 0;
+    }
+  } catch(e){ /* silencioso */ }
+}
+
+// ── Sessões ─────────────────────────────────────
+async function loadSessions(){
+  var container = document.getElementById('sessions-list');
+  if(!container || !getToken()) return;
+  container.innerHTML = '<div style="text-align:center;padding:30px;color:#7fb3e8;">Carregando...</div>';
+  try{
+    var data = await api('GET','/api/appointments?limit=20');
+    var appts = data.appointments || [];
+    if(!appts.length){
+      container.innerHTML = '<div style="text-align:center;padding:30px;color:#64748b;">Nenhuma sessão ainda</div>';
+      return;
+    }
+    var statusMap = {
+      pending:   {cls:'sp-sched', label:'Pendente'},
+      confirmed: {cls:'sp-sched', label:'Confirmado'},
+      completed: {cls:'sp-done',  label:'Concluído'},
+      cancelled: {cls:'sp-cancel',label:'Cancelado'}
+    };
+    var colors = {pending:'#1a73e8',confirmed:'#1a73e8',completed:'#16a34a',cancelled:'#dc2626'};
+    container.innerHTML = appts.map(function(a){
+      var d   = new Date(a.scheduled_at);
+      var ds  = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
+      var ts  = d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+      var s   = statusMap[a.status]||{cls:'sp-sched',label:a.status};
+      var col = colors[a.status]||'#1a73e8';
+      return '<div class="appt" style="border-left-color:'+col+'">'+
+        '<div class="appt-top">'+
+          '<div><div class="appt-name">'+(a.professional_name||'Fisioterapeuta')+'</div>'+
+          '<div class="appt-type">'+(a.service_type==='domiciliar'?'Domiciliar':'Clínica')+'</div></div>'+
+          '<div><div class="appt-date">'+ds+'</div><div class="appt-time">'+ts+'</div></div>'+
+        '</div>'+
+        '<div style="font-size:12px;color:#64748b;margin-top:5px;">R$ '+parseFloat(a.gross_price).toFixed(2).replace('.',',')+'</div>'+
+        '<span class="status-pill '+s.cls+'">'+s.label+'</span>'+
+      '</div>';
+    }).join('');
+  } catch(e){
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:#dc2626;">Erro ao carregar sessões</div>';
+  }
+}
+
+// ── Toggle senha ────────────────────────────────
 function togglePw(inputId,iconId){
   var inp=document.getElementById(inputId);
   var ico=document.getElementById(iconId);
@@ -1459,25 +1601,22 @@ function togglePw(inputId,iconId){
   }
 }
 
-// ── Chips ──────────────────────────────────────
+// ── Chips ───────────────────────────────────────
 function chipSel(el){
   var row=el.closest('.chip-row');
-  if(row) row.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+  if(row) row.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('on'); });
   el.classList.add('on');
 }
 
-// ── Check chips (especialidades) ───────────────
 function toggleChip(el){
   el.classList.toggle('sel');
   var box=el.querySelector('.cbox');
   if(el.classList.contains('sel')){
     box.innerHTML='<i class="ti ti-check" style="font-size:10px;color:#0d2137;"></i>';
-  } else {
-    box.innerHTML='';
-  }
+  } else { box.innerHTML=''; }
 }
 
-// ── Taxa (cadastro pro) ────────────────────────
+// ── Taxa ────────────────────────────────────────
 function calcTaxa(){
   var v=parseFloat(document.getElementById('pro-valor').value)||0;
   var prev=document.getElementById('taxa-preview');
@@ -1490,7 +1629,7 @@ function calcTaxa(){
   } else { prev.style.display='none'; }
 }
 
-// ── Toggle online/offline (Pro) ────────────────
+// ── Toggle online (Pro) ─────────────────────────
 function toggleOnline(el){
   var track=document.getElementById('pro-tog');
   var title=document.getElementById('tog-title');
@@ -1505,9 +1644,13 @@ function toggleOnline(el){
     title.textContent='🟢 Online — Recebendo pedidos';
     sub.textContent='Visível no mapa para pacientes';
   }
+  var token = getToken();
+  if(token){
+    api('PATCH','/api/professionals/online',{is_online:!isOn}).catch(function(){});
+  }
 }
 
-// ── Máscaras ───────────────────────────────────
+// ── Máscaras ────────────────────────────────────
 function maskCPF(el){
   var v=el.value.replace(/\D/g,'').slice(0,11);
   el.value=v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/,'$1.$2.$3-$4')
@@ -1524,14 +1667,14 @@ function maskPhone(el){
             .replace(/(\d{2})(\d{4,5})$/,'($1) $2');
 }
 
-// ── Toast ──────────────────────────────────────
+// ── Toast ────────────────────────────────────────
 var toastTimer;
 function toast(msg){
   var el=document.getElementById('toast');
   el.textContent=msg;
   el.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>el.classList.remove('show'),2500);
+  toastTimer=setTimeout(function(){ el.classList.remove('show'); },2800);
 }
 </script>
 </body>
