@@ -46,7 +46,7 @@ router.get('/', [
           : '0 AS distance_km'}
       FROM professionals p
       JOIN users u ON u.id = p.user_id
-      WHERE p.is_verified = TRUE
+      WHERE p.latitude  IS NOT NULL
         AND u.is_active   = TRUE
     `;
 
