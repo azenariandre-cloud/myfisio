@@ -1420,7 +1420,14 @@ async function api(method, path, body){
     body: body ? JSON.stringify(body) : undefined
   });
   var data = await res.json();
-  if(!res.ok) throw new Error(data.error || 'Erro '+res.status);
+  if(!res.ok){
+    // Erro 422: mostrar qual campo falhou
+    if(res.status === 422 && data.errors && data.errors.length){
+      var msgs = data.errors.map(function(e){ return e.msg || e.message; }).join(' | ');
+      throw new Error(msgs);
+    }
+    throw new Error(data.error || 'Erro '+res.status);
+  }
   return data;
 }
 
@@ -1465,14 +1472,19 @@ async function doLogin(){
 async function cadastrarPaciente(){
   var nome  = document.getElementById('pac-nome')?.value?.trim();
   var email = document.getElementById('pac-email')?.value?.trim();
-  var cpf   = document.getElementById('pac-cpf')?.value?.trim();
+  var cpf   = (document.getElementById('pac-cpf')?.value||'').replace(/\D/g,'');
   var tel   = document.getElementById('pac-tel')?.value?.trim();
   var pw    = document.getElementById('pac-pw')?.value;
   var pw2   = document.getElementById('pac-pw2')?.value;
   var terms = document.getElementById('terms-pac')?.checked;
-  if(!nome||!email||!cpf||!tel||!pw){ toast('Preencha todos os campos obrigatórios'); return; }
-  if(pw !== pw2){ toast('As senhas não conferem'); return; }
-  if(!terms){ toast('Aceite os termos para continuar'); return; }
+  if(!nome)       { toast('Preencha o nome completo'); return; }
+  if(!email)      { toast('Preencha o e-mail'); return; }
+  if(cpf.length < 11) { toast('CPF inválido — preencha os 11 dígitos'); return; }
+  if(!tel)        { toast('Preencha o telefone'); return; }
+  if(!pw)         { toast('Preencha a senha'); return; }
+  if(pw.length < 8){ toast('A senha deve ter pelo menos 8 caracteres'); return; }
+  if(pw !== pw2)  { toast('As senhas não conferem'); return; }
+  if(!terms)      { toast('Aceite os termos para continuar'); return; }
   toast('Criando conta...');
   try{
     var data = await api('POST','/api/auth/register',{
@@ -1489,7 +1501,7 @@ async function cadastrarPaciente(){
 async function cadastrarPro(){
   var nome    = document.getElementById('pro-nome')?.value?.trim();
   var email   = document.getElementById('pro-email')?.value?.trim();
-  var cpf     = document.getElementById('pro-cpf')?.value?.trim();
+  var cpf     = (document.getElementById('pro-cpf')?.value||'').replace(/\D/g,'');
   var tel     = document.getElementById('pro-tel')?.value?.trim();
   var crefito = document.getElementById('pro-crefito')?.value?.trim();
   var uf      = document.getElementById('pro-uf')?.value;
@@ -1498,14 +1510,20 @@ async function cadastrarPro(){
   var pw2     = document.getElementById('pro-pw2')?.value;
   var terms   = document.getElementById('terms-pro')?.checked;
   var specs   = Array.from(document.querySelectorAll('#spec-grid .check-chip.sel')).map(function(c){ return c.textContent.trim(); });
-  if(!nome||!email||!cpf||!tel||!crefito||!pw){ toast('Preencha todos os campos obrigatórios'); return; }
-  if(pw !== pw2){ toast('As senhas não conferem'); return; }
-  if(!terms){ toast('Aceite os termos para continuar'); return; }
+  if(!nome)        { toast('Preencha o nome completo'); return; }
+  if(!email)       { toast('Preencha o e-mail'); return; }
+  if(cpf.length < 11){ toast('CPF inválido — preencha os 11 dígitos'); return; }
+  if(!tel)         { toast('Preencha o telefone'); return; }
+  if(!crefito)     { toast('Preencha o CREFITO'); return; }
+  if(!pw)          { toast('Preencha a senha'); return; }
+  if(pw.length < 8){ toast('A senha deve ter pelo menos 8 caracteres'); return; }
+  if(pw !== pw2)   { toast('As senhas não conferem'); return; }
+  if(!terms)       { toast('Aceite os termos para continuar'); return; }
   toast('Enviando cadastro...');
   try{
     var data = await api('POST','/api/auth/register',{
       name:nome, email:email, cpf:cpf, phone:tel, password:pw, role:'professional',
-      crefito:crefito, crefito_uf:uf, specialties:specs,
+      crefito:crefito, crefito_uf:uf||'SP', specialties:specs,
       service_types:['domiciliar'], session_price:parseFloat(valor)||0
     });
     saveSession(data.token, data.user);
