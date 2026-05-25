@@ -12,7 +12,7 @@ function validate(req, res, next) {
 }
 
 // ── GET /api/professionals ────────────────────
-// Busca fisioterapeutas próximos (geolocalização via Haversine)
+// Busca fisioterapeutas — com ou sem geolocalização
 router.get('/', [
   query('lat').optional().isFloat(),
   query('lng').optional().isFloat(),
@@ -22,14 +22,25 @@ router.get('/', [
 ], validate, async (req, res) => {
   const {
     lat, lng,
-    radius   = 10,
+    radius       = 10,
     specialty,
     service_type,
-    limit    = 20,
-    offset   = 0,
+    limit        = 50,
+    offset       = 0,
   } = req.query;
 
+  const hasLocation = lat && lng;
+
   try {
+    // Distância calculada só quando paciente enviou coordenadas
+    const distanceExpr = hasLocation
+      ? `ROUND((6371 * acos(
+           LEAST(1, cos(radians($1)) * cos(radians(COALESCE(p.latitude, $1)))
+           * cos(radians(COALESCE(p.longitude, $2)) - radians($2))
+           + sin(radians($1)) * sin(radians(COALESCE(p.latitude, $1))))
+         ))::NUMERIC, 2)`
+      : 'NULL';
+
     let sql = `
       SELECT
         p.id, p.crefito, p.crefito_uf, p.specialties, p.service_types,
@@ -37,32 +48,30 @@ router.get('/', [
         p.rating_avg, p.rating_count, p.latitude, p.longitude,
         p.work_start, p.work_end, p.bio,
         u.name, u.avatar_url,
-        ${lat && lng
-          ? `ROUND((6371 * acos(
-               LEAST(1, cos(radians($1)) * cos(radians(p.latitude))
-               * cos(radians(p.longitude) - radians($2))
-               + sin(radians($1)) * sin(radians(p.latitude)))
-             ))::NUMERIC, 2) AS distance_km`
-          : '0 AS distance_km'}
+        ${distanceExpr} AS distance_km
       FROM professionals p
       JOIN users u ON u.id = p.user_id
-      WHERE p.latitude  IS NOT NULL
-        AND u.is_active   = TRUE
+      WHERE u.is_active = TRUE
     `;
 
     const params = [];
     let pIdx = 1;
 
-    if (lat && lng) {
+    if (hasLocation) {
       params.push(parseFloat(lat), parseFloat(lng));
       pIdx = 3;
-      sql += ` AND p.latitude  IS NOT NULL
-               AND p.longitude IS NOT NULL
-               AND (6371 * acos(
-                 LEAST(1, cos(radians($1)) * cos(radians(p.latitude))
-                 * cos(radians(p.longitude) - radians($2))
-                 + sin(radians($1)) * sin(radians(p.latitude)))
-               )) <= $${pIdx}`;
+
+      // Filtra por raio APENAS fisios que têm coordenadas cadastradas
+      // Fisios sem coordenadas aparecem sempre (distância nula)
+      sql += ` AND (
+        p.latitude IS NULL
+        OR p.longitude IS NULL
+        OR (6371 * acos(
+          LEAST(1, cos(radians($1)) * cos(radians(p.latitude))
+          * cos(radians(p.longitude) - radians($2))
+          + sin(radians($1)) * sin(radians(p.latitude)))
+        )) <= $${pIdx}
+      )`;
       params.push(parseInt(radius));
       pIdx++;
     }
@@ -78,6 +87,27 @@ router.get('/', [
       params.push(service_type);
       pIdx++;
     }
+
+    // Ordena: online primeiro, depois por distância (nulos por último), depois por avaliação
+    sql += `
+      ORDER BY
+        p.is_online DESC,
+        distance_km ASC NULLS LAST,
+        p.rating_avg DESC
+      LIMIT $${pIdx} OFFSET $${pIdx + 1}
+    `;
+    params.push(parseInt(limit), parseInt(offset));
+
+    const result = await db.query(sql, params);
+    res.json({
+      professionals: result.rows,
+      total: result.rowCount,
+    });
+  } catch (err) {
+    console.error('[professionals/list]', err.message);
+    res.status(500).json({ error: 'Erro ao buscar fisioterapeutas.' });
+  }
+});
 
     sql += ` ORDER BY p.is_online DESC, distance_km ASC, p.rating_avg DESC
              LIMIT $${pIdx} OFFSET $${pIdx + 1}`;
