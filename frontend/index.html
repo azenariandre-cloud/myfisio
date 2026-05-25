@@ -1142,24 +1142,14 @@ html,body{
         <button class="filter-btn"><i class="ti ti-bolt"></i> Filtros</button>
       </div>
       <div class="chip-row">
-        <div class="chip on">Todos</div>
-        <div class="chip" onclick="chipSel(this)">Ortopedia</div>
-        <div class="chip" onclick="chipSel(this)">Neurológico</div>
-        <div class="chip" onclick="chipSel(this)">Esportivo</div>
-        <div class="chip" onclick="chipSel(this)">Domiciliar</div>
+        <div class="chip on" onclick="filterPros(this,'Todos')">Todos</div>
+        <div class="chip" onclick="filterPros(this,'Ortopedia')">Ortopedia</div>
+        <div class="chip" onclick="filterPros(this,'Neurológico')">Neurológico</div>
+        <div class="chip" onclick="filterPros(this,'Esportivo')">Esportivo</div>
+        <div class="chip" onclick="filterPros(this,'Domiciliar')">Domiciliar</div>
       </div>
-      <div class="fc" onclick="go('page-detail')">
-        <div class="fc-hdr">
-          <div class="av av-g">AN</div>
-          <div class="fc-info"><div class="fc-name">Dra. Ana Nascimento</div><div class="fc-spec">Fisioterapia Ortopédica · CREFITO 12345</div></div>
-          <div class="bdg bdg-s">⭐ 4.9</div>
-        </div>
-        <div class="badge-row"><span class="bdg bdg-g">✓ Disponível agora</span><span class="bdg bdg-b">Domiciliar</span></div>
-        <div class="fc-foot">
-          <span class="fc-dist"><i class="ti ti-map-pin" style="font-size:12px;vertical-align:-1px;"></i> 0.8 km · ~10 min</span>
-          <span class="fc-price">R$ 120/sessão</span>
-          <button class="btn-sm" onclick="event.stopPropagation();go('page-detail')">Agendar</button>
-        </div>
+      <div id="map-card-area">
+        <div style="text-align:center;padding:20px;color:#64748b;">Buscando fisioterapeutas...</div>
       </div>
     </div>
   </div>
@@ -1193,29 +1183,8 @@ html,body{
       <div class="chip" onclick="chipSel(this)">Pediátrico</div>
     </div>
   </div>
-  <div class="scroll">
-    <div class="slbl">Disponíveis agora</div>
-    <div class="fc" onclick="go('page-detail')">
-      <div class="fc-hdr"><div class="av av-g">AN</div><div class="fc-info"><div class="fc-name">Dra. Ana Nascimento</div><div class="fc-spec">Fisioterapia Ortopédica</div></div><div class="bdg bdg-s">⭐ 4.9</div></div>
-      <div class="badge-row"><span class="bdg bdg-g">✓ Disponível</span><span class="bdg bdg-b">Domiciliar</span></div>
-      <div class="fc-foot"><span class="fc-dist">📍 0.8 km</span><span class="fc-price">R$ 120</span><button class="btn-sm" onclick="event.stopPropagation();go('page-detail')">Agendar</button></div>
-    </div>
-    <div class="fc" onclick="go('page-detail')">
-      <div class="fc-hdr"><div class="av av-b">CB</div><div class="fc-info"><div class="fc-name">Dr. Carlos Barros</div><div class="fc-spec">Fisioterapia Esportiva</div></div><div class="bdg bdg-s">⭐ 4.8</div></div>
-      <div class="badge-row"><span class="bdg bdg-g">✓ Disponível</span><span class="bdg bdg-b">Clínica</span></div>
-      <div class="fc-foot"><span class="fc-dist">📍 1.3 km</span><span class="fc-price">R$ 150</span><button class="btn-sm" onclick="event.stopPropagation();go('page-detail')">Agendar</button></div>
-    </div>
-    <div class="fc" onclick="go('page-detail')">
-      <div class="fc-hdr"><div class="av av-p">LM</div><div class="fc-info"><div class="fc-name">Dra. Lúcia Mendes</div><div class="fc-spec">Fisioterapia Neurológica</div></div><div class="bdg bdg-s">⭐ 4.7</div></div>
-      <div class="badge-row"><span class="bdg bdg-g">✓ Disponível</span><span class="bdg bdg-b">Domiciliar</span></div>
-      <div class="fc-foot"><span class="fc-dist">📍 2.1 km</span><span class="fc-price">R$ 130</span><button class="btn-sm" onclick="event.stopPropagation();go('page-detail')">Agendar</button></div>
-    </div>
-    <div class="slbl">Outros disponíveis hoje</div>
-    <div class="fc">
-      <div class="fc-hdr"><div class="av av-o">RF</div><div class="fc-info"><div class="fc-name">Dr. Ricardo Fonseca</div><div class="fc-spec">Fisioterapia Respiratória</div></div><div class="bdg bdg-s">⭐ 4.6</div></div>
-      <div class="badge-row"><span class="bdg" style="background:#fef3c7;color:#b45309;">📅 Hoje 15h</span><span class="bdg bdg-b">Domiciliar</span></div>
-      <div class="fc-foot"><span class="fc-dist">📍 3.0 km</span><span class="fc-price">R$ 110</span><button class="btn-sm-out">Ver agenda</button></div>
-    </div>
+  <div class="scroll" id="pros-list">
+    <div style="text-align:center;padding:30px;color:#64748b;">Buscando fisioterapeutas...</div>
   </div>
   <div class="bot-nav">
     <div class="nav-it" onclick="go('page-map')"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
@@ -1232,7 +1201,7 @@ html,body{
   <div class="detail-hero">
     <button class="topbar-back" onclick="go('page-list')"><i class="ti ti-arrow-left"></i> Voltar</button>
     <div class="detail-av-row">
-      <div class="detail-av">AN</div>
+      <div class="detail-av" id="d-av">AN</div>
       <div>
         <div class="d-name">Dra. Ana Nascimento</div>
         <div class="d-crm">CREFITO: 12345-F · SP</div>
@@ -1438,6 +1407,7 @@ function go(id){
   if(el) el.classList.add('active');
   if(id === 'page-profile') loadProfile();
   if(id === 'page-sessions') loadSessions();
+  if(id === 'page-map' || id === 'page-list') loadProfessionals();
 }
 
 // ── Splash ──────────────────────────────────────
@@ -1445,19 +1415,36 @@ window.addEventListener('load', function(){
   var token = getToken();
   var user  = getUser();
   if(token && user){
-    // Já logado — vai direto para o mapa
     setTimeout(function(){ go('page-map'); loadProfile(); }, 400);
   } else {
     setTimeout(function(){ go('page-login'); }, 2200);
   }
 });
 
-// ── Login ───────────────────────────────────────
+// ── Login — aceita e-mail OU CPF ─────────────────
 async function doLogin(){
   var em = document.getElementById('login-email').value.trim();
   var pw = document.getElementById('login-pw').value;
-  if(!em||!pw){ toast('Preencha e-mail e senha'); return; }
+  if(!em||!pw){ toast('Preencha e-mail/CPF e senha'); return; }
   toast('Entrando...');
+
+  // Detecta se é CPF (somente dígitos ou com máscara xxx.xxx.xxx-xx)
+  var isCpf = /^\d{11}$/.test(em) || /^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/.test(em);
+
+  if(isCpf){
+    var cpfClean = em.replace(/\D/g,'');
+    try{
+      var data = await api('POST','/api/auth/login-cpf',{cpf:cpfClean, password:pw});
+      saveSession(data.token, data.user);
+      go(data.user.role === 'professional' ? 'page-pro-dash' : 'page-map');
+      loadProfile();
+      return;
+    } catch(e){
+      toast(e.message || 'CPF ou senha incorretos');
+      return;
+    }
+  }
+
   try{
     var data = await api('POST','/api/auth/login',{email:em, password:pw});
     saveSession(data.token, data.user);
@@ -1676,8 +1663,12 @@ function maskCPF(el){
             .replace(/(\d{3})(\d{1,3})$/,'$1.$2');
 }
 function maskDate(el){
-  var v=el.value.replace(/\D/g,'').slice(0,8);
-  el.value=v.replace(/(\d{2})(\d{2})(\d{1,4})/,'$1/$2/$3').replace(/(\d{2})(\d{1,2})$/,'$1/$2');
+  // Captura apenas dígitos
+  var v = el.value.replace(/\D/g,'').slice(0,8);
+  // Aplica máscara progressiva sem nunca inserir barra prematuramente
+  if(v.length <= 2)      el.value = v;
+  else if(v.length <= 4) el.value = v.slice(0,2) + '/' + v.slice(2);
+  else                   el.value = v.slice(0,2) + '/' + v.slice(2,4) + '/' + v.slice(4);
 }
 function maskPhone(el){
   var v=el.value.replace(/\D/g,'').slice(0,11);
@@ -1693,6 +1684,162 @@ function toast(msg){
   el.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer=setTimeout(function(){ el.classList.remove('show'); },2800);
+}
+
+// ── Cores de avatar ─────────────────────────────
+var avColors = ['av-g','av-b','av-p','av-o','av-c'];
+function avColor(name){
+  var i = (name||'').charCodeAt(0) % avColors.length;
+  return avColors[i];
+}
+function initials(name){
+  if(!name) return '?';
+  return name.split(' ').filter(Boolean).map(function(w){ return w[0]; }).join('').slice(0,2).toUpperCase();
+}
+
+// ── Carregar fisioterapeutas da API ─────────────
+var allPros = [];
+var currentPro = null;
+
+async function loadProfessionals(specialty){
+  var listEl  = document.getElementById('pros-list');
+  var mapSheet = document.getElementById('map-card-area');
+  if(listEl) listEl.innerHTML = '<div style="text-align:center;padding:30px;color:#64748b;">Buscando fisioterapeutas...</div>';
+
+  try{
+    // Tenta pegar localização do usuário
+    var params = 'radius=10&limit=50';
+    try{
+      var pos = await new Promise(function(resolve,reject){
+        navigator.geolocation.getCurrentPosition(resolve, reject, {timeout:5000});
+      });
+      params += '&lat='+pos.coords.latitude+'&lng='+pos.coords.longitude;
+    } catch(e){ /* sem GPS, busca sem coordenadas */ }
+
+    if(specialty && specialty !== 'Todos') params += '&specialty='+encodeURIComponent(specialty);
+
+    var data = await api('GET', '/api/professionals?'+params, null);
+    allPros = data.professionals || [];
+
+    renderProfessionalsList(allPros, listEl);
+    renderMapPins(allPros);
+    renderMapCard(allPros[0]);
+  } catch(e){
+    if(listEl) listEl.innerHTML = '<div style="text-align:center;padding:20px;color:#dc2626;">Erro ao buscar profissionais: '+e.message+'</div>';
+  }
+}
+
+function renderProfessionalsList(pros, container){
+  if(!container) return;
+  if(!pros.length){
+    container.innerHTML = '<div style="text-align:center;padding:30px;color:#64748b;">Nenhum fisioterapeuta encontrado nesta área.</div>';
+    return;
+  }
+  container.innerHTML = pros.map(function(p, i){
+    var av  = avColor(p.name);
+    var ini = initials(p.name);
+    var rating = p.rating_avg > 0 ? '⭐ '+parseFloat(p.rating_avg).toFixed(1) : '⭐ Novo';
+    var dist = p.distance_km > 0 ? '📍 '+p.distance_km+' km' : '📍 Próximo';
+    var price = p.session_price > 0 ? 'R$ '+parseFloat(p.session_price).toFixed(0) : 'Consulte';
+    var specs = (p.specialties||[]).slice(0,2).join(', ') || 'Fisioterapia Geral';
+    var tipos = (p.service_types||[]).map(function(t){ return t==='domiciliar'?'Domiciliar':'Clínica'; }).join(' · ');
+    return '<div class="fc" onclick="openProfDetail('+i+')">' +
+      '<div class="fc-hdr">'+
+        '<div class="av '+av+'">'+ini+'</div>'+
+        '<div class="fc-info"><div class="fc-name">'+p.name+'</div><div class="fc-spec">'+specs+'</div></div>'+
+        '<div class="bdg bdg-s">'+rating+'</div>'+
+      '</div>'+
+      '<div class="badge-row">'+
+        '<span class="bdg bdg-g">✓ Disponível</span>'+
+        '<span class="bdg bdg-b">'+tipos+'</span>'+
+      '</div>'+
+      '<div class="fc-foot">'+
+        '<span class="fc-dist">'+dist+'</span>'+
+        '<span class="fc-price">'+price+'</span>'+
+        '<button class="btn-sm" onclick="event.stopPropagation();openProfDetail('+i+')">Agendar</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function renderMapCard(p){
+  var area = document.getElementById('map-card-area');
+  if(!area || !p) return;
+  var av  = avColor(p.name);
+  var ini = initials(p.name);
+  var price = p.session_price > 0 ? 'R$ '+parseFloat(p.session_price).toFixed(0)+'/sessão' : 'Consulte';
+  var specs = (p.specialties||[]).slice(0,1).join('') || 'Fisioterapia';
+  area.innerHTML =
+    '<div class="fc" onclick="openProfDetail(0)" style="margin-bottom:0;">'+
+      '<div class="fc-hdr">'+
+        '<div class="av '+av+'">'+ini+'</div>'+
+        '<div class="fc-info"><div class="fc-name">'+p.name+'</div><div class="fc-spec">'+specs+' · CREFITO '+p.crefito+'</div></div>'+
+        '<div class="bdg bdg-s">⭐ '+(p.rating_avg>0?parseFloat(p.rating_avg).toFixed(1):'Novo')+'</div>'+
+      '</div>'+
+      '<div class="badge-row"><span class="bdg bdg-g">✓ Disponível</span><span class="bdg bdg-b">Domiciliar</span></div>'+
+      '<div class="fc-foot">'+
+        '<span class="fc-dist">📍 '+(p.distance_km||'?')+' km</span>'+
+        '<span class="fc-price">'+price+'</span>'+
+        '<button class="btn-sm" onclick="event.stopPropagation();openProfDetail(0)">Agendar</button>'+
+      '</div>'+
+    '</div>';
+}
+
+function renderMapPins(pros){
+  // Pins dinâmicos — posiciona até 3 pins nos slots fixos do mapa
+  var pinEls = document.querySelectorAll('.map-pin');
+  var pinColors = ['#16a34a','#1a73e8','#d97706'];
+  pros.slice(0,3).forEach(function(p, i){
+    if(pinEls[i]){
+      var lbl = pinEls[i].querySelector('.pin-lbl');
+      var tri = pinEls[i].querySelector('.pin-tri');
+      if(lbl){
+        lbl.textContent = p.name.split(' ').slice(0,2).join(' ')+' · '+(p.session_price>0?'R$'+parseFloat(p.session_price).toFixed(0):'?');
+        lbl.style.background = pinColors[i];
+      }
+      if(tri) tri.style.borderTopColor = pinColors[i];
+      pinEls[i].onclick = function(){ openProfDetail(i); };
+    }
+  });
+}
+
+function openProfDetail(idx){
+  var p = allPros[idx];
+  if(!p){ go('page-detail'); return; }
+  currentPro = p;
+  var av  = document.querySelector('#page-detail .detail-av');
+  var nm  = document.querySelector('#page-detail .d-name');
+  var crm = document.querySelector('#page-detail .d-crm');
+  var sp  = document.querySelector('#page-detail .d-spec');
+  var rt  = document.querySelector('#page-detail .d-rnum');
+  var cnt = document.querySelector('#page-detail .d-rcnt');
+  var ini = initials(p.name);
+  if(av)  { av.textContent = ini; av.className = 'detail-av '+avColor(p.name); }
+  if(nm)  nm.textContent  = p.name;
+  if(crm) crm.textContent = 'CREFITO: '+(p.crefito||'—')+' · '+(p.crefito_uf||'');
+  if(sp)  sp.textContent  = (p.specialties||[]).join(', ') || 'Fisioterapia Geral';
+  if(rt)  rt.textContent  = p.rating_avg > 0 ? parseFloat(p.rating_avg).toFixed(1) : 'Novo';
+  if(cnt) cnt.textContent = '('+p.rating_count+' avaliações)';
+  // Serviços
+  var svc1 = document.getElementById('d-preco1');
+  var svc2 = document.getElementById('d-preco2');
+  var price = p.session_price > 0 ? 'R$ '+parseFloat(p.session_price).toFixed(2).replace('.',',') : 'Consulte';
+  if(svc1) svc1.textContent = price;
+  if(svc2) svc2.textContent = price;
+  // Info
+  var dloc  = document.getElementById('d-loc');
+  var dhora = document.getElementById('d-hora');
+  var dtipo = document.getElementById('d-tipo');
+  if(dloc)  dloc.textContent  = (p.distance_km ? p.distance_km+' km de distância' : 'Localização disponível no app');
+  if(dhora) dhora.textContent = 'Atende das '+(p.work_start||'08:00')+' às '+(p.work_end||'20:00');
+  if(dtipo) dtipo.textContent = (p.service_types||[]).map(function(t){ return t==='domiciliar'?'Domiciliar':'Clínica'; }).join(' e ');
+  go('page-detail');
+}
+// ── Filtro de especialidade ─────────────────────
+function filterPros(el, specialty){
+  document.querySelectorAll('.chip-row .chip').forEach(function(c){ c.classList.remove('on'); });
+  el.classList.add('on');
+  loadProfessionals(specialty === 'Todos' ? null : specialty);
 }
 </script>
 </body>
