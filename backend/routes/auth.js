@@ -57,12 +57,13 @@ router.post('/register', [
     const user  = result.rows[0];
     const token = generateToken(user);
 
-    // Se for fisioterapeuta, cria registro profissional vazio
+    // ── Fisioterapeuta: cria perfil já verificado (sem validação CREFITO por ora)
     if (role === 'professional') {
       const { crefito, crefito_uf, specialties, service_types, session_price, radius_km } = req.body;
       await db.query(
-        `INSERT INTO professionals (user_id, crefito, crefito_uf, specialties, service_types, session_price, radius_km)
-         VALUES ($1,$2,$3,$4,$5,$6,$7)`,
+        `INSERT INTO professionals
+           (user_id, crefito, crefito_uf, specialties, service_types, session_price, radius_km, is_verified, is_online)
+         VALUES ($1,$2,$3,$4,$5,$6,$7, TRUE, TRUE)`,
         [
           user.id,
           crefito || '',
@@ -70,7 +71,7 @@ router.post('/register', [
           specialties || [],
           service_types || ['domiciliar'],
           session_price || 0,
-          radius_km || 5,
+          radius_km || 10,
         ]
       );
     }
@@ -105,10 +106,41 @@ router.post('/login', [
 
     const token = generateToken(user);
     const { password_hash, ...safeUser } = user;
-
     res.json({ token, user: safeUser });
   } catch (err) {
     console.error('[login]', err.message);
+    res.status(500).json({ error: 'Erro ao fazer login.' });
+  }
+});
+
+// ── POST /api/auth/login-cpf ──────────────────
+// Login usando CPF + senha
+router.post('/login-cpf', [
+  body('cpf').trim().notEmpty(),
+  body('password').notEmpty(),
+], validate, async (req, res) => {
+  const { cpf, password } = req.body;
+  const cleanCpf = cpf.replace(/\D/g, '');
+
+  try {
+    const result = await db.query(
+      'SELECT id, name, email, role, password_hash, is_active FROM users WHERE cpf = $1',
+      [cleanCpf]
+    );
+    const user = result.rows[0];
+
+    if (!user || !(await bcrypt.compare(password, user.password_hash))) {
+      return res.status(401).json({ error: 'CPF ou senha incorretos.' });
+    }
+    if (!user.is_active) {
+      return res.status(403).json({ error: 'Conta desativada.' });
+    }
+
+    const token = generateToken(user);
+    const { password_hash, ...safeUser } = user;
+    res.json({ token, user: safeUser });
+  } catch (err) {
+    console.error('[login-cpf]', err.message);
     res.status(500).json({ error: 'Erro ao fazer login.' });
   }
 });
