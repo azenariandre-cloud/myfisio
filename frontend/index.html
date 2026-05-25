@@ -1506,13 +1506,32 @@ async function cadastrarPro(){
   if(pw.length < 8){ toast('A senha deve ter pelo menos 8 caracteres'); return; }
   if(pw !== pw2)   { toast('As senhas não conferem'); return; }
   if(!terms)       { toast('Aceite os termos para continuar'); return; }
-  toast('Enviando cadastro...');
+  toast('Obtendo sua localização...');
+
+  // Tenta capturar localização automaticamente
+  var latitude = null, longitude = null;
   try{
-    var data = await api('POST','/api/auth/register',{
+    var pos = await new Promise(function(resolve, reject){
+      navigator.geolocation.getCurrentPosition(resolve, reject, {timeout:6000});
+    });
+    latitude  = pos.coords.latitude;
+    longitude = pos.coords.longitude;
+    toast('Enviando cadastro...');
+  } catch(e){
+    toast('Localização não obtida — cadastrando sem coordenadas...');
+    await new Promise(function(r){ setTimeout(r, 1000); });
+  }
+
+  try{
+    var payload = {
       name:nome, email:email, cpf:cpf, phone:tel, password:pw, role:'professional',
       crefito:crefito, crefito_uf:uf||'SP', specialties:specs,
       service_types:['domiciliar'], session_price:parseFloat(valor)||0
-    });
+    };
+    if(latitude !== null)  payload.latitude  = latitude;
+    if(longitude !== null) payload.longitude = longitude;
+
+    var data = await api('POST','/api/auth/register', payload);
     saveSession(data.token, data.user);
     go('page-ok-pro');
   } catch(e){
