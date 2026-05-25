@@ -59,11 +59,12 @@ router.post('/register', [
 
     // ── Fisioterapeuta: cria perfil já verificado (sem validação CREFITO por ora)
     if (role === 'professional') {
-      const { crefito, crefito_uf, specialties, service_types, session_price, radius_km } = req.body;
+      const { crefito, crefito_uf, specialties, service_types, session_price, radius_km, latitude, longitude } = req.body;
       await db.query(
         `INSERT INTO professionals
-           (user_id, crefito, crefito_uf, specialties, service_types, session_price, radius_km, is_verified, is_online)
-         VALUES ($1,$2,$3,$4,$5,$6,$7, TRUE, TRUE)`,
+           (user_id, crefito, crefito_uf, specialties, service_types, session_price, radius_km,
+            latitude, longitude, is_verified, is_online)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9, TRUE, TRUE)`,
         [
           user.id,
           crefito || '',
@@ -72,6 +73,8 @@ router.post('/register', [
           service_types || ['domiciliar'],
           session_price || 0,
           radius_km || 10,
+          latitude  || null,
+          longitude || null,
         ]
       );
     }
