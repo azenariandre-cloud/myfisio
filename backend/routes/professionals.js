@@ -4,7 +4,6 @@ const db      = require('../config/database');
 const { authMiddleware, requirePro } = require('../middleware/auth');
 
 const router = express.Router();
-
 function validate(req, res, next) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
@@ -12,7 +11,6 @@ function validate(req, res, next) {
 }
 
 // ── GET /api/professionals ────────────────────
-// Busca fisioterapeutas — com ou sem geolocalização
 router.get('/', [
   query('lat').optional().isFloat(),
   query('lng').optional().isFloat(),
@@ -20,39 +18,28 @@ router.get('/', [
   query('specialty').optional().trim(),
   query('service_type').optional().isIn(['domiciliar', 'clinica']),
 ], validate, async (req, res) => {
-  const {
-    lat, lng,
-    radius       = 10,
-    specialty,
-    service_type,
-    limit        = 50,
-    offset       = 0,
-  } = req.query;
-
+  const { lat, lng, radius = 10, specialty, service_type, limit = 50, offset = 0 } = req.query;
   const hasLocation = lat && lng;
 
   try {
-    // Distância calculada só quando paciente enviou coordenadas
     const distanceExpr = hasLocation
-      ? `ROUND((6371 * acos(
-           LEAST(1, cos(radians($1)) * cos(radians(COALESCE(p.latitude, $1)))
-           * cos(radians(COALESCE(p.longitude, $2)) - radians($2))
-           + sin(radians($1)) * sin(radians(COALESCE(p.latitude, $1))))
-         ))::NUMERIC, 2)`
+      ? `ROUND((6371 * acos(LEAST(1,
+           cos(radians($1)) * cos(radians(COALESCE(p.latitude,$1)))
+           * cos(radians(COALESCE(p.longitude,$2)) - radians($2))
+           + sin(radians($1)) * sin(radians(COALESCE(p.latitude,$1)))
+         )))::NUMERIC, 2)`
       : 'NULL';
 
     let sql = `
-      SELECT
-        p.id, p.crefito, p.crefito_uf, p.specialties, p.service_types,
-        p.session_price, p.radius_km, p.is_online, p.is_verified,
-        p.rating_avg, p.rating_count, p.latitude, p.longitude,
-        p.work_start, p.work_end, p.bio,
-        u.name, u.avatar_url,
-        ${distanceExpr} AS distance_km
+      SELECT p.id, p.crefito, p.crefito_uf, p.specialties, p.service_types,
+             p.session_price, p.radius_km, p.is_online, p.is_verified,
+             p.rating_avg, p.rating_count, p.latitude, p.longitude,
+             p.work_start, p.work_end, p.bio,
+             u.name, u.avatar_url,
+             ${distanceExpr} AS distance_km
       FROM professionals p
       JOIN users u ON u.id = p.user_id
-      WHERE u.is_active = TRUE
-    `;
+      WHERE u.is_active = TRUE`;
 
     const params = [];
     let pIdx = 1;
@@ -60,64 +47,31 @@ router.get('/', [
     if (hasLocation) {
       params.push(parseFloat(lat), parseFloat(lng));
       pIdx = 3;
-
-      // Filtra por raio APENAS fisios que têm coordenadas cadastradas
-      // Fisios sem coordenadas aparecem sempre (distância nula)
-      sql += ` AND (
-        p.latitude IS NULL
-        OR p.longitude IS NULL
-        OR (6371 * acos(
-          LEAST(1, cos(radians($1)) * cos(radians(p.latitude))
+      sql += ` AND (p.latitude IS NULL OR p.longitude IS NULL OR
+        (6371 * acos(LEAST(1,
+          cos(radians($1)) * cos(radians(p.latitude))
           * cos(radians(p.longitude) - radians($2))
-          + sin(radians($1)) * sin(radians(p.latitude)))
-        )) <= $${pIdx}
-      )`;
+          + sin(radians($1)) * sin(radians(p.latitude))
+        ))) <= $${pIdx})`;
       params.push(parseInt(radius));
       pIdx++;
     }
 
     if (specialty) {
       sql += ` AND $${pIdx} = ANY(p.specialties)`;
-      params.push(specialty);
-      pIdx++;
+      params.push(specialty); pIdx++;
     }
-
     if (service_type) {
       sql += ` AND $${pIdx} = ANY(p.service_types)`;
-      params.push(service_type);
-      pIdx++;
+      params.push(service_type); pIdx++;
     }
 
-    // Ordena: online primeiro, depois por distância (nulos por último), depois por avaliação
-    sql += `
-      ORDER BY
-        p.is_online DESC,
-        distance_km ASC NULLS LAST,
-        p.rating_avg DESC
-      LIMIT $${pIdx} OFFSET $${pIdx + 1}
-    `;
+    sql += ` ORDER BY p.is_online DESC, distance_km ASC NULLS LAST, p.rating_avg DESC
+             LIMIT $${pIdx} OFFSET $${pIdx+1}`;
     params.push(parseInt(limit), parseInt(offset));
 
     const result = await db.query(sql, params);
-    res.json({
-      professionals: result.rows,
-      total: result.rowCount,
-    });
-  } catch (err) {
-    console.error('[professionals/list]', err.message);
-    res.status(500).json({ error: 'Erro ao buscar fisioterapeutas.' });
-  }
-});
-
-    sql += ` ORDER BY p.is_online DESC, distance_km ASC, p.rating_avg DESC
-             LIMIT $${pIdx} OFFSET $${pIdx + 1}`;
-    params.push(parseInt(limit), parseInt(offset));
-
-    const result = await db.query(sql, params);
-    res.json({
-      professionals: result.rows,
-      total: result.rowCount,
-    });
+    res.json({ professionals: result.rows, total: result.rowCount });
   } catch (err) {
     console.error('[professionals/list]', err.message);
     res.status(500).json({ error: 'Erro ao buscar fisioterapeutas.' });
@@ -129,55 +83,39 @@ router.get('/:id', async (req, res) => {
   try {
     const result = await db.query(
       `SELECT p.*, u.name, u.email, u.phone, u.avatar_url
-       FROM professionals p
-       JOIN users u ON u.id = p.user_id
-       WHERE p.id = $1`,
+       FROM professionals p JOIN users u ON u.id = p.user_id WHERE p.id = $1`,
       [req.params.id]
     );
     if (!result.rows[0]) return res.status(404).json({ error: 'Profissional não encontrado.' });
 
-    // Busca últimas avaliações
     const reviews = await db.query(
       `SELECT r.rating, r.comment, r.created_at, u.name AS patient_name
        FROM reviews r JOIN users u ON u.id = r.patient_id
-       WHERE r.professional_id = $1
-       ORDER BY r.created_at DESC LIMIT 10`,
+       WHERE r.professional_id = $1 ORDER BY r.created_at DESC LIMIT 10`,
       [req.params.id]
     );
-
     res.json({ ...result.rows[0], reviews: reviews.rows });
-  } catch (err) {
-    res.status(500).json({ error: 'Erro ao buscar profissional.' });
-  }
+  } catch (err) { res.status(500).json({ error: 'Erro ao buscar profissional.' }); }
 });
 
 // ── PUT /api/professionals/profile ───────────
-router.put('/profile', authMiddleware, requirePro, [
-  body('specialties').optional().isArray(),
-  body('session_price').optional().isFloat({ min: 0 }),
-  body('radius_km').optional().isInt({ min: 1, max: 50 }),
-], validate, async (req, res) => {
+router.put('/profile', authMiddleware, requirePro, async (req, res) => {
   const {
+    name, phone,
     specialties, service_types, session_price,
     radius_km, work_start, work_end, bio,
-    latitude, longitude,
+    latitude, longitude, address,
+    crefito, crefito_uf,
   } = req.body;
-
   try {
-    // Atualiza dados do usuário
-    const { name, phone, address } = req.body;
-    if (name || phone || address) {
-      await db.query(
-        `UPDATE users SET
-           name    = COALESCE($1, name),
-           phone   = COALESCE($2, phone),
-           address = COALESCE($3, address)
-         WHERE id = $4`,
-        [name || null, phone || null, address || null, req.user.id]
-      );
-    }
-
-    // Atualiza dados profissionais
+    await db.query(
+      `UPDATE users SET
+         name    = COALESCE($1, name),
+         phone   = COALESCE($2, phone),
+         address = COALESCE($3, address)
+       WHERE id = $4`,
+      [name||null, phone||null, address||null, req.user.id]
+    );
     await db.query(
       `UPDATE professionals SET
          specialties   = COALESCE($1, specialties),
@@ -188,29 +126,27 @@ router.put('/profile', authMiddleware, requirePro, [
          work_end      = COALESCE($6, work_end),
          bio           = COALESCE($7, bio),
          latitude      = COALESCE($8, latitude),
-         longitude     = COALESCE($9, longitude)
-       WHERE user_id = $10`,
+         longitude     = COALESCE($9, longitude),
+         crefito       = COALESCE($10, crefito),
+         crefito_uf    = COALESCE($11, crefito_uf)
+       WHERE user_id = $12`,
       [
-        specialties   || null,
-        service_types || null,
-        session_price || null,
-        radius_km     || null,
-        work_start    || null,
-        work_end      || null,
-        bio           || null,
-        latitude      || null,
-        longitude     || null,
+        specialties||null, service_types||null,
+        session_price||null, radius_km||null,
+        work_start||null, work_end||null,
+        bio||null, latitude||null, longitude||null,
+        crefito||null, crefito_uf||null,
         req.user.id,
       ]
     );
     res.json({ message: 'Perfil atualizado com sucesso.' });
   } catch (err) {
+    console.error('[pro/profile]', err.message);
     res.status(500).json({ error: 'Erro ao atualizar perfil.' });
   }
 });
 
 // ── PATCH /api/professionals/online ───────────
-// Toggle online/offline no mapa
 router.patch('/online', authMiddleware, requirePro, [
   body('is_online').isBoolean(),
   body('latitude').optional().isFloat(),
@@ -220,16 +156,14 @@ router.patch('/online', authMiddleware, requirePro, [
   try {
     await db.query(
       `UPDATE professionals SET
-         is_online  = $1,
-         latitude   = COALESCE($2, latitude),
-         longitude  = COALESCE($3, longitude)
+         is_online = $1,
+         latitude  = COALESCE($2, latitude),
+         longitude = COALESCE($3, longitude)
        WHERE user_id = $4`,
-      [is_online, latitude || null, longitude || null, req.user.id]
+      [is_online, latitude||null, longitude||null, req.user.id]
     );
     res.json({ is_online, message: is_online ? 'Você está online.' : 'Você está offline.' });
-  } catch (err) {
-    res.status(500).json({ error: 'Erro ao atualizar status online.' });
-  }
+  } catch (err) { res.status(500).json({ error: 'Erro ao atualizar status.' }); }
 });
 
 module.exports = router;
