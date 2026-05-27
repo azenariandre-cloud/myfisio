@@ -50,7 +50,7 @@ html,body{
 ═══════════════════════════════════════════ */
 .sbar{
   height:44px;display:flex;align-items:center;
-  justify-content:space-between;padding:0 20px;
+  justify-content:center;padding:0 20px;
   font-size:12px;font-weight:600;flex-shrink:0;
 }
 .sbar-blue{background:#1a73e8;color:#fff;}
@@ -720,9 +720,9 @@ html,body{
 ══════════════════════════════════════ -->
 <div id="page-login" class="page">
   <div class="sbar sbar-blue">
-    <span class="time">9:41</span>
+    
     <span class="logo">my<span class="logo-acc">Fisio</span></span>
-    <span><i class="ti ti-wifi"></i> <i class="ti ti-battery-2"></i></span>
+    
   </div>
   <div class="hero-blue">
     <div class="logo-mark"><i class="ti ti-heart-pulse" style="font-size:30px;"></i></div>
@@ -771,9 +771,9 @@ html,body{
 ══════════════════════════════════════ -->
 <div id="page-tipo" class="page">
   <div class="sbar sbar-blue">
-    <span class="time">9:41</span>
+    
     <span class="logo">my<span class="logo-acc">Fisio</span></span>
-    <span><i class="ti ti-wifi"></i></span>
+    
   </div>
   <div class="hero-blue hero-sm" style="text-align:center;">
     <div class="app-name-hero" style="font-size:20px;">Criar conta</div>
@@ -807,7 +807,7 @@ html,body{
      CADASTRO — PACIENTE
 ══════════════════════════════════════ -->
 <div id="page-cad-pac" class="page">
-  <div class="sbar sbar-blue"><span class="time">9:41</span><span style="color:#fff;font-size:13px;font-weight:600;">Nova conta — paciente</span><span><i class="ti ti-wifi"></i></span></div>
+  <div class="sbar sbar-blue"><span style="color:#fff;font-size:13px;font-weight:600;">Nova conta — paciente</span></div>
   <div class="form-area" style="padding-top:16px;">
     <div class="back-row" onclick="go('page-tipo')"><i class="ti ti-arrow-left" style="font-size:16px;"></i> Voltar</div>
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
@@ -900,7 +900,7 @@ html,body{
      CADASTRO — FISIOTERAPEUTA
 ══════════════════════════════════════ -->
 <div id="page-cad-pro" class="page" style="background:#0f1f35;">
-  <div class="sbar sbar-dark"><span class="time" style="color:#7fb3e8;">9:41</span><span class="logo" style="color:#4fc3f7;">my<span class="logo-acc" style="color:#7fb3e8;">Fisio</span> Pro</span><span style="color:#7fb3e8;font-size:12px;"><i class="ti ti-wifi"></i></span></div>
+  <div class="sbar sbar-dark"><span class="logo" style="color:#4fc3f7;">my<span class="logo-acc" style="color:#7fb3e8;">Fisio</span> Pro</span></div>
   <div class="hero-dark" style="text-align:left;display:flex;align-items:center;gap:12px;">
     <div style="width:44px;height:44px;border-radius:14px;background:rgba(79,195,247,.15);border:1px solid rgba(79,195,247,.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
       <i class="ti ti-stethoscope" style="font-size:22px;color:#4fc3f7;"></i>
@@ -1050,7 +1050,7 @@ html,body{
      SUCESSO — PACIENTE
 ══════════════════════════════════════ -->
 <div id="page-ok-pac" class="page">
-  <div class="sbar sbar-blue"><span class="time">9:41</span><span class="logo">my<span class="logo-acc">Fisio</span></span><span></span></div>
+  <div class="sbar sbar-blue"><span class="logo">my<span class="logo-acc">Fisio</span></span></div>
   <div class="hero-blue hero-sm" style="text-align:center;"><div class="app-name-hero" style="font-size:20px;">Conta criada!</div></div>
   <div class="success-page">
     <div class="success-icon si-blue"><i class="ti ti-circle-check" style="font-size:38px;color:#1a73e8;"></i></div>
@@ -1067,7 +1067,7 @@ html,body{
      SUCESSO — FISIO
 ══════════════════════════════════════ -->
 <div id="page-ok-pro" class="page" style="background:#0f1f35;">
-  <div class="sbar sbar-dark"><span class="time" style="color:#7fb3e8;">9:41</span><span style="color:#4fc3f7;font-size:13px;font-weight:700;">myFisio Pro</span><span></span></div>
+  <div class="sbar sbar-dark"><span style="color:#4fc3f7;font-size:13px;font-weight:700;">myFisio Pro</span></div>
   <div class="hero-dark hero-sm" style="text-align:center;"><div class="app-name-hero" style="font-size:20px;color:#4fc3f7;">Cadastro enviado!</div></div>
   <div class="success-page" style="background:#0f1f35;">
     <div class="success-icon si-pro"><i class="ti ti-clock-check" style="font-size:38px;color:#4fc3f7;"></i></div>
@@ -1168,7 +1168,7 @@ html,body{
   <div class="app-topbar">
     <button class="topbar-back" onclick="go('page-map')"><i class="ti ti-arrow-left"></i></button>
     <div class="topbar-logo">my<span class="acc">Fisio</span></div>
-    <span></span>
+    
   </div>
   <div style="background:#fff;flex-shrink:0;padding:10px 16px 12px;">
     <div style="display:flex;align-items:center;gap:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:10px 14px;margin-bottom:10px;">
@@ -1303,7 +1303,7 @@ html,body{
 
 <!-- ══ AGENDAMENTO — ESCOLHA DE HORÁRIO ══ -->
 <div id="page-booking" class="page">
-  <div class="app-topbar"><button class="topbar-back" onclick="go('page-detail')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Agendar sessão</div><span></span></div>
+  <div class="app-topbar"><button class="topbar-back" onclick="go('page-detail')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Agendar sessão</div></div>
   <div class="scroll">
     <div style="background:#e8f0fe;border-radius:14px;padding:12px;margin-bottom:14px;display:flex;gap:10px;align-items:center;">
       <div class="av av-g" id="bk-av" style="width:44px;height:44px;font-size:15px;">AN</div>
@@ -1336,19 +1336,19 @@ html,body{
 
 <!-- ══ FAVORITOS ══ -->
 <div id="page-favorites" class="page">
-  <div class="app-topbar"><button class="topbar-back" onclick="go('page-profile')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Favoritos</div><span></span></div>
+  <div class="app-topbar"><button class="topbar-back" onclick="go('page-profile')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Favoritos</div></div>
   <div class="scroll" id="favorites-list"><div style="text-align:center;padding:30px;color:#64748b;">Carregando...</div></div>
 </div>
 
 <!-- ══ NOTIFICAÇÕES ══ -->
 <div id="page-notifications" class="page">
-  <div class="app-topbar"><button class="topbar-back" onclick="go('page-profile')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Notificações</div><span></span></div>
+  <div class="app-topbar"><button class="topbar-back" onclick="go('page-profile')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Notificações</div></div>
   <div class="scroll" id="notif-list"><div style="text-align:center;padding:30px;color:#64748b;">Carregando...</div></div>
 </div>
 
 <!-- ══ AVALIAÇÃO ══ -->
 <div id="page-review" class="page">
-  <div class="app-topbar"><button class="topbar-back" onclick="go('page-sessions')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Avaliar sessão</div><span></span></div>
+  <div class="app-topbar"><button class="topbar-back" onclick="go('page-sessions')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Avaliar sessão</div></div>
   <div class="scroll" style="display:flex;flex-direction:column;align-items:center;padding-top:30px;">
     <div class="av av-g" id="rv-av" style="width:72px;height:72px;font-size:26px;margin-bottom:12px;">AN</div>
     <div style="font-size:17px;font-weight:700;color:#0f172a;font-family:'Nunito',sans-serif;margin-bottom:4px;" id="rv-name">Fisioterapeuta</div>
@@ -1371,7 +1371,7 @@ html,body{
 
 <!-- ══ PRO — SESSÕES ══ -->
 <div id="page-pro-sessions" class="page" style="background:#0f1f35;">
-  <div class="app-topbar dark-bar"><button class="topbar-back" onclick="go('page-pro-dash')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div><span></span></div>
+  <div class="app-topbar dark-bar"><button class="topbar-back" onclick="go('page-pro-dash')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div></div>
   <div class="page-hdr dark-hdr"><div class="ph-title">Minhas Sessões</div><div class="ph-sub">Pedidos recebidos e histórico</div></div>
   <div class="scroll" id="pro-sessions-list" style="background:#0f1f35;">
     <div style="text-align:center;padding:30px;color:#7fb3e8;">Carregando...</div>
@@ -1386,7 +1386,7 @@ html,body{
 
 <!-- ══ PRO — EDITAR CADASTRO ══ -->
 <div id="page-pro-edit" class="page" style="background:#0f1f35;">
-  <div class="app-topbar dark-bar"><button class="topbar-back" onclick="go('page-pro-dash')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div><span></span></div>
+  <div class="app-topbar dark-bar"><button class="topbar-back" onclick="go('page-pro-dash')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div></div>
   <div class="form-area" style="background:#0f1f35;padding-top:14px;">
     <div style="font-size:16px;font-weight:700;color:#fff;font-family:'Nunito',sans-serif;margin-bottom:14px;">Editar meu cadastro</div>
     <div class="field"><label style="color:#7fb3e8;">Nome completo</label>
@@ -1457,22 +1457,14 @@ html,body{
       </div>
     </div>
     <div class="stat-grid">
-      <div class="stat-card"><div class="stat-n blue">4</div><div class="stat-l">Pedidos novos</div></div>
-      <div class="stat-card"><div class="stat-n green">3</div><div class="stat-l">Sessões hoje</div></div>
-      <div class="stat-card"><div class="stat-n amber">⭐ 4.9</div><div class="stat-l">Avaliação</div></div>
-      <div class="stat-card"><div class="stat-n blue">R$342</div><div class="stat-l">Ganhos hoje (líq.)</div></div>
+      <div class="stat-card"><div class="stat-n blue" id="stat-pending">—</div><div class="stat-l">Pedidos novos</div></div>
+      <div class="stat-card"><div class="stat-n green" id="stat-today">—</div><div class="stat-l">Sessões hoje</div></div>
+      <div class="stat-card"><div class="stat-n amber">⭐ —</div><div class="stat-l">Avaliação</div></div>
+      <div class="stat-card"><div class="stat-n blue">—</div><div class="stat-l">Ganhos hoje</div></div>
     </div>
-    <div class="slbl dk">Pedido urgente</div>
-    <div class="demand-card urgent">
-      <div class="d-top">
-        <div><div class="d-patient">Roberto Lima, 45a</div><div class="d-type">Dor lombar aguda</div></div>
-        <span class="urg-badge">⚡ Urgente</span>
-      </div>
-      <div class="d-det"><i class="ti ti-map-pin" style="font-size:12px;vertical-align:-1px;"></i> 0.6 km · Vila Madalena &nbsp;|&nbsp; <i class="ti ti-clock" style="font-size:12px;vertical-align:-1px;"></i> Agora</div>
-      <div class="d-actions">
-        <button class="btn-accept" onclick="toast('Pedido aceito! ✅')">✓ Aceitar</button>
-        <button class="btn-refuse" onclick="toast('Pedido recusado')">✕ Recusar</button>
-      </div>
+    <div class="slbl dk">Pedidos pendentes</div>
+    <div id="pro-demand-area">
+      <div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Carregando pedidos...</div>
     </div>
     <div class="slbl dk">Agenda de hoje</div>
     <div class="sch-item done"><div class="sch-time">09:00</div><div class="sch-info"><div class="sch-name">Marcos Santos</div><div class="sch-det">Ortopédica · Domiciliar</div></div><i class="ti ti-circle-check" style="color:#4caf82;font-size:20px;"></i></div>
@@ -1532,18 +1524,69 @@ async function api(method, path, body){
   return data;
 }
 
-// ── Navegação ───────────────────────────────────
 function go(id){
   document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
   var el = document.getElementById(id);
   if(el) el.classList.add('active');
-  if(id === 'page-profile')      { loadProfile(); loadNotifications(); }
-  if(id === 'page-sessions')     loadSessions();
-  if(id === 'page-pro-sessions') loadProSessions();
-  if(id === 'page-pro-edit')     loadProEdit();
-  if(id === 'page-favorites')    loadFavorites();
+  if(id === 'page-profile')       { loadProfile(); loadNotifications(); }
+  if(id === 'page-sessions')      loadSessions();
+  if(id === 'page-pro-sessions')  loadProSessions();
+  if(id === 'page-pro-dash')      loadProDash();
+  if(id === 'page-pro-edit')      loadProEdit();
+  if(id === 'page-favorites')     loadFavorites();
   if(id === 'page-notifications') loadNotifications();
   if(id === 'page-map' || id === 'page-list') loadProfessionals();
+}
+
+async function loadProDash(){
+  var user = getUser();
+  if(!user || user.role !== 'professional') return;
+  var greet = document.getElementById('pro-greet');
+  if(greet) greet.textContent = 'Olá, '+((user.name||'').split(' ')[0])+' 👋';
+  try{
+    var data   = await api('GET','/api/appointments?limit=50');
+    var appts  = data.appointments || [];
+    var pending = appts.filter(function(a){ return a.status === 'pending'; });
+    var today   = appts.filter(function(a){
+      var d = new Date(a.scheduled_at);
+      return d.toDateString() === new Date().toDateString() && a.status !== 'cancelled';
+    });
+    // Atualiza stat cards
+    var statPending = document.getElementById('stat-pending');
+    var statToday   = document.getElementById('stat-today');
+    if(statPending) statPending.textContent = pending.length;
+    if(statToday)   statToday.textContent   = today.length;
+    // Renderiza pedidos urgentes no painel
+    var demandArea = document.getElementById('pro-demand-area');
+    if(demandArea){
+      if(!pending.length){
+        demandArea.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Nenhum pedido pendente no momento.</div>';
+      } else {
+        demandArea.innerHTML = pending.slice(0,3).map(function(a){
+          var d = new Date(a.scheduled_at);
+          var ds = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
+          var ts = d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+          return '<div class="demand-card urgent" style="margin-bottom:10px;">'
+            +'<div class="d-top"><div>'
+              +'<div class="d-patient">'+(a.patient_name||'Paciente')+'</div>'
+              +'<div class="d-type">'+(a.service_type==='domiciliar'?'🏠 Domiciliar':'🏥 Clínica')+' · '+ds+' às '+ts+'</div>'
+            +'</div><span class="urg-badge">⚡ Novo</span></div>'
+            +'<div class="d-actions">'
+              +'<button class="btn-accept" onclick="changeProStatus(\''+a.id+'\',\'confirmed\')">✓ Confirmar</button>'
+              +'<button class="btn-refuse" onclick="changeProStatus(\''+a.id+'\',\'cancelled\')">✕ Recusar</button>'
+            +'</div></div>';
+        }).join('');
+      }
+    }
+  } catch(e){ console.error('loadProDash', e.message); }
+}
+
+async function changeProStatus(id, status){
+  try{
+    await api('PATCH','/api/appointments/'+id+'/status',{status:status});
+    toast(status==='confirmed' ? '✅ Sessão confirmada!' : 'Sessão recusada');
+    setTimeout(function(){ loadProDash(); }, 600);
+  } catch(e){ toast(e.message||'Erro'); }
 }
 
 // ── Splash ──────────────────────────────────────
@@ -1551,7 +1594,14 @@ window.addEventListener('load', function(){
   var token = getToken();
   var user  = getUser();
   if(token && user){
-    setTimeout(function(){ go('page-map'); loadProfile(); }, 400);
+    setTimeout(function(){
+      if(user.role === 'professional'){
+        go('page-pro-dash');
+      } else {
+        go('page-map');
+      }
+      loadProfile();
+    }, 400);
   } else {
     setTimeout(function(){ go('page-login'); }, 2200);
   }
@@ -1584,7 +1634,11 @@ async function doLogin(){
   try{
     var data = await api('POST','/api/auth/login',{email:em, password:pw});
     saveSession(data.token, data.user);
-    go(data.user.role === 'professional' ? 'page-pro-dash' : 'page-map');
+    if(data.user.role === 'professional'){
+      go('page-pro-dash');
+    } else {
+      go('page-map');
+    }
     loadProfile();
   } catch(e){
     toast(e.message || 'E-mail ou senha incorretos');
@@ -2000,7 +2054,11 @@ function filterPros(el, specialty){
 // ═══════════════════════════════════════════════
 //  AGENDAMENTO — ESCOLHA DE HORÁRIO
 // ═══════════════════════════════════════════════
-var bookingState = { proId: null, proName: '', proSpec: '', price: 0, selectedDate: null, selectedSlot: null, tipo: 'domiciliar' };
+var bookingState = {
+  proId: null, proName: '', proSpec: '', price: 0,
+  selectedDate: null, selectedSlot: null, selectedTime: null,
+  tipo: 'domiciliar', cachedSlots: []
+};
 
 function openBooking(proIdx){
   var p = allPros[proIdx];
@@ -2012,21 +2070,32 @@ function openBooking(proIdx){
   bookingState.price    = parseFloat(p.session_price)||0;
   bookingState.selectedDate = null;
   bookingState.selectedSlot = null;
+  bookingState.selectedTime = null;
+  bookingState.cachedSlots  = [];
 
-  var avEl   = document.getElementById('bk-av');
+  var avEl = document.getElementById('bk-av');
+  if(avEl){ avEl.textContent = initials(p.name); avEl.className = 'av '+avColor(p.name); }
   var nameEl = document.getElementById('bk-name');
-  var specEl = document.getElementById('bk-spec');
-  var priceEl= document.getElementById('bk-price');
-  if(avEl)   { avEl.textContent = initials(p.name); avEl.className = 'av '+avColor(p.name); }
   if(nameEl) nameEl.textContent = p.name;
+  var specEl = document.getElementById('bk-spec');
   if(specEl) specEl.textContent = bookingState.proSpec;
-  if(priceEl) priceEl.textContent = bookingState.price > 0 ? 'R$ '+bookingState.price.toFixed(2).replace('.',',') : 'Consulte';
+  var priceEl = document.getElementById('bk-price');
+  if(priceEl) priceEl.textContent = bookingState.price > 0
+    ? 'R$ '+bookingState.price.toFixed(2).replace('.',',') : 'Consulte';
 
   renderBookingDates();
   setBkTipo('domiciliar');
-  var btn = document.getElementById('bk-confirm-btn');
-  if(btn){ btn.disabled = true; btn.style.opacity = '.5'; }
+  setConfirmBtn(false);
+  var slotsEl = document.getElementById('bk-slots');
+  if(slotsEl) slotsEl.innerHTML = '<div style="text-align:center;padding:16px;color:#64748b;grid-column:1/-1;">Selecione uma data acima</div>';
+  var label = document.getElementById('bk-date-label');
+  if(label) label.textContent = '';
   go('page-booking');
+}
+
+function setConfirmBtn(enabled){
+  var btn = document.getElementById('bk-confirm-btn');
+  if(btn){ btn.disabled = !enabled; btn.style.opacity = enabled ? '1' : '.5'; }
 }
 
 function renderBookingDates(){
@@ -2036,12 +2105,12 @@ function renderBookingDates(){
   var days  = ['D','S','T','Q','Q','S','S'];
   var html  = '';
   for(var i = 0; i < 14; i++){
-    var d    = new Date(today); d.setDate(today.getDate() + i);
-    var iso  = d.toISOString().split('T')[0];
-    var dow  = days[d.getDay()];
-    var dom  = d.getDate();
-    var isSelected = bookingState.selectedDate === iso;
-    html += '<div onclick="selectDate(\''+iso+'\')" style="text-align:center;padding:8px 4px;border-radius:10px;cursor:pointer;'+(isSelected?'background:#1a73e8;color:#fff;':'background:#f8fafc;border:1px solid #e2e8f0;color:#374151;')+'">'
+    var d   = new Date(today); d.setDate(today.getDate() + i);
+    var iso = d.toISOString().split('T')[0];
+    var dow = days[d.getDay()];
+    var dom = d.getDate();
+    var sel = bookingState.selectedDate === iso;
+    html += '<div onclick="selectDate(\''+iso+'\')" style="text-align:center;padding:8px 4px;border-radius:10px;cursor:pointer;background:'+(sel?'#1a73e8':'#f8fafc')+';color:'+(sel?'#fff':'#374151')+';border:'+(sel?'none':'1px solid #e2e8f0')+';">'
           + '<div style="font-size:10px;font-weight:600;margin-bottom:3px;">'+dow+'</div>'
           + '<div style="font-size:14px;font-weight:700;">'+dom+'</div>'
           + '</div>';
@@ -2052,54 +2121,56 @@ function renderBookingDates(){
 async function selectDate(iso){
   bookingState.selectedDate = iso;
   bookingState.selectedSlot = null;
+  bookingState.selectedTime = null;
+  bookingState.cachedSlots  = [];
+  setConfirmBtn(false);
   renderBookingDates();
+
   var label = document.getElementById('bk-date-label');
-  var d = new Date(iso+'T12:00:00');
-  if(label) label.textContent = d.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
+  if(label){
+    var d = new Date(iso+'T12:00:00');
+    label.textContent = d.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
+  }
+
   var slotsEl = document.getElementById('bk-slots');
   if(slotsEl) slotsEl.innerHTML = '<div style="text-align:center;padding:16px;color:#64748b;grid-column:1/-1;">Buscando horários...</div>';
-  var btn = document.getElementById('bk-confirm-btn');
-  if(btn){ btn.disabled=true; btn.style.opacity='.5'; }
+
   try{
-    var data = await api('GET', '/api/appointments/slots?professional_id='+bookingState.proId+'&date='+iso);
-    renderSlots(data.slots||[]);
+    var data = await api('GET','/api/appointments/slots?professional_id='+bookingState.proId+'&date='+iso);
+    bookingState.cachedSlots = data.slots || [];
+    renderSlots();
   } catch(e){
     if(slotsEl) slotsEl.innerHTML = '<div style="text-align:center;padding:16px;color:#dc2626;grid-column:1/-1;">Erro ao buscar horários</div>';
   }
 }
 
-function renderSlots(slots){
+function renderSlots(){
   var container = document.getElementById('bk-slots');
   if(!container) return;
+  var slots = bookingState.cachedSlots;
   if(!slots.length){
-    container.innerHTML = '<div style="text-align:center;padding:16px;color:#64748b;grid-column:1/-1;">Sem horários disponíveis</div>';
+    container.innerHTML = '<div style="text-align:center;padding:16px;color:#64748b;grid-column:1/-1;">Sem horários disponíveis nesta data</div>';
     return;
   }
   container.innerHTML = slots.map(function(s){
-    var sel = bookingState.selectedSlot === s.datetime;
-    var bg  = !s.available ? '#f1f5f9' : sel ? '#1a73e8' : '#e8f0fe';
-    var col = !s.available ? '#94a3b8' : sel ? '#fff' : '#1a73e8';
-    var cur = s.available ? 'pointer' : 'default';
-    return '<div onclick="'+(s.available?'selectSlot(\''+s.datetime+'\',\''+s.time+'\')':'')+'" '
-         + 'style="text-align:center;padding:10px 6px;border-radius:10px;cursor:'+cur+';background:'+bg+';color:'+col+';font-size:13px;font-weight:700;">'
-         + s.time + (s.available?'':'<br><span style="font-size:9px;opacity:.6;">Ocupado</span>')
-         + '</div>';
+    var isSel = bookingState.selectedSlot === s.datetime;
+    if(!s.available){
+      return '<div style="text-align:center;padding:10px 6px;border-radius:10px;background:#f1f5f9;color:#94a3b8;font-size:13px;font-weight:700;cursor:default;">'
+           + s.time+'<br><span style="font-size:9px;opacity:.6;">Ocupado</span></div>';
+    }
+    return '<div onclick="selectSlot(\''+s.datetime+'\',\''+s.time+'\')" style="text-align:center;padding:10px 6px;border-radius:10px;cursor:pointer;'
+         + 'background:'+(isSel?'#1a73e8':'#e8f0fe')+';color:'+(isSel?'#fff':'#1a73e8')+';'
+         + 'font-size:13px;font-weight:700;transition:.15s;">'
+         + s.time+'</div>';
   }).join('');
 }
 
 function selectSlot(datetime, time){
   bookingState.selectedSlot = datetime;
-  renderSlots(document.querySelectorAll('#bk-slots > div').length > 0
-    ? Array.from(document.querySelectorAll('#bk-slots > div')).map(function(el,i){
-        return { datetime: '', time: '', available: true };
-      })
-    : []
-  );
-  // Re-renderiza com seleção
-  selectDate(bookingState.selectedDate);
-  var btn = document.getElementById('bk-confirm-btn');
-  if(btn){ btn.disabled=false; btn.style.opacity='1'; }
-  toast('Horário '+time+' selecionado');
+  bookingState.selectedTime = time;
+  renderSlots();           // só re-renderiza com os slots em cache — sem chamar API
+  setConfirmBtn(true);
+  toast('Horário '+time+' selecionado ✓');
 }
 
 function setBkTipo(tipo){
