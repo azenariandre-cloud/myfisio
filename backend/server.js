@@ -128,3 +128,36 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+
+app.get('/setup', async (req, res) => {
+  const sql = `
+    -- Tabela de favoritos
+    CREATE TABLE IF NOT EXISTS favorites (
+      id            UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+      patient_id    UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      professional_id UUID NOT NULL REFERENCES professionals(id) ON DELETE CASCADE,
+      created_at    TIMESTAMPTZ DEFAULT NOW(),
+      UNIQUE (patient_id, professional_id)
+    );
+
+    -- Tabela de notificações
+    CREATE TABLE IF NOT EXISTS notifications (
+      id        UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+      user_id   UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      title     VARCHAR(255) NOT NULL,
+      message   TEXT NOT NULL,
+      is_read   BOOLEAN DEFAULT FALSE,
+      created_at TIMESTAMPTZ DEFAULT NOW()
+    );
+  `;
+
+  try {
+    // Importante: No seu projeto, a conexão com o banco geralmente se chama 'pool' ou 'db'.
+    // Se der erro dizendo que 'pool' não existe, mude a palavra abaixo para 'db'.
+    await pool.query(sql); 
+    res.status(200).send("<h1>Sucesso! As tabelas de favoritos e notificações foram criadas.</h1>");
+  } catch (error) {
+    console.error("Erro ao rodar o schema:", error);
+    res.status(500).send("<h1>Erro ao criar tabelas:</h1><pre>" + error.message + "</pre>");
+  }
+});
