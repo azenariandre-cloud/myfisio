@@ -1239,8 +1239,9 @@ html,body{
     </div>
   </div>
   <div class="booking-bar">
-    <div class="time-sel">📅 Hoje, 14h</div>
-    <button class="btn-main btn-blue" style="flex:1;height:44px;" onclick="toast('Sessão agendada! ✅')">Agendar agora</button>
+    <button id="fav-btn" onclick="toggleFavorite(currentPro && currentPro.id)" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px 14px;font-size:20px;cursor:pointer;transition:.15s;">❤️</button>
+    <div class="time-sel" onclick="toast('Selecione o horário na tela de agendamento')">📅 Escolher horário</div>
+    <button class="btn-main btn-blue" id="agendar-btn" style="flex:1;height:44px;">Agendar</button>
   </div>
 </div>
 
@@ -1267,9 +1268,7 @@ html,body{
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     APP — PERFIL
-══════════════════════════════════════ -->
+<!-- ══ PERFIL DO PACIENTE ══ -->
 <div id="page-profile" class="page">
   <div class="profile-hdr">
     <div class="p-av-big" id="p-av">JS</div>
@@ -1282,14 +1281,12 @@ html,body{
   <div class="scroll">
     <div class="stat-mini-grid">
       <div class="stat-mini"><div class="sm-num" style="color:#1a73e8;" id="p-sessions">—</div><div class="sm-lbl">Sessões realizadas</div></div>
-      <div class="stat-mini"><div class="sm-num" style="color:#16a34a;" id="p-pros">—</div><div class="sm-lbl">Profissionais atendidos</div></div>
+      <div class="stat-mini"><div class="sm-num" style="color:#16a34a;" id="p-pros">—</div><div class="sm-lbl">Profissionais</div></div>
     </div>
-    <div class="menu-it"><div class="menu-icon-box">👤</div><div class="menu-lbl">Editar perfil</div><div class="menu-arr">›</div></div>
-    <div class="menu-it"><div class="menu-icon-box">❤️</div><div class="menu-lbl">Favoritos</div><div class="menu-arr">›</div></div>
+    <div class="menu-it" onclick="go('page-favorites')"><div class="menu-icon-box">❤️</div><div class="menu-lbl">Favoritos</div><div class="menu-arr">›</div></div>
+    <div class="menu-it" onclick="go('page-sessions')"><div class="menu-icon-box">📅</div><div class="menu-lbl">Minhas sessões</div><div class="menu-arr">›</div></div>
+    <div class="menu-it" onclick="go('page-notifications')"><div class="menu-icon-box">🔔</div><div class="menu-lbl">Notificações <span id="notif-badge" style="display:none;background:#ef4444;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;margin-left:6px;">0</span></div><div class="menu-arr">›</div></div>
     <div class="menu-it"><div class="menu-icon-box">💳</div><div class="menu-lbl">Pagamento</div><div class="menu-arr">›</div></div>
-    <div class="menu-it"><div class="menu-icon-box">📍</div><div class="menu-lbl">Endereços salvos</div><div class="menu-arr">›</div></div>
-    <div class="menu-it"><div class="menu-icon-box">🔔</div><div class="menu-lbl">Notificações</div><div class="menu-arr">›</div></div>
-    <div class="menu-it"><div class="menu-icon-box">⭐</div><div class="menu-lbl">Avaliações</div><div class="menu-arr">›</div></div>
     <div class="menu-it"><div class="menu-icon-box">❓</div><div class="menu-lbl">Ajuda e suporte</div><div class="menu-arr">›</div></div>
     <div class="menu-it" style="border-color:#fee2e2;" onclick="doLogout()">
       <div class="menu-icon-box" style="background:#fee2e2;">🚪</div>
@@ -1301,6 +1298,141 @@ html,body{
     <div class="nav-it" onclick="go('page-list')"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
     <div class="nav-it" onclick="go('page-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
     <div class="nav-it on"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
+  </div>
+</div>
+
+<!-- ══ AGENDAMENTO — ESCOLHA DE HORÁRIO ══ -->
+<div id="page-booking" class="page">
+  <div class="app-topbar"><button class="topbar-back" onclick="go('page-detail')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Agendar sessão</div><span></span></div>
+  <div class="scroll">
+    <div style="background:#e8f0fe;border-radius:14px;padding:12px;margin-bottom:14px;display:flex;gap:10px;align-items:center;">
+      <div class="av av-g" id="bk-av" style="width:44px;height:44px;font-size:15px;">AN</div>
+      <div><div style="font-size:14px;font-weight:600;color:#0f172a;" id="bk-name">Fisioterapeuta</div><div style="font-size:12px;color:#64748b;" id="bk-spec">Especialidade</div></div>
+    </div>
+    <div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:8px;">Escolha a data</div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:16px;" id="bk-dates"></div>
+    <div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:8px;">Horários disponíveis <span id="bk-date-label" style="color:#1a73e8;font-size:12px;"></span></div>
+    <div id="bk-slots" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;">
+      <div style="text-align:center;padding:20px;color:#64748b;grid-column:1/-1;">Selecione uma data acima</div>
+    </div>
+    <div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:8px;">Tipo de atendimento</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+      <div class="atend-card sel" id="bk-tipo-dom" onclick="setBkTipo('domiciliar')"><i class="ti ti-home" style="font-size:20px;display:block;margin-bottom:4px;"></i><span style="font-size:12px;font-weight:600;">Domiciliar</span></div>
+      <div class="atend-card" id="bk-tipo-cli" onclick="setBkTipo('clinica')"><i class="ti ti-building-hospital" style="font-size:20px;display:block;margin-bottom:4px;"></i><span style="font-size:12px;font-weight:600;">Clínica</span></div>
+    </div>
+    <div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:6px;">Endereço do atendimento</div>
+    <input id="bk-address" class="finput" type="text" placeholder="Rua, número — bairro" style="margin-bottom:14px;">
+    <div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:6px;">Observações (opcional)</div>
+    <textarea id="bk-notes" style="width:100%;border:1px solid #e2e8f0;border-radius:10px;padding:10px;font-size:13px;font-family:'Nunito Sans',sans-serif;resize:none;height:70px;outline:none;margin-bottom:14px;" placeholder="Descreva brevemente o problema..."></textarea>
+    <div style="background:#e8f0fe;border-radius:10px;padding:10px 12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-size:13px;color:#475569;">Valor da sessão</span>
+      <span style="font-size:16px;font-weight:700;color:#1a73e8;font-family:'Nunito',sans-serif;" id="bk-price">R$ —</span>
+    </div>
+    <button class="btn-main btn-blue" onclick="confirmBooking()" id="bk-confirm-btn" disabled style="opacity:.5;">
+      <i class="ti ti-calendar-check"></i> Confirmar agendamento
+    </button>
+  </div>
+</div>
+
+<!-- ══ FAVORITOS ══ -->
+<div id="page-favorites" class="page">
+  <div class="app-topbar"><button class="topbar-back" onclick="go('page-profile')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Favoritos</div><span></span></div>
+  <div class="scroll" id="favorites-list"><div style="text-align:center;padding:30px;color:#64748b;">Carregando...</div></div>
+</div>
+
+<!-- ══ NOTIFICAÇÕES ══ -->
+<div id="page-notifications" class="page">
+  <div class="app-topbar"><button class="topbar-back" onclick="go('page-profile')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Notificações</div><span></span></div>
+  <div class="scroll" id="notif-list"><div style="text-align:center;padding:30px;color:#64748b;">Carregando...</div></div>
+</div>
+
+<!-- ══ AVALIAÇÃO ══ -->
+<div id="page-review" class="page">
+  <div class="app-topbar"><button class="topbar-back" onclick="go('page-sessions')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Avaliar sessão</div><span></span></div>
+  <div class="scroll" style="display:flex;flex-direction:column;align-items:center;padding-top:30px;">
+    <div class="av av-g" id="rv-av" style="width:72px;height:72px;font-size:26px;margin-bottom:12px;">AN</div>
+    <div style="font-size:17px;font-weight:700;color:#0f172a;font-family:'Nunito',sans-serif;margin-bottom:4px;" id="rv-name">Fisioterapeuta</div>
+    <div style="font-size:13px;color:#64748b;margin-bottom:24px;" id="rv-date">Data da sessão</div>
+    <div style="font-size:14px;font-weight:600;color:#0f172a;margin-bottom:12px;">Como foi o atendimento?</div>
+    <div style="display:flex;gap:12px;margin-bottom:20px;" id="rv-stars">
+      <span onclick="setRating(1)" style="font-size:36px;cursor:pointer;transition:.15s;">⭐</span>
+      <span onclick="setRating(2)" style="font-size:36px;cursor:pointer;transition:.15s;">⭐</span>
+      <span onclick="setRating(3)" style="font-size:36px;cursor:pointer;transition:.15s;">⭐</span>
+      <span onclick="setRating(4)" style="font-size:36px;cursor:pointer;transition:.15s;">⭐</span>
+      <span onclick="setRating(5)" style="font-size:36px;cursor:pointer;transition:.15s;">⭐</span>
+    </div>
+    <div style="font-size:14px;font-weight:600;color:#0f172a;margin-bottom:8px;align-self:flex-start;">Comentário (opcional)</div>
+    <textarea id="rv-comment" style="width:100%;border:1px solid #e2e8f0;border-radius:10px;padding:10px;font-size:13px;font-family:'Nunito Sans',sans-serif;resize:none;height:90px;outline:none;margin-bottom:20px;" placeholder="Conte como foi a experiência..."></textarea>
+    <button class="btn-main btn-blue" onclick="submitReview()" style="width:100%;max-width:280px;">
+      <i class="ti ti-send"></i> Enviar avaliação
+    </button>
+  </div>
+</div>
+
+<!-- ══ PRO — SESSÕES ══ -->
+<div id="page-pro-sessions" class="page" style="background:#0f1f35;">
+  <div class="app-topbar dark-bar"><button class="topbar-back" onclick="go('page-pro-dash')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div><span></span></div>
+  <div class="page-hdr dark-hdr"><div class="ph-title">Minhas Sessões</div><div class="ph-sub">Pedidos recebidos e histórico</div></div>
+  <div class="scroll" id="pro-sessions-list" style="background:#0f1f35;">
+    <div style="text-align:center;padding:30px;color:#7fb3e8;">Carregando...</div>
+  </div>
+  <div class="bot-nav dark-nav">
+    <div class="nav-it" onclick="go('page-pro-dash')"><div class="nv-icon"><i class="ti ti-layout-dashboard"></i></div><div class="nv-lbl">Painel</div></div>
+    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+    <div class="nav-it" onclick="go('page-pro-edit')"><div class="nv-icon"><i class="ti ti-user-edit"></i></div><div class="nv-lbl">Cadastro</div></div>
+    <div class="nav-it" onclick="doLogout()"><div class="nv-icon"><i class="ti ti-logout"></i></div><div class="nv-lbl">Sair</div></div>
+  </div>
+</div>
+
+<!-- ══ PRO — EDITAR CADASTRO ══ -->
+<div id="page-pro-edit" class="page" style="background:#0f1f35;">
+  <div class="app-topbar dark-bar"><button class="topbar-back" onclick="go('page-pro-dash')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div><span></span></div>
+  <div class="form-area" style="background:#0f1f35;padding-top:14px;">
+    <div style="font-size:16px;font-weight:700;color:#fff;font-family:'Nunito',sans-serif;margin-bottom:14px;">Editar meu cadastro</div>
+    <div class="field"><label style="color:#7fb3e8;">Nome completo</label>
+      <div class="finput-wrap"><input id="edit-nome" class="finput pro" type="text" placeholder="Seu nome" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+    </div>
+    <div class="field"><label style="color:#7fb3e8;">Telefone</label>
+      <div class="finput-wrap"><input id="edit-tel" class="finput pro" type="tel" placeholder="(11) 99999-9999" style="background:#132840;border-color:#1e3a5f;color:#fff;" oninput="maskPhone(this)"></div>
+    </div>
+    <div style="font-size:12px;font-weight:700;color:#4fc3f7;margin:14px 0 8px;text-transform:uppercase;letter-spacing:.4px;">Endereço de atendimento</div>
+    <div class="field"><label style="color:#7fb3e8;">Endereço manual</label>
+      <input id="edit-address" class="finput pro" type="text" placeholder="Rua, número — bairro — cidade" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+    </div>
+    <button onclick="getProLocation()" style="width:100%;background:rgba(79,195,247,.15);border:1px solid #4fc3f7;border-radius:10px;color:#4fc3f7;padding:10px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:14px;font-family:'Nunito',sans-serif;">
+      <i class="ti ti-current-location" style="vertical-align:-2px;margin-right:4px;"></i> Usar minha localização atual
+    </button>
+    <div class="field"><label style="color:#7fb3e8;">Valor por sessão (R$)</label>
+      <input id="edit-price" class="finput pro" type="number" min="0" placeholder="120" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div class="field"><label style="color:#7fb3e8;">Início</label><input id="edit-start" class="finput pro" type="time" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+      <div class="field"><label style="color:#7fb3e8;">Fim</label><input id="edit-end" class="finput pro" type="time" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+    </div>
+    <div class="field"><label style="color:#7fb3e8;">Bio / Apresentação</label>
+      <textarea id="edit-bio" style="width:100%;background:#132840;border:1px solid #1e3a5f;border-radius:10px;padding:10px;color:#fff;font-size:13px;font-family:'Nunito Sans',sans-serif;resize:none;height:80px;outline:none;" placeholder="Fale um pouco sobre você e sua experiência..."></textarea>
+    </div>
+    <div style="font-size:12px;font-weight:700;color:#4fc3f7;margin:4px 0 8px;text-transform:uppercase;letter-spacing:.4px;">Especialidades</div>
+    <div class="check-grid" id="edit-specs" style="margin-bottom:16px;">
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Ortopédica</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Esportiva</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Neurológica</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Pediátrica</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Respiratória</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Pilates</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Drenagem</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Obstétrica</div>
+    </div>
+    <button class="btn-main btn-pro-c" onclick="saveProEdit()">
+      <i class="ti ti-device-floppy"></i> Salvar alterações
+    </button>
+    <div style="height:20px;"></div>
+  </div>
+  <div class="bot-nav dark-nav">
+    <div class="nav-it" onclick="go('page-pro-dash')"><div class="nv-icon"><i class="ti ti-layout-dashboard"></i></div><div class="nv-lbl">Painel</div></div>
+    <div class="nav-it" onclick="go('page-pro-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-user-edit"></i></div><div class="nv-lbl">Cadastro</div></div>
+    <div class="nav-it" onclick="doLogout()"><div class="nv-icon"><i class="ti ti-logout"></i></div><div class="nv-lbl">Sair</div></div>
   </div>
 </div>
 
@@ -1349,9 +1481,9 @@ html,body{
   </div>
   <div class="bot-nav dark-nav">
     <div class="nav-it on"><div class="nv-icon"><i class="ti ti-layout-dashboard"></i></div><div class="nv-lbl">Painel</div></div>
-    <div class="nav-it" onclick="toast('Demandas')"><div class="nv-icon"><i class="ti ti-inbox"></i></div><div class="nv-lbl">Demandas</div></div>
-    <div class="nav-it" onclick="toast('Ganhos')"><div class="nv-icon"><i class="ti ti-coin"></i></div><div class="nv-lbl">Ganhos</div></div>
-    <div class="nav-it" onclick="go('page-cad-pro')"><div class="nv-icon"><i class="ti ti-user-edit"></i></div><div class="nv-lbl">Cadastro</div></div>
+    <div class="nav-it" onclick="go('page-pro-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+    <div class="nav-it" onclick="go('page-pro-edit')"><div class="nv-icon"><i class="ti ti-user-edit"></i></div><div class="nv-lbl">Cadastro</div></div>
+    <div class="nav-it" onclick="doLogout()"><div class="nv-icon"><i class="ti ti-logout"></i></div><div class="nv-lbl">Sair</div></div>
   </div>
 </div>
 
@@ -1405,8 +1537,12 @@ function go(id){
   document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
   var el = document.getElementById(id);
   if(el) el.classList.add('active');
-  if(id === 'page-profile') loadProfile();
-  if(id === 'page-sessions') loadSessions();
+  if(id === 'page-profile')      { loadProfile(); loadNotifications(); }
+  if(id === 'page-sessions')     loadSessions();
+  if(id === 'page-pro-sessions') loadProSessions();
+  if(id === 'page-pro-edit')     loadProEdit();
+  if(id === 'page-favorites')    loadFavorites();
+  if(id === 'page-notifications') loadNotifications();
   if(id === 'page-map' || id === 'page-list') loadProfessionals();
 }
 
@@ -1860,6 +1996,500 @@ function filterPros(el, specialty){
   el.classList.add('on');
   loadProfessionals(specialty === 'Todos' ? null : specialty);
 }
+
+// ═══════════════════════════════════════════════
+//  AGENDAMENTO — ESCOLHA DE HORÁRIO
+// ═══════════════════════════════════════════════
+var bookingState = { proId: null, proName: '', proSpec: '', price: 0, selectedDate: null, selectedSlot: null, tipo: 'domiciliar' };
+
+function openBooking(proIdx){
+  var p = allPros[proIdx];
+  if(!p){ toast('Profissional não encontrado'); return; }
+  currentPro = p;
+  bookingState.proId    = p.id;
+  bookingState.proName  = p.name;
+  bookingState.proSpec  = (p.specialties||[]).join(', ') || 'Fisioterapia';
+  bookingState.price    = parseFloat(p.session_price)||0;
+  bookingState.selectedDate = null;
+  bookingState.selectedSlot = null;
+
+  var avEl   = document.getElementById('bk-av');
+  var nameEl = document.getElementById('bk-name');
+  var specEl = document.getElementById('bk-spec');
+  var priceEl= document.getElementById('bk-price');
+  if(avEl)   { avEl.textContent = initials(p.name); avEl.className = 'av '+avColor(p.name); }
+  if(nameEl) nameEl.textContent = p.name;
+  if(specEl) specEl.textContent = bookingState.proSpec;
+  if(priceEl) priceEl.textContent = bookingState.price > 0 ? 'R$ '+bookingState.price.toFixed(2).replace('.',',') : 'Consulte';
+
+  renderBookingDates();
+  setBkTipo('domiciliar');
+  var btn = document.getElementById('bk-confirm-btn');
+  if(btn){ btn.disabled = true; btn.style.opacity = '.5'; }
+  go('page-booking');
+}
+
+function renderBookingDates(){
+  var container = document.getElementById('bk-dates');
+  if(!container) return;
+  var today = new Date();
+  var days  = ['D','S','T','Q','Q','S','S'];
+  var html  = '';
+  for(var i = 0; i < 14; i++){
+    var d    = new Date(today); d.setDate(today.getDate() + i);
+    var iso  = d.toISOString().split('T')[0];
+    var dow  = days[d.getDay()];
+    var dom  = d.getDate();
+    var isSelected = bookingState.selectedDate === iso;
+    html += '<div onclick="selectDate(\''+iso+'\')" style="text-align:center;padding:8px 4px;border-radius:10px;cursor:pointer;'+(isSelected?'background:#1a73e8;color:#fff;':'background:#f8fafc;border:1px solid #e2e8f0;color:#374151;')+'">'
+          + '<div style="font-size:10px;font-weight:600;margin-bottom:3px;">'+dow+'</div>'
+          + '<div style="font-size:14px;font-weight:700;">'+dom+'</div>'
+          + '</div>';
+  }
+  container.innerHTML = html;
+}
+
+async function selectDate(iso){
+  bookingState.selectedDate = iso;
+  bookingState.selectedSlot = null;
+  renderBookingDates();
+  var label = document.getElementById('bk-date-label');
+  var d = new Date(iso+'T12:00:00');
+  if(label) label.textContent = d.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
+  var slotsEl = document.getElementById('bk-slots');
+  if(slotsEl) slotsEl.innerHTML = '<div style="text-align:center;padding:16px;color:#64748b;grid-column:1/-1;">Buscando horários...</div>';
+  var btn = document.getElementById('bk-confirm-btn');
+  if(btn){ btn.disabled=true; btn.style.opacity='.5'; }
+  try{
+    var data = await api('GET', '/api/appointments/slots?professional_id='+bookingState.proId+'&date='+iso);
+    renderSlots(data.slots||[]);
+  } catch(e){
+    if(slotsEl) slotsEl.innerHTML = '<div style="text-align:center;padding:16px;color:#dc2626;grid-column:1/-1;">Erro ao buscar horários</div>';
+  }
+}
+
+function renderSlots(slots){
+  var container = document.getElementById('bk-slots');
+  if(!container) return;
+  if(!slots.length){
+    container.innerHTML = '<div style="text-align:center;padding:16px;color:#64748b;grid-column:1/-1;">Sem horários disponíveis</div>';
+    return;
+  }
+  container.innerHTML = slots.map(function(s){
+    var sel = bookingState.selectedSlot === s.datetime;
+    var bg  = !s.available ? '#f1f5f9' : sel ? '#1a73e8' : '#e8f0fe';
+    var col = !s.available ? '#94a3b8' : sel ? '#fff' : '#1a73e8';
+    var cur = s.available ? 'pointer' : 'default';
+    return '<div onclick="'+(s.available?'selectSlot(\''+s.datetime+'\',\''+s.time+'\')':'')+'" '
+         + 'style="text-align:center;padding:10px 6px;border-radius:10px;cursor:'+cur+';background:'+bg+';color:'+col+';font-size:13px;font-weight:700;">'
+         + s.time + (s.available?'':'<br><span style="font-size:9px;opacity:.6;">Ocupado</span>')
+         + '</div>';
+  }).join('');
+}
+
+function selectSlot(datetime, time){
+  bookingState.selectedSlot = datetime;
+  renderSlots(document.querySelectorAll('#bk-slots > div').length > 0
+    ? Array.from(document.querySelectorAll('#bk-slots > div')).map(function(el,i){
+        return { datetime: '', time: '', available: true };
+      })
+    : []
+  );
+  // Re-renderiza com seleção
+  selectDate(bookingState.selectedDate);
+  var btn = document.getElementById('bk-confirm-btn');
+  if(btn){ btn.disabled=false; btn.style.opacity='1'; }
+  toast('Horário '+time+' selecionado');
+}
+
+function setBkTipo(tipo){
+  bookingState.tipo = tipo;
+  document.getElementById('bk-tipo-dom').classList.toggle('sel', tipo==='domiciliar');
+  document.getElementById('bk-tipo-cli').classList.toggle('sel', tipo==='clinica');
+}
+
+async function confirmBooking(){
+  if(!bookingState.selectedSlot){ toast('Selecione um horário'); return; }
+  var address = document.getElementById('bk-address')?.value?.trim();
+  var notes   = document.getElementById('bk-notes')?.value?.trim();
+  toast('Agendando...');
+  try{
+    await api('POST','/api/appointments',{
+      professional_id: bookingState.proId,
+      scheduled_at:    bookingState.selectedSlot,
+      service_type:    bookingState.tipo,
+      address:         address || '',
+      notes:           notes   || '',
+    });
+    toast('✅ Sessão agendada com sucesso!');
+    setTimeout(function(){ go('page-sessions'); },1200);
+  } catch(e){
+    toast(e.message || 'Erro ao agendar');
+  }
+}
+
+// ═══════════════════════════════════════════════
+//  SESSÕES — PACIENTE E FISIO
+// ═══════════════════════════════════════════════
+async function loadSessions(){
+  var user = getUser();
+  if(!user) return;
+  if(user.role === 'professional'){
+    loadProSessions();
+    return;
+  }
+  var container = document.getElementById('sessions-list');
+  if(!container) return;
+  container.innerHTML = '<div style="text-align:center;padding:30px;color:#64748b;">Carregando...</div>';
+  try{
+    var data  = await api('GET','/api/appointments?limit=50');
+    var appts = data.appointments || [];
+    if(!appts.length){
+      container.innerHTML = '<div style="text-align:center;padding:40px;color:#64748b;"><div style="font-size:32px;margin-bottom:12px;">📅</div><div style="font-size:14px;font-weight:600;">Nenhuma sessão ainda</div><div style="font-size:12px;margin-top:6px;">Busque um fisioterapeuta e agende sua primeira sessão</div></div>';
+      return;
+    }
+    var statusMap = {
+      pending:   {cls:'sp-sched', label:'⏳ Aguardando confirmação', color:'#1a73e8'},
+      confirmed: {cls:'sp-sched', label:'✅ Confirmado',             color:'#16a34a'},
+      completed: {cls:'sp-done',  label:'✔ Concluído',              color:'#16a34a'},
+      cancelled: {cls:'sp-cancel',label:'✕ Cancelado',              color:'#dc2626'},
+    };
+    var upcoming = appts.filter(function(a){ return ['pending','confirmed'].includes(a.status); });
+    var past     = appts.filter(function(a){ return !['pending','confirmed'].includes(a.status); });
+    var html = '';
+    if(upcoming.length){
+      html += '<div class="slbl" style="margin-top:4px;">Próximas</div>';
+      html += upcoming.map(function(a){ return renderApptCard(a, statusMap, false); }).join('');
+    }
+    if(past.length){
+      html += '<div class="slbl">Histórico</div>';
+      html += past.map(function(a){ return renderApptCard(a, statusMap, false); }).join('');
+    }
+    container.innerHTML = html;
+  } catch(e){
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:#dc2626;">Erro ao carregar sessões</div>';
+  }
+}
+
+function renderApptCard(a, statusMap, isPro){
+  var d   = new Date(a.scheduled_at);
+  var ds  = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
+  var ts  = d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  var s   = statusMap[a.status] || {cls:'sp-sched',label:a.status,color:'#1a73e8'};
+  var name= isPro ? (a.patient_name||'Paciente') : (a.professional_name||'Fisioterapeuta');
+  var price = parseFloat(a.gross_price||0).toFixed(2).replace('.',',');
+  var canCancel = ['pending','confirmed'].includes(a.status);
+  var canReview = !isPro && a.status === 'completed' && !a.review_rating;
+  var canComplete = isPro && a.status === 'confirmed';
+  var canConfirm  = isPro && a.status === 'pending';
+  var actions = '';
+  if(canConfirm)  actions += '<button onclick="changeStatus(\''+a.id+'\',\'confirmed\')" style="flex:1;background:#4caf82;color:#fff;border:none;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Nunito\',sans-serif;">✓ Confirmar</button>';
+  if(canComplete) actions += '<button onclick="changeStatus(\''+a.id+'\',\'completed\')" style="flex:1;background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Nunito\',sans-serif;">✔ Concluir</button>';
+  if(canCancel)   actions += '<button onclick="cancelAppt(\''+a.id+'\')" style="flex:1;background:#fff;color:#dc2626;border:1.5px solid #dc2626;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Nunito\',sans-serif;">✕ Cancelar</button>';
+  if(canReview)   actions += '<button onclick="openReview(\''+a.id+'\',\''+name+'\')" style="flex:1;background:#fef3c7;color:#b45309;border:1.5px solid #fcd34d;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Nunito\',sans-serif;">⭐ Avaliar</button>';
+  if(a.review_rating) actions += '<div style="font-size:12px;color:#b45309;text-align:center;padding:4px;">'+('⭐'.repeat(a.review_rating))+' Avaliado</div>';
+  return '<div class="appt" style="border-left-color:'+s.color+';">'
+    +'<div class="appt-top">'
+      +'<div><div class="appt-name">'+name+'</div>'
+      +'<div class="appt-type">'+(a.service_type==='domiciliar'?'🏠 Domiciliar':'🏥 Clínica')+'</div></div>'
+      +'<div><div class="appt-date">'+ds+'</div><div class="appt-time">'+ts+'</div></div>'
+    +'</div>'
+    +'<div style="font-size:12px;color:#64748b;margin-top:5px;">R$ '+price+'</div>'
+    +'<span class="status-pill '+s.cls+'">'+s.label+'</span>'
+    +(actions ? '<div style="display:flex;gap:6px;margin-top:8px;">'+actions+'</div>' : '')
+    +'</div>';
+}
+
+async function changeStatus(id, status){
+  try{
+    await api('PATCH','/api/appointments/'+id+'/status',{status:status});
+    toast(status==='confirmed'?'✅ Sessão confirmada!':(status==='completed'?'✔ Sessão concluída!':'Status atualizado'));
+    setTimeout(function(){ loadSessions(); },600);
+  } catch(e){ toast(e.message||'Erro ao atualizar'); }
+}
+
+async function cancelAppt(id){
+  var reason = prompt('Motivo do cancelamento (opcional):') || '';
+  try{
+    await api('PATCH','/api/appointments/'+id+'/status',{status:'cancelled', cancel_reason: reason});
+    toast('Sessão cancelada.');
+    setTimeout(function(){ loadSessions(); },600);
+  } catch(e){ toast(e.message||'Erro ao cancelar'); }
+}
+
+// ─ Sessões do fisio ─────────────────────────────
+async function loadProSessions(){
+  if(document.getElementById('page-pro-sessions').classList.contains('active')){
+    var container = document.getElementById('pro-sessions-list');
+    if(!container) return;
+    container.innerHTML = '<div style="text-align:center;padding:30px;color:#7fb3e8;">Carregando...</div>';
+    try{
+      var data  = await api('GET','/api/appointments?limit=50');
+      var appts = data.appointments || [];
+      var statusMap = {
+        pending:   {cls:'sp-sched',label:'⏳ Aguardando',color:'#4fc3f7'},
+        confirmed: {cls:'sp-sched',label:'✅ Confirmado',color:'#4caf82'},
+        completed: {cls:'sp-done', label:'✔ Concluído', color:'#4caf82'},
+        cancelled: {cls:'sp-cancel',label:'✕ Cancelado',color:'#ef5350'},
+      };
+      if(!appts.length){
+        container.innerHTML = '<div style="text-align:center;padding:40px;color:#7fb3e8;"><div style="font-size:32px;margin-bottom:12px;">📬</div><div>Nenhuma sessão ainda.</div></div>';
+        return;
+      }
+      var html = '<div class="slbl dk" style="margin-top:4px;">Pendentes de confirmação</div>';
+      var pending = appts.filter(function(a){ return a.status==='pending'; });
+      if(pending.length) html += pending.map(function(a){ return renderApptCard(a, statusMap, true); }).join('');
+      else html += '<div style="font-size:12px;color:#4a6fa5;padding:8px 0 12px;">Nenhum pedido pendente</div>';
+      html += '<div class="slbl dk">Confirmadas / Histórico</div>';
+      var rest = appts.filter(function(a){ return a.status!=='pending'; });
+      if(rest.length) html += rest.map(function(a){ return renderApptCard(a, statusMap, true); }).join('');
+      else html += '<div style="font-size:12px;color:#4a6fa5;padding:8px 0;">Nenhuma sessão no histórico</div>';
+      container.innerHTML = html;
+    } catch(e){
+      container.innerHTML = '<div style="text-align:center;padding:20px;color:#ef5350;">'+e.message+'</div>';
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════
+//  AVALIAÇÃO
+// ═══════════════════════════════════════════════
+var reviewState = { apptId: null, rating: 0 };
+
+function openReview(apptId, proName){
+  reviewState.apptId = apptId;
+  reviewState.rating = 0;
+  var avEl   = document.getElementById('rv-av');
+  var nameEl = document.getElementById('rv-name');
+  if(avEl)   { avEl.textContent = initials(proName); avEl.className = 'av '+avColor(proName); }
+  if(nameEl) nameEl.textContent = proName;
+  var comment = document.getElementById('rv-comment');
+  if(comment) comment.value = '';
+  setRating(0);
+  go('page-review');
+}
+
+function setRating(n){
+  reviewState.rating = n;
+  var stars = document.querySelectorAll('#rv-stars span');
+  stars.forEach(function(s,i){
+    s.style.opacity = i < n ? '1' : '.3';
+    s.style.transform = i < n ? 'scale(1.1)' : 'scale(1)';
+  });
+}
+
+async function submitReview(){
+  if(!reviewState.rating){ toast('Selecione uma avaliação de 1 a 5 estrelas'); return; }
+  var comment = document.getElementById('rv-comment')?.value?.trim() || '';
+  try{
+    await api('POST','/api/appointments/'+reviewState.apptId+'/review',{rating:reviewState.rating, comment:comment});
+    toast('⭐ Avaliação enviada! Obrigado.');
+    setTimeout(function(){ go('page-sessions'); },1000);
+  } catch(e){ toast(e.message||'Erro ao enviar avaliação'); }
+}
+
+// ═══════════════════════════════════════════════
+//  FAVORITOS
+// ═══════════════════════════════════════════════
+var favoritesSet = new Set();
+
+async function loadFavorites(){
+  var container = document.getElementById('favorites-list');
+  if(!container) return;
+  container.innerHTML = '<div style="text-align:center;padding:30px;color:#64748b;">Carregando...</div>';
+  try{
+    var data = await api('GET','/api/patients/favorites');
+    var favs = data.favorites || [];
+    favoritesSet = new Set(favs.map(function(f){ return f.professional_id; }));
+    if(!favs.length){
+      container.innerHTML = '<div style="text-align:center;padding:40px;color:#64748b;"><div style="font-size:32px;margin-bottom:12px;">❤️</div><div style="font-size:14px;font-weight:600;">Nenhum favorito ainda</div><div style="font-size:12px;margin-top:6px;">Toque no ❤ no perfil do fisioterapeuta para adicionar</div></div>';
+      return;
+    }
+    container.innerHTML = favs.map(function(p){
+      var av    = avColor(p.name);
+      var ini   = initials(p.name);
+      var price = p.session_price > 0 ? 'R$ '+parseFloat(p.session_price).toFixed(0) : 'Consulte';
+      var specs = (p.specialties||[]).slice(0,2).join(', ')||'Fisioterapia';
+      return '<div class="fc" style="display:flex;align-items:center;gap:12px;padding:12px;">'
+        +'<div class="av '+av+'" style="width:44px;height:44px;font-size:15px;">'+ini+'</div>'
+        +'<div style="flex:1;"><div class="fc-name">'+p.name+'</div><div class="fc-spec">'+specs+'</div><div style="font-size:12px;color:#1a73e8;font-weight:700;margin-top:3px;">'+price+'/sessão</div></div>'
+        +'<button onclick="removeFav(\''+p.professional_id+'\')" style="background:#fee2e2;color:#dc2626;border:none;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;">✕</button>'
+        +'</div>';
+    }).join('');
+  } catch(e){
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:#dc2626;">Erro ao carregar favoritos</div>';
+  }
+}
+
+async function toggleFavorite(proId){
+  if(!getToken()){ toast('Faça login para favoritar'); return; }
+  try{
+    if(favoritesSet.has(proId)){
+      await api('DELETE','/api/patients/favorites/'+proId);
+      favoritesSet.delete(proId);
+      toast('Removido dos favoritos');
+    } else {
+      await api('POST','/api/patients/favorites',{professional_id:proId});
+      favoritesSet.add(proId);
+      toast('❤ Adicionado aos favoritos!');
+    }
+    updateFavBtn(proId);
+  } catch(e){ toast(e.message||'Erro'); }
+}
+
+function updateFavBtn(proId){
+  var btn = document.getElementById('fav-btn');
+  if(btn) btn.style.color = favoritesSet.has(proId) ? '#ef4444' : '#64748b';
+}
+
+async function removeFav(proId){
+  try{
+    await api('DELETE','/api/patients/favorites/'+proId);
+    favoritesSet.delete(proId);
+    toast('Removido dos favoritos');
+    loadFavorites();
+  } catch(e){ toast(e.message||'Erro'); }
+}
+
+// ═══════════════════════════════════════════════
+//  NOTIFICAÇÕES
+// ═══════════════════════════════════════════════
+async function loadNotifications(){
+  var container = document.getElementById('notif-list');
+  if(!container) return;
+  container.innerHTML = '<div style="text-align:center;padding:30px;color:#64748b;">Carregando...</div>';
+  try{
+    var data  = await api('GET','/api/patients/notifications');
+    var notifs = data.notifications || [];
+    var badge  = document.getElementById('notif-badge');
+    var unread = notifs.filter(function(n){ return !n.read; }).length;
+    if(badge){ badge.style.display = unread > 0 ? 'inline' : 'none'; badge.textContent = unread; }
+    if(!notifs.length){
+      container.innerHTML = '<div style="text-align:center;padding:40px;color:#64748b;"><div style="font-size:32px;margin-bottom:12px;">🔔</div><div>Sem notificações</div></div>';
+      return;
+    }
+    container.innerHTML = notifs.map(function(n){
+      var d  = new Date(n.created_at);
+      var ds = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'}) + ' ' + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+      return '<div style="background:'+(n.read?'var(--c-bg2,#f8fafc)':'#fff')+';border-radius:12px;padding:12px;margin-bottom:8px;border:1px solid #e2e8f0;'+(n.read?'':'border-left:4px solid #1a73e8;')+'">'
+        +'<div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:3px;">'+n.title+'</div>'
+        +'<div style="font-size:12px;color:#64748b;">'+n.body+'</div>'
+        +'<div style="font-size:11px;color:#94a3b8;margin-top:5px;">'+ds+'</div>'
+        +'</div>';
+    }).join('');
+  } catch(e){
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:#dc2626;">Erro ao carregar notificações</div>';
+  }
+}
+
+// ═══════════════════════════════════════════════
+//  EDITAR CADASTRO — FISIO
+// ═══════════════════════════════════════════════
+async function loadProEdit(){
+  try{
+    var data = await api('GET','/api/auth/me');
+    if(document.getElementById('edit-nome'))  document.getElementById('edit-nome').value  = data.name  || '';
+    if(document.getElementById('edit-tel'))   document.getElementById('edit-tel').value   = data.phone || '';
+    if(document.getElementById('edit-address')) document.getElementById('edit-address').value = data.address || '';
+    if(document.getElementById('edit-price')) document.getElementById('edit-price').value  = data.session_price || '';
+    if(document.getElementById('edit-start')) document.getElementById('edit-start').value  = (data.work_start||'08:00').slice(0,5);
+    if(document.getElementById('edit-end'))   document.getElementById('edit-end').value    = (data.work_end||'20:00').slice(0,5);
+    if(document.getElementById('edit-bio'))   document.getElementById('edit-bio').value    = data.bio || '';
+    // Marca especialidades já cadastradas
+    var specs = data.specialties || [];
+    document.querySelectorAll('#edit-specs .check-chip').forEach(function(chip){
+      var label = chip.textContent.trim();
+      if(specs.includes(label)){
+        chip.classList.add('sel');
+        var box = chip.querySelector('.cbox');
+        if(box) box.innerHTML = '<i class="ti ti-check" style="font-size:10px;color:#0d2137;"></i>';
+      }
+    });
+  } catch(e){ toast('Erro ao carregar dados: '+e.message); }
+}
+
+async function saveProEdit(){
+  var nome    = document.getElementById('edit-nome')?.value?.trim();
+  var tel     = document.getElementById('edit-tel')?.value?.trim();
+  var address = document.getElementById('edit-address')?.value?.trim();
+  var price   = document.getElementById('edit-price')?.value;
+  var start   = document.getElementById('edit-start')?.value;
+  var end     = document.getElementById('edit-end')?.value;
+  var bio     = document.getElementById('edit-bio')?.value?.trim();
+  var specs   = Array.from(document.querySelectorAll('#edit-specs .check-chip.sel')).map(function(c){ return c.textContent.trim(); });
+  toast('Salvando...');
+  try{
+    await api('PUT','/api/professionals/profile',{
+      name: nome, phone: tel, address: address,
+      session_price: parseFloat(price)||0,
+      work_start: start, work_end: end,
+      bio: bio, specialties: specs,
+    });
+    // Atualiza cache local
+    var user = getUser();
+    if(user){ user.name = nome; saveSession(getToken(), user); }
+    toast('✅ Cadastro atualizado com sucesso!');
+  } catch(e){ toast(e.message||'Erro ao salvar'); }
+}
+
+async function getProLocation(){
+  toast('Obtendo localização...');
+  try{
+    var pos = await new Promise(function(res,rej){
+      navigator.geolocation.getCurrentPosition(res, rej, {timeout:8000});
+    });
+    await api('PATCH','/api/professionals/online',{
+      is_online: true,
+      latitude:  pos.coords.latitude,
+      longitude: pos.coords.longitude,
+    });
+    toast('✅ Localização atualizada!');
+  } catch(e){ toast('Não foi possível obter a localização.'); }
+}
+
+// ═══════════════════════════════════════════════
+//  BOTÃO FAVORITAR no detalhe do fisio
+// ═══════════════════════════════════════════════
+function openProfDetail(idx){
+  var p = allPros[idx];
+  if(!p){ go('page-detail'); return; }
+  currentPro = p;
+  // Avatar
+  var avEl = document.getElementById('d-av');
+  if(avEl){ avEl.textContent = initials(p.name); avEl.className = 'detail-av '+avColor(p.name); }
+  // Textos
+  var nm  = document.querySelector('#page-detail .d-name');
+  var crm = document.querySelector('#page-detail .d-crm');
+  var sp  = document.querySelector('#page-detail .d-spec');
+  var rt  = document.querySelector('#page-detail .d-rnum');
+  var cnt = document.querySelector('#page-detail .d-rcnt');
+  if(nm)  nm.textContent  = p.name;
+  if(crm) crm.textContent = 'CREFITO: '+(p.crefito||'—')+' · '+(p.crefito_uf||'');
+  if(sp)  sp.textContent  = (p.specialties||[]).join(', ')||'Fisioterapia Geral';
+  if(rt)  rt.textContent  = p.rating_avg > 0 ? parseFloat(p.rating_avg).toFixed(1) : 'Novo';
+  if(cnt) cnt.textContent = '('+p.rating_count+' avaliações)';
+  // Infos
+  var dloc  = document.getElementById('d-loc');
+  var dhora = document.getElementById('d-hora');
+  var dtipo = document.getElementById('d-tipo');
+  if(dloc)  dloc.textContent  = p.distance_km ? p.distance_km+' km de distância' : 'Localização disponível no app';
+  if(dhora) dhora.textContent = 'Atende das '+(p.work_start||'08:00').slice(0,5)+' às '+(p.work_end||'20:00').slice(0,5);
+  if(dtipo) dtipo.textContent = (p.service_types||[]).map(function(t){ return t==='domiciliar'?'Domiciliar':'Clínica'; }).join(' e ');
+  // Preços
+  var price = p.session_price > 0 ? 'R$ '+parseFloat(p.session_price).toFixed(2).replace('.',',') : 'Consulte';
+  ['d-preco1','d-preco2'].forEach(function(id){ var el=document.getElementById(id); if(el) el.textContent=price; });
+  // Botão favoritar
+  var favBtn = document.getElementById('fav-btn');
+  if(favBtn){ favBtn.style.color = favoritesSet.has(p.id) ? '#ef4444' : '#64748b'; }
+  // Botão agendar
+  var agBtn = document.getElementById('agendar-btn');
+  if(agBtn){ agBtn.onclick = function(){ openBooking(idx); }; }
+  go('page-detail');
+}
+
+// ═══════════════════════════════════════════════
+//  go() — atualizado para novas páginas
+// ═══════════════════════════════════════════════
 </script>
 </body>
 </html>
