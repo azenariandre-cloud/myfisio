@@ -724,9 +724,24 @@ html,body{
     <span class="logo">my<span class="logo-acc">Fisio</span></span>
     
   </div>
-  <div class="hero-blue">
-    <div class="logo-mark"><i class="ti ti-heart-pulse" style="font-size:30px;"></i></div>
-    <div class="app-name-hero">my<span>Fisio</span></div>
+  <div class="hero-blue" style="padding:20px 20px 28px;">
+    <div style="width:88px;height:88px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="88" height="88" aria-label="Ícone myFisio">
+        <!-- Cabeça -->
+        <circle cx="50" cy="16" r="10" fill="rgba(255,255,255,0.92)"/>
+        <!-- Corpo -->
+        <rect x="46" y="26" width="8" height="28" rx="4" fill="rgba(255,255,255,0.92)"/>
+        <!-- Braço esquerdo levantado -->
+        <line x1="46" y1="34" x2="18" y2="14" stroke="rgba(255,255,255,0.92)" stroke-width="7" stroke-linecap="round"/>
+        <!-- Braço direito levantado -->
+        <line x1="54" y1="34" x2="82" y2="14" stroke="rgba(255,255,255,0.92)" stroke-width="7" stroke-linecap="round"/>
+        <!-- Perna esquerda aberta -->
+        <line x1="48" y1="54" x2="22" y2="82" stroke="rgba(255,255,255,0.92)" stroke-width="7" stroke-linecap="round"/>
+        <!-- Perna direita aberta -->
+        <line x1="52" y1="54" x2="78" y2="82" stroke="rgba(255,255,255,0.92)" stroke-width="7" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="app-name-hero" style="font-size:30px;">my<span>Fisio</span></div>
     <div class="app-sub-hero">Fisioterapia onde você estiver</div>
   </div>
   <div class="form-area">
@@ -974,6 +989,23 @@ html,body{
         <small style="color:#4a6fa5;">PDF ou JPG · máx. 10 MB</small>
       </div>
     </div>
+    <div class="field">
+      <label style="color:#7fb3e8;">Faculdade / Universidade</label>
+      <div class="finput-wrap">
+        <input id="pro-faculdade" class="finput pro" type="text" placeholder="Ex: USP, UNIFESP, PUC..." style="background:#132840;border-color:#1e3a5f;color:#fff;">
+        <i class="ti ti-school fi-icon"></i>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label style="color:#7fb3e8;">Ano de formação</label>
+        <input id="pro-ano-form" class="finput pro" type="number" placeholder="2015" min="1980" max="2030" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+      </div>
+      <div class="field">
+        <label style="color:#7fb3e8;">Anos de experiência</label>
+        <input id="pro-experiencia" class="finput pro" type="number" placeholder="5" min="0" max="50" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+      </div>
+    </div>
 
     <div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-list-check" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Especialidades</span></div>
     <div class="check-grid" style="margin-bottom:14px;">
@@ -1130,10 +1162,7 @@ html,body{
       <div class="pin-lbl" style="background:#1a73e8;">Dr. Carlos · R$150</div>
       <div class="pin-tri" style="border-top:9px solid #1a73e8;"></div>
     </div>
-    <div class="map-pin" style="left:80%;top:58%;" onclick="go('page-detail')">
-      <div class="pin-lbl" style="background:#d97706;">Dra. Lúcia · R$130</div>
-      <div class="pin-tri" style="border-top:9px solid #d97706;"></div>
-    </div>
+
     <button class="loc-btn" onclick="toast('Localizando...')"><i class="ti ti-current-location" style="font-size:20px;color:#1a73e8;"></i></button>
     <div class="map-sheet">
       <div class="drag-hdl"></div>
@@ -1213,34 +1242,27 @@ html,body{
   <div class="scroll">
     <div class="info-card">
       <div class="ic-title">Informações</div>
-      <div class="ic-row"><span class="ic-icon">📍</span>Vila Madalena, São Paulo · 0.8 km</div>
-      <div class="ic-row"><span class="ic-icon">🕐</span>Disponível agora · Atende até 20h</div>
-      <div class="ic-row"><span class="ic-icon">🏠</span>Atendimento domiciliar e em clínica</div>
-      <div class="ic-row"><span class="ic-icon">🎓</span>USP · Pós em Ortopedia — UNIFESP</div>
-      <div class="ic-row"><span class="ic-icon">📋</span>8 anos de experiência</div>
+      <div class="ic-row"><span class="ic-icon">📍</span><span id="d-loc">—</span></div>
+      <div class="ic-row"><span class="ic-icon">🕐</span><span id="d-hora">—</span></div>
+      <div class="ic-row"><span class="ic-icon">🏠</span><span id="d-tipo">—</span></div>
+      <div class="ic-row"><span class="ic-icon">🎓</span><span id="d-form">—</span></div>
+      <div class="ic-row"><span class="ic-icon">📋</span><span id="d-exp">—</span></div>
+      <div class="ic-row"><span class="ic-icon">💬</span><span id="d-bio" style="color:#64748b;font-style:italic;"></span></div>
     </div>
     <div class="info-card">
       <div class="ic-title">Serviços</div>
-      <div class="svc-row"><span>Avaliação inicial (60 min)</span><span class="svc-p">R$ 120</span></div>
-      <div class="svc-row"><span>Sessão de fisioterapia (50 min)</span><span class="svc-p">R$ 120</span></div>
-      <div class="svc-row"><span>Pilates terapêutico (50 min)</span><span class="svc-p">R$ 140</span></div>
-      <div class="svc-row"><span>Drenagem linfática (60 min)</span><span class="svc-p">R$ 150</span></div>
+      <div class="svc-row"><span>Avaliação inicial (60 min)</span><span class="svc-p" id="d-preco1">—</span></div>
+      <div class="svc-row"><span>Sessão de fisioterapia (50 min)</span><span class="svc-p" id="d-preco2">—</span></div>
+      <div class="svc-row" style="border:none;"><span>Outros serviços</span><span class="svc-p">Consulte</span></div>
     </div>
-    <div class="info-card">
+    <div class="info-card" id="d-reviews-card">
       <div class="ic-title">Avaliações recentes</div>
-      <div style="font-size:13px;color:#374151;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #f8fafc;">
-        <div style="font-weight:700;margin-bottom:3px;">⭐⭐⭐⭐⭐ Marcos S.</div>
-        Excelente profissional! Resolveu minha lombar em 5 sessões.
-      </div>
-      <div style="font-size:13px;color:#374151;">
-        <div style="font-weight:700;margin-bottom:3px;">⭐⭐⭐⭐⭐ Carla M.</div>
-        Pontual, atenciosa e muito competente. Voltarei com certeza!
-      </div>
+      <div id="d-reviews-list"><div style="font-size:13px;color:#94a3b8;text-align:center;padding:8px;">Sem avaliações ainda</div></div>
     </div>
   </div>
   <div class="booking-bar">
-    <button id="fav-btn" onclick="toggleFavorite(currentPro && currentPro.id)" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px 14px;font-size:20px;cursor:pointer;transition:.15s;">❤️</button>
-    <div class="time-sel" onclick="toast('Selecione o horário na tela de agendamento')">📅 Escolher horário</div>
+    <button id="fav-btn" onclick="toggleFavorite(this.dataset.proid)" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px 14px;font-size:20px;cursor:pointer;transition:.15s;" data-proid="">❤️</button>
+    <div class="time-sel" onclick="if(currentPro){openBooking(allPros.indexOf(currentPro))}else{toast('Selecione um fisioterapeuta')}">📅 Escolher horário</div>
     <button class="btn-main btn-blue" id="agendar-btn" style="flex:1;height:44px;">Agendar</button>
   </div>
 </div>
@@ -1286,8 +1308,8 @@ html,body{
     <div class="menu-it" onclick="go('page-favorites')"><div class="menu-icon-box">❤️</div><div class="menu-lbl">Favoritos</div><div class="menu-arr">›</div></div>
     <div class="menu-it" onclick="go('page-sessions')"><div class="menu-icon-box">📅</div><div class="menu-lbl">Minhas sessões</div><div class="menu-arr">›</div></div>
     <div class="menu-it" onclick="go('page-notifications')"><div class="menu-icon-box">🔔</div><div class="menu-lbl">Notificações <span id="notif-badge" style="display:none;background:#ef4444;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;margin-left:6px;">0</span></div><div class="menu-arr">›</div></div>
-    <div class="menu-it"><div class="menu-icon-box">💳</div><div class="menu-lbl">Pagamento</div><div class="menu-arr">›</div></div>
-    <div class="menu-it"><div class="menu-icon-box">❓</div><div class="menu-lbl">Ajuda e suporte</div><div class="menu-arr">›</div></div>
+    <div class="menu-it" onclick="showPaymentInfo()"><div class="menu-icon-box">💳</div><div class="menu-lbl">Pagamento</div><div class="menu-arr">›</div></div>
+    <div class="menu-it" onclick="openSupport()"><div class="menu-icon-box">❓</div><div class="menu-lbl">Ajuda e suporte</div><div class="menu-arr">›</div></div>
     <div class="menu-it" style="border-color:#fee2e2;" onclick="doLogout()">
       <div class="menu-icon-box" style="background:#fee2e2;">🚪</div>
       <div class="menu-lbl" style="color:#b91c1c;">Sair</div>
@@ -1412,6 +1434,16 @@ html,body{
     <div class="field"><label style="color:#7fb3e8;">Bio / Apresentação</label>
       <textarea id="edit-bio" style="width:100%;background:#132840;border:1px solid #1e3a5f;border-radius:10px;padding:10px;color:#fff;font-size:13px;font-family:'Nunito Sans',sans-serif;resize:none;height:80px;outline:none;" placeholder="Fale um pouco sobre você e sua experiência..."></textarea>
     </div>
+    <div style="font-size:12px;font-weight:700;color:#4fc3f7;margin:4px 0 8px;text-transform:uppercase;letter-spacing:.4px;">Formação acadêmica</div>
+    <div class="field"><label style="color:#7fb3e8;">Faculdade / Universidade</label>
+      <input id="edit-faculdade" class="finput pro" type="text" placeholder="Ex: USP, UNIFESP..." style="background:#132840;border-color:#1e3a5f;color:#fff;">
+    </div>
+    <div class="field-row">
+      <div class="field"><label style="color:#7fb3e8;">Ano de formação</label>
+        <input id="edit-ano-form" class="finput pro" type="number" placeholder="2015" min="1980" max="2030" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+      <div class="field"><label style="color:#7fb3e8;">Anos de experiência</label>
+        <input id="edit-experiencia" class="finput pro" type="number" placeholder="5" min="0" max="50" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+    </div>
     <div style="font-size:12px;font-weight:700;color:#4fc3f7;margin:4px 0 8px;text-transform:uppercase;letter-spacing:.4px;">Especialidades</div>
     <div class="check-grid" id="edit-specs" style="margin-bottom:16px;">
       <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Ortopédica</div>
@@ -1467,9 +1499,9 @@ html,body{
       <div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Carregando pedidos...</div>
     </div>
     <div class="slbl dk">Agenda de hoje</div>
-    <div class="sch-item done"><div class="sch-time">09:00</div><div class="sch-info"><div class="sch-name">Marcos Santos</div><div class="sch-det">Ortopédica · Domiciliar</div></div><i class="ti ti-circle-check" style="color:#4caf82;font-size:20px;"></i></div>
-    <div class="sch-item done"><div class="sch-time">11:00</div><div class="sch-info"><div class="sch-name">Carla Mendonça</div><div class="sch-det">Pilates · Domiciliar</div></div><i class="ti ti-circle-check" style="color:#4caf82;font-size:20px;"></i></div>
-    <div class="sch-item"><div class="sch-time">14:00</div><div class="sch-info"><div class="sch-name">João Alves</div><div class="sch-det">Avaliação · Domiciliar</div></div><i class="ti ti-clock" style="color:#4fc3f7;font-size:20px;"></i></div>
+    <div id="pro-agenda-today">
+      <div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Carregando agenda...</div>
+    </div>
   </div>
   <div class="bot-nav dark-nav">
     <div class="nav-it on"><div class="nv-icon"><i class="ti ti-layout-dashboard"></i></div><div class="nv-lbl">Painel</div></div>
@@ -1480,6 +1512,10 @@ html,body{
 </div>
 
 <!-- Toast -->
+<div id="modal-overlay" onclick="closeModal()" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,.55);z-index:9998;align-items:flex-end;justify-content:center;">
+  <div id="modal-box" onclick="event.stopPropagation()" style="background:#fff;border-radius:20px 20px 0 0;padding:24px 20px;width:100%;text-align:center;"></div>
+</div>
+
 <div id="toast"></div>
 
 </div><!-- #app -->
@@ -1556,6 +1592,8 @@ async function loadProDash(){
     var statToday   = document.getElementById('stat-today');
     if(statPending) statPending.textContent = pending.length;
     if(statToday)   statToday.textContent   = today.length;
+    // Carrega agenda de hoje
+    loadTodayAgenda();
     // Renderiza pedidos urgentes no painel
     var demandArea = document.getElementById('pro-demand-area');
     if(demandArea){
@@ -1599,6 +1637,10 @@ window.addEventListener('load', function(){
         go('page-pro-dash');
       } else {
         go('page-map');
+        // Pré-carrega favoritos para o coração aparecer correto
+        api('GET','/api/patients/favorites').then(function(d){
+          (d.favorites||[]).forEach(function(f){ favoritesSet.add(f.professional_id); });
+        }).catch(function(){});
       }
       loadProfile();
     }, 400);
@@ -1696,6 +1738,10 @@ async function cadastrarPro(){
   if(pw.length < 8){ toast('A senha deve ter pelo menos 8 caracteres'); return; }
   if(pw !== pw2)   { toast('As senhas não conferem'); return; }
   if(!terms)       { toast('Aceite os termos para continuar'); return; }
+  var faculdade = document.getElementById('pro-faculdade')?.value?.trim();
+  var anoForm   = document.getElementById('pro-ano-form')?.value;
+  var experiencia = document.getElementById('pro-experiencia')?.value;
+
   toast('Obtendo sua localização...');
 
   // Tenta capturar localização automaticamente
@@ -1713,10 +1759,16 @@ async function cadastrarPro(){
   }
 
   try{
+    var bio = '';
+    if(faculdade) bio += faculdade;
+    if(anoForm)   bio += (bio ? ' · ' : '') + 'Formado em '+anoForm;
+    if(experiencia) bio += (bio ? ' · ' : '') + experiencia+' anos de experiência';
+
     var payload = {
       name:nome, email:email, cpf:cpf, phone:tel, password:pw, role:'professional',
       crefito:crefito, crefito_uf:uf||'SP', specialties:specs,
-      service_types:['domiciliar'], session_price:parseFloat(valor)||0
+      service_types:['domiciliar'], session_price:parseFloat(valor)||0,
+      bio: bio || null,
     };
     if(latitude !== null)  payload.latitude  = latitude;
     if(longitude !== null) payload.longitude = longitude;
@@ -2044,8 +2096,162 @@ function openProfDetail(idx){
   if(dtipo) dtipo.textContent = (p.service_types||[]).map(function(t){ return t==='domiciliar'?'Domiciliar':'Clínica'; }).join(' e ');
   go('page-detail');
 }
-// ── Filtro de especialidade ─────────────────────
-function filterPros(el, specialty){
+// ── Pagamento ───────────────────────────────────
+function showPaymentInfo(){
+  var modal = document.getElementById('modal-overlay');
+  var box   = document.getElementById('modal-box');
+  if(!modal || !box) return;
+  box.innerHTML =
+    '<div style="font-size:22px;margin-bottom:10px;">💳</div>'
+    +'<div style="font-size:16px;font-weight:700;color:#0f172a;margin-bottom:8px;">Pagamento</div>'
+    +'<div style="font-size:13px;color:#475569;line-height:1.7;margin-bottom:18px;">'
+    +'O myFisio opera no modelo <strong>pós-pago</strong>.<br><br>'
+    +'Um relatório detalhado de todas as sessões realizadas, com o valor correspondente à taxa de <strong>5% por sessão confirmada</strong>, será enviado automaticamente para o seu <strong>e-mail cadastrado</strong> no final de cada mês.<br><br>'
+    +'O pagamento pode ser realizado via <strong>Pix ou boleto</strong> conforme instruções do e-mail.'
+    +'</div>'
+    +'<button onclick="closeModal()" style="width:100%;background:#1a73e8;color:#fff;border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:\'Nunito\',sans-serif;">Entendi</button>';
+  modal.style.display = 'flex';
+}
+
+// ── Suporte WhatsApp ─────────────────────────────
+function openSupport(){
+  var msg = encodeURIComponent('Olá! Preciso de ajuda com o myFisio.');
+  window.open('https://wa.me/5511981045900?text='+msg, '_blank');
+}
+
+// ── Modal genérico ───────────────────────────────
+function closeModal(){
+  var modal = document.getElementById('modal-overlay');
+  if(modal) modal.style.display = 'none';
+}
+
+// ── Detalhes do fisioterapeuta — dados reais ─────
+function openProfDetail(idx){
+  var p = allPros[idx];
+  if(!p){ go('page-detail'); return; }
+  currentPro = p;
+
+  // Avatar
+  var avEl = document.getElementById('d-av');
+  if(avEl){ avEl.textContent = initials(p.name); avEl.className = 'detail-av '+avColor(p.name); }
+
+  // Cabeçalho
+  var nm  = document.querySelector('#page-detail .d-name');
+  var crm = document.querySelector('#page-detail .d-crm');
+  var sp  = document.querySelector('#page-detail .d-spec');
+  var rt  = document.querySelector('#page-detail .d-rnum');
+  var cnt = document.querySelector('#page-detail .d-rcnt');
+  if(nm)  nm.textContent  = p.name;
+  if(crm) crm.textContent = 'CREFITO: '+(p.crefito||'—')+' · '+(p.crefito_uf||'BR');
+  if(sp)  sp.textContent  = (p.specialties||[]).join(', ')||'Fisioterapia Geral';
+  if(rt)  rt.textContent  = p.rating_avg > 0 ? parseFloat(p.rating_avg).toFixed(1) : 'Novo';
+  if(cnt) cnt.textContent = '('+p.rating_count+' avaliações)';
+
+  // Campos de info com IDs
+  var dloc  = document.getElementById('d-loc');
+  var dhora = document.getElementById('d-hora');
+  var dtipo = document.getElementById('d-tipo');
+  var dform = document.getElementById('d-form');
+  var dexp  = document.getElementById('d-exp');
+  var dbio  = document.getElementById('d-bio');
+  if(dloc)  dloc.textContent  = p.distance_km ? p.distance_km+' km de distância' : 'Localização disponível';
+  if(dhora) dhora.textContent = 'Atende das '+(p.work_start||'08:00').slice(0,5)+' às '+(p.work_end||'20:00').slice(0,5);
+  if(dtipo) dtipo.textContent = (p.service_types||[]).map(function(t){ return t==='domiciliar'?'Domiciliar':'Clínica'; }).join(' e ');
+  // Formação: usa campos bio para exibir faculdade e experiência
+  var faculdade = p.faculdade || p.formacao || '';
+  var exp = p.anos_experiencia || p.experiencia || '';
+  if(dform) dform.textContent = faculdade || 'Informações de formação não informadas';
+  if(dexp)  dexp.textContent  = exp ? exp+' anos de experiência' : 'Experiência não informada';
+  if(dbio && p.bio) dbio.textContent = p.bio;
+  else if(dbio) dbio.textContent = '';
+
+  // Preços
+  var price = p.session_price > 0 ? 'R$ '+parseFloat(p.session_price).toFixed(2).replace('.',',') : 'Consulte';
+  var p1 = document.getElementById('d-preco1');
+  var p2 = document.getElementById('d-preco2');
+  if(p1) p1.textContent = price;
+  if(p2) p2.textContent = price;
+
+  // Avaliações reais
+  var reviewsList = document.getElementById('d-reviews-list');
+  if(reviewsList){
+    if(p.reviews && p.reviews.length){
+      reviewsList.innerHTML = p.reviews.slice(0,3).map(function(r){
+        var stars = '⭐'.repeat(r.rating);
+        return '<div style="font-size:13px;color:#374151;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #f8fafc;">'
+          +'<div style="font-weight:700;margin-bottom:3px;">'+stars+' '+r.patient_name+'</div>'
+          +(r.comment||'')
+          +'</div>';
+      }).join('');
+    } else {
+      reviewsList.innerHTML = '<div style="font-size:13px;color:#94a3b8;text-align:center;padding:8px;">Seja o primeiro a avaliar!</div>';
+    }
+  }
+
+  // Botão favoritar — usa data attribute para evitar closure stale
+  var favBtn = document.getElementById('fav-btn');
+  if(favBtn){
+    favBtn.dataset.proid = p.id;
+    favBtn.style.color   = favoritesSet.has(p.id) ? '#ef4444' : '#64748b';
+    favBtn.innerHTML     = favoritesSet.has(p.id) ? '❤️' : '🤍';
+  }
+
+  // Botão agendar
+  var agBtn = document.getElementById('agendar-btn');
+  if(agBtn) agBtn.onclick = function(){ openBooking(idx); };
+
+  // Carrega avaliações reais da API em segundo plano
+  if(getToken()){
+    api('GET','/api/professionals/'+p.id).then(function(data){
+      if(data.reviews && data.reviews.length && reviewsList){
+        reviewsList.innerHTML = data.reviews.slice(0,3).map(function(r){
+          var stars = '⭐'.repeat(r.rating);
+          return '<div style="font-size:13px;color:#374151;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #f8fafc;">'
+            +'<div style="font-weight:700;margin-bottom:3px;">'+stars+' '+r.patient_name+'</div>'
+            +(r.comment||'')+'</div>';
+        }).join('');
+      }
+    }).catch(function(){});
+  }
+
+  go('page-detail');
+}
+
+// ─ Agenda de hoje do Pro ─────────────────────────
+async function loadTodayAgenda(){
+  var container = document.getElementById('pro-agenda-today');
+  if(!container) return;
+  try{
+    var data  = await api('GET','/api/appointments?limit=50');
+    var appts = data.appointments || [];
+    var today = new Date().toDateString();
+    var todayAppts = appts.filter(function(a){
+      return new Date(a.scheduled_at).toDateString() === today
+          && a.status !== 'cancelled';
+    }).sort(function(a,b){ return new Date(a.scheduled_at)-new Date(b.scheduled_at); });
+
+    if(!todayAppts.length){
+      container.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Nenhuma sessão agendada para hoje.</div>';
+      return;
+    }
+    container.innerHTML = todayAppts.map(function(a){
+      var d    = new Date(a.scheduled_at);
+      var time = d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+      var done = a.status === 'completed';
+      var icon = done
+        ? '<i class="ti ti-circle-check" style="color:#4caf82;font-size:20px;"></i>'
+        : '<i class="ti ti-clock" style="color:#4fc3f7;font-size:20px;"></i>';
+      return '<div class="sch-item'+(done?' done':'')+'">'
+        +'<div class="sch-time">'+time+'</div>'
+        +'<div class="sch-info"><div class="sch-name">'+(a.patient_name||'Paciente')+'</div>'
+        +'<div class="sch-det">'+(a.service_type==='domiciliar'?'Domiciliar':'Clínica')+'</div></div>'
+        +icon+'</div>';
+    }).join('');
+  } catch(e){
+    container.innerHTML = '<div style="font-size:13px;color:#ef5350;padding:8px 0;">Erro ao carregar agenda</div>';
+  }
+}
+
   document.querySelectorAll('.chip-row .chip').forEach(function(c){ c.classList.remove('on'); });
   el.classList.add('on');
   loadProfessionals(specialty === 'Todos' ? null : specialty);
@@ -2393,6 +2599,7 @@ async function loadFavorites(){
 }
 
 async function toggleFavorite(proId){
+  if(!proId){ toast('Erro: profissional não identificado'); return; }
   if(!getToken()){ toast('Faça login para favoritar'); return; }
   try{
     if(favoritesSet.has(proId)){
@@ -2402,15 +2609,22 @@ async function toggleFavorite(proId){
     } else {
       await api('POST','/api/patients/favorites',{professional_id:proId});
       favoritesSet.add(proId);
-      toast('❤ Adicionado aos favoritos!');
+      toast('❤️ Adicionado aos favoritos!');
     }
-    updateFavBtn(proId);
-  } catch(e){ toast(e.message||'Erro'); }
+    var btn = document.getElementById('fav-btn');
+    if(btn){
+      btn.innerHTML   = favoritesSet.has(proId) ? '❤️' : '🤍';
+      btn.style.color = favoritesSet.has(proId) ? '#ef4444' : '#64748b';
+    }
+  } catch(e){ toast(e.message||'Erro ao favoritar'); }
 }
 
 function updateFavBtn(proId){
   var btn = document.getElementById('fav-btn');
-  if(btn) btn.style.color = favoritesSet.has(proId) ? '#ef4444' : '#64748b';
+  if(btn){
+    btn.innerHTML   = favoritesSet.has(proId) ? '❤️' : '🤍';
+    btn.style.color = favoritesSet.has(proId) ? '#ef4444' : '#64748b';
+  }
 }
 
 async function removeFav(proId){
@@ -2459,14 +2673,25 @@ async function loadNotifications(){
 async function loadProEdit(){
   try{
     var data = await api('GET','/api/auth/me');
-    if(document.getElementById('edit-nome'))  document.getElementById('edit-nome').value  = data.name  || '';
-    if(document.getElementById('edit-tel'))   document.getElementById('edit-tel').value   = data.phone || '';
-    if(document.getElementById('edit-address')) document.getElementById('edit-address').value = data.address || '';
-    if(document.getElementById('edit-price')) document.getElementById('edit-price').value  = data.session_price || '';
-    if(document.getElementById('edit-start')) document.getElementById('edit-start').value  = (data.work_start||'08:00').slice(0,5);
-    if(document.getElementById('edit-end'))   document.getElementById('edit-end').value    = (data.work_end||'20:00').slice(0,5);
-    if(document.getElementById('edit-bio'))   document.getElementById('edit-bio').value    = data.bio || '';
-    // Marca especialidades já cadastradas
+    if(document.getElementById('edit-nome'))    document.getElementById('edit-nome').value    = data.name   || '';
+    if(document.getElementById('edit-tel'))     document.getElementById('edit-tel').value     = data.phone  || '';
+    if(document.getElementById('edit-address')) document.getElementById('edit-address').value = data.address|| '';
+    if(document.getElementById('edit-price'))   document.getElementById('edit-price').value   = data.session_price || '';
+    if(document.getElementById('edit-start'))   document.getElementById('edit-start').value   = (data.work_start||'08:00').slice(0,5);
+    if(document.getElementById('edit-end'))     document.getElementById('edit-end').value     = (data.work_end  ||'20:00').slice(0,5);
+    if(document.getElementById('edit-bio'))     document.getElementById('edit-bio').value     = data.bio    || '';
+    // Tenta extrair faculdade e experiência do campo bio (formato: "Faculdade · Formado em XXXX · N anos de experiência")
+    var bio = data.bio || '';
+    var parts = bio.split(' · ');
+    if(parts.length >= 1 && document.getElementById('edit-faculdade'))
+      document.getElementById('edit-faculdade').value = parts[0] || '';
+    var anoMatch = bio.match(/Formado em (\d{4})/);
+    if(anoMatch && document.getElementById('edit-ano-form'))
+      document.getElementById('edit-ano-form').value = anoMatch[1];
+    var expMatch = bio.match(/(\d+) anos de experiência/);
+    if(expMatch && document.getElementById('edit-experiencia'))
+      document.getElementById('edit-experiencia').value = expMatch[1];
+    // Marca especialidades
     var specs = data.specialties || [];
     document.querySelectorAll('#edit-specs .check-chip').forEach(function(chip){
       var label = chip.textContent.trim();
@@ -2480,23 +2705,34 @@ async function loadProEdit(){
 }
 
 async function saveProEdit(){
-  var nome    = document.getElementById('edit-nome')?.value?.trim();
-  var tel     = document.getElementById('edit-tel')?.value?.trim();
-  var address = document.getElementById('edit-address')?.value?.trim();
-  var price   = document.getElementById('edit-price')?.value;
-  var start   = document.getElementById('edit-start')?.value;
-  var end     = document.getElementById('edit-end')?.value;
-  var bio     = document.getElementById('edit-bio')?.value?.trim();
-  var specs   = Array.from(document.querySelectorAll('#edit-specs .check-chip.sel')).map(function(c){ return c.textContent.trim(); });
+  var nome      = document.getElementById('edit-nome')?.value?.trim();
+  var tel       = document.getElementById('edit-tel')?.value?.trim();
+  var address   = document.getElementById('edit-address')?.value?.trim();
+  var price     = document.getElementById('edit-price')?.value;
+  var start     = document.getElementById('edit-start')?.value;
+  var end       = document.getElementById('edit-end')?.value;
+  var bio       = document.getElementById('edit-bio')?.value?.trim();
+  var faculdade = document.getElementById('edit-faculdade')?.value?.trim();
+  var anoForm   = document.getElementById('edit-ano-form')?.value;
+  var exp       = document.getElementById('edit-experiencia')?.value;
+  var specs     = Array.from(document.querySelectorAll('#edit-specs .check-chip.sel')).map(function(c){ return c.textContent.trim(); });
+
+  // Compõe bio com formação se não foi informada manualmente
+  var bioFinal = bio || '';
+  if(!bioFinal && (faculdade || anoForm || exp)){
+    if(faculdade) bioFinal += faculdade;
+    if(anoForm)   bioFinal += (bioFinal ? ' · ' : '') + 'Formado em '+anoForm;
+    if(exp)       bioFinal += (bioFinal ? ' · ' : '') + exp+' anos de experiência';
+  }
+
   toast('Salvando...');
   try{
     await api('PUT','/api/professionals/profile',{
       name: nome, phone: tel, address: address,
       session_price: parseFloat(price)||0,
       work_start: start, work_end: end,
-      bio: bio, specialties: specs,
+      bio: bioFinal || null, specialties: specs,
     });
-    // Atualiza cache local
     var user = getUser();
     if(user){ user.name = nome; saveSession(getToken(), user); }
     toast('✅ Cadastro atualizado com sucesso!');
