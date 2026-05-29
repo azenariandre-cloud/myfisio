@@ -1,0 +1,592 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>myFisio Admin</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Arial, Helvetica, sans-serif;
+  background:#0f172a;
+  color:#fff;
+}
+
+.container{
+  display:flex;
+  min-height:100vh;
+}
+
+.sidebar{
+  width:260px;
+  background:#071120;
+  border-right:1px solid #1e293b;
+  padding:24px;
+}
+
+.logo{
+  font-size:28px;
+  font-weight:bold;
+  margin-bottom:40px;
+}
+
+.logo span{
+  color:#38bdf8;
+}
+
+.menu{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.menu button{
+  background:#132840;
+  border:none;
+  color:#fff;
+  padding:14px;
+  border-radius:12px;
+  cursor:pointer;
+  text-align:left;
+  font-size:15px;
+  transition:.2s;
+}
+
+.menu button:hover{
+  background:#1d3b5d;
+}
+
+.content{
+  flex:1;
+  padding:28px;
+  overflow:auto;
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:24px;
+}
+
+.topbar h1{
+  font-size:30px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+  margin-bottom:28px;
+}
+
+.card{
+  background:#132840;
+  border:1px solid #1e3a5f;
+  border-radius:18px;
+  padding:20px;
+}
+
+.card-title{
+  color:#7fb3e8;
+  font-size:14px;
+  margin-bottom:8px;
+}
+
+.card-number{
+  font-size:36px;
+  font-weight:bold;
+}
+
+.filters{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+
+.filters input,
+.filters select{
+  background:#132840;
+  border:1px solid #1e3a5f;
+  color:#fff;
+  padding:12px;
+  border-radius:10px;
+}
+
+.table{
+  background:#132840;
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid #1e3a5f;
+}
+
+.table-header,
+.table-row{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr 120px;
+  padding:16px;
+  align-items:center;
+}
+
+.table-header{
+  background:#0b1d32;
+  font-weight:bold;
+  color:#7fb3e8;
+}
+
+.table-row{
+  border-top:1px solid #1e3a5f;
+}
+
+.table-row:hover{
+  background:#183252;
+}
+
+.btn{
+  background:#38bdf8;
+  color:#071120;
+  border:none;
+  padding:10px 12px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+.modal-content{
+  width:90%;
+  max-width:700px;
+  background:#0f172a;
+  border:1px solid #1e3a5f;
+  border-radius:20px;
+  padding:24px;
+}
+
+.modal-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:24px;
+}
+
+.close{
+  cursor:pointer;
+  font-size:26px;
+}
+
+.detail-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-bottom:24px;
+}
+
+.detail-card{
+  background:#132840;
+  border-radius:14px;
+  padding:18px;
+}
+
+.detail-card h3{
+  color:#7fb3e8;
+  font-size:13px;
+  margin-bottom:10px;
+}
+
+.detail-card p{
+  font-size:24px;
+  font-weight:bold;
+}
+
+.session-list{
+  background:#132840;
+  border-radius:14px;
+  padding:18px;
+}
+
+.session-item{
+  border-bottom:1px solid #1e3a5f;
+  padding:12px 0;
+}
+
+.session-item:last-child{
+  border:none;
+}
+
+.badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:12px;
+  margin-top:6px;
+}
+
+.realizada{
+  background:#14532d;
+  color:#86efac;
+}
+
+.agendada{
+  background:#1e3a8a;
+  color:#93c5fd;
+}
+
+.hidden{
+  display:none;
+}
+
+@media(max-width:900px){
+
+  .table-header,
+  .table-row{
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+
+  .detail-grid{
+    grid-template-columns:1fr;
+  }
+
+  .sidebar{
+    display:none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <aside class="sidebar">
+    <div class="logo">
+      my<span>Fisio</span> Admin
+    </div>
+
+    <div class="menu">
+      <button onclick="showTab('pacientes')">
+        <i class="ti ti-users"></i>
+        Pacientes
+      </button>
+
+      <button onclick="showTab('fisios')">
+        <i class="ti ti-stethoscope"></i>
+        Fisioterapeutas
+      </button>
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <div class="topbar">
+      <h1>Painel Administrativo</h1>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-title">Pacientes cadastrados</div>
+        <div class="card-number" id="totalPacientes">0</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Fisioterapeutas cadastrados</div>
+        <div class="card-number" id="totalFisios">0</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Sessões realizadas</div>
+        <div class="card-number" id="totalSessoes">0</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Sessões agendadas</div>
+        <div class="card-number" id="totalAgendadas">0</div>
+      </div>
+    </div>
+
+    <div class="filters">
+      <input type="text" id="searchInput" placeholder="Buscar por nome ou e-mail">
+
+      <select id="locationFilter">
+        <option value="">Todas localizações</option>
+        <option>São Paulo</option>
+        <option>Campinas</option>
+        <option>Rio de Janeiro</option>
+      </select>
+
+      <select id="dateFilter">
+        <option value="">Todas datas</option>
+        <option value="2026">2026</option>
+        <option value="2025">2025</option>
+      </select>
+    </div>
+
+    <!-- PACIENTES -->
+    <div id="pacientesTab">
+
+      <div class="table">
+
+        <div class="table-header">
+          <div>Nome</div>
+          <div>E-mail</div>
+          <div>Localização</div>
+          <div>Cadastro</div>
+          <div>Ações</div>
+        </div>
+
+        <div id="pacientesTable"></div>
+
+      </div>
+
+    </div>
+
+    <!-- FISIOS -->
+    <div id="fisiosTab" class="hidden">
+
+      <div class="table">
+
+        <div class="table-header">
+          <div>Nome</div>
+          <div>E-mail</div>
+          <div>Localização</div>
+          <div>Cadastro</div>
+          <div>Ações</div>
+        </div>
+
+        <div id="fisiosTable"></div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+
+  <div class="modal-content">
+
+    <div class="modal-top">
+      <h2 id="modalTitle">Detalhes</h2>
+      <div class="close" onclick="closeModal()">
+        <i class="ti ti-x"></i>
+      </div>
+    </div>
+
+    <div class="detail-grid">
+
+      <div class="detail-card">
+        <h3>Sessões Agendadas</h3>
+        <p id="modalAgendadas">0</p>
+      </div>
+
+      <div class="detail-card">
+        <h3>Sessões Realizadas</h3>
+        <p id="modalRealizadas">0</p>
+      </div>
+
+    </div>
+
+    <div class="session-list" id="sessionList"></div>
+
+  </div>
+
+</div>
+
+<script>
+
+const pacientes = [
+  {
+    nome:"Carlos Silva",
+    email:"carlos@email.com",
+    local:"São Paulo",
+    cadastro:"12/05/2026",
+    agendadas:5,
+    realizadas:12,
+    sessoes:[
+      {paciente:"Joelho", status:"realizada"},
+      {paciente:"Lombar", status:"agendada"}
+    ]
+  },
+
+  {
+    nome:"Fernanda Souza",
+    email:"fernanda@email.com",
+    local:"Campinas",
+    cadastro:"02/04/2026",
+    agendadas:2,
+    realizadas:7,
+    sessoes:[
+      {paciente:"Pilates", status:"realizada"},
+      {paciente:"Ortopedia", status:"agendada"}
+    ]
+  }
+];
+
+const fisios = [
+  {
+    nome:"Dra. Ana Costa",
+    email:"ana@fisio.com",
+    local:"São Paulo",
+    cadastro:"01/02/2026",
+    agendadas:14,
+    realizadas:52,
+    sessoes:[
+      {paciente:"Maria", status:"realizada"},
+      {paciente:"João", status:"agendada"}
+    ]
+  },
+
+  {
+    nome:"Dr. Lucas Mendes",
+    email:"lucas@fisio.com",
+    local:"Rio de Janeiro",
+    cadastro:"14/01/2026",
+    agendadas:8,
+    realizadas:39,
+    sessoes:[
+      {paciente:"Pedro", status:"realizada"},
+      {paciente:"Paula", status:"agendada"}
+    ]
+  }
+];
+
+function renderTables(){
+
+  const pacientesTable = document.getElementById("pacientesTable");
+  const fisiosTable = document.getElementById("fisiosTable");
+
+  pacientesTable.innerHTML = "";
+  fisiosTable.innerHTML = "";
+
+  pacientes.forEach((p,index)=>{
+
+    pacientesTable.innerHTML += `
+      <div class="table-row">
+        <div>${p.nome}</div>
+        <div>${p.email}</div>
+        <div>${p.local}</div>
+        <div>${p.cadastro}</div>
+        <div>
+          <button class="btn" onclick="openModal('paciente',${index})">
+            Visualizar
+          </button>
+        </div>
+      </div>
+    `;
+  });
+
+  fisios.forEach((f,index)=>{
+
+    fisiosTable.innerHTML += `
+      <div class="table-row">
+        <div>${f.nome}</div>
+        <div>${f.email}</div>
+        <div>${f.local}</div>
+        <div>${f.cadastro}</div>
+        <div>
+          <button class="btn" onclick="openModal('fisio',${index})">
+            Visualizar
+          </button>
+        </div>
+      </div>
+    `;
+  });
+
+  document.getElementById("totalPacientes").innerText = pacientes.length;
+  document.getElementById("totalFisios").innerText = fisios.length;
+
+  let realizadas = 0;
+  let agendadas = 0;
+
+  [...pacientes,...fisios].forEach(item=>{
+    realizadas += item.realizadas;
+    agendadas += item.agendadas;
+  });
+
+  document.getElementById("totalSessoes").innerText = realizadas;
+  document.getElementById("totalAgendadas").innerText = agendadas;
+}
+
+function openModal(tipo,index){
+
+  const data = tipo === "paciente"
+    ? pacientes[index]
+    : fisios[index];
+
+  document.getElementById("modal").style.display = "flex";
+
+  document.getElementById("modalTitle").innerText = data.nome;
+
+  document.getElementById("modalAgendadas").innerText = data.agendadas;
+  document.getElementById("modalRealizadas").innerText = data.realizadas;
+
+  const sessionList = document.getElementById("sessionList");
+
+  sessionList.innerHTML = "";
+
+  data.sessoes.forEach(sessao=>{
+
+    sessionList.innerHTML += `
+      <div class="session-item">
+        <strong>${sessao.paciente}</strong><br>
+
+        <span class="badge ${sessao.status}">
+          ${sessao.status}
+        </span>
+      </div>
+    `;
+  });
+}
+
+function closeModal(){
+  document.getElementById("modal").style.display = "none";
+}
+
+function showTab(tab){
+
+  document.getElementById("pacientesTab")
+    .classList.add("hidden");
+
+  document.getElementById("fisiosTab")
+    .classList.add("hidden");
+
+  if(tab === "pacientes"){
+    document.getElementById("pacientesTab")
+      .classList.remove("hidden");
+  }
+
+  if(tab === "fisios"){
+    document.getElementById("fisiosTab")
+      .classList.remove("hidden");
+  }
+}
+
+renderTables();
+
+</script>
+
+</body>
+</html>
+```
