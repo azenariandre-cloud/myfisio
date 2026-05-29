@@ -1990,7 +1990,7 @@ function loadProfessionals(specialty){
         '<div style="text-align:center;padding:24px;color:#64748b;font-size:13px;">'
         +'<div style="font-size:28px;margin-bottom:8px;">📡</div>'
         +'Serviço iniciando... aguarde um momento.'
-        +'<br><br><button onclick="loadProfessionals()" style="background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:8px 18px;font-size:13px;cursor:pointer;font-family:'Nunito',sans-serif;">Tentar novamente</button>'
+        +'<br><br><button onclick="loadProfessionals()" style="background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:8px 18px;font-size:13px;cursor:pointer;font-family:Nunito,sans-serif;">Tentar novamente</button>'
         +'</div>';
     }
   })();
@@ -2115,7 +2115,7 @@ function showPaymentInfo(){
     +'Um relatório detalhado de todas as sessões realizadas, com o valor correspondente à taxa de <strong>5% por sessão confirmada</strong>, será enviado automaticamente para o seu <strong>e-mail cadastrado</strong> no final de cada mês.<br><br>'
     +'O pagamento pode ser realizado via <strong>Pix ou boleto</strong> conforme instruções do e-mail.'
     +'</div>'
-    +'<button onclick="closeModal()" style="width:100%;background:#1a73e8;color:#fff;border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:\'Nunito\',sans-serif;">Entendi</button>';
+    +'<button onclick="closeModal()" style="width:100%;background:#1a73e8;color:#fff;border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:Nunito,sans-serif;">Entendi</button>';
   modal.style.display = 'flex';
 }
 
@@ -2466,10 +2466,10 @@ function renderApptCard(a, statusMap, isPro){
   var canComplete = isPro && a.status === 'confirmed';
   var canConfirm  = isPro && a.status === 'pending';
   var actions = '';
-  if(canConfirm)  actions += '<button onclick="changeStatus(\''+a.id+'\',\'confirmed\')" style="flex:1;background:#4caf82;color:#fff;border:none;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Nunito\',sans-serif;">✓ Confirmar</button>';
-  if(canComplete) actions += '<button onclick="changeStatus(\''+a.id+'\',\'completed\')" style="flex:1;background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Nunito\',sans-serif;">✔ Concluir</button>';
-  if(canCancel)   actions += '<button onclick="cancelAppt(\''+a.id+'\')" style="flex:1;background:#fff;color:#dc2626;border:1.5px solid #dc2626;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Nunito\',sans-serif;">✕ Cancelar</button>';
-  if(canReview)   actions += '<button onclick="openReview(\''+a.id+'\',\''+name+'\')" style="flex:1;background:#fef3c7;color:#b45309;border:1.5px solid #fcd34d;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Nunito\',sans-serif;">⭐ Avaliar</button>';
+  if(canConfirm)  actions += '<button onclick="changeStatus(\''+a.id+'\',\'confirmed\')" style="flex:1;background:#4caf82;color:#fff;border:none;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Nunito,sans-serif;">✓ Confirmar</button>';
+  if(canComplete) actions += '<button onclick="changeStatus(\''+a.id+'\',\'completed\')" style="flex:1;background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Nunito,sans-serif;">✔ Concluir</button>';
+  if(canCancel)   actions += '<button onclick="cancelAppt(\''+a.id+'\')" style="flex:1;background:#fff;color:#dc2626;border:1.5px solid #dc2626;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Nunito,sans-serif;">✕ Cancelar</button>';
+  if(canReview)   actions += '<button onclick="openReview(\''+a.id+'\',\''+name+'\')" style="flex:1;background:#fef3c7;color:#b45309;border:1.5px solid #fcd34d;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Nunito,sans-serif;">⭐ Avaliar</button>';
   if(a.review_rating) actions += '<div style="font-size:12px;color:#b45309;text-align:center;padding:4px;">'+('⭐'.repeat(a.review_rating))+' Avaliado</div>';
   return '<div class="appt" style="border-left-color:'+s.color+';">'
     +'<div class="appt-top">'
