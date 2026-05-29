@@ -1,14 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#1a73e8">
-<meta name="description" content="myFisio — Fisioterapia onde você estiver">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<meta content="#1a73e8" name="theme-color"/>
+<meta content="myFisio — Fisioterapia onde você estiver" name="description"/>
 <title>myFisio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&amp;family=Nunito+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" rel="stylesheet"/>
 <style>
 /* ═══════════════════════════════════════════
    RESET & BASE
@@ -702,824 +703,788 @@ html,body{
 </head>
 <body>
 <div id="app">
-
 <!-- ══════════════════════════════════════
      SPLASH
 ══════════════════════════════════════ -->
-<div id="page-splash" class="page active">
-  <div class="splash-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;background:#1a73e8;">
-    <div class="splash-mark"><i class="ti ti-heart-pulse"></i></div>
-    <div class="splash-name">my<span>Fisio</span></div>
-    <div class="splash-sub">Fisioterapia onde você estiver</div>
-    <div class="loader"><div class="loader-bar"></div></div>
-  </div>
+<div class="page active" id="page-splash">
+<div class="splash-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;background:#1a73e8;">
+<div class="splash-mark"><i class="ti ti-heart-pulse"></i></div>
+<div class="splash-name">my<span>Fisio</span></div>
+<div class="splash-sub">Fisioterapia onde você estiver</div>
+<div class="loader"><div class="loader-bar"></div></div>
 </div>
-
+</div>
 <!-- ══════════════════════════════════════
      LOGIN
 ══════════════════════════════════════ -->
-<div id="page-login" class="page">
-  <div class="sbar sbar-blue">
-    
-    <span class="logo">my<span class="logo-acc">Fisio</span></span>
-    
-  </div>
-  <div class="hero-blue" style="padding:20px 20px 28px;">
-    <div style="width:88px;height:88px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;">
-      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="88" height="88" aria-label="Ícone myFisio">
-        <!-- Cabeça -->
-        <circle cx="50" cy="16" r="10" fill="rgba(255,255,255,0.92)"/>
-        <!-- Corpo -->
-        <rect x="46" y="26" width="8" height="28" rx="4" fill="rgba(255,255,255,0.92)"/>
-        <!-- Braço esquerdo levantado -->
-        <line x1="46" y1="34" x2="18" y2="14" stroke="rgba(255,255,255,0.92)" stroke-width="7" stroke-linecap="round"/>
-        <!-- Braço direito levantado -->
-        <line x1="54" y1="34" x2="82" y2="14" stroke="rgba(255,255,255,0.92)" stroke-width="7" stroke-linecap="round"/>
-        <!-- Perna esquerda aberta -->
-        <line x1="48" y1="54" x2="22" y2="82" stroke="rgba(255,255,255,0.92)" stroke-width="7" stroke-linecap="round"/>
-        <!-- Perna direita aberta -->
-        <line x1="52" y1="54" x2="78" y2="82" stroke="rgba(255,255,255,0.92)" stroke-width="7" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <div class="app-name-hero" style="font-size:30px;">my<span>Fisio</span></div>
-    <div class="app-sub-hero">Fisioterapia onde você estiver</div>
-  </div>
-  <div class="form-area">
-    <div class="field">
-      <label>E-mail ou CPF</label>
-      <div class="finput-wrap">
-        <input class="finput" type="email" placeholder="seu@email.com" id="login-email" autocomplete="email">
-        <i class="ti ti-mail fi-icon"></i>
-      </div>
-    </div>
-    <div class="field">
-      <label>Senha</label>
-      <div class="finput-wrap">
-        <input class="finput" type="password" placeholder="••••••••" id="login-pw" autocomplete="current-password">
-        <i class="ti ti-eye fi-icon clickable" id="eye-login" onclick="togglePw('login-pw','eye-login')" aria-label="Mostrar senha"></i>
-      </div>
-    </div>
-    <div class="forgot" onclick="toast('Link enviado para seu e-mail!')">Esqueci minha senha</div>
-    <button class="btn-main btn-blue" onclick="doLogin()">
-      <i class="ti ti-login"></i> Entrar
+<div class="page" id="page-login">
+<div class="sbar sbar-blue">
+<span class="logo">my<span class="logo-acc">Fisio</span></span>
+</div>
+<div class="hero-blue" style="padding:20px 20px 28px;">
+<div style="width:88px;height:88px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;">
+<svg aria-label="Ícone myFisio" height="88" viewbox="0 0 100 100" width="88" xmlns="http://www.w3.org/2000/svg">
+<!-- Cabeça -->
+<circle cx="50" cy="16" fill="rgba(255,255,255,0.92)" r="10"></circle>
+<!-- Corpo -->
+<rect fill="rgba(255,255,255,0.92)" height="28" rx="4" width="8" x="46" y="26"></rect>
+<!-- Braço esquerdo levantado -->
+<line stroke="rgba(255,255,255,0.92)" stroke-linecap="round" stroke-width="7" x1="46" x2="18" y1="34" y2="14"></line>
+<!-- Braço direito levantado -->
+<line stroke="rgba(255,255,255,0.92)" stroke-linecap="round" stroke-width="7" x1="54" x2="82" y1="34" y2="14"></line>
+<!-- Perna esquerda aberta -->
+<line stroke="rgba(255,255,255,0.92)" stroke-linecap="round" stroke-width="7" x1="48" x2="22" y1="54" y2="82"></line>
+<!-- Perna direita aberta -->
+<line stroke="rgba(255,255,255,0.92)" stroke-linecap="round" stroke-width="7" x1="52" x2="78" y1="54" y2="82"></line>
+</svg>
+</div>
+<div class="app-name-hero" style="font-size:30px;">my<span>Fisio</span></div>
+<div class="app-sub-hero">Fisioterapia onde você estiver</div>
+</div>
+<div class="form-area">
+<div class="field">
+<label>E-mail ou CPF</label>
+<div class="finput-wrap">
+<input autocomplete="email" class="finput" id="login-email" placeholder="seu@email.com" type="email"/>
+<i class="ti ti-mail fi-icon"></i>
+</div>
+</div>
+<div class="field">
+<label>Senha</label>
+<div class="finput-wrap">
+<input autocomplete="current-password" class="finput" id="login-pw" placeholder="••••••••" type="password"/>
+<i aria-label="Mostrar senha" class="ti ti-eye fi-icon clickable" id="eye-login" onclick="togglePw('login-pw','eye-login')"></i>
+</div>
+</div>
+<div class="forgot" onclick="toast('Link enviado para seu e-mail!')">Esqueci minha senha</div>
+<button class="btn-main btn-blue" onclick="doLogin()">
+<i class="ti ti-login"></i> Entrar
     </button>
-    <div class="divider"><div class="div-line"></div><div class="div-txt">ou continue com</div><div class="div-line"></div></div>
-    <div class="social-row">
-      <button class="btn-social" onclick="toast('Login com Google em breve!')">
-        <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+<div class="divider"><div class="div-line"></div><div class="div-txt">ou continue com</div><div class="div-line"></div></div>
+<div class="social-row">
+<button class="btn-social" onclick="toast('Login com Google em breve!')">
+<svg height="16" viewbox="0 0 24 24" width="16"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"></path><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path></svg>
         Google
       </button>
-      <button class="btn-social" onclick="toast('Login com Facebook em breve!')">
-        <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+<button class="btn-social" onclick="toast('Login com Facebook em breve!')">
+<svg height="16" viewbox="0 0 24 24" width="16"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="#1877F2"></path></svg>
         Facebook
       </button>
-    </div>
-    <button class="btn-ghost" onclick="go('page-tipo')">
-      <i class="ti ti-user-plus" style="vertical-align:-2px;margin-right:6px;"></i> Criar nova conta
-    </button>
-    <div class="link-txt">É fisioterapeuta? <a onclick="go('page-cad-pro')">Cadastre-se como profissional</a></div>
-  </div>
 </div>
-
+<button class="btn-ghost" onclick="go('page-tipo')">
+<i class="ti ti-user-plus" style="vertical-align:-2px;margin-right:6px;"></i> Criar nova conta
+    </button>
+<div class="link-txt">É fisioterapeuta? <a onclick="go('page-cad-pro')">Cadastre-se como profissional</a></div>
+</div>
+</div>
 <!-- ══════════════════════════════════════
      TIPO DE CONTA
 ══════════════════════════════════════ -->
-<div id="page-tipo" class="page">
-  <div class="sbar sbar-blue">
-    
-    <span class="logo">my<span class="logo-acc">Fisio</span></span>
-    
-  </div>
-  <div class="hero-blue hero-sm" style="text-align:center;">
-    <div class="app-name-hero" style="font-size:20px;">Criar conta</div>
-    <div class="app-sub-hero">Escolha o tipo de acesso</div>
-  </div>
-  <div class="form-area" style="padding-top:24px;">
-    <div class="back-row" onclick="go('page-login')"><i class="ti ti-arrow-left" style="font-size:16px;"></i> Voltar ao login</div>
-    <p style="font-size:13px;color:#475569;margin-bottom:18px;">Selecione como você vai usar o myFisio:</p>
-    <div class="type-select">
-      <div class="type-card pc" onclick="go('page-cad-pac')">
-        <i class="ti ti-user"></i>
-        <div class="tc-name">Sou paciente</div>
-        <div class="tc-sub">Quero contratar um fisioterapeuta</div>
-      </div>
-      <div class="type-card prc" onclick="go('page-cad-pro')">
-        <i class="ti ti-stethoscope"></i>
-        <div class="tc-name">Sou fisioterapeuta</div>
-        <div class="tc-sub">Quero oferecer meus serviços</div>
-      </div>
-    </div>
-    <div class="info-box">
-      <div class="info-box-title"><i class="ti ti-info-circle" style="color:#1a73e8;font-size:16px;"></i> O que muda entre as contas?</div>
-      <p><strong>Paciente</strong> — busca e agenda sessões com fisioterapeutas próximos.</p>
-      <p style="margin-top:8px;"><strong>Fisioterapeuta</strong> — cadastra CREFITO, especialidades e aparece no mapa para receber pedidos.</p>
-    </div>
-    <div class="link-txt" style="margin-top:18px;">Já tem conta? <a onclick="go('page-login')">Fazer login</a></div>
-  </div>
+<div class="page" id="page-tipo">
+<div class="sbar sbar-blue">
+<span class="logo">my<span class="logo-acc">Fisio</span></span>
 </div>
-
+<div class="hero-blue hero-sm" style="text-align:center;">
+<div class="app-name-hero" style="font-size:20px;">Criar conta</div>
+<div class="app-sub-hero">Escolha o tipo de acesso</div>
+</div>
+<div class="form-area" style="padding-top:24px;">
+<div class="back-row" onclick="go('page-login')"><i class="ti ti-arrow-left" style="font-size:16px;"></i> Voltar ao login</div>
+<p style="font-size:13px;color:#475569;margin-bottom:18px;">Selecione como você vai usar o myFisio:</p>
+<div class="type-select">
+<div class="type-card pc" onclick="go('page-cad-pac')">
+<i class="ti ti-user"></i>
+<div class="tc-name">Sou paciente</div>
+<div class="tc-sub">Quero contratar um fisioterapeuta</div>
+</div>
+<div class="type-card prc" onclick="go('page-cad-pro')">
+<i class="ti ti-stethoscope"></i>
+<div class="tc-name">Sou fisioterapeuta</div>
+<div class="tc-sub">Quero oferecer meus serviços</div>
+</div>
+</div>
+<div class="info-box">
+<div class="info-box-title"><i class="ti ti-info-circle" style="color:#1a73e8;font-size:16px;"></i> O que muda entre as contas?</div>
+<p><strong>Paciente</strong> — busca e agenda sessões com fisioterapeutas próximos.</p>
+<p style="margin-top:8px;"><strong>Fisioterapeuta</strong> — cadastra CREFITO, especialidades e aparece no mapa para receber pedidos.</p>
+</div>
+<div class="link-txt" style="margin-top:18px;">Já tem conta? <a onclick="go('page-login')">Fazer login</a></div>
+</div>
+</div>
 <!-- ══════════════════════════════════════
      CADASTRO — PACIENTE
 ══════════════════════════════════════ -->
-<div id="page-cad-pac" class="page">
-  <div class="sbar sbar-blue"><span style="color:#fff;font-size:13px;font-weight:600;">Nova conta — paciente</span></div>
-  <div class="form-area" style="padding-top:16px;">
-    <div class="back-row" onclick="go('page-tipo')"><i class="ti ti-arrow-left" style="font-size:16px;"></i> Voltar</div>
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-      <div style="width:38px;height:38px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center;">
-        <i class="ti ti-user" style="font-size:18px;color:#2563eb;"></i>
-      </div>
-      <div>
-        <div style="font-size:15px;font-weight:700;color:#0f172a;">Conta de paciente</div>
-        <div style="font-size:12px;color:#64748b;">Preencha seus dados pessoais</div>
-      </div>
-    </div>
-    <div class="step-bar">
-      <div class="sdot sdot-on">1</div>
-      <div class="sline done"></div>
-      <div class="sdot sdot-on">2</div>
-      <div class="sline"></div>
-      <div class="sdot sdot-off">3</div>
-    </div>
-    <div class="step-labels"><span class="sl-on">Dados</span><span class="sl-on">Acesso</span><span>Confirmar</span></div>
-
-    <div class="sec-title"><i class="ti ti-user"></i> Dados pessoais</div>
-    <div class="field">
-      <label>Nome completo</label>
-      <div class="finput-wrap">
-        <input id="pac-nome" class="finput" type="text" placeholder="João da Silva" autocomplete="name">
-        <i class="ti ti-user fi-icon"></i>
-      </div>
-    </div>
-    <div class="field-row">
-      <div class="field"><label>CPF</label><input id="pac-cpf" class="finput" type="text" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)"></div>
-      <div class="field"><label>Nascimento</label><input class="finput" type="text" placeholder="DD/MM/AAAA" maxlength="10" oninput="maskDate(this)"></div>
-    </div>
-    <div class="field">
-      <label>Telefone / WhatsApp</label>
-      <div class="finput-wrap">
-        <input id="pac-tel" class="finput" type="tel" placeholder="(11) 99999-9999" maxlength="15" oninput="maskPhone(this)">
-        <i class="ti ti-phone fi-icon"></i>
-      </div>
-    </div>
-    <div class="field">
-      <label>E-mail</label>
-      <div class="finput-wrap">
-        <input id="pac-email" class="finput" type="email" placeholder="seu@email.com" autocomplete="email">
-        <i class="ti ti-mail fi-icon"></i>
-      </div>
-    </div>
-    <div class="field">
-      <label>Endereço principal</label>
-      <div class="finput-wrap">
-        <input class="finput" type="text" placeholder="Rua, número — bairro">
-        <i class="ti ti-map-pin fi-icon"></i>
-      </div>
-      <div class="field-hint">Usado para calcular a distância dos profissionais</div>
-    </div>
-    <div class="field">
-      <label>Convênio de saúde (opcional)</label>
-      <select class="fselect">
-        <option value="">Nenhum / Particular</option>
-        <option>Unimed</option><option>Bradesco Saúde</option>
-        <option>Amil</option><option>SulAmérica</option><option>Hapvida</option>
-      </select>
-    </div>
-    <div class="sec-title"><i class="ti ti-lock"></i> Dados de acesso</div>
-    <div class="field">
-      <label>Senha</label>
-      <div class="finput-wrap">
-        <input class="finput" type="password" placeholder="Mínimo 8 caracteres" id="pac-pw" autocomplete="new-password">
-        <i class="ti ti-eye fi-icon clickable" id="eye-pac" onclick="togglePw('pac-pw','eye-pac')" aria-label="Ver senha"></i>
-      </div>
-    </div>
-    <div class="field">
-      <label>Confirmar senha</label>
-      <div class="finput-wrap">
-        <input id="pac-pw2" class="finput" type="password" placeholder="Repita a senha" autocomplete="new-password">
-        <i class="ti ti-eye fi-icon"></i>
-      </div>
-    </div>
-    <div class="terms-row">
-      <input type="checkbox" id="terms-pac">
-      <label for="terms-pac">Li e aceito os <a href="#">Termos de uso</a> e a <a href="#">Política de privacidade</a> do myFisio.</label>
-    </div>
-    <button class="btn-main btn-blue" onclick="cadastrarPaciente()">
-      <i class="ti ti-user-check"></i> Criar minha conta
-    </button>
-    <div class="link-txt">Já tem conta? <a onclick="go('page-login')">Fazer login</a></div>
-  </div>
+<div class="page" id="page-cad-pac">
+<div class="sbar sbar-blue"><span style="color:#fff;font-size:13px;font-weight:600;">Nova conta — paciente</span></div>
+<div class="form-area" style="padding-top:16px;">
+<div class="back-row" onclick="go('page-tipo')"><i class="ti ti-arrow-left" style="font-size:16px;"></i> Voltar</div>
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+<div style="width:38px;height:38px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center;">
+<i class="ti ti-user" style="font-size:18px;color:#2563eb;"></i>
 </div>
-
+<div>
+<div style="font-size:15px;font-weight:700;color:#0f172a;">Conta de paciente</div>
+<div style="font-size:12px;color:#64748b;">Preencha seus dados pessoais</div>
+</div>
+</div>
+<div class="step-bar">
+<div class="sdot sdot-on">1</div>
+<div class="sline done"></div>
+<div class="sdot sdot-on">2</div>
+<div class="sline"></div>
+<div class="sdot sdot-off">3</div>
+</div>
+<div class="step-labels"><span class="sl-on">Dados</span><span class="sl-on">Acesso</span><span>Confirmar</span></div>
+<div class="sec-title"><i class="ti ti-user"></i> Dados pessoais</div>
+<div class="field">
+<label>Nome completo</label>
+<div class="finput-wrap">
+<input autocomplete="name" class="finput" id="pac-nome" placeholder="João da Silva" type="text"/>
+<i class="ti ti-user fi-icon"></i>
+</div>
+</div>
+<div class="field-row">
+<div class="field"><label>CPF</label><input class="finput" id="pac-cpf" maxlength="14" oninput="maskCPF(this)" placeholder="000.000.000-00" type="text"/></div>
+<div class="field"><label>Nascimento</label><input class="finput" maxlength="10" oninput="maskDate(this)" placeholder="DD/MM/AAAA" type="text"/></div>
+</div>
+<div class="field">
+<label>Telefone / WhatsApp</label>
+<div class="finput-wrap">
+<input class="finput" id="pac-tel" maxlength="15" oninput="maskPhone(this)" placeholder="(11) 99999-9999" type="tel"/>
+<i class="ti ti-phone fi-icon"></i>
+</div>
+</div>
+<div class="field">
+<label>E-mail</label>
+<div class="finput-wrap">
+<input autocomplete="email" class="finput" id="pac-email" placeholder="seu@email.com" type="email"/>
+<i class="ti ti-mail fi-icon"></i>
+</div>
+</div>
+<div class="field">
+<label>Endereço principal</label>
+<div class="finput-wrap">
+<input class="finput" placeholder="Rua, número — bairro" type="text"/>
+<i class="ti ti-map-pin fi-icon"></i>
+</div>
+<div class="field-hint">Usado para calcular a distância dos profissionais</div>
+</div>
+<div class="field">
+<label>Convênio de saúde (opcional)</label>
+<select class="fselect">
+<option value="">Nenhum / Particular</option>
+<option>Unimed</option><option>Bradesco Saúde</option>
+<option>Amil</option><option>SulAmérica</option><option>Hapvida</option>
+</select>
+</div>
+<div class="sec-title"><i class="ti ti-lock"></i> Dados de acesso</div>
+<div class="field">
+<label>Senha</label>
+<div class="finput-wrap">
+<input autocomplete="new-password" class="finput" id="pac-pw" placeholder="Mínimo 8 caracteres" type="password"/>
+<i aria-label="Ver senha" class="ti ti-eye fi-icon clickable" id="eye-pac" onclick="togglePw('pac-pw','eye-pac')"></i>
+</div>
+</div>
+<div class="field">
+<label>Confirmar senha</label>
+<div class="finput-wrap">
+<input autocomplete="new-password" class="finput" id="pac-pw2" placeholder="Repita a senha" type="password"/>
+<i class="ti ti-eye fi-icon"></i>
+</div>
+</div>
+<div class="terms-row">
+<input id="terms-pac" type="checkbox"/>
+<label for="terms-pac">Li e aceito os <a href="#">Termos de uso</a> e a <a href="#">Política de privacidade</a> do myFisio.</label>
+</div>
+<button class="btn-main btn-blue" onclick="cadastrarPaciente()">
+<i class="ti ti-user-check"></i> Criar minha conta
+    </button>
+<div class="link-txt">Já tem conta? <a onclick="go('page-login')">Fazer login</a></div>
+</div>
+</div>
 <!-- ══════════════════════════════════════
      CADASTRO — FISIOTERAPEUTA
 ══════════════════════════════════════ -->
-<div id="page-cad-pro" class="page" style="background:#0f1f35;">
-  <div class="sbar sbar-dark"><span class="logo" style="color:#4fc3f7;">my<span class="logo-acc" style="color:#7fb3e8;">Fisio</span> Pro</span></div>
-  <div class="hero-dark" style="text-align:left;display:flex;align-items:center;gap:12px;">
-    <div style="width:44px;height:44px;border-radius:14px;background:rgba(79,195,247,.15);border:1px solid rgba(79,195,247,.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-      <i class="ti ti-stethoscope" style="font-size:22px;color:#4fc3f7;"></i>
-    </div>
-    <div>
-      <div class="app-name-hero" style="font-size:18px;color:#4fc3f7;">Cadastro profissional</div>
-      <div class="app-sub-hero" style="font-size:12px;">Fisioterapeuta · myFisio Pro</div>
-    </div>
-  </div>
-  <div class="form-area" style="background:#0f1f35;padding-top:14px;">
-    <div class="back-row" style="color:#7fb3e8;" onclick="go('page-tipo')"><i class="ti ti-arrow-left" style="font-size:16px;"></i> Voltar</div>
-    <div class="step-bar">
-      <div class="sdot sdot-on-pro">1</div>
-      <div class="sline"></div>
-      <div class="sdot sdot-off">2</div>
-      <div class="sline"></div>
-      <div class="sdot sdot-off">3</div>
-      <div class="sline"></div>
-      <div class="sdot sdot-off">4</div>
-    </div>
-    <div class="step-labels" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px;">
-      <span class="sl-on-pro" style="color:#4fc3f7;">Pessoal</span>
-      <span style="color:#4a6fa5;">Registro</span><span style="color:#4a6fa5;">Serviços</span><span style="color:#4a6fa5;">Acesso</span>
-    </div>
-
-    <div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-user" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Dados pessoais</span></div>
-    <div class="field">
-      <label style="color:#7fb3e8;">Nome completo</label>
-      <div class="finput-wrap">
-        <input id="pro-nome" class="finput pro" type="text" placeholder="Dra. Ana Nascimento" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="name">
-        <i class="ti ti-user fi-icon"></i>
-      </div>
-    </div>
-    <div class="field-row">
-      <div class="field"><label style="color:#7fb3e8;">CPF</label><input id="pro-cpf" class="finput pro" type="text" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
-      <div class="field"><label style="color:#7fb3e8;">Nascimento</label><input class="finput pro" type="text" placeholder="DD/MM/AAAA" maxlength="10" oninput="maskDate(this)" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
-    </div>
-    <div class="field">
-      <label style="color:#7fb3e8;">Telefone / WhatsApp</label>
-      <div class="finput-wrap">
-        <input id="pro-tel" class="finput pro" type="tel" placeholder="(11) 99999-9999" maxlength="15" oninput="maskPhone(this)" style="background:#132840;border-color:#1e3a5f;color:#fff;">
-        <i class="ti ti-phone fi-icon"></i>
-      </div>
-    </div>
-    <div class="field">
-      <label style="color:#7fb3e8;">E-mail profissional</label>
-      <div class="finput-wrap">
-        <input id="pro-email" class="finput pro" type="email" placeholder="fisio@email.com" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="email">
-        <i class="ti ti-mail fi-icon"></i>
-      </div>
-    </div>
-
-    <div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-id-badge" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Registro profissional</span></div>
-    <div class="field-row" style="grid-template-columns:1fr 80px;">
-      <div class="field"><label style="color:#7fb3e8;">CREFITO</label><input id="pro-crefito" class="finput pro" type="text" placeholder="12345-F" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
-      <div class="field"><label style="color:#7fb3e8;">UF</label>
-        <select id="pro-uf" class="fselect" style="background:#132840;border-color:#1e3a5f;color:#fff;">
-          <option>SP</option><option>RJ</option><option>MG</option><option>RS</option><option>BA</option><option>PR</option>
-        </select>
-      </div>
-    </div>
-    <div class="field-hint" style="color:#4a6fa5;margin-top:-8px;margin-bottom:12px;font-size:11px;">
-      <i class="ti ti-shield-check" style="color:#4fc3f7;font-size:13px;vertical-align:-1px;"></i>
+<div class="page" id="page-cad-pro" style="background:#0f1f35;">
+<div class="sbar sbar-dark"><span class="logo" style="color:#4fc3f7;">my<span class="logo-acc" style="color:#7fb3e8;">Fisio</span> Pro</span></div>
+<div class="hero-dark" style="text-align:left;display:flex;align-items:center;gap:12px;">
+<div style="width:44px;height:44px;border-radius:14px;background:rgba(79,195,247,.15);border:1px solid rgba(79,195,247,.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+<i class="ti ti-stethoscope" style="font-size:22px;color:#4fc3f7;"></i>
+</div>
+<div>
+<div class="app-name-hero" style="font-size:18px;color:#4fc3f7;">Cadastro profissional</div>
+<div class="app-sub-hero" style="font-size:12px;">Fisioterapeuta · myFisio Pro</div>
+</div>
+</div>
+<div class="form-area" style="background:#0f1f35;padding-top:14px;">
+<div class="back-row" onclick="go('page-tipo')" style="color:#7fb3e8;"><i class="ti ti-arrow-left" style="font-size:16px;"></i> Voltar</div>
+<div class="step-bar">
+<div class="sdot sdot-on-pro">1</div>
+<div class="sline"></div>
+<div class="sdot sdot-off">2</div>
+<div class="sline"></div>
+<div class="sdot sdot-off">3</div>
+<div class="sline"></div>
+<div class="sdot sdot-off">4</div>
+</div>
+<div class="step-labels" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px;">
+<span class="sl-on-pro" style="color:#4fc3f7;">Pessoal</span>
+<span style="color:#4a6fa5;">Registro</span><span style="color:#4a6fa5;">Serviços</span><span style="color:#4a6fa5;">Acesso</span>
+</div>
+<div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-user" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Dados pessoais</span></div>
+<div class="field">
+<label style="color:#7fb3e8;">Nome completo</label>
+<div class="finput-wrap">
+<input autocomplete="name" class="finput pro" id="pro-nome" placeholder="Dra. Ana Nascimento" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="text"/>
+<i class="ti ti-user fi-icon"></i>
+</div>
+</div>
+<div class="field-row">
+<div class="field"><label style="color:#7fb3e8;">CPF</label><input class="finput pro" id="pro-cpf" maxlength="14" oninput="maskCPF(this)" placeholder="000.000.000-00" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="text"/></div>
+<div class="field"><label style="color:#7fb3e8;">Nascimento</label><input class="finput pro" maxlength="10" oninput="maskDate(this)" placeholder="DD/MM/AAAA" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="text"/></div>
+</div>
+<div class="field">
+<label style="color:#7fb3e8;">Telefone / WhatsApp</label>
+<div class="finput-wrap">
+<input class="finput pro" id="pro-tel" maxlength="15" oninput="maskPhone(this)" placeholder="(11) 99999-9999" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="tel"/>
+<i class="ti ti-phone fi-icon"></i>
+</div>
+</div>
+<div class="field">
+<label style="color:#7fb3e8;">E-mail profissional</label>
+<div class="finput-wrap">
+<input autocomplete="email" class="finput pro" id="pro-email" placeholder="fisio@email.com" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="email"/>
+<i class="ti ti-mail fi-icon"></i>
+</div>
+</div>
+<div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-id-badge" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Registro profissional</span></div>
+<div class="field-row" style="grid-template-columns:1fr 80px;">
+<div class="field"><label style="color:#7fb3e8;">CREFITO</label><input class="finput pro" id="pro-crefito" placeholder="12345-F" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="text"/></div>
+<div class="field"><label style="color:#7fb3e8;">UF</label>
+<select class="fselect" id="pro-uf" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+<option>SP</option><option>RJ</option><option>MG</option><option>RS</option><option>BA</option><option>PR</option>
+</select>
+</div>
+</div>
+<div class="field-hint" style="color:#4a6fa5;margin-top:-8px;margin-bottom:12px;font-size:11px;">
+<i class="ti ti-shield-check" style="color:#4fc3f7;font-size:13px;vertical-align:-1px;"></i>
       Verificaremos seu CREFITO junto ao COFFITO automaticamente.
     </div>
-    <div class="field">
-      <label style="color:#7fb3e8;">Diploma ou certificado de graduação</label>
-      <div class="upload-zone" style="background:#132840;border-color:#2d4a6a;" onclick="toast('Seleção de arquivo disponível no app mobile')">
-        <i class="ti ti-upload" style="color:#4a6fa5;"></i>
-        <p style="color:#7fb3e8;">Toque para enviar o arquivo</p>
-        <small style="color:#4a6fa5;">PDF ou JPG · máx. 10 MB</small>
-      </div>
-    </div>
-    <div class="field">
-      <label style="color:#7fb3e8;">Faculdade / Universidade</label>
-      <div class="finput-wrap">
-        <input id="pro-faculdade" class="finput pro" type="text" placeholder="Ex: USP, UNIFESP, PUC..." style="background:#132840;border-color:#1e3a5f;color:#fff;">
-        <i class="ti ti-school fi-icon"></i>
-      </div>
-    </div>
-    <div class="field-row">
-      <div class="field">
-        <label style="color:#7fb3e8;">Ano de formação</label>
-        <input id="pro-ano-form" class="finput pro" type="number" placeholder="2015" min="1980" max="2030" style="background:#132840;border-color:#1e3a5f;color:#fff;">
-      </div>
-      <div class="field">
-        <label style="color:#7fb3e8;">Anos de experiência</label>
-        <input id="pro-experiencia" class="finput pro" type="number" placeholder="5" min="0" max="50" style="background:#132840;border-color:#1e3a5f;color:#fff;">
-      </div>
-    </div>
-
-    <div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-list-check" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Especialidades</span></div>
-    <div class="check-grid" style="margin-bottom:14px;">
-      <div class="check-chip sel" onclick="toggleChip(this)" style="background:#132840;border-color:#4fc3f7;color:#4fc3f7;"><div class="cbox" style="background:#4fc3f7;border-color:#4fc3f7;"><i class="ti ti-check" style="font-size:10px;color:#0d2137;"></i></div>Ortopédica</div>
-      <div class="check-chip sel" onclick="toggleChip(this)" style="background:#132840;border-color:#4fc3f7;color:#4fc3f7;"><div class="cbox" style="background:#4fc3f7;border-color:#4fc3f7;"><i class="ti ti-check" style="font-size:10px;color:#0d2137;"></i></div>Esportiva</div>
-      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Neurológica</div>
-      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Pediátrica</div>
-      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Respiratória</div>
-      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Pilates</div>
-      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Drenagem</div>
-      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Obstétrica</div>
-    </div>
-
-    <div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-home" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Tipo de atendimento</span></div>
-    <div class="atend-row">
-      <div class="atend-card sel" onclick="this.classList.toggle('sel')" style="background:#132840;border-color:#4fc3f7;">
-        <i class="ti ti-home" style="color:#4fc3f7;font-size:22px;display:block;margin-bottom:4px;"></i><span style="color:#fff;font-size:12px;font-weight:600;">Domiciliar</span>
-      </div>
-      <div class="atend-card" onclick="this.classList.toggle('sel')" style="background:#132840;border-color:#1e3a5f;">
-        <i class="ti ti-building-hospital" style="color:#4a6fa5;font-size:22px;display:block;margin-bottom:4px;"></i><span style="color:#7fb3e8;font-size:12px;font-weight:600;">Clínica</span>
-      </div>
-    </div>
-    <div class="field-row">
-      <div class="field"><label style="color:#7fb3e8;">Valor por sessão (R$)</label><input class="finput pro" type="number" placeholder="120" id="pro-valor" oninput="calcTaxa()" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
-      <div class="field"><label style="color:#7fb3e8;">Raio</label>
-        <select class="fselect" style="background:#132840;border-color:#1e3a5f;color:#fff;">
-          <option>3 km</option><option selected>5 km</option><option>10 km</option><option>15 km</option>
-        </select>
-      </div>
-    </div>
-    <div id="taxa-preview" style="display:none;background:#0a1628;border-radius:10px;padding:12px;margin-bottom:12px;border:1px solid #1e3a5f;font-size:12px;">
-      <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="color:#7fb3e8;">Bruto por sessão</span><span id="tp-bruto" style="color:#fff;font-weight:700;font-family:'Nunito',sans-serif;"></span></div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="color:#ef5350;">Taxa myFisio (5%)</span><span id="tp-taxa" style="color:#ef5350;font-weight:700;font-family:'Nunito',sans-serif;"></span></div>
-      <div style="display:flex;justify-content:space-between;"><span style="color:#fff;font-weight:700;">Você recebe</span><span id="tp-liq" style="color:#4caf82;font-size:14px;font-weight:800;font-family:'Nunito',sans-serif;"></span></div>
-    </div>
-    <div class="field-row">
-      <div class="field"><label style="color:#7fb3e8;">Início</label><input class="finput pro" type="time" value="08:00" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
-      <div class="field"><label style="color:#7fb3e8;">Fim</label><input class="finput pro" type="time" value="20:00" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
-    </div>
-
-    <div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-lock" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Dados de acesso</span></div>
-    <div class="field">
-      <label style="color:#7fb3e8;">Senha</label>
-      <div class="finput-wrap">
-        <input class="finput pro" type="password" placeholder="Mínimo 8 caracteres" id="pw-pro" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="new-password">
-        <i class="ti ti-eye fi-icon clickable" id="eye-pro" onclick="togglePw('pw-pro','eye-pro')" aria-label="Ver senha"></i>
-      </div>
-    </div>
-    <div class="field">
-      <label style="color:#7fb3e8;">Confirmar senha</label>
-      <div class="finput-wrap">
-        <input id="pro-pw2" class="finput pro" type="password" placeholder="Repita a senha" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="new-password">
-        <i class="ti ti-eye fi-icon"></i>
-      </div>
-    </div>
-
-    <div class="taxa-notice">
-      <i class="ti ti-info-circle" style="color:#4fc3f7;font-size:17px;flex-shrink:0;margin-top:1px;"></i>
-      <span>Ao se cadastrar você concorda com a <strong>taxa de 5% por sessão realizada</strong>. Nenhuma cobrança em cancelamentos.</span>
-    </div>
-    <div class="terms-row" style="color:#7fb3e8;">
-      <input type="checkbox" id="terms-pro" style="accent-color:#4fc3f7;">
-      <label for="terms-pro" style="color:#7fb3e8;">Li e aceito os <a href="#" class="pro">Termos para profissionais</a>, a <a href="#" class="pro">Política de privacidade</a> e o <a href="#" class="pro">Contrato de prestação de serviços</a> myFisio.</label>
-    </div>
-    <button class="btn-main btn-pro-c" onclick="cadastrarPro()">
-      <i class="ti ti-send"></i> Enviar cadastro para análise
-    </button>
-    <div class="link-txt" style="color:#7fb3e8;">Já tem conta? <a onclick="go('page-login')" style="color:#4fc3f7;">Fazer login</a></div>
-    <div style="height:16px;"></div>
-  </div>
+<div class="field">
+<label style="color:#7fb3e8;">Diploma ou certificado de graduação</label>
+<div class="upload-zone" onclick="toast('Seleção de arquivo disponível no app mobile')" style="background:#132840;border-color:#2d4a6a;">
+<i class="ti ti-upload" style="color:#4a6fa5;"></i>
+<p style="color:#7fb3e8;">Toque para enviar o arquivo</p>
+<small style="color:#4a6fa5;">PDF ou JPG · máx. 10 MB</small>
 </div>
-
+</div>
+<div class="field">
+<label style="color:#7fb3e8;">Faculdade / Universidade</label>
+<div class="finput-wrap">
+<input class="finput pro" id="pro-faculdade" placeholder="Ex: USP, UNIFESP, PUC..." style="background:#132840;border-color:#1e3a5f;color:#fff;" type="text"/>
+<i class="ti ti-school fi-icon"></i>
+</div>
+</div>
+<div class="field-row">
+<div class="field">
+<label style="color:#7fb3e8;">Ano de formação</label>
+<input class="finput pro" id="pro-ano-form" max="2030" min="1980" placeholder="2015" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="number"/>
+</div>
+<div class="field">
+<label style="color:#7fb3e8;">Anos de experiência</label>
+<input class="finput pro" id="pro-experiencia" max="50" min="0" placeholder="5" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="number"/>
+</div>
+</div>
+<div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-list-check" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Especialidades</span></div>
+<div class="check-grid" style="margin-bottom:14px;">
+<div class="check-chip sel" onclick="toggleChip(this)" style="background:#132840;border-color:#4fc3f7;color:#4fc3f7;"><div class="cbox" style="background:#4fc3f7;border-color:#4fc3f7;"><i class="ti ti-check" style="font-size:10px;color:#0d2137;"></i></div>Ortopédica</div>
+<div class="check-chip sel" onclick="toggleChip(this)" style="background:#132840;border-color:#4fc3f7;color:#4fc3f7;"><div class="cbox" style="background:#4fc3f7;border-color:#4fc3f7;"><i class="ti ti-check" style="font-size:10px;color:#0d2137;"></i></div>Esportiva</div>
+<div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Neurológica</div>
+<div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Pediátrica</div>
+<div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Respiratória</div>
+<div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Pilates</div>
+<div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Drenagem</div>
+<div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Obstétrica</div>
+</div>
+<div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-home" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Tipo de atendimento</span></div>
+<div class="atend-row">
+<div class="atend-card sel" onclick="this.classList.toggle('sel')" style="background:#132840;border-color:#4fc3f7;">
+<i class="ti ti-home" style="color:#4fc3f7;font-size:22px;display:block;margin-bottom:4px;"></i><span style="color:#fff;font-size:12px;font-weight:600;">Domiciliar</span>
+</div>
+<div class="atend-card" onclick="this.classList.toggle('sel')" style="background:#132840;border-color:#1e3a5f;">
+<i class="ti ti-building-hospital" style="color:#4a6fa5;font-size:22px;display:block;margin-bottom:4px;"></i><span style="color:#7fb3e8;font-size:12px;font-weight:600;">Clínica</span>
+</div>
+</div>
+<div class="field-row">
+<div class="field"><label style="color:#7fb3e8;">Valor por sessão (R$)</label><input class="finput pro" id="pro-valor" oninput="calcTaxa()" placeholder="120" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="number"/></div>
+<div class="field"><label style="color:#7fb3e8;">Raio</label>
+<select class="fselect" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+<option>3 km</option><option selected="">5 km</option><option>10 km</option><option>15 km</option>
+</select>
+</div>
+</div>
+<div id="taxa-preview" style="display:none;background:#0a1628;border-radius:10px;padding:12px;margin-bottom:12px;border:1px solid #1e3a5f;font-size:12px;">
+<div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="color:#7fb3e8;">Bruto por sessão</span><span id="tp-bruto" style="color:#fff;font-weight:700;font-family:'Nunito',sans-serif;"></span></div>
+<div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="color:#ef5350;">Taxa myFisio (5%)</span><span id="tp-taxa" style="color:#ef5350;font-weight:700;font-family:'Nunito',sans-serif;"></span></div>
+<div style="display:flex;justify-content:space-between;"><span style="color:#fff;font-weight:700;">Você recebe</span><span id="tp-liq" style="color:#4caf82;font-size:14px;font-weight:800;font-family:'Nunito',sans-serif;"></span></div>
+</div>
+<div class="field-row">
+<div class="field"><label style="color:#7fb3e8;">Início</label><input class="finput pro" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="time" value="08:00"/></div>
+<div class="field"><label style="color:#7fb3e8;">Fim</label><input class="finput pro" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="time" value="20:00"/></div>
+</div>
+<div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-lock" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Dados de acesso</span></div>
+<div class="field">
+<label style="color:#7fb3e8;">Senha</label>
+<div class="finput-wrap">
+<input autocomplete="new-password" class="finput pro" id="pw-pro" placeholder="Mínimo 8 caracteres" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="password"/>
+<i aria-label="Ver senha" class="ti ti-eye fi-icon clickable" id="eye-pro" onclick="togglePw('pw-pro','eye-pro')"></i>
+</div>
+</div>
+<div class="field">
+<label style="color:#7fb3e8;">Confirmar senha</label>
+<div class="finput-wrap">
+<input autocomplete="new-password" class="finput pro" id="pro-pw2" placeholder="Repita a senha" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="password"/>
+<i class="ti ti-eye fi-icon"></i>
+</div>
+</div>
+<div class="taxa-notice">
+<i class="ti ti-info-circle" style="color:#4fc3f7;font-size:17px;flex-shrink:0;margin-top:1px;"></i>
+<span>Ao se cadastrar você concorda com a <strong>taxa de 5% por sessão realizada</strong>. Nenhuma cobrança em cancelamentos.</span>
+</div>
+<div class="terms-row" style="color:#7fb3e8;">
+<input id="terms-pro" style="accent-color:#4fc3f7;" type="checkbox"/>
+<label for="terms-pro" style="color:#7fb3e8;">Li e aceito os <a class="pro" href="#">Termos para profissionais</a>, a <a class="pro" href="#">Política de privacidade</a> e o <a class="pro" href="#">Contrato de prestação de serviços</a> myFisio.</label>
+</div>
+<button class="btn-main btn-pro-c" onclick="cadastrarPro()">
+<i class="ti ti-send"></i> Enviar cadastro para análise
+    </button>
+<div class="link-txt" style="color:#7fb3e8;">Já tem conta? <a onclick="go('page-login')" style="color:#4fc3f7;">Fazer login</a></div>
+<div style="height:16px;"></div>
+</div>
+</div>
 <!-- ══════════════════════════════════════
      SUCESSO — PACIENTE
 ══════════════════════════════════════ -->
-<div id="page-ok-pac" class="page">
-  <div class="sbar sbar-blue"><span class="logo">my<span class="logo-acc">Fisio</span></span></div>
-  <div class="hero-blue hero-sm" style="text-align:center;"><div class="app-name-hero" style="font-size:20px;">Conta criada!</div></div>
-  <div class="success-page">
-    <div class="success-icon si-blue"><i class="ti ti-circle-check" style="font-size:38px;color:#1a73e8;"></i></div>
-    <h2>Bem-vindo ao myFisio!</h2>
-    <p>Sua conta foi criada com sucesso.<br>Enviamos um e-mail de confirmação.</p>
-    <button class="btn-main btn-blue" style="max-width:260px;" onclick="goAndLoad('page-map')">
-      <i class="ti ti-map-pin"></i> Encontrar fisioterapeutas
+<div class="page" id="page-ok-pac">
+<div class="sbar sbar-blue"><span class="logo">my<span class="logo-acc">Fisio</span></span></div>
+<div class="hero-blue hero-sm" style="text-align:center;"><div class="app-name-hero" style="font-size:20px;">Conta criada!</div></div>
+<div class="success-page">
+<div class="success-icon si-blue"><i class="ti ti-circle-check" style="font-size:38px;color:#1a73e8;"></i></div>
+<h2>Bem-vindo ao myFisio!</h2>
+<p>Sua conta foi criada com sucesso.<br/>Enviamos um e-mail de confirmação.</p>
+<button class="btn-main btn-blue" onclick="goAndLoad('page-map')" style="max-width:260px;">
+<i class="ti ti-map-pin"></i> Encontrar fisioterapeutas
     </button>
-    <p style="font-size:12px;color:#94a3b8;margin-top:14px;margin-bottom:0;">Verifique seu e-mail para ativar a conta</p>
-  </div>
+<p style="font-size:12px;color:#94a3b8;margin-top:14px;margin-bottom:0;">Verifique seu e-mail para ativar a conta</p>
 </div>
-
+</div>
 <!-- ══════════════════════════════════════
      SUCESSO — FISIO
 ══════════════════════════════════════ -->
-<div id="page-ok-pro" class="page" style="background:#0f1f35;">
-  <div class="sbar sbar-dark"><span style="color:#4fc3f7;font-size:13px;font-weight:700;">myFisio Pro</span></div>
-  <div class="hero-dark hero-sm" style="text-align:center;"><div class="app-name-hero" style="font-size:20px;color:#4fc3f7;">Cadastro enviado!</div></div>
-  <div class="success-page" style="background:#0f1f35;">
-    <div class="success-icon si-pro"><i class="ti ti-clock-check" style="font-size:38px;color:#4fc3f7;"></i></div>
-    <h2 style="color:#fff;">Cadastro em análise</h2>
-    <p style="color:#7fb3e8;">Nossa equipe verificará seu CREFITO junto ao COFFITO em até <strong style="color:#fff;">24 horas úteis</strong>.</p>
-    <div class="analysis-steps" style="background:#132840;border-color:#1e3a5f;">
-      <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:10px;">Próximas etapas:</div>
-      <div class="as-item done"><i class="ti ti-check" style="color:#4caf82;"></i> Cadastro recebido</div>
-      <div class="as-item" style="color:#7fb3e8;"><i class="ti ti-clock" style="color:#4a6fa5;"></i> Verificação do CREFITO (até 24h)</div>
-      <div class="as-item" style="color:#7fb3e8;"><i class="ti ti-clock" style="color:#4a6fa5;"></i> Aprovação e ativação da conta</div>
-      <div class="as-item" style="color:#7fb3e8;"><i class="ti ti-clock" style="color:#4a6fa5;"></i> Aparecer no mapa para pacientes</div>
-    </div>
-    <button class="btn-main btn-pro-c" style="max-width:260px;" onclick="go('page-login')">
-      <i class="ti ti-home"></i> Ir para o início
-    </button>
-  </div>
+<div class="page" id="page-ok-pro" style="background:#0f1f35;">
+<div class="sbar sbar-dark"><span style="color:#4fc3f7;font-size:13px;font-weight:700;">myFisio Pro</span></div>
+<div class="hero-dark hero-sm" style="text-align:center;"><div class="app-name-hero" style="font-size:20px;color:#4fc3f7;">Cadastro enviado!</div></div>
+<div class="success-page" style="background:#0f1f35;">
+<div class="success-icon si-pro"><i class="ti ti-clock-check" style="font-size:38px;color:#4fc3f7;"></i></div>
+<h2 style="color:#fff;">Cadastro em análise</h2>
+<p style="color:#7fb3e8;">Nossa equipe verificará seu CREFITO junto ao COFFITO em até <strong style="color:#fff;">24 horas úteis</strong>.</p>
+<div class="analysis-steps" style="background:#132840;border-color:#1e3a5f;">
+<div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:10px;">Próximas etapas:</div>
+<div class="as-item done"><i class="ti ti-check" style="color:#4caf82;"></i> Cadastro recebido</div>
+<div class="as-item" style="color:#7fb3e8;"><i class="ti ti-clock" style="color:#4a6fa5;"></i> Verificação do CREFITO (até 24h)</div>
+<div class="as-item" style="color:#7fb3e8;"><i class="ti ti-clock" style="color:#4a6fa5;"></i> Aprovação e ativação da conta</div>
+<div class="as-item" style="color:#7fb3e8;"><i class="ti ti-clock" style="color:#4a6fa5;"></i> Aparecer no mapa para pacientes</div>
 </div>
-
+<button class="btn-main btn-pro-c" onclick="go('page-login')" style="max-width:260px;">
+<i class="ti ti-home"></i> Ir para o início
+    </button>
+</div>
+</div>
 <!-- ══════════════════════════════════════
      APP — MAPA (paciente)
 ══════════════════════════════════════ -->
-<div id="page-map" class="page">
-  <div class="app-topbar">
-    <div class="topbar-logo">my<span class="acc">Fisio</span></div>
-    <button class="topbar-icon" onclick="toast('Notificações')"><i class="ti ti-bell"></i></button>
-  </div>
-  <div class="map-wrap">
-    <svg class="map-svg" viewBox="0 0 375 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <rect width="375" height="600" fill="#dce8f7"/>
-      <rect x="0" y="90" width="375" height="16" fill="#c5d5ea" opacity=".7"/>
-      <rect x="0" y="210" width="375" height="16" fill="#c5d5ea" opacity=".7"/>
-      <rect x="0" y="330" width="375" height="16" fill="#c5d5ea" opacity=".7"/>
-      <rect x="0" y="450" width="375" height="16" fill="#c5d5ea" opacity=".7"/>
-      <rect x="70" y="0" width="16" height="600" fill="#c5d5ea" opacity=".7"/>
-      <rect x="190" y="0" width="16" height="600" fill="#c5d5ea" opacity=".7"/>
-      <rect x="300" y="0" width="16" height="600" fill="#c5d5ea" opacity=".7"/>
-      <rect x="10" y="116" width="50" height="86" rx="6" fill="#bccfe6" opacity=".75"/>
-      <rect x="96" y="116" width="86" height="86" rx="6" fill="#bccfe6" opacity=".75"/>
-      <rect x="210" y="120" width="80" height="82" rx="6" fill="#bccfe6" opacity=".75"/>
-      <rect x="316" y="116" width="50" height="86" rx="6" fill="#bccfe6" opacity=".75"/>
-      <rect x="10" y="234" width="50" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
-      <rect x="96" y="234" width="86" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
-      <rect x="210" y="234" width="80" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
-      <rect x="10" y="354" width="160" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
-      <rect x="210" y="354" width="155" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
-      <circle cx="187" cy="295" r="16" fill="#1a73e8" opacity=".18"/>
-      <circle cx="187" cy="295" r="8" fill="white"/>
-      <circle cx="187" cy="295" r="5" fill="#1a73e8"/>
-    </svg>
-    <div class="map-search">
-      <i class="ti ti-search" style="color:#94a3b8;font-size:17px;"></i>
-      <input type="text" placeholder="Buscar fisioterapeuta...">
-      <i class="ti ti-adjustments-horizontal" style="color:#94a3b8;font-size:17px;cursor:pointer;" onclick="toast('Filtros')"></i>
-    </div>
-    <div class="map-pin" style="left:27%;top:43%;" onclick="go('page-detail')">
-      <div class="pin-lbl" style="background:#16a34a;">Dra. Ana · R$120</div>
-      <div class="pin-tri" style="border-top:9px solid #16a34a;"></div>
-    </div>
-    <div class="map-pin" style="left:64%;top:29%;" onclick="go('page-detail')">
-      <div class="pin-lbl" style="background:#1a73e8;">Dr. Carlos · R$150</div>
-      <div class="pin-tri" style="border-top:9px solid #1a73e8;"></div>
-    </div>
-
-    <button class="loc-btn" onclick="toast('Localizando...')"><i class="ti ti-current-location" style="font-size:20px;color:#1a73e8;"></i></button>
-    <div class="map-sheet">
-      <div class="drag-hdl"></div>
-      <div class="sheet-hdr">
-        <span class="sheet-cnt">3 disponíveis perto de você</span>
-        <button class="filter-btn"><i class="ti ti-bolt"></i> Filtros</button>
-      </div>
-      <div class="chip-row">
-        <div class="chip on" onclick="filterPros(this,'Todos')">Todos</div>
-        <div class="chip" onclick="filterPros(this,'Ortopedia')">Ortopedia</div>
-        <div class="chip" onclick="filterPros(this,'Neurológico')">Neurológico</div>
-        <div class="chip" onclick="filterPros(this,'Esportivo')">Esportivo</div>
-        <div class="chip" onclick="filterPros(this,'Domiciliar')">Domiciliar</div>
-      </div>
-      <div id="map-card-area">
-        <div style="text-align:center;padding:20px;color:#64748b;">Buscando fisioterapeutas...</div>
-      </div>
-    </div>
-  </div>
-  <div class="bot-nav">
-    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
-    <div class="nav-it" onclick="goAndLoad('page-list')"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
-    <div class="nav-it" onclick="goAndLoad('page-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
-    <div class="nav-it" onclick="goAndLoad('page-profile')"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
-  </div>
+<div class="page" id="page-map">
+<div class="app-topbar">
+<div class="topbar-logo">my<span class="acc">Fisio</span></div>
+<button class="topbar-icon" onclick="toast('Notificações')"><i class="ti ti-bell"></i></button>
 </div>
-
+<div class="map-wrap">
+<svg class="map-svg" preserveaspectratio="xMidYMid slice" viewbox="0 0 375 600" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#dce8f7" height="600" width="375"></rect>
+<rect fill="#c5d5ea" height="16" opacity=".7" width="375" x="0" y="90"></rect>
+<rect fill="#c5d5ea" height="16" opacity=".7" width="375" x="0" y="210"></rect>
+<rect fill="#c5d5ea" height="16" opacity=".7" width="375" x="0" y="330"></rect>
+<rect fill="#c5d5ea" height="16" opacity=".7" width="375" x="0" y="450"></rect>
+<rect fill="#c5d5ea" height="600" opacity=".7" width="16" x="70" y="0"></rect>
+<rect fill="#c5d5ea" height="600" opacity=".7" width="16" x="190" y="0"></rect>
+<rect fill="#c5d5ea" height="600" opacity=".7" width="16" x="300" y="0"></rect>
+<rect fill="#bccfe6" height="86" opacity=".75" rx="6" width="50" x="10" y="116"></rect>
+<rect fill="#bccfe6" height="86" opacity=".75" rx="6" width="86" x="96" y="116"></rect>
+<rect fill="#bccfe6" height="82" opacity=".75" rx="6" width="80" x="210" y="120"></rect>
+<rect fill="#bccfe6" height="86" opacity=".75" rx="6" width="50" x="316" y="116"></rect>
+<rect fill="#bccfe6" height="88" opacity=".75" rx="6" width="50" x="10" y="234"></rect>
+<rect fill="#bccfe6" height="88" opacity=".75" rx="6" width="86" x="96" y="234"></rect>
+<rect fill="#bccfe6" height="88" opacity=".75" rx="6" width="80" x="210" y="234"></rect>
+<rect fill="#bccfe6" height="88" opacity=".75" rx="6" width="160" x="10" y="354"></rect>
+<rect fill="#bccfe6" height="88" opacity=".75" rx="6" width="155" x="210" y="354"></rect>
+<circle cx="187" cy="295" fill="#1a73e8" opacity=".18" r="16"></circle>
+<circle cx="187" cy="295" fill="white" r="8"></circle>
+<circle cx="187" cy="295" fill="#1a73e8" r="5"></circle>
+</svg>
+<div class="map-search">
+<i class="ti ti-search" style="color:#94a3b8;font-size:17px;"></i>
+<input placeholder="Buscar fisioterapeuta..." type="text"/>
+<i class="ti ti-adjustments-horizontal" onclick="toast('Filtros')" style="color:#94a3b8;font-size:17px;cursor:pointer;"></i>
+</div>
+<div class="map-pin" onclick="go('page-detail')" style="left:27%;top:43%;">
+<div class="pin-lbl" style="background:#16a34a;">Dra. Ana · R$120</div>
+<div class="pin-tri" style="border-top:9px solid #16a34a;"></div>
+</div>
+<div class="map-pin" onclick="go('page-detail')" style="left:64%;top:29%;">
+<div class="pin-lbl" style="background:#1a73e8;">Dr. Carlos · R$150</div>
+<div class="pin-tri" style="border-top:9px solid #1a73e8;"></div>
+</div>
+<button class="loc-btn" onclick="toast('Localizando...')"><i class="ti ti-current-location" style="font-size:20px;color:#1a73e8;"></i></button>
+<div class="map-sheet">
+<div class="drag-hdl"></div>
+<div class="sheet-hdr">
+<span class="sheet-cnt">3 disponíveis perto de você</span>
+<button class="filter-btn"><i class="ti ti-bolt"></i> Filtros</button>
+</div>
+<div class="chip-row">
+<div class="chip on" onclick="filterPros(this,'Todos')">Todos</div>
+<div class="chip" onclick="filterPros(this,'Ortopedia')">Ortopedia</div>
+<div class="chip" onclick="filterPros(this,'Neurológico')">Neurológico</div>
+<div class="chip" onclick="filterPros(this,'Esportivo')">Esportivo</div>
+<div class="chip" onclick="filterPros(this,'Domiciliar')">Domiciliar</div>
+</div>
+<div id="map-card-area">
+<div style="text-align:center;padding:20px;color:#64748b;">Buscando fisioterapeutas...</div>
+</div>
+</div>
+</div>
+<div class="bot-nav">
+<div class="nav-it on"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
+<div class="nav-it" onclick="goAndLoad('page-list')"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
+<div class="nav-it" onclick="goAndLoad('page-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+<div class="nav-it" onclick="goAndLoad('page-profile')"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
+</div>
+</div>
 <!-- ══════════════════════════════════════
      APP — LISTA
 ══════════════════════════════════════ -->
-<div id="page-list" class="page">
-  <div class="app-topbar">
-    <button class="topbar-back" onclick="goAndLoad('page-map')"><i class="ti ti-arrow-left"></i></button>
-    <div class="topbar-logo">my<span class="acc">Fisio</span></div>
-    
-  </div>
-  <div style="background:#fff;flex-shrink:0;padding:10px 16px 12px;">
-    <div style="display:flex;align-items:center;gap:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:10px 14px;margin-bottom:10px;">
-      <i class="ti ti-search" style="color:#94a3b8;font-size:17px;"></i>
-      <input type="text" placeholder="Especialidade, nome..." style="border:none;outline:none;flex:1;font-size:14px;background:transparent;font-family:'Nunito Sans',sans-serif;color:#0f172a;">
-    </div>
-    <div class="chip-row" style="margin-bottom:0;">
-      <div class="chip on">Todos</div>
-      <div class="chip" onclick="chipSel(this)">Ortopedia</div>
-      <div class="chip" onclick="chipSel(this)">Neurológico</div>
-      <div class="chip" onclick="chipSel(this)">Esportivo</div>
-      <div class="chip" onclick="chipSel(this)">Pediátrico</div>
-    </div>
-  </div>
-  <div class="scroll" id="pros-list">
-    <div style="text-align:center;padding:30px;color:#64748b;">Buscando fisioterapeutas...</div>
-  </div>
-  <div class="bot-nav">
-    <div class="nav-it" onclick="goAndLoad('page-map')"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
-    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
-    <div class="nav-it" onclick="goAndLoad('page-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
-    <div class="nav-it" onclick="goAndLoad('page-profile')"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
-  </div>
+<div class="page" id="page-list">
+<div class="app-topbar">
+<button class="topbar-back" onclick="goAndLoad('page-map')"><i class="ti ti-arrow-left"></i></button>
+<div class="topbar-logo">my<span class="acc">Fisio</span></div>
 </div>
-
+<div style="background:#fff;flex-shrink:0;padding:10px 16px 12px;">
+<div style="display:flex;align-items:center;gap:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:10px 14px;margin-bottom:10px;">
+<i class="ti ti-search" style="color:#94a3b8;font-size:17px;"></i>
+<input placeholder="Especialidade, nome..." style="border:none;outline:none;flex:1;font-size:14px;background:transparent;font-family:'Nunito Sans',sans-serif;color:#0f172a;" type="text"/>
+</div>
+<div class="chip-row" style="margin-bottom:0;">
+<div class="chip on">Todos</div>
+<div class="chip" onclick="chipSel(this)">Ortopedia</div>
+<div class="chip" onclick="chipSel(this)">Neurológico</div>
+<div class="chip" onclick="chipSel(this)">Esportivo</div>
+<div class="chip" onclick="chipSel(this)">Pediátrico</div>
+</div>
+</div>
+<div class="scroll" id="pros-list">
+<div style="text-align:center;padding:30px;color:#64748b;">Buscando fisioterapeutas...</div>
+</div>
+<div class="bot-nav">
+<div class="nav-it" onclick="goAndLoad('page-map')"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
+<div class="nav-it on"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
+<div class="nav-it" onclick="goAndLoad('page-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+<div class="nav-it" onclick="goAndLoad('page-profile')"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
+</div>
+</div>
 <!-- ══════════════════════════════════════
      APP — DETALHE FISIO
 ══════════════════════════════════════ -->
-<div id="page-detail" class="page">
-  <div class="detail-hero">
-    <button class="topbar-back" onclick="goAndLoad('page-list')"><i class="ti ti-arrow-left"></i> Voltar</button>
-    <div class="detail-av-row">
-      <div class="detail-av" id="d-av">AN</div>
-      <div>
-        <div class="d-name">Dra. Ana Nascimento</div>
-        <div class="d-crm">CREFITO: 12345-F · SP</div>
-        <div class="d-spec">Fisioterapia Ortopédica e Esportiva</div>
-        <div class="d-rating">⭐ <span class="d-rnum">4.9</span><span class="d-rcnt">(128 avaliações)</span></div>
-      </div>
-    </div>
-  </div>
-  <div class="scroll">
-    <div class="info-card">
-      <div class="ic-title">Informações</div>
-      <div class="ic-row"><span class="ic-icon">📍</span><span id="d-loc">—</span></div>
-      <div class="ic-row"><span class="ic-icon">🕐</span><span id="d-hora">—</span></div>
-      <div class="ic-row"><span class="ic-icon">🏠</span><span id="d-tipo">—</span></div>
-      <div class="ic-row"><span class="ic-icon">🎓</span><span id="d-form">—</span></div>
-      <div class="ic-row"><span class="ic-icon">📋</span><span id="d-exp">—</span></div>
-      <div class="ic-row"><span class="ic-icon">💬</span><span id="d-bio" style="color:#64748b;font-style:italic;"></span></div>
-    </div>
-    <div class="info-card">
-      <div class="ic-title">Serviços</div>
-      <div class="svc-row"><span>Avaliação inicial (60 min)</span><span class="svc-p" id="d-preco1">—</span></div>
-      <div class="svc-row"><span>Sessão de fisioterapia (50 min)</span><span class="svc-p" id="d-preco2">—</span></div>
-      <div class="svc-row" style="border:none;"><span>Outros serviços</span><span class="svc-p">Consulte</span></div>
-    </div>
-    <div class="info-card" id="d-reviews-card">
-      <div class="ic-title">Avaliações recentes</div>
-      <div id="d-reviews-list"><div style="font-size:13px;color:#94a3b8;text-align:center;padding:8px;">Sem avaliações ainda</div></div>
-    </div>
-  </div>
-  <div class="booking-bar">
-    <button id="fav-btn" onclick="toggleFavorite(this.dataset.proid)" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px 14px;font-size:20px;cursor:pointer;transition:.15s;" data-proid="">❤️</button>
-    <div class="time-sel" onclick="if(currentPro){openBooking(allPros.indexOf(currentPro))}else{toast('Selecione um fisioterapeuta')}">📅 Escolher horário</div>
-    <button class="btn-main btn-blue" id="agendar-btn" style="flex:1;height:44px;">Agendar</button>
-  </div>
+<div class="page" id="page-detail">
+<div class="detail-hero">
+<button class="topbar-back" onclick="goAndLoad('page-list')"><i class="ti ti-arrow-left"></i> Voltar</button>
+<div class="detail-av-row">
+<div class="detail-av" id="d-av">AN</div>
+<div>
+<div class="d-name">Dra. Ana Nascimento</div>
+<div class="d-crm">CREFITO: 12345-F · SP</div>
+<div class="d-spec">Fisioterapia Ortopédica e Esportiva</div>
+<div class="d-rating">⭐ <span class="d-rnum">4.9</span><span class="d-rcnt">(128 avaliações)</span></div>
 </div>
-
+</div>
+</div>
+<div class="scroll">
+<div class="info-card">
+<div class="ic-title">Informações</div>
+<div class="ic-row"><span class="ic-icon">📍</span><span id="d-loc">—</span></div>
+<div class="ic-row"><span class="ic-icon">🕐</span><span id="d-hora">—</span></div>
+<div class="ic-row"><span class="ic-icon">🏠</span><span id="d-tipo">—</span></div>
+<div class="ic-row"><span class="ic-icon">🎓</span><span id="d-form">—</span></div>
+<div class="ic-row"><span class="ic-icon">📋</span><span id="d-exp">—</span></div>
+<div class="ic-row"><span class="ic-icon">💬</span><span id="d-bio" style="color:#64748b;font-style:italic;"></span></div>
+</div>
+<div class="info-card">
+<div class="ic-title">Serviços</div>
+<div class="svc-row"><span>Avaliação inicial (60 min)</span><span class="svc-p" id="d-preco1">—</span></div>
+<div class="svc-row"><span>Sessão de fisioterapia (50 min)</span><span class="svc-p" id="d-preco2">—</span></div>
+<div class="svc-row" style="border:none;"><span>Outros serviços</span><span class="svc-p">Consulte</span></div>
+</div>
+<div class="info-card" id="d-reviews-card">
+<div class="ic-title">Avaliações recentes</div>
+<div id="d-reviews-list"><div style="font-size:13px;color:#94a3b8;text-align:center;padding:8px;">Sem avaliações ainda</div></div>
+</div>
+</div>
+<div class="booking-bar">
+<button data-proid="" id="fav-btn" onclick="toggleFavorite(this.dataset.proid)" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px 14px;font-size:20px;cursor:pointer;transition:.15s;">❤️</button>
+<div class="time-sel" onclick="if(currentPro){openBooking(allPros.indexOf(currentPro))}else{toast('Selecione um fisioterapeuta')}">📅 Escolher horário</div>
+<button class="btn-main btn-blue" id="agendar-btn" style="flex:1;height:44px;">Agendar</button>
+</div>
+</div>
 <!-- ══════════════════════════════════════
      APP — SESSÕES
 ══════════════════════════════════════ -->
-<div id="page-sessions" class="page">
-  <div class="app-topbar">
-    <div class="topbar-logo">my<span class="acc">Fisio</span></div>
-    <button class="topbar-icon" onclick="toast('Filtrar')"><i class="ti ti-filter"></i></button>
-  </div>
-  <div class="page-hdr">
-    <div class="ph-title">Minhas Sessões</div>
-    <div class="ph-sub">Histórico e agendamentos</div>
-  </div>
-  <div class="scroll" id="sessions-list">
-    <div style="text-align:center;padding:30px;color:#64748b;">Carregando sessões...</div>
-  </div>
-  <div class="bot-nav">
-    <div class="nav-it" onclick="goAndLoad('page-map')"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
-    <div class="nav-it" onclick="goAndLoad('page-list')"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
-    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
-    <div class="nav-it" onclick="goAndLoad('page-profile')"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
-  </div>
+<div class="page" id="page-sessions">
+<div class="app-topbar">
+<div class="topbar-logo">my<span class="acc">Fisio</span></div>
+<button class="topbar-icon" onclick="toast('Filtrar')"><i class="ti ti-filter"></i></button>
 </div>
-
+<div class="page-hdr">
+<div class="ph-title">Minhas Sessões</div>
+<div class="ph-sub">Histórico e agendamentos</div>
+</div>
+<div class="scroll" id="sessions-list">
+<div style="text-align:center;padding:30px;color:#64748b;">Carregando sessões...</div>
+</div>
+<div class="bot-nav">
+<div class="nav-it" onclick="goAndLoad('page-map')"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
+<div class="nav-it" onclick="goAndLoad('page-list')"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
+<div class="nav-it on"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+<div class="nav-it" onclick="goAndLoad('page-profile')"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
+</div>
+</div>
 <!-- ══ PERFIL DO PACIENTE ══ -->
-<div id="page-profile" class="page">
-  <div class="profile-hdr">
-    <div class="p-av-big" id="p-av">JS</div>
-    <div>
-      <div class="p-name" id="p-name">Carregando...</div>
-      <div class="p-email" id="p-email"></div>
-      <div style="margin-top:8px;"><span class="bdg bdg-b" style="font-size:11px;">✓ Plano Basic</span></div>
-    </div>
-  </div>
-  <div class="scroll">
-    <div class="stat-mini-grid">
-      <div class="stat-mini"><div class="sm-num" style="color:#1a73e8;" id="p-sessions">—</div><div class="sm-lbl">Sessões realizadas</div></div>
-      <div class="stat-mini"><div class="sm-num" style="color:#16a34a;" id="p-pros">—</div><div class="sm-lbl">Profissionais</div></div>
-    </div>
-    <div class="menu-it" onclick="goAndLoad('page-favorites')"><div class="menu-icon-box">❤️</div><div class="menu-lbl">Favoritos</div><div class="menu-arr">›</div></div>
-    <div class="menu-it" onclick="goAndLoad('page-sessions')"><div class="menu-icon-box">📅</div><div class="menu-lbl">Minhas sessões</div><div class="menu-arr">›</div></div>
-    <div class="menu-it" onclick="goAndLoad('page-notifications')"><div class="menu-icon-box">🔔</div><div class="menu-lbl">Notificações <span id="notif-badge" style="display:none;background:#ef4444;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;margin-left:6px;">0</span></div><div class="menu-arr">›</div></div>
-    <div class="menu-it" onclick="showPaymentInfo()"><div class="menu-icon-box">💳</div><div class="menu-lbl">Pagamento</div><div class="menu-arr">›</div></div>
-    <div class="menu-it" onclick="openSupport()"><div class="menu-icon-box">❓</div><div class="menu-lbl">Ajuda e suporte</div><div class="menu-arr">›</div></div>
-    <div class="menu-it" style="border-color:#fee2e2;" onclick="doLogout()">
-      <div class="menu-icon-box" style="background:#fee2e2;">🚪</div>
-      <div class="menu-lbl" style="color:#b91c1c;">Sair</div>
-    </div>
-  </div>
-  <div class="bot-nav">
-    <div class="nav-it" onclick="goAndLoad('page-map')"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
-    <div class="nav-it" onclick="goAndLoad('page-list')"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
-    <div class="nav-it" onclick="goAndLoad('page-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
-    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
-  </div>
+<div class="page" id="page-profile">
+<div class="profile-hdr">
+<div class="p-av-big" id="p-av">JS</div>
+<div>
+<div class="p-name" id="p-name">Carregando...</div>
+<div class="p-email" id="p-email"></div>
+<div style="margin-top:8px;"><span class="bdg bdg-b" style="font-size:11px;">✓ Plano Basic</span></div>
 </div>
-
+</div>
+<div class="scroll">
+<div class="stat-mini-grid">
+<div class="stat-mini"><div class="sm-num" id="p-sessions" style="color:#1a73e8;">—</div><div class="sm-lbl">Sessões realizadas</div></div>
+<div class="stat-mini"><div class="sm-num" id="p-pros" style="color:#16a34a;">—</div><div class="sm-lbl">Profissionais</div></div>
+</div>
+<div class="menu-it" onclick="goAndLoad('page-favorites')"><div class="menu-icon-box">❤️</div><div class="menu-lbl">Favoritos</div><div class="menu-arr">›</div></div>
+<div class="menu-it" onclick="goAndLoad('page-sessions')"><div class="menu-icon-box">📅</div><div class="menu-lbl">Minhas sessões</div><div class="menu-arr">›</div></div>
+<div class="menu-it" onclick="goAndLoad('page-notifications')"><div class="menu-icon-box">🔔</div><div class="menu-lbl">Notificações <span id="notif-badge" style="display:none;background:#ef4444;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;margin-left:6px;">0</span></div><div class="menu-arr">›</div></div>
+<div class="menu-it" onclick="showPaymentInfo()"><div class="menu-icon-box">💳</div><div class="menu-lbl">Pagamento</div><div class="menu-arr">›</div></div>
+<div class="menu-it" onclick="openSupport()"><div class="menu-icon-box">❓</div><div class="menu-lbl">Ajuda e suporte</div><div class="menu-arr">›</div></div>
+<div class="menu-it" onclick="doLogout()" style="border-color:#fee2e2;">
+<div class="menu-icon-box" style="background:#fee2e2;">🚪</div>
+<div class="menu-lbl" style="color:#b91c1c;">Sair</div>
+</div>
+</div>
+<div class="bot-nav">
+<div class="nav-it" onclick="goAndLoad('page-map')"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
+<div class="nav-it" onclick="goAndLoad('page-list')"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
+<div class="nav-it" onclick="goAndLoad('page-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+<div class="nav-it on"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
+</div>
+</div>
 <!-- ══ AGENDAMENTO — ESCOLHA DE HORÁRIO ══ -->
-<div id="page-booking" class="page">
-  <div class="app-topbar"><button class="topbar-back" onclick="go('page-detail')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Agendar sessão</div></div>
-  <div class="scroll">
-    <div style="background:#e8f0fe;border-radius:14px;padding:12px;margin-bottom:14px;display:flex;gap:10px;align-items:center;">
-      <div class="av av-g" id="bk-av" style="width:44px;height:44px;font-size:15px;">AN</div>
-      <div><div style="font-size:14px;font-weight:600;color:#0f172a;" id="bk-name">Fisioterapeuta</div><div style="font-size:12px;color:#64748b;" id="bk-spec">Especialidade</div></div>
-    </div>
-    <div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:8px;">Escolha a data</div>
-    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:16px;" id="bk-dates"></div>
-    <div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:8px;">Horários disponíveis <span id="bk-date-label" style="color:#1a73e8;font-size:12px;"></span></div>
-    <div id="bk-slots" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;">
-      <div style="text-align:center;padding:20px;color:#64748b;grid-column:1/-1;">Selecione uma data acima</div>
-    </div>
-    <div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:8px;">Tipo de atendimento</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
-      <div class="atend-card sel" id="bk-tipo-dom" onclick="setBkTipo('domiciliar')"><i class="ti ti-home" style="font-size:20px;display:block;margin-bottom:4px;"></i><span style="font-size:12px;font-weight:600;">Domiciliar</span></div>
-      <div class="atend-card" id="bk-tipo-cli" onclick="setBkTipo('clinica')"><i class="ti ti-building-hospital" style="font-size:20px;display:block;margin-bottom:4px;"></i><span style="font-size:12px;font-weight:600;">Clínica</span></div>
-    </div>
-    <div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:6px;">Endereço do atendimento</div>
-    <input id="bk-address" class="finput" type="text" placeholder="Rua, número — bairro" style="margin-bottom:14px;">
-    <div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:6px;">Observações (opcional)</div>
-    <textarea id="bk-notes" style="width:100%;border:1px solid #e2e8f0;border-radius:10px;padding:10px;font-size:13px;font-family:'Nunito Sans',sans-serif;resize:none;height:70px;outline:none;margin-bottom:14px;" placeholder="Descreva brevemente o problema..."></textarea>
-    <div style="background:#e8f0fe;border-radius:10px;padding:10px 12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;">
-      <span style="font-size:13px;color:#475569;">Valor da sessão</span>
-      <span style="font-size:16px;font-weight:700;color:#1a73e8;font-family:'Nunito',sans-serif;" id="bk-price">R$ —</span>
-    </div>
-    <button class="btn-main btn-blue" onclick="confirmBooking()" id="bk-confirm-btn" disabled style="opacity:.5;">
-      <i class="ti ti-calendar-check"></i> Confirmar agendamento
-    </button>
-  </div>
+<div class="page" id="page-booking">
+<div class="app-topbar"><button class="topbar-back" onclick="go('page-detail')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Agendar sessão</div></div>
+<div class="scroll">
+<div style="background:#e8f0fe;border-radius:14px;padding:12px;margin-bottom:14px;display:flex;gap:10px;align-items:center;">
+<div class="av av-g" id="bk-av" style="width:44px;height:44px;font-size:15px;">AN</div>
+<div><div id="bk-name" style="font-size:14px;font-weight:600;color:#0f172a;">Fisioterapeuta</div><div id="bk-spec" style="font-size:12px;color:#64748b;">Especialidade</div></div>
 </div>
-
+<div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:8px;">Escolha a data</div>
+<div id="bk-dates" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:16px;"></div>
+<div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:8px;">Horários disponíveis <span id="bk-date-label" style="color:#1a73e8;font-size:12px;"></span></div>
+<div id="bk-slots" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;">
+<div style="text-align:center;padding:20px;color:#64748b;grid-column:1/-1;">Selecione uma data acima</div>
+</div>
+<div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:8px;">Tipo de atendimento</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+<div class="atend-card sel" id="bk-tipo-dom" onclick="setBkTipo('domiciliar')"><i class="ti ti-home" style="font-size:20px;display:block;margin-bottom:4px;"></i><span style="font-size:12px;font-weight:600;">Domiciliar</span></div>
+<div class="atend-card" id="bk-tipo-cli" onclick="setBkTipo('clinica')"><i class="ti ti-building-hospital" style="font-size:20px;display:block;margin-bottom:4px;"></i><span style="font-size:12px;font-weight:600;">Clínica</span></div>
+</div>
+<div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:6px;">Endereço do atendimento</div>
+<input class="finput" id="bk-address" placeholder="Rua, número — bairro" style="margin-bottom:14px;" type="text"/>
+<div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:6px;">Observações (opcional)</div>
+<textarea id="bk-notes" placeholder="Descreva brevemente o problema..." style="width:100%;border:1px solid #e2e8f0;border-radius:10px;padding:10px;font-size:13px;font-family:'Nunito Sans',sans-serif;resize:none;height:70px;outline:none;margin-bottom:14px;"></textarea>
+<div style="background:#e8f0fe;border-radius:10px;padding:10px 12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;">
+<span style="font-size:13px;color:#475569;">Valor da sessão</span>
+<span id="bk-price" style="font-size:16px;font-weight:700;color:#1a73e8;font-family:'Nunito',sans-serif;">R$ —</span>
+</div>
+<button class="btn-main btn-blue" disabled="" id="bk-confirm-btn" onclick="confirmBooking()" style="opacity:.5;">
+<i class="ti ti-calendar-check"></i> Confirmar agendamento
+    </button>
+</div>
+</div>
 <!-- ══ FAVORITOS ══ -->
-<div id="page-favorites" class="page">
-  <div class="app-topbar"><button class="topbar-back" onclick="goAndLoad('page-profile')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Favoritos</div></div>
-  <div class="scroll" id="favorites-list"><div style="text-align:center;padding:30px;color:#64748b;">Carregando...</div></div>
+<div class="page" id="page-favorites">
+<div class="app-topbar"><button class="topbar-back" onclick="goAndLoad('page-profile')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Favoritos</div></div>
+<div class="scroll" id="favorites-list"><div style="text-align:center;padding:30px;color:#64748b;">Carregando...</div></div>
 </div>
-
 <!-- ══ NOTIFICAÇÕES ══ -->
-<div id="page-notifications" class="page">
-  <div class="app-topbar"><button class="topbar-back" onclick="goAndLoad('page-profile')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Notificações</div></div>
-  <div class="scroll" id="notif-list"><div style="text-align:center;padding:30px;color:#64748b;">Carregando...</div></div>
+<div class="page" id="page-notifications">
+<div class="app-topbar"><button class="topbar-back" onclick="goAndLoad('page-profile')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Notificações</div></div>
+<div class="scroll" id="notif-list"><div style="text-align:center;padding:30px;color:#64748b;">Carregando...</div></div>
 </div>
-
 <!-- ══ AVALIAÇÃO ══ -->
-<div id="page-review" class="page">
-  <div class="app-topbar"><button class="topbar-back" onclick="goAndLoad('page-sessions')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Avaliar sessão</div></div>
-  <div class="scroll" style="display:flex;flex-direction:column;align-items:center;padding-top:30px;">
-    <div class="av av-g" id="rv-av" style="width:72px;height:72px;font-size:26px;margin-bottom:12px;">AN</div>
-    <div style="font-size:17px;font-weight:700;color:#0f172a;font-family:'Nunito',sans-serif;margin-bottom:4px;" id="rv-name">Fisioterapeuta</div>
-    <div style="font-size:13px;color:#64748b;margin-bottom:24px;" id="rv-date">Data da sessão</div>
-    <div style="font-size:14px;font-weight:600;color:#0f172a;margin-bottom:12px;">Como foi o atendimento?</div>
-    <div style="display:flex;gap:12px;margin-bottom:20px;" id="rv-stars">
-      <span onclick="setRating(1)" style="font-size:36px;cursor:pointer;transition:.15s;">⭐</span>
-      <span onclick="setRating(2)" style="font-size:36px;cursor:pointer;transition:.15s;">⭐</span>
-      <span onclick="setRating(3)" style="font-size:36px;cursor:pointer;transition:.15s;">⭐</span>
-      <span onclick="setRating(4)" style="font-size:36px;cursor:pointer;transition:.15s;">⭐</span>
-      <span onclick="setRating(5)" style="font-size:36px;cursor:pointer;transition:.15s;">⭐</span>
-    </div>
-    <div style="font-size:14px;font-weight:600;color:#0f172a;margin-bottom:8px;align-self:flex-start;">Comentário (opcional)</div>
-    <textarea id="rv-comment" style="width:100%;border:1px solid #e2e8f0;border-radius:10px;padding:10px;font-size:13px;font-family:'Nunito Sans',sans-serif;resize:none;height:90px;outline:none;margin-bottom:20px;" placeholder="Conte como foi a experiência..."></textarea>
-    <button class="btn-main btn-blue" onclick="submitReview()" style="width:100%;max-width:280px;">
-      <i class="ti ti-send"></i> Enviar avaliação
-    </button>
-  </div>
+<div class="page" id="page-review">
+<div class="app-topbar"><button class="topbar-back" onclick="goAndLoad('page-sessions')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Avaliar sessão</div></div>
+<div class="scroll" style="display:flex;flex-direction:column;align-items:center;padding-top:30px;">
+<div class="av av-g" id="rv-av" style="width:72px;height:72px;font-size:26px;margin-bottom:12px;">AN</div>
+<div id="rv-name" style="font-size:17px;font-weight:700;color:#0f172a;font-family:'Nunito',sans-serif;margin-bottom:4px;">Fisioterapeuta</div>
+<div id="rv-date" style="font-size:13px;color:#64748b;margin-bottom:24px;">Data da sessão</div>
+<div style="font-size:14px;font-weight:600;color:#0f172a;margin-bottom:12px;">Como foi o atendimento?</div>
+<div id="rv-stars" style="display:flex;gap:12px;margin-bottom:20px;">
+<span onclick="setRating(1)" style="font-size:36px;cursor:pointer;transition:.15s;">⭐</span>
+<span onclick="setRating(2)" style="font-size:36px;cursor:pointer;transition:.15s;">⭐</span>
+<span onclick="setRating(3)" style="font-size:36px;cursor:pointer;transition:.15s;">⭐</span>
+<span onclick="setRating(4)" style="font-size:36px;cursor:pointer;transition:.15s;">⭐</span>
+<span onclick="setRating(5)" style="font-size:36px;cursor:pointer;transition:.15s;">⭐</span>
 </div>
-
+<div style="font-size:14px;font-weight:600;color:#0f172a;margin-bottom:8px;align-self:flex-start;">Comentário (opcional)</div>
+<textarea id="rv-comment" placeholder="Conte como foi a experiência..." style="width:100%;border:1px solid #e2e8f0;border-radius:10px;padding:10px;font-size:13px;font-family:'Nunito Sans',sans-serif;resize:none;height:90px;outline:none;margin-bottom:20px;"></textarea>
+<button class="btn-main btn-blue" onclick="submitReview()" style="width:100%;max-width:280px;">
+<i class="ti ti-send"></i> Enviar avaliação
+    </button>
+</div>
+</div>
 <!-- ══ PRO — SESSÕES ══ -->
-<div id="page-pro-sessions" class="page" style="background:#0f1f35;">
-  <div class="app-topbar dark-bar"><button class="topbar-back" onclick="goAndLoad('page-pro-dash')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div></div>
-  <div class="page-hdr dark-hdr"><div class="ph-title">Minhas Sessões</div><div class="ph-sub">Pedidos recebidos e histórico</div></div>
-  <div class="scroll" id="pro-sessions-list" style="background:#0f1f35;">
-    <div style="text-align:center;padding:30px;color:#7fb3e8;">Carregando...</div>
-  </div>
-  <div class="bot-nav dark-nav">
-    <div class="nav-it" onclick="goAndLoad('page-pro-dash')"><div class="nv-icon"><i class="ti ti-layout-dashboard"></i></div><div class="nv-lbl">Painel</div></div>
-    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
-    <div class="nav-it" onclick="goAndLoad('page-pro-edit')"><div class="nv-icon"><i class="ti ti-user-edit"></i></div><div class="nv-lbl">Cadastro</div></div>
-    <div class="nav-it" onclick="doLogout()"><div class="nv-icon"><i class="ti ti-logout"></i></div><div class="nv-lbl">Sair</div></div>
-  </div>
+<div class="page" id="page-pro-sessions" style="background:#0f1f35;">
+<div class="app-topbar dark-bar"><button class="topbar-back" onclick="goAndLoad('page-pro-dash')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div></div>
+<div class="page-hdr dark-hdr"><div class="ph-title">Minhas Sessões</div><div class="ph-sub">Pedidos recebidos e histórico</div></div>
+<div class="scroll" id="pro-sessions-list" style="background:#0f1f35;">
+<div style="text-align:center;padding:30px;color:#7fb3e8;">Carregando...</div>
 </div>
-
+<div class="bot-nav dark-nav">
+<div class="nav-it" onclick="goAndLoad('page-pro-dash')"><div class="nv-icon"><i class="ti ti-layout-dashboard"></i></div><div class="nv-lbl">Painel</div></div>
+<div class="nav-it on"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+<div class="nav-it" onclick="goAndLoad('page-pro-edit')"><div class="nv-icon"><i class="ti ti-user-edit"></i></div><div class="nv-lbl">Cadastro</div></div>
+<div class="nav-it" onclick="doLogout()"><div class="nv-icon"><i class="ti ti-logout"></i></div><div class="nv-lbl">Sair</div></div>
+</div>
+</div>
 <!-- ══ PRO — EDITAR CADASTRO ══ -->
-<div id="page-pro-edit" class="page" style="background:#0f1f35;">
-  <div class="app-topbar dark-bar"><button class="topbar-back" onclick="goAndLoad('page-pro-dash')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div></div>
-  <div class="form-area" style="background:#0f1f35;padding-top:14px;">
-    <div style="font-size:16px;font-weight:700;color:#fff;font-family:'Nunito',sans-serif;margin-bottom:14px;">Editar meu cadastro</div>
-    <div class="field"><label style="color:#7fb3e8;">Nome completo</label>
-      <div class="finput-wrap"><input id="edit-nome" class="finput pro" type="text" placeholder="Seu nome" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
-    </div>
-    <div class="field"><label style="color:#7fb3e8;">Telefone</label>
-      <div class="finput-wrap"><input id="edit-tel" class="finput pro" type="tel" placeholder="(11) 99999-9999" style="background:#132840;border-color:#1e3a5f;color:#fff;" oninput="maskPhone(this)"></div>
-    </div>
-    <div style="font-size:12px;font-weight:700;color:#4fc3f7;margin:14px 0 8px;text-transform:uppercase;letter-spacing:.4px;">Endereço de atendimento</div>
-    <div class="field"><label style="color:#7fb3e8;">Endereço manual</label>
-      <input id="edit-address" class="finput pro" type="text" placeholder="Rua, número — bairro — cidade" style="background:#132840;border-color:#1e3a5f;color:#fff;">
-    </div>
-    <button onclick="getProLocation()" style="width:100%;background:rgba(79,195,247,.15);border:1px solid #4fc3f7;border-radius:10px;color:#4fc3f7;padding:10px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:14px;font-family:'Nunito',sans-serif;">
-      <i class="ti ti-current-location" style="vertical-align:-2px;margin-right:4px;"></i> Usar minha localização atual
-    </button>
-    <div class="field"><label style="color:#7fb3e8;">Valor por sessão (R$)</label>
-      <input id="edit-price" class="finput pro" type="number" min="0" placeholder="120" style="background:#132840;border-color:#1e3a5f;color:#fff;">
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-      <div class="field"><label style="color:#7fb3e8;">Início</label><input id="edit-start" class="finput pro" type="time" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
-      <div class="field"><label style="color:#7fb3e8;">Fim</label><input id="edit-end" class="finput pro" type="time" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
-    </div>
-    <div class="field"><label style="color:#7fb3e8;">Bio / Apresentação</label>
-      <textarea id="edit-bio" style="width:100%;background:#132840;border:1px solid #1e3a5f;border-radius:10px;padding:10px;color:#fff;font-size:13px;font-family:'Nunito Sans',sans-serif;resize:none;height:80px;outline:none;" placeholder="Fale um pouco sobre você e sua experiência..."></textarea>
-    </div>
-    <div style="font-size:12px;font-weight:700;color:#4fc3f7;margin:4px 0 8px;text-transform:uppercase;letter-spacing:.4px;">Formação acadêmica</div>
-    <div class="field"><label style="color:#7fb3e8;">Faculdade / Universidade</label>
-      <input id="edit-faculdade" class="finput pro" type="text" placeholder="Ex: USP, UNIFESP..." style="background:#132840;border-color:#1e3a5f;color:#fff;">
-    </div>
-    <div class="field-row">
-      <div class="field"><label style="color:#7fb3e8;">Ano de formação</label>
-        <input id="edit-ano-form" class="finput pro" type="number" placeholder="2015" min="1980" max="2030" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
-      <div class="field"><label style="color:#7fb3e8;">Anos de experiência</label>
-        <input id="edit-experiencia" class="finput pro" type="number" placeholder="5" min="0" max="50" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
-    </div>
-    <div style="font-size:12px;font-weight:700;color:#4fc3f7;margin:4px 0 8px;text-transform:uppercase;letter-spacing:.4px;">Especialidades</div>
-    <div class="check-grid" id="edit-specs" style="margin-bottom:16px;">
-      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Ortopédica</div>
-      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Esportiva</div>
-      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Neurológica</div>
-      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Pediátrica</div>
-      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Respiratória</div>
-      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Pilates</div>
-      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Drenagem</div>
-      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Obstétrica</div>
-    </div>
-    <button class="btn-main btn-pro-c" onclick="saveProEdit()">
-      <i class="ti ti-device-floppy"></i> Salvar alterações
-    </button>
-    <div style="height:20px;"></div>
-  </div>
-  <div class="bot-nav dark-nav">
-    <div class="nav-it" onclick="goAndLoad('page-pro-dash')"><div class="nv-icon"><i class="ti ti-layout-dashboard"></i></div><div class="nv-lbl">Painel</div></div>
-    <div class="nav-it" onclick="goAndLoad('page-pro-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
-    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-user-edit"></i></div><div class="nv-lbl">Cadastro</div></div>
-    <div class="nav-it" onclick="doLogout()"><div class="nv-icon"><i class="ti ti-logout"></i></div><div class="nv-lbl">Sair</div></div>
-  </div>
+<div class="page" id="page-pro-edit" style="background:#0f1f35;">
+<div class="app-topbar dark-bar"><button class="topbar-back" onclick="goAndLoad('page-pro-dash')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div></div>
+<div class="form-area" style="background:#0f1f35;padding-top:14px;">
+<div style="font-size:16px;font-weight:700;color:#fff;font-family:'Nunito',sans-serif;margin-bottom:14px;">Editar meu cadastro</div>
+<div class="field"><label style="color:#7fb3e8;">Nome completo</label>
+<div class="finput-wrap"><input class="finput pro" id="edit-nome" placeholder="Seu nome" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="text"/></div>
 </div>
-
+<div class="field"><label style="color:#7fb3e8;">Telefone</label>
+<div class="finput-wrap"><input class="finput pro" id="edit-tel" oninput="maskPhone(this)" placeholder="(11) 99999-9999" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="tel"/></div>
+</div>
+<div style="font-size:12px;font-weight:700;color:#4fc3f7;margin:14px 0 8px;text-transform:uppercase;letter-spacing:.4px;">Endereço de atendimento</div>
+<div class="field"><label style="color:#7fb3e8;">Endereço manual</label>
+<input class="finput pro" id="edit-address" placeholder="Rua, número — bairro — cidade" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="text"/>
+</div>
+<button onclick="getProLocation()" style="width:100%;background:rgba(79,195,247,.15);border:1px solid #4fc3f7;border-radius:10px;color:#4fc3f7;padding:10px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:14px;font-family:'Nunito',sans-serif;">
+<i class="ti ti-current-location" style="vertical-align:-2px;margin-right:4px;"></i> Usar minha localização atual
+    </button>
+<div class="field"><label style="color:#7fb3e8;">Valor por sessão (R$)</label>
+<input class="finput pro" id="edit-price" min="0" placeholder="120" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="number"/>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+<div class="field"><label style="color:#7fb3e8;">Início</label><input class="finput pro" id="edit-start" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="time"/></div>
+<div class="field"><label style="color:#7fb3e8;">Fim</label><input class="finput pro" id="edit-end" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="time"/></div>
+</div>
+<div class="field"><label style="color:#7fb3e8;">Bio / Apresentação</label>
+<textarea id="edit-bio" placeholder="Fale um pouco sobre você e sua experiência..." style="width:100%;background:#132840;border:1px solid #1e3a5f;border-radius:10px;padding:10px;color:#fff;font-size:13px;font-family:'Nunito Sans',sans-serif;resize:none;height:80px;outline:none;"></textarea>
+</div>
+<div style="font-size:12px;font-weight:700;color:#4fc3f7;margin:4px 0 8px;text-transform:uppercase;letter-spacing:.4px;">Formação acadêmica</div>
+<div class="field"><label style="color:#7fb3e8;">Faculdade / Universidade</label>
+<input class="finput pro" id="edit-faculdade" placeholder="Ex: USP, UNIFESP..." style="background:#132840;border-color:#1e3a5f;color:#fff;" type="text"/>
+</div>
+<div class="field-row">
+<div class="field"><label style="color:#7fb3e8;">Ano de formação</label>
+<input class="finput pro" id="edit-ano-form" max="2030" min="1980" placeholder="2015" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="number"/></div>
+<div class="field"><label style="color:#7fb3e8;">Anos de experiência</label>
+<input class="finput pro" id="edit-experiencia" max="50" min="0" placeholder="5" style="background:#132840;border-color:#1e3a5f;color:#fff;" type="number"/></div>
+</div>
+<div style="font-size:12px;font-weight:700;color:#4fc3f7;margin:4px 0 8px;text-transform:uppercase;letter-spacing:.4px;">Especialidades</div>
+<div class="check-grid" id="edit-specs" style="margin-bottom:16px;">
+<div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Ortopédica</div>
+<div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Esportiva</div>
+<div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Neurológica</div>
+<div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Pediátrica</div>
+<div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Respiratória</div>
+<div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Pilates</div>
+<div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Drenagem</div>
+<div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Obstétrica</div>
+</div>
+<button class="btn-main btn-pro-c" onclick="saveProEdit()">
+<i class="ti ti-device-floppy"></i> Salvar alterações
+    </button>
+<div style="height:20px;"></div>
+</div>
+<div class="bot-nav dark-nav">
+<div class="nav-it" onclick="goAndLoad('page-pro-dash')"><div class="nv-icon"><i class="ti ti-layout-dashboard"></i></div><div class="nv-lbl">Painel</div></div>
+<div class="nav-it" onclick="goAndLoad('page-pro-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+<div class="nav-it on"><div class="nv-icon"><i class="ti ti-user-edit"></i></div><div class="nv-lbl">Cadastro</div></div>
+<div class="nav-it" onclick="doLogout()"><div class="nv-icon"><i class="ti ti-logout"></i></div><div class="nv-lbl">Sair</div></div>
+</div>
+</div>
 <!-- ══════════════════════════════════════
      APP PRO — PAINEL (fisioterapeuta)
 ══════════════════════════════════════ -->
-<div id="page-pro-dash" class="page" style="background:#0f1f35;">
-  <div class="app-topbar dark-bar">
-    <div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div>
-    <button class="topbar-icon" onclick="toast('Notificações')"><i class="ti ti-bell"></i></button>
-  </div>
-  <div class="scroll" style="background:#0f1f35;">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;margin-top:4px;">
-      <div style="font-size:13px;color:#7fb3e8;" id="pro-greet">Olá, Dra. Ana 👋</div>
-      <span style="background:rgba(76,175,130,.15);color:#4caf82;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;">✓ Verificada</span>
-    </div>
-    <div class="online-toggle" onclick="toggleOnline(this)">
-      <div class="tog-track" id="pro-tog"><div class="tog-knob"></div></div>
-      <div class="tog-info">
-        <div class="tog-title" id="tog-title">🟢 Online — Recebendo pedidos</div>
-        <div class="tog-sub" id="tog-sub">Visível no mapa para pacientes</div>
-      </div>
-    </div>
-    <div class="stat-grid">
-      <div class="stat-card"><div class="stat-n blue" id="stat-pending">—</div><div class="stat-l">Pedidos novos</div></div>
-      <div class="stat-card"><div class="stat-n green" id="stat-today">—</div><div class="stat-l">Sessões hoje</div></div>
-      <div class="stat-card"><div class="stat-n amber" id="stat-rating">⭐ 4.9</div><div class="stat-l">Avaliação</div></div>
-      <div class="stat-card"><div class="stat-n blue" id="stat-gains">R$ 780</div><div class="stat-l">Ganhos hoje</div></div>
-    </div>
-    <div class="slbl dk">Pedidos pendentes</div>
-    <div id="pro-demand-area">
-      <div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Carregando pedidos...</div>
-    </div>
-    <div class="slbl dk">Agenda de hoje</div>
-    <div id="pro-agenda-today">
-      <div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Carregando agenda...</div>
-    </div>
-  </div>
-  <div class="bot-nav dark-nav">
-    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-layout-dashboard"></i></div><div class="nv-lbl">Painel</div></div>
-    <div class="nav-it" onclick="goAndLoad('page-pro-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
-    <div class="nav-it" onclick="goAndLoad('page-pro-edit')"><div class="nv-icon"><i class="ti ti-user-edit"></i></div><div class="nv-lbl">Cadastro</div></div>
-    <div class="nav-it" onclick="doLogout()"><div class="nv-icon"><i class="ti ti-logout"></i></div><div class="nv-lbl">Sair</div></div>
-  </div>
+<div class="page" id="page-pro-dash" style="background:#0f1f35;">
+<div class="app-topbar dark-bar">
+<div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div>
+<button class="topbar-icon" onclick="toast('Notificações')"><i class="ti ti-bell"></i></button>
 </div>
-
+<div class="scroll" style="background:#0f1f35;">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;margin-top:4px;">
+<div id="pro-greet" style="font-size:13px;color:#7fb3e8;">Olá, Dra. Ana 👋</div>
+<span style="background:rgba(76,175,130,.15);color:#4caf82;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;">✓ Verificada</span>
+</div>
+<div class="online-toggle" onclick="toggleOnline(this)">
+<div class="tog-track" id="pro-tog"><div class="tog-knob"></div></div>
+<div class="tog-info">
+<div class="tog-title" id="tog-title">🟢 Online — Recebendo pedidos</div>
+<div class="tog-sub" id="tog-sub">Visível no mapa para pacientes</div>
+</div>
+</div>
+<div class="stat-grid">
+<div class="stat-card"><div class="stat-n blue" id="stat-pending">—</div><div class="stat-l">Pedidos novos</div></div>
+<div class="stat-card"><div class="stat-n green" id="stat-today">—</div><div class="stat-l">Sessões hoje</div></div>
+<div class="stat-card"><div class="stat-n amber" id="stat-rating">⭐ 4.9</div><div class="stat-l">Avaliação</div></div>
+<div class="stat-card"><div class="stat-n blue" id="stat-gains">R$ 780</div><div class="stat-l">Ganhos hoje</div></div>
+</div>
+<div class="slbl dk">Pedidos pendentes</div>
+<div id="pro-demand-area">
+<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Carregando pedidos...</div>
+</div>
+<div class="slbl dk">Agenda de hoje</div>
+<div id="pro-agenda-today">
+<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Carregando agenda...</div>
+</div>
+</div>
+<div class="bot-nav dark-nav">
+<div class="nav-it on"><div class="nv-icon"><i class="ti ti-layout-dashboard"></i></div><div class="nv-lbl">Painel</div></div>
+<div class="nav-it" onclick="goAndLoad('page-pro-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+<div class="nav-it" onclick="goAndLoad('page-pro-edit')"><div class="nv-icon"><i class="ti ti-user-edit"></i></div><div class="nv-lbl">Cadastro</div></div>
+<div class="nav-it" onclick="doLogout()"><div class="nv-icon"><i class="ti ti-logout"></i></div><div class="nv-lbl">Sair</div></div>
+</div>
+</div>
 <!-- Toast -->
 <div id="modal-overlay" onclick="closeModal()" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,.55);z-index:9998;align-items:flex-end;justify-content:center;">
-  <div id="modal-box" onclick="event.stopPropagation()" style="background:#fff;border-radius:20px 20px 0 0;padding:24px 20px;width:100%;text-align:center;"></div>
+<div id="modal-box" onclick="event.stopPropagation()" style="background:#fff;border-radius:20px 20px 0 0;padding:24px 20px;width:100%;text-align:center;"></div>
 </div>
-
 <div id="toast"></div>
-
 </div><!-- #app -->
-
 <script>
 // ═══════════════════════════════════════════════
 //  myFisio — Integração com API real
@@ -2917,5 +2882,24 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 
 </script>
-</body>
+<script>
+setTimeout(function(){
+  try{
+    var splash = document.getElementById('page-splash');
+    var login = document.getElementById('page-login');
+
+    if(splash){
+      splash.classList.remove('active');
+      splash.style.display = 'none';
+    }
+
+    if(login){
+      login.classList.add('active');
+      login.style.display = 'flex';
+    }
+  } catch(e){
+    console.log('Fallback splash:', e);
+  }
+}, 1800);
+</script></body>
 </html>
