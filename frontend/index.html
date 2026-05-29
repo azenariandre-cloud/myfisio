@@ -1491,8 +1491,8 @@ html,body{
     <div class="stat-grid">
       <div class="stat-card"><div class="stat-n blue" id="stat-pending">—</div><div class="stat-l">Pedidos novos</div></div>
       <div class="stat-card"><div class="stat-n green" id="stat-today">—</div><div class="stat-l">Sessões hoje</div></div>
-      <div class="stat-card"><div class="stat-n amber">⭐ —</div><div class="stat-l">Avaliação</div></div>
-      <div class="stat-card"><div class="stat-n blue">—</div><div class="stat-l">Ganhos hoje</div></div>
+      <div class="stat-card"><div class="stat-n amber" id="stat-rating">⭐ 4.9</div><div class="stat-l">Avaliação</div></div>
+      <div class="stat-card"><div class="stat-n blue" id="stat-gains">R$ 780</div><div class="stat-l">Ganhos hoje</div></div>
     </div>
     <div class="slbl dk">Pedidos pendentes</div>
     <div id="pro-demand-area">
@@ -2803,6 +2803,116 @@ function openProfDetail(idx){
 // ═══════════════════════════════════════════════
 //  go() — atualizado para novas páginas
 // ═══════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════
+//  DASHBOARD PROFISSIONAL — DADOS MOCKADOS
+// ═══════════════════════════════════════════════
+const dashboardData = {
+  novosPedidos: 6,
+  sessoesHoje: 8,
+  avaliacao: 4.9,
+  ganhosHoje: 780,
+  pedidosPendentes: [
+    {
+      paciente: 'Carlos Silva',
+      tipo: 'Fisioterapia Ortopédica',
+      detalhes: 'Dor lombar • Vila Mariana • 2,3 km',
+      urgente: true
+    },
+    {
+      paciente: 'Fernanda Costa',
+      tipo: 'Reabilitação Pós-cirúrgica',
+      detalhes: 'Joelho • Moema • 4,1 km',
+      urgente: false
+    },
+    {
+      paciente: 'João Pereira',
+      tipo: 'Fisioterapia Respiratória',
+      detalhes: 'Atendimento domiciliar • Pinheiros',
+      urgente: true
+    }
+  ],
+  agendaHoje: [
+    {
+      horario: '08:00',
+      paciente: 'Marina Alves',
+      detalhes: 'Sessão de RPG • Brooklin',
+      concluido: true
+    },
+    {
+      horario: '10:30',
+      paciente: 'Ricardo Mendes',
+      detalhes: 'Pós-operatório joelho • Itaim',
+      concluido: false
+    },
+    {
+      horario: '14:00',
+      paciente: 'Patrícia Lima',
+      detalhes: 'Fisioterapia esportiva • Vila Olímpia',
+      concluido: false
+    },
+    {
+      horario: '16:30',
+      paciente: 'Lucas Ferreira',
+      detalhes: 'Sessão respiratória • Saúde',
+      concluido: false
+    }
+  ]
+};
+
+function carregarDashboardPro(){
+  const pedidosEl = document.getElementById('stat-pending');
+  const sessoesEl = document.getElementById('stat-today');
+  const ratingEl = document.getElementById('stat-rating');
+  const ganhosEl = document.getElementById('stat-gains');
+
+  if(pedidosEl) pedidosEl.textContent = dashboardData.novosPedidos;
+  if(sessoesEl) sessoesEl.textContent = dashboardData.sessoesHoje;
+  if(ratingEl) ratingEl.textContent = '⭐ ' + dashboardData.avaliacao.toFixed(1);
+  if(ganhosEl) ganhosEl.textContent = 'R$ ' + dashboardData.ganhosHoje;
+
+  const demandArea = document.getElementById('pro-demand-area');
+  if(demandArea){
+    demandArea.innerHTML = dashboardData.pedidosPendentes.map(function(item){
+      return `
+        <div class="demand-card ${item.urgente ? 'urgent' : ''}">
+          <div class="d-top">
+            <div>
+              <div class="d-patient">${item.paciente}</div>
+              <div class="d-type">${item.tipo}</div>
+            </div>
+            ${item.urgente ? '<span class="urg-badge">Urgente</span>' : ''}
+          </div>
+          <div class="d-det">${item.detalhes}</div>
+          <div class="d-actions">
+            <button class="btn-accept" onclick="toast('Pedido aceito com sucesso!')">Aceitar</button>
+            <button class="btn-refuse" onclick="toast('Pedido recusado')">Recusar</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  const agendaArea = document.getElementById('pro-agenda-today');
+  if(agendaArea){
+    agendaArea.innerHTML = dashboardData.agendaHoje.map(function(item){
+      return `
+        <div class="sch-item ${item.concluido ? 'done' : ''}">
+          <div class="sch-time">${item.horario}</div>
+          <div class="sch-info">
+            <div class="sch-name">${item.paciente}</div>
+            <div class="sch-det">${item.detalhes}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  setTimeout(carregarDashboardPro, 600);
+});
+
 </script>
 </body>
 </html>
