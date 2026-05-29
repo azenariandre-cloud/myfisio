@@ -1088,7 +1088,7 @@ html,body{
     <div class="success-icon si-blue"><i class="ti ti-circle-check" style="font-size:38px;color:#1a73e8;"></i></div>
     <h2>Bem-vindo ao myFisio!</h2>
     <p>Sua conta foi criada com sucesso.<br>Enviamos um e-mail de confirmação.</p>
-    <button class="btn-main btn-blue" style="max-width:260px;" onclick="go('page-map')">
+    <button class="btn-main btn-blue" style="max-width:260px;" onclick="goAndLoad('page-map')">
       <i class="ti ti-map-pin"></i> Encontrar fisioterapeutas
     </button>
     <p style="font-size:12px;color:#94a3b8;margin-top:14px;margin-bottom:0;">Verifique seu e-mail para ativar a conta</p>
@@ -1184,9 +1184,9 @@ html,body{
   </div>
   <div class="bot-nav">
     <div class="nav-it on"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
-    <div class="nav-it" onclick="go('page-list')"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
-    <div class="nav-it" onclick="go('page-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
-    <div class="nav-it" onclick="go('page-profile')"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-list')"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-profile')"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
   </div>
 </div>
 
@@ -1195,7 +1195,7 @@ html,body{
 ══════════════════════════════════════ -->
 <div id="page-list" class="page">
   <div class="app-topbar">
-    <button class="topbar-back" onclick="go('page-map')"><i class="ti ti-arrow-left"></i></button>
+    <button class="topbar-back" onclick="goAndLoad('page-map')"><i class="ti ti-arrow-left"></i></button>
     <div class="topbar-logo">my<span class="acc">Fisio</span></div>
     
   </div>
@@ -1216,10 +1216,10 @@ html,body{
     <div style="text-align:center;padding:30px;color:#64748b;">Buscando fisioterapeutas...</div>
   </div>
   <div class="bot-nav">
-    <div class="nav-it" onclick="go('page-map')"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-map')"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
     <div class="nav-it on"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
-    <div class="nav-it" onclick="go('page-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
-    <div class="nav-it" onclick="go('page-profile')"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-profile')"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
   </div>
 </div>
 
@@ -1228,7 +1228,7 @@ html,body{
 ══════════════════════════════════════ -->
 <div id="page-detail" class="page">
   <div class="detail-hero">
-    <button class="topbar-back" onclick="go('page-list')"><i class="ti ti-arrow-left"></i> Voltar</button>
+    <button class="topbar-back" onclick="goAndLoad('page-list')"><i class="ti ti-arrow-left"></i> Voltar</button>
     <div class="detail-av-row">
       <div class="detail-av" id="d-av">AN</div>
       <div>
@@ -1283,10 +1283,10 @@ html,body{
     <div style="text-align:center;padding:30px;color:#64748b;">Carregando sessões...</div>
   </div>
   <div class="bot-nav">
-    <div class="nav-it" onclick="go('page-map')"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
-    <div class="nav-it" onclick="go('page-list')"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-map')"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-list')"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
     <div class="nav-it on"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
-    <div class="nav-it" onclick="go('page-profile')"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-profile')"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
   </div>
 </div>
 
@@ -1305,9 +1305,9 @@ html,body{
       <div class="stat-mini"><div class="sm-num" style="color:#1a73e8;" id="p-sessions">—</div><div class="sm-lbl">Sessões realizadas</div></div>
       <div class="stat-mini"><div class="sm-num" style="color:#16a34a;" id="p-pros">—</div><div class="sm-lbl">Profissionais</div></div>
     </div>
-    <div class="menu-it" onclick="go('page-favorites')"><div class="menu-icon-box">❤️</div><div class="menu-lbl">Favoritos</div><div class="menu-arr">›</div></div>
-    <div class="menu-it" onclick="go('page-sessions')"><div class="menu-icon-box">📅</div><div class="menu-lbl">Minhas sessões</div><div class="menu-arr">›</div></div>
-    <div class="menu-it" onclick="go('page-notifications')"><div class="menu-icon-box">🔔</div><div class="menu-lbl">Notificações <span id="notif-badge" style="display:none;background:#ef4444;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;margin-left:6px;">0</span></div><div class="menu-arr">›</div></div>
+    <div class="menu-it" onclick="goAndLoad('page-favorites')"><div class="menu-icon-box">❤️</div><div class="menu-lbl">Favoritos</div><div class="menu-arr">›</div></div>
+    <div class="menu-it" onclick="goAndLoad('page-sessions')"><div class="menu-icon-box">📅</div><div class="menu-lbl">Minhas sessões</div><div class="menu-arr">›</div></div>
+    <div class="menu-it" onclick="goAndLoad('page-notifications')"><div class="menu-icon-box">🔔</div><div class="menu-lbl">Notificações <span id="notif-badge" style="display:none;background:#ef4444;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;margin-left:6px;">0</span></div><div class="menu-arr">›</div></div>
     <div class="menu-it" onclick="showPaymentInfo()"><div class="menu-icon-box">💳</div><div class="menu-lbl">Pagamento</div><div class="menu-arr">›</div></div>
     <div class="menu-it" onclick="openSupport()"><div class="menu-icon-box">❓</div><div class="menu-lbl">Ajuda e suporte</div><div class="menu-arr">›</div></div>
     <div class="menu-it" style="border-color:#fee2e2;" onclick="doLogout()">
@@ -1316,9 +1316,9 @@ html,body{
     </div>
   </div>
   <div class="bot-nav">
-    <div class="nav-it" onclick="go('page-map')"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
-    <div class="nav-it" onclick="go('page-list')"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
-    <div class="nav-it" onclick="go('page-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-map')"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-list')"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
     <div class="nav-it on"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
   </div>
 </div>
@@ -1358,19 +1358,19 @@ html,body{
 
 <!-- ══ FAVORITOS ══ -->
 <div id="page-favorites" class="page">
-  <div class="app-topbar"><button class="topbar-back" onclick="go('page-profile')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Favoritos</div></div>
+  <div class="app-topbar"><button class="topbar-back" onclick="goAndLoad('page-profile')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Favoritos</div></div>
   <div class="scroll" id="favorites-list"><div style="text-align:center;padding:30px;color:#64748b;">Carregando...</div></div>
 </div>
 
 <!-- ══ NOTIFICAÇÕES ══ -->
 <div id="page-notifications" class="page">
-  <div class="app-topbar"><button class="topbar-back" onclick="go('page-profile')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Notificações</div></div>
+  <div class="app-topbar"><button class="topbar-back" onclick="goAndLoad('page-profile')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Notificações</div></div>
   <div class="scroll" id="notif-list"><div style="text-align:center;padding:30px;color:#64748b;">Carregando...</div></div>
 </div>
 
 <!-- ══ AVALIAÇÃO ══ -->
 <div id="page-review" class="page">
-  <div class="app-topbar"><button class="topbar-back" onclick="go('page-sessions')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Avaliar sessão</div></div>
+  <div class="app-topbar"><button class="topbar-back" onclick="goAndLoad('page-sessions')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Avaliar sessão</div></div>
   <div class="scroll" style="display:flex;flex-direction:column;align-items:center;padding-top:30px;">
     <div class="av av-g" id="rv-av" style="width:72px;height:72px;font-size:26px;margin-bottom:12px;">AN</div>
     <div style="font-size:17px;font-weight:700;color:#0f172a;font-family:'Nunito',sans-serif;margin-bottom:4px;" id="rv-name">Fisioterapeuta</div>
@@ -1393,22 +1393,22 @@ html,body{
 
 <!-- ══ PRO — SESSÕES ══ -->
 <div id="page-pro-sessions" class="page" style="background:#0f1f35;">
-  <div class="app-topbar dark-bar"><button class="topbar-back" onclick="go('page-pro-dash')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div></div>
+  <div class="app-topbar dark-bar"><button class="topbar-back" onclick="goAndLoad('page-pro-dash')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div></div>
   <div class="page-hdr dark-hdr"><div class="ph-title">Minhas Sessões</div><div class="ph-sub">Pedidos recebidos e histórico</div></div>
   <div class="scroll" id="pro-sessions-list" style="background:#0f1f35;">
     <div style="text-align:center;padding:30px;color:#7fb3e8;">Carregando...</div>
   </div>
   <div class="bot-nav dark-nav">
-    <div class="nav-it" onclick="go('page-pro-dash')"><div class="nv-icon"><i class="ti ti-layout-dashboard"></i></div><div class="nv-lbl">Painel</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-pro-dash')"><div class="nv-icon"><i class="ti ti-layout-dashboard"></i></div><div class="nv-lbl">Painel</div></div>
     <div class="nav-it on"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
-    <div class="nav-it" onclick="go('page-pro-edit')"><div class="nv-icon"><i class="ti ti-user-edit"></i></div><div class="nv-lbl">Cadastro</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-pro-edit')"><div class="nv-icon"><i class="ti ti-user-edit"></i></div><div class="nv-lbl">Cadastro</div></div>
     <div class="nav-it" onclick="doLogout()"><div class="nv-icon"><i class="ti ti-logout"></i></div><div class="nv-lbl">Sair</div></div>
   </div>
 </div>
 
 <!-- ══ PRO — EDITAR CADASTRO ══ -->
 <div id="page-pro-edit" class="page" style="background:#0f1f35;">
-  <div class="app-topbar dark-bar"><button class="topbar-back" onclick="go('page-pro-dash')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div></div>
+  <div class="app-topbar dark-bar"><button class="topbar-back" onclick="goAndLoad('page-pro-dash')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div></div>
   <div class="form-area" style="background:#0f1f35;padding-top:14px;">
     <div style="font-size:16px;font-weight:700;color:#fff;font-family:'Nunito',sans-serif;margin-bottom:14px;">Editar meu cadastro</div>
     <div class="field"><label style="color:#7fb3e8;">Nome completo</label>
@@ -1461,8 +1461,8 @@ html,body{
     <div style="height:20px;"></div>
   </div>
   <div class="bot-nav dark-nav">
-    <div class="nav-it" onclick="go('page-pro-dash')"><div class="nv-icon"><i class="ti ti-layout-dashboard"></i></div><div class="nv-lbl">Painel</div></div>
-    <div class="nav-it" onclick="go('page-pro-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-pro-dash')"><div class="nv-icon"><i class="ti ti-layout-dashboard"></i></div><div class="nv-lbl">Painel</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-pro-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
     <div class="nav-it on"><div class="nv-icon"><i class="ti ti-user-edit"></i></div><div class="nv-lbl">Cadastro</div></div>
     <div class="nav-it" onclick="doLogout()"><div class="nv-icon"><i class="ti ti-logout"></i></div><div class="nv-lbl">Sair</div></div>
   </div>
@@ -1505,8 +1505,8 @@ html,body{
   </div>
   <div class="bot-nav dark-nav">
     <div class="nav-it on"><div class="nv-icon"><i class="ti ti-layout-dashboard"></i></div><div class="nv-lbl">Painel</div></div>
-    <div class="nav-it" onclick="go('page-pro-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
-    <div class="nav-it" onclick="go('page-pro-edit')"><div class="nv-icon"><i class="ti ti-user-edit"></i></div><div class="nv-lbl">Cadastro</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-pro-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-pro-edit')"><div class="nv-icon"><i class="ti ti-user-edit"></i></div><div class="nv-lbl">Cadastro</div></div>
     <div class="nav-it" onclick="doLogout()"><div class="nv-icon"><i class="ti ti-logout"></i></div><div class="nv-lbl">Sair</div></div>
   </div>
 </div>
@@ -1573,13 +1573,21 @@ async function api(method, path, body){
 }
 
 // ── Flag: evita fetches antes do app estar pronto ─
-var _appReady = false;
+// ═══════════════════════════════════════════════
+//  INICIALIZAÇÃO — não bloqueia a UI em nenhum caso
+// ═══════════════════════════════════════════════
 
+// go() navega entre páginas SEM disparar fetch
+// Os fetches são disparados explicitamente pelo usuário ou pelo afterLogin
 function go(id){
   document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
   var el = document.getElementById(id);
   if(el) el.classList.add('active');
-  if(!_appReady) return; // aguarda app pronto antes de fazer chamadas à API
+}
+
+// goAndLoad() = go() + carrega dados da página
+function goAndLoad(id){
+  go(id);
   if(id === 'page-profile')       { loadProfile(); loadNotifications(); }
   if(id === 'page-sessions')      loadSessions();
   if(id === 'page-pro-sessions')  loadProSessions();
@@ -1590,32 +1598,42 @@ function go(id){
   if(id === 'page-map' || id === 'page-list') loadProfessionals();
 }
 
-// ── Splash / Inicialização ───────────────────────
+// Inicialização: splash rápido → login ou app
+// NÃO faz nenhuma chamada à API aqui
 window.addEventListener('load', function(){
   var token = getToken();
   var user  = getUser();
 
-  function bootApp(){
-    _appReady = true;
+  // Splash curto (1s) depois navega — sem nenhum fetch
+  setTimeout(function(){
     if(token && user){
-      if(user.role === 'professional'){
-        go('page-pro-dash');
-      } else {
-        go('page-map');
-        // Pré-carrega favoritos silenciosamente, sem bloquear
-        api('GET','/api/patients/favorites').then(function(d){
-          (d.favorites||[]).forEach(function(f){ favoritesSet.add(f.professional_id); });
-        }).catch(function(){});
-      }
-      loadProfile();
+      afterLogin(user);
     } else {
       go('page-login');
     }
-  }
-
-  // Mostra splash por 1.6s depois inicializa
-  setTimeout(bootApp, 1600);
+  }, 1000);
 });
+
+// Chamado após login bem-sucedido ou ao retornar com token salvo
+function afterLogin(user){
+  if(!user) user = getUser();
+  if(!user) { go('page-login'); return; }
+
+  if(user.role === 'professional'){
+    go('page-pro-dash');
+    // Carrega painel em background — sem travar
+    setTimeout(function(){ loadProDash(); }, 100);
+  } else {
+    go('page-map');
+    // Carrega profissionais em background — sem travar
+    setTimeout(function(){ loadProfessionals(); }, 100);
+    // Favoritos silenciosamente
+    api('GET','/api/patients/favorites').then(function(d){
+      (d.favorites||[]).forEach(function(f){ favoritesSet.add(f.professional_id); });
+    }).catch(function(){});
+  }
+  loadProfile();
+}
 
 // ── Login — aceita e-mail OU CPF ─────────────────
 async function doLogin(){
@@ -1632,8 +1650,7 @@ async function doLogin(){
     try{
       var data = await api('POST','/api/auth/login-cpf',{cpf:cpfClean, password:pw});
       saveSession(data.token, data.user);
-      go(data.user.role === 'professional' ? 'page-pro-dash' : 'page-map');
-      loadProfile();
+      afterLogin(data.user);
       return;
     } catch(e){
       toast(e.message || 'CPF ou senha incorretos');
@@ -1930,42 +1947,53 @@ function initials(name){
 var allPros = [];
 var currentPro = null;
 
-async function loadProfessionals(specialty){
-  var listEl   = document.getElementById('pros-list');
-  var mapSheet = document.getElementById('map-card-area');
-  if(listEl) listEl.innerHTML = '<div style="text-align:center;padding:30px;color:#64748b;">Buscando fisioterapeutas...</div>';
+function loadProfessionals(specialty){
+  var listEl  = document.getElementById('pros-list');
+  var mapArea = document.getElementById('map-card-area');
 
-  try{
-    var params = 'radius=10&limit=50';
+  // Mostra estado de carregamento mas NÃO bloqueia
+  if(listEl) listEl.innerHTML =
+    '<div style="text-align:center;padding:30px;color:#64748b;">'
+    +'<div style="font-size:28px;margin-bottom:10px;">🔍</div>'
+    +'<div style="font-size:13px;">Buscando fisioterapeutas...</div>'
+    +'</div>';
 
-    // Geolocalização com timeout curto para não travar
+  // Tudo em background — não usa await aqui para não travar
+  (async function(){
     try{
-      var pos = await Promise.race([
-        new Promise(function(resolve,reject){
-          navigator.geolocation.getCurrentPosition(resolve, reject, {timeout:3000, maximumAge:60000});
-        }),
-        new Promise(function(_,reject){ setTimeout(function(){ reject(new Error('timeout')); }, 3500); })
-      ]);
-      params += '&lat='+pos.coords.latitude+'&lng='+pos.coords.longitude;
-    } catch(e){ /* sem GPS — busca sem coordenadas */ }
+      var params = 'radius=10&limit=50';
+      // GPS com timeout bem curto
+      try{
+        var pos = await Promise.race([
+          new Promise(function(res,rej){
+            navigator.geolocation.getCurrentPosition(res,rej,{timeout:2500,maximumAge:120000});
+          }),
+          new Promise(function(_,rej){ setTimeout(function(){rej(new Error('geo-timeout'));},3000); })
+        ]);
+        params += '&lat='+pos.coords.latitude+'&lng='+pos.coords.longitude;
+      } catch(e){ /* sem GPS */ }
 
-    if(specialty && specialty !== 'Todos') params += '&specialty='+encodeURIComponent(specialty);
+      if(specialty && specialty !== 'Todos') params += '&specialty='+encodeURIComponent(specialty);
 
-    // Fetch com timeout de 10s
-    var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
-    var timer = controller ? setTimeout(function(){ controller.abort(); }, 10000) : null;
+      var data = await api('GET','/api/professionals?'+params,null);
+      allPros  = data.professionals || [];
 
-    var data = await api('GET', '/api/professionals?'+params, null);
-    if(timer) clearTimeout(timer);
+      renderProfessionalsList(allPros, listEl);
+      renderMapPins(allPros);
+      if(allPros.length) renderMapCard(allPros[0]);
+      else if(mapArea) mapArea.innerHTML =
+        '<div style="text-align:center;padding:16px;color:#64748b;font-size:13px;">'
+        +'Nenhum fisioterapeuta disponível na sua área.</div>';
 
-    allPros = data.professionals || [];
-    renderProfessionalsList(allPros, listEl);
-    renderMapPins(allPros);
-    if(allPros.length) renderMapCard(allPros[0]);
-    else if(mapSheet) mapSheet.innerHTML = '<div style="text-align:center;padding:16px;color:#64748b;font-size:13px;">Nenhum fisioterapeuta cadastrado ainda.</div>';
-  } catch(e){
-    if(listEl) listEl.innerHTML = '<div style="text-align:center;padding:20px;color:#dc2626;font-size:13px;">Não foi possível carregar. Verifique sua conexão.<br><br><button onclick="loadProfessionals()" style="background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:8px 18px;font-size:13px;cursor:pointer;">Tentar novamente</button></div>';
-  }
+    } catch(e){
+      if(listEl) listEl.innerHTML =
+        '<div style="text-align:center;padding:24px;color:#64748b;font-size:13px;">'
+        +'<div style="font-size:28px;margin-bottom:8px;">📡</div>'
+        +'Serviço iniciando... aguarde um momento.'
+        +'<br><br><button onclick="loadProfessionals()" style="background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:8px 18px;font-size:13px;cursor:pointer;font-family:'Nunito',sans-serif;">Tentar novamente</button>'
+        +'</div>';
+    }
+  })();
 }
 
 function renderProfessionalsList(pros, container){
