@@ -2258,7 +2258,6 @@ async function loadTodayAgenda(){
   }
 }
 
-function setFilter(el, specialty){
   document.querySelectorAll('.chip-row .chip').forEach(function(c){ c.classList.remove('on'); });
   el.classList.add('on');
   loadProfessionals(specialty === 'Todos' ? null : specialty);
