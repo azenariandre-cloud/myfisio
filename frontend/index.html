@@ -1543,27 +1543,43 @@ async function api(method, path, body){
   var headers = {'Content-Type':'application/json'};
   var token = getToken();
   if(token) headers['Authorization'] = 'Bearer '+token;
-  var res = await fetch(API_URL+path, {
-    method: method,
-    headers: headers,
-    body: body ? JSON.stringify(body) : undefined
-  });
-  var data = await res.json();
-  if(!res.ok){
-    // Erro 422: mostrar qual campo falhou
-    if(res.status === 422 && data.errors && data.errors.length){
-      var msgs = data.errors.map(function(e){ return e.msg || e.message; }).join(' | ');
-      throw new Error(msgs);
+
+  // Timeout de 15 segundos para não travar a UI
+  var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+  var timer = controller ? setTimeout(function(){ controller.abort(); }, 15000) : null;
+
+  try{
+    var res = await fetch(API_URL+path, {
+      method: method,
+      headers: headers,
+      body: body ? JSON.stringify(body) : undefined,
+      signal: controller ? controller.signal : undefined,
+    });
+    if(timer) clearTimeout(timer);
+    var data = await res.json();
+    if(!res.ok){
+      if(res.status === 422 && data.errors && data.errors.length){
+        var msgs = data.errors.map(function(e){ return e.msg || e.message; }).join(' | ');
+        throw new Error(msgs);
+      }
+      throw new Error(data.error || 'Erro '+res.status);
     }
-    throw new Error(data.error || 'Erro '+res.status);
+    return data;
+  } catch(e){
+    if(timer) clearTimeout(timer);
+    if(e.name === 'AbortError') throw new Error('Tempo de resposta esgotado. Verifique sua conexão.');
+    throw e;
   }
-  return data;
 }
+
+// ── Flag: evita fetches antes do app estar pronto ─
+var _appReady = false;
 
 function go(id){
   document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
   var el = document.getElementById(id);
   if(el) el.classList.add('active');
+  if(!_appReady) return; // aguarda app pronto antes de fazer chamadas à API
   if(id === 'page-profile')       { loadProfile(); loadNotifications(); }
   if(id === 'page-sessions')      loadSessions();
   if(id === 'page-pro-sessions')  loadProSessions();
@@ -1574,79 +1590,31 @@ function go(id){
   if(id === 'page-map' || id === 'page-list') loadProfessionals();
 }
 
-async function loadProDash(){
-  var user = getUser();
-  if(!user || user.role !== 'professional') return;
-  var greet = document.getElementById('pro-greet');
-  if(greet) greet.textContent = 'Olá, '+((user.name||'').split(' ')[0])+' 👋';
-  try{
-    var data   = await api('GET','/api/appointments?limit=50');
-    var appts  = data.appointments || [];
-    var pending = appts.filter(function(a){ return a.status === 'pending'; });
-    var today   = appts.filter(function(a){
-      var d = new Date(a.scheduled_at);
-      return d.toDateString() === new Date().toDateString() && a.status !== 'cancelled';
-    });
-    // Atualiza stat cards
-    var statPending = document.getElementById('stat-pending');
-    var statToday   = document.getElementById('stat-today');
-    if(statPending) statPending.textContent = pending.length;
-    if(statToday)   statToday.textContent   = today.length;
-    // Carrega agenda de hoje
-    loadTodayAgenda();
-    // Renderiza pedidos urgentes no painel
-    var demandArea = document.getElementById('pro-demand-area');
-    if(demandArea){
-      if(!pending.length){
-        demandArea.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Nenhum pedido pendente no momento.</div>';
-      } else {
-        demandArea.innerHTML = pending.slice(0,3).map(function(a){
-          var d = new Date(a.scheduled_at);
-          var ds = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
-          var ts = d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-          return '<div class="demand-card urgent" style="margin-bottom:10px;">'
-            +'<div class="d-top"><div>'
-              +'<div class="d-patient">'+(a.patient_name||'Paciente')+'</div>'
-              +'<div class="d-type">'+(a.service_type==='domiciliar'?'🏠 Domiciliar':'🏥 Clínica')+' · '+ds+' às '+ts+'</div>'
-            +'</div><span class="urg-badge">⚡ Novo</span></div>'
-            +'<div class="d-actions">'
-              +'<button class="btn-accept" onclick="changeProStatus(\''+a.id+'\',\'confirmed\')">✓ Confirmar</button>'
-              +'<button class="btn-refuse" onclick="changeProStatus(\''+a.id+'\',\'cancelled\')">✕ Recusar</button>'
-            +'</div></div>';
-        }).join('');
-      }
-    }
-  } catch(e){ console.error('loadProDash', e.message); }
-}
-
-async function changeProStatus(id, status){
-  try{
-    await api('PATCH','/api/appointments/'+id+'/status',{status:status});
-    toast(status==='confirmed' ? '✅ Sessão confirmada!' : 'Sessão recusada');
-    setTimeout(function(){ loadProDash(); }, 600);
-  } catch(e){ toast(e.message||'Erro'); }
-}
-
-// ── Splash ──────────────────────────────────────
+// ── Splash / Inicialização ───────────────────────
 window.addEventListener('load', function(){
   var token = getToken();
   var user  = getUser();
-  if(token && user){
-    setTimeout(function(){
+
+  function bootApp(){
+    _appReady = true;
+    if(token && user){
       if(user.role === 'professional'){
         go('page-pro-dash');
       } else {
         go('page-map');
-        // Pré-carrega favoritos para o coração aparecer correto
+        // Pré-carrega favoritos silenciosamente, sem bloquear
         api('GET','/api/patients/favorites').then(function(d){
           (d.favorites||[]).forEach(function(f){ favoritesSet.add(f.professional_id); });
         }).catch(function(){});
       }
       loadProfile();
-    }, 400);
-  } else {
-    setTimeout(function(){ go('page-login'); }, 2200);
+    } else {
+      go('page-login');
+    }
   }
+
+  // Mostra splash por 1.6s depois inicializa
+  setTimeout(bootApp, 1600);
 });
 
 // ── Login — aceita e-mail OU CPF ─────────────────
@@ -1963,30 +1931,40 @@ var allPros = [];
 var currentPro = null;
 
 async function loadProfessionals(specialty){
-  var listEl  = document.getElementById('pros-list');
+  var listEl   = document.getElementById('pros-list');
   var mapSheet = document.getElementById('map-card-area');
   if(listEl) listEl.innerHTML = '<div style="text-align:center;padding:30px;color:#64748b;">Buscando fisioterapeutas...</div>';
 
   try{
-    // Tenta pegar localização do usuário
     var params = 'radius=10&limit=50';
+
+    // Geolocalização com timeout curto para não travar
     try{
-      var pos = await new Promise(function(resolve,reject){
-        navigator.geolocation.getCurrentPosition(resolve, reject, {timeout:5000});
-      });
+      var pos = await Promise.race([
+        new Promise(function(resolve,reject){
+          navigator.geolocation.getCurrentPosition(resolve, reject, {timeout:3000, maximumAge:60000});
+        }),
+        new Promise(function(_,reject){ setTimeout(function(){ reject(new Error('timeout')); }, 3500); })
+      ]);
       params += '&lat='+pos.coords.latitude+'&lng='+pos.coords.longitude;
-    } catch(e){ /* sem GPS, busca sem coordenadas */ }
+    } catch(e){ /* sem GPS — busca sem coordenadas */ }
 
     if(specialty && specialty !== 'Todos') params += '&specialty='+encodeURIComponent(specialty);
 
-    var data = await api('GET', '/api/professionals?'+params, null);
-    allPros = data.professionals || [];
+    // Fetch com timeout de 10s
+    var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    var timer = controller ? setTimeout(function(){ controller.abort(); }, 10000) : null;
 
+    var data = await api('GET', '/api/professionals?'+params, null);
+    if(timer) clearTimeout(timer);
+
+    allPros = data.professionals || [];
     renderProfessionalsList(allPros, listEl);
     renderMapPins(allPros);
-    renderMapCard(allPros[0]);
+    if(allPros.length) renderMapCard(allPros[0]);
+    else if(mapSheet) mapSheet.innerHTML = '<div style="text-align:center;padding:16px;color:#64748b;font-size:13px;">Nenhum fisioterapeuta cadastrado ainda.</div>';
   } catch(e){
-    if(listEl) listEl.innerHTML = '<div style="text-align:center;padding:20px;color:#dc2626;">Erro ao buscar profissionais: '+e.message+'</div>';
+    if(listEl) listEl.innerHTML = '<div style="text-align:center;padding:20px;color:#dc2626;font-size:13px;">Não foi possível carregar. Verifique sua conexão.<br><br><button onclick="loadProfessionals()" style="background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:8px 18px;font-size:13px;cursor:pointer;">Tentar novamente</button></div>';
   }
 }
 
