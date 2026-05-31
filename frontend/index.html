@@ -1491,8 +1491,8 @@ html,body{
     <div class="stat-grid">
       <div class="stat-card"><div class="stat-n blue" id="stat-pending">—</div><div class="stat-l">Pedidos novos</div></div>
       <div class="stat-card"><div class="stat-n green" id="stat-today">—</div><div class="stat-l">Sessões hoje</div></div>
-      <div class="stat-card"><div class="stat-n amber">⭐ —</div><div class="stat-l">Avaliação</div></div>
-      <div class="stat-card"><div class="stat-n blue">—</div><div class="stat-l">Ganhos hoje</div></div>
+      <div class="stat-card"><div class="stat-n amber" id="stat-rating">⭐ —</div><div class="stat-l">Avaliação</div></div>
+      <div class="stat-card"><div class="stat-n blue" id="stat-gains">—</div><div class="stat-l">Ganhos hoje</div></div>
     </div>
     <div class="slbl dk">Pedidos pendentes</div>
     <div id="pro-demand-area">
@@ -1591,7 +1591,7 @@ function goAndLoad(id){
   if(id === 'page-profile')       { loadProfile(); loadNotifications(); }
   if(id === 'page-sessions')      loadSessions();
   if(id === 'page-pro-sessions')  loadProSessions();
-  if(id === 'page-pro-dash')      loadProDash();
+  if(id === 'page-pro-dash')      loadDashboard();
   if(id === 'page-pro-edit')      loadProEdit();
   if(id === 'page-favorites')     loadFavorites();
   if(id === 'page-notifications') loadNotifications();
@@ -1622,7 +1622,7 @@ function afterLogin(user){
   if(user.role === 'professional'){
     go('page-pro-dash');
     // Carrega painel em background — sem travar
-    setTimeout(function(){ loadProDash(); }, 100);
+    setTimeout(function(){ loadDashboard(); }, 100);
   } else {
     go('page-map');
     // Carrega profissionais em background — sem travar
@@ -2221,6 +2221,28 @@ function openProfDetail(idx){
   }
 
   go('page-detail');
+}
+
+// ─ Dashboard do Profissional ─────────────────────
+async function loadDashboard() {
+  try {
+    const data = await api('GET', '/api/dashboard');
+    
+    const elPending = document.getElementById('stat-pending');
+    const elToday   = document.getElementById('stat-today');
+    const elRating  = document.getElementById('stat-rating');
+    const elGains   = document.getElementById('stat-gains');
+
+    if(elPending) elPending.textContent = data.newOrders;
+    if(elToday)   elToday.textContent   = data.todaysSessions;
+    if(elRating)  elRating.textContent  = '⭐ ' + data.rating;
+    if(elGains)   elGains.textContent   = 'R$ ' + Number(data.todayEarnings).toFixed(2).replace('.', ',');
+
+    // Também carrega a agenda de hoje
+    loadTodayAgenda();
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 // ─ Agenda de hoje do Pro ─────────────────────────
