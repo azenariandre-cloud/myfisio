@@ -2235,13 +2235,55 @@ async function loadDashboard() {
 
     if(elPending) elPending.textContent = data.newOrders;
     if(elToday)   elToday.textContent   = data.todaysSessions;
-    if(elRating)  elRating.textContent  = '⭐ ' + data.rating;
+    if(elRating)  elRating.textContent  = '⭐ ' + (data.rating ? Number(data.rating).toFixed(1) : 'Novo');
     if(elGains)   elGains.textContent   = 'R$ ' + Number(data.todayEarnings).toFixed(2).replace('.', ',');
 
-    // Também carrega a agenda de hoje
-    loadTodayAgenda();
+    // Renderiza Pedidos Pendentes (Demandas)
+    const demandArea = document.getElementById('pro-demand-area');
+    if (demandArea && data.pendingOrders) {
+      if (data.pendingOrders.length === 0) {
+        demandArea.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Nenhum pedido pendente</div>';
+      } else {
+        demandArea.innerHTML = data.pendingOrders.map(function(o) {
+          return '<div class="demand-card">'
+            + '<div style="display:flex;justify-content:between;align-items:start;margin-bottom:8px;">'
+            + '<div><div style="font-weight:700;color:#0f172a;">' + o.patient_name + '</div>'
+            + '<div style="font-size:11px;color:#64748b;">' + (o.service_type === 'domiciliar' ? '🏠 Domiciliar' : '🏥 Clínica') + '</div></div>'
+            + '<div style="font-size:11px;font-weight:700;color:#1a73e8;">' + new Date(o.scheduled_at).toLocaleDateString('pt-BR', {day:'2-digit', month:'short'}) + '</div>'
+            + '</div>'
+            + '<div style="font-size:12px;color:#475569;margin-bottom:10px;"><i class="ti ti-map-pin"></i> ' + (o.address || 'Endereço não informado') + '</div>'
+            + '<div style="display:flex;gap:6px;">'
+            + '<button onclick="changeStatus(\''+o.id+'\',\'confirmed\')" style="flex:1;background:#4caf82;color:#fff;border:none;border-radius:8px;padding:6px;font-size:11px;font-weight:700;cursor:pointer;">Aceitar</button>'
+            + '<button onclick="cancelAppt(\''+o.id+'\')" style="flex:1;background:#fff;color:#ef5350;border:1px solid #ef5350;border-radius:8px;padding:6px;font-size:11px;font-weight:700;cursor:pointer;">Recusar</button>'
+            + '</div>'
+            + '</div>';
+        }).join('');
+      }
+    }
+
+    // Renderiza Agenda de Hoje
+    const agendaArea = document.getElementById('pro-agenda-today');
+    if (agendaArea && data.todayAgenda) {
+      if (data.todayAgenda.length === 0) {
+        agendaArea.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Nenhuma sessão agendada para hoje.</div>';
+      } else {
+        agendaArea.innerHTML = data.todayAgenda.map(function(a) {
+          const time = new Date(a.scheduled_at).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+          const done = a.status === 'completed';
+          const icon = done 
+            ? '<i class="ti ti-circle-check" style="color:#4caf82;font-size:20px;"></i>'
+            : '<i class="ti ti-clock" style="color:#4fc3f7;font-size:20px;"></i>';
+          return '<div class="sch-item' + (done ? ' done' : '') + '">'
+            + '<div class="sch-time">' + time + '</div>'
+            + '<div class="sch-info"><div class="sch-name">' + a.patient_name + '</div>'
+            + '<div class="sch-det">' + (a.status === 'confirmed' ? 'Confirmado' : (done ? 'Concluído' : a.status)) + '</div></div>'
+            + icon + '</div>';
+        }).join('');
+      }
+    }
   } catch (err) {
     console.error(err);
+    toast('Erro ao carregar dashboard');
   }
 }
 
