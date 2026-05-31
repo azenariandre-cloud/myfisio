@@ -12,6 +12,7 @@ const profRoutes         = require('./routes/professionals');
 const patientRoutes      = require('./routes/patients');
 const appointmentRoutes  = require('./routes/appointments');
 const earningsRoutes     = require('./routes/earnings');
+const dashboardRoutes = require('./routes/dashboard');
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -99,6 +100,7 @@ app.use('/api/professionals', profRoutes);
 app.use('/api/patients',      patientRoutes);
 app.use('/api/appointments',  appointmentRoutes);
 app.use('/api/earnings',      earningsRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 // Rota raiz informativa
 app.get('/', (req, res) => {
