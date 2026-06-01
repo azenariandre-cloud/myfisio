@@ -1491,8 +1491,8 @@ html,body{
     <div class="stat-grid">
       <div class="stat-card"><div class="stat-n blue" id="stat-pending">—</div><div class="stat-l">Pedidos novos</div></div>
       <div class="stat-card"><div class="stat-n green" id="stat-today">—</div><div class="stat-l">Sessões hoje</div></div>
-      <div class="stat-card"><div class="stat-n amber" id="stat-rating">⭐ —</div><div class="stat-l">Avaliação</div></div>
-      <div class="stat-card"><div class="stat-n blue" id="stat-gains">—</div><div class="stat-l">Ganhos hoje</div></div>
+      <div class="stat-card"><div class="stat-n amber">⭐ —</div><div class="stat-l">Avaliação</div></div>
+      <div class="stat-card"><div class="stat-n blue">—</div><div class="stat-l">Ganhos hoje</div></div>
     </div>
     <div class="slbl dk">Pedidos pendentes</div>
     <div id="pro-demand-area">
@@ -1799,44 +1799,6 @@ async function loadProfile(){
 }
 
 // ── Sessões ─────────────────────────────────────
-async function loadSessions(){
-  var container = document.getElementById('sessions-list');
-  if(!container || !getToken()) return;
-  container.innerHTML = '<div style="text-align:center;padding:30px;color:#7fb3e8;">Carregando...</div>';
-  try{
-    var data = await api('GET','/api/appointments?limit=20');
-    var appts = data.appointments || [];
-    if(!appts.length){
-      container.innerHTML = '<div style="text-align:center;padding:30px;color:#64748b;">Nenhuma sessão ainda</div>';
-      return;
-    }
-    var statusMap = {
-      pending:   {cls:'sp-sched', label:'Pendente'},
-      confirmed: {cls:'sp-sched', label:'Confirmado'},
-      completed: {cls:'sp-done',  label:'Concluído'},
-      cancelled: {cls:'sp-cancel',label:'Cancelado'}
-    };
-    var colors = {pending:'#1a73e8',confirmed:'#1a73e8',completed:'#16a34a',cancelled:'#dc2626'};
-    container.innerHTML = appts.map(function(a){
-      var d   = new Date(a.scheduled_at);
-      var ds  = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
-      var ts  = d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-      var s   = statusMap[a.status]||{cls:'sp-sched',label:a.status};
-      var col = colors[a.status]||'#1a73e8';
-      return '<div class="appt" style="border-left-color:'+col+'">'+
-        '<div class="appt-top">'+
-          '<div><div class="appt-name">'+(a.professional_name||'Fisioterapeuta')+'</div>'+
-          '<div class="appt-type">'+(a.service_type==='domiciliar'?'Domiciliar':'Clínica')+'</div></div>'+
-          '<div><div class="appt-date">'+ds+'</div><div class="appt-time">'+ts+'</div></div>'+
-        '</div>'+
-        '<div style="font-size:12px;color:#64748b;margin-top:5px;">R$ '+parseFloat(a.gross_price).toFixed(2).replace('.',',')+'</div>'+
-        '<span class="status-pill '+s.cls+'">'+s.label+'</span>'+
-      '</div>';
-    }).join('');
-  } catch(e){
-    container.innerHTML = '<div style="text-align:center;padding:20px;color:#dc2626;">Erro ao carregar sessões</div>';
-  }
-}
 
 // ── Toggle senha ────────────────────────────────
 function togglePw(inputId,iconId){
@@ -2070,38 +2032,6 @@ function renderMapPins(pros){
   });
 }
 
-function openProfDetail(idx){
-  var p = allPros[idx];
-  if(!p){ go('page-detail'); return; }
-  currentPro = p;
-  var av  = document.querySelector('#page-detail .detail-av');
-  var nm  = document.querySelector('#page-detail .d-name');
-  var crm = document.querySelector('#page-detail .d-crm');
-  var sp  = document.querySelector('#page-detail .d-spec');
-  var rt  = document.querySelector('#page-detail .d-rnum');
-  var cnt = document.querySelector('#page-detail .d-rcnt');
-  var ini = initials(p.name);
-  if(av)  { av.textContent = ini; av.className = 'detail-av '+avColor(p.name); }
-  if(nm)  nm.textContent  = p.name;
-  if(crm) crm.textContent = 'CREFITO: '+(p.crefito||'—')+' · '+(p.crefito_uf||'');
-  if(sp)  sp.textContent  = (p.specialties||[]).join(', ') || 'Fisioterapia Geral';
-  if(rt)  rt.textContent  = p.rating_avg > 0 ? parseFloat(p.rating_avg).toFixed(1) : 'Novo';
-  if(cnt) cnt.textContent = '('+p.rating_count+' avaliações)';
-  // Serviços
-  var svc1 = document.getElementById('d-preco1');
-  var svc2 = document.getElementById('d-preco2');
-  var price = p.session_price > 0 ? 'R$ '+parseFloat(p.session_price).toFixed(2).replace('.',',') : 'Consulte';
-  if(svc1) svc1.textContent = price;
-  if(svc2) svc2.textContent = price;
-  // Info
-  var dloc  = document.getElementById('d-loc');
-  var dhora = document.getElementById('d-hora');
-  var dtipo = document.getElementById('d-tipo');
-  if(dloc)  dloc.textContent  = (p.distance_km ? p.distance_km+' km de distância' : 'Localização disponível no app');
-  if(dhora) dhora.textContent = 'Atende das '+(p.work_start||'08:00')+' às '+(p.work_end||'20:00');
-  if(dtipo) dtipo.textContent = (p.service_types||[]).map(function(t){ return t==='domiciliar'?'Domiciliar':'Clínica'; }).join(' e ');
-  go('page-detail');
-}
 // ── Pagamento ───────────────────────────────────
 function showPaymentInfo(){
   var modal = document.getElementById('modal-overlay');
@@ -2132,162 +2062,51 @@ function closeModal(){
 }
 
 // ── Detalhes do fisioterapeuta — dados reais ─────
-function openProfDetail(idx){
-  var p = allPros[idx];
-  if(!p){ go('page-detail'); return; }
-  currentPro = p;
-
-  // Avatar
-  var avEl = document.getElementById('d-av');
-  if(avEl){ avEl.textContent = initials(p.name); avEl.className = 'detail-av '+avColor(p.name); }
-
-  // Cabeçalho
-  var nm  = document.querySelector('#page-detail .d-name');
-  var crm = document.querySelector('#page-detail .d-crm');
-  var sp  = document.querySelector('#page-detail .d-spec');
-  var rt  = document.querySelector('#page-detail .d-rnum');
-  var cnt = document.querySelector('#page-detail .d-rcnt');
-  if(nm)  nm.textContent  = p.name;
-  if(crm) crm.textContent = 'CREFITO: '+(p.crefito||'—')+' · '+(p.crefito_uf||'BR');
-  if(sp)  sp.textContent  = (p.specialties||[]).join(', ')||'Fisioterapia Geral';
-  if(rt)  rt.textContent  = p.rating_avg > 0 ? parseFloat(p.rating_avg).toFixed(1) : 'Novo';
-  if(cnt) cnt.textContent = '('+p.rating_count+' avaliações)';
-
-  // Campos de info com IDs
-  var dloc  = document.getElementById('d-loc');
-  var dhora = document.getElementById('d-hora');
-  var dtipo = document.getElementById('d-tipo');
-  var dform = document.getElementById('d-form');
-  var dexp  = document.getElementById('d-exp');
-  var dbio  = document.getElementById('d-bio');
-  if(dloc)  dloc.textContent  = p.distance_km ? p.distance_km+' km de distância' : 'Localização disponível';
-  if(dhora) dhora.textContent = 'Atende das '+(p.work_start||'08:00').slice(0,5)+' às '+(p.work_end||'20:00').slice(0,5);
-  if(dtipo) dtipo.textContent = (p.service_types||[]).map(function(t){ return t==='domiciliar'?'Domiciliar':'Clínica'; }).join(' e ');
-  // Formação: usa campos bio para exibir faculdade e experiência
-  var faculdade = p.faculdade || p.formacao || '';
-  var exp = p.anos_experiencia || p.experiencia || '';
-  if(dform) dform.textContent = faculdade || 'Informações de formação não informadas';
-  if(dexp)  dexp.textContent  = exp ? exp+' anos de experiência' : 'Experiência não informada';
-  if(dbio && p.bio) dbio.textContent = p.bio;
-  else if(dbio) dbio.textContent = '';
-
-  // Preços
-  var price = p.session_price > 0 ? 'R$ '+parseFloat(p.session_price).toFixed(2).replace('.',',') : 'Consulte';
-  var p1 = document.getElementById('d-preco1');
-  var p2 = document.getElementById('d-preco2');
-  if(p1) p1.textContent = price;
-  if(p2) p2.textContent = price;
-
-  // Avaliações reais
-  var reviewsList = document.getElementById('d-reviews-list');
-  if(reviewsList){
-    if(p.reviews && p.reviews.length){
-      reviewsList.innerHTML = p.reviews.slice(0,3).map(function(r){
-        var stars = '⭐'.repeat(r.rating);
-        return '<div style="font-size:13px;color:#374151;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #f8fafc;">'
-          +'<div style="font-weight:700;margin-bottom:3px;">'+stars+' '+r.patient_name+'</div>'
-          +(r.comment||'')
-          +'</div>';
-      }).join('');
-    } else {
-      reviewsList.innerHTML = '<div style="font-size:13px;color:#94a3b8;text-align:center;padding:8px;">Seja o primeiro a avaliar!</div>';
-    }
-  }
-
-  // Botão favoritar — usa data attribute para evitar closure stale
-  var favBtn = document.getElementById('fav-btn');
-  if(favBtn){
-    favBtn.dataset.proid = p.id;
-    favBtn.style.color   = favoritesSet.has(p.id) ? '#ef4444' : '#64748b';
-    favBtn.innerHTML     = favoritesSet.has(p.id) ? '❤️' : '🤍';
-  }
-
-  // Botão agendar
-  var agBtn = document.getElementById('agendar-btn');
-  if(agBtn) agBtn.onclick = function(){ openBooking(idx); };
-
-  // Carrega avaliações reais da API em segundo plano
-  if(getToken()){
-    api('GET','/api/professionals/'+p.id).then(function(data){
-      if(data.reviews && data.reviews.length && reviewsList){
-        reviewsList.innerHTML = data.reviews.slice(0,3).map(function(r){
-          var stars = '⭐'.repeat(r.rating);
-          return '<div style="font-size:13px;color:#374151;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #f8fafc;">'
-            +'<div style="font-weight:700;margin-bottom:3px;">'+stars+' '+r.patient_name+'</div>'
-            +(r.comment||'')+'</div>';
-        }).join('');
-      }
-    }).catch(function(){});
-  }
-
-  go('page-detail');
-}
-
-// ─ Dashboard do Profissional ─────────────────────
-async function loadDashboard() {
-  try {
-    const data = await api('GET', '/api/dashboard');
-    
-    const elPending = document.getElementById('stat-pending');
-    const elToday   = document.getElementById('stat-today');
-    const elRating  = document.getElementById('stat-rating');
-    const elGains   = document.getElementById('stat-gains');
-
-    if(elPending) elPending.textContent = data.newOrders;
-    if(elToday)   elToday.textContent   = data.todaysSessions;
-    if(elRating)  elRating.textContent  = '⭐ ' + (data.rating ? Number(data.rating).toFixed(1) : 'Novo');
-    if(elGains)   elGains.textContent   = 'R$ ' + Number(data.todayEarnings).toFixed(2).replace('.', ',');
-
-    // Renderiza Pedidos Pendentes (Demandas)
-    const demandArea = document.getElementById('pro-demand-area');
-    if (demandArea && data.pendingOrders) {
-      if (data.pendingOrders.length === 0) {
-        demandArea.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Nenhum pedido pendente</div>';
-      } else {
-        demandArea.innerHTML = data.pendingOrders.map(function(o) {
-          return '<div class="demand-card">'
-            + '<div style="display:flex;justify-content:between;align-items:start;margin-bottom:8px;">'
-            + '<div><div style="font-weight:700;color:#0f172a;">' + o.patient_name + '</div>'
-            + '<div style="font-size:11px;color:#64748b;">' + (o.service_type === 'domiciliar' ? '🏠 Domiciliar' : '🏥 Clínica') + '</div></div>'
-            + '<div style="font-size:11px;font-weight:700;color:#1a73e8;">' + new Date(o.scheduled_at).toLocaleDateString('pt-BR', {day:'2-digit', month:'short'}) + '</div>'
-            + '</div>'
-            + '<div style="font-size:12px;color:#475569;margin-bottom:10px;"><i class="ti ti-map-pin"></i> ' + (o.address || 'Endereço não informado') + '</div>'
-            + '<div style="display:flex;gap:6px;">'
-            + '<button onclick="changeStatus(\''+o.id+'\',\'confirmed\')" style="flex:1;background:#4caf82;color:#fff;border:none;border-radius:8px;padding:6px;font-size:11px;font-weight:700;cursor:pointer;">Aceitar</button>'
-            + '<button onclick="cancelAppt(\''+o.id+'\')" style="flex:1;background:#fff;color:#ef5350;border:1px solid #ef5350;border-radius:8px;padding:6px;font-size:11px;font-weight:700;cursor:pointer;">Recusar</button>'
-            + '</div>'
-            + '</div>';
-        }).join('');
-      }
-    }
-
-    // Renderiza Agenda de Hoje
-    const agendaArea = document.getElementById('pro-agenda-today');
-    if (agendaArea && data.todayAgenda) {
-      if (data.todayAgenda.length === 0) {
-        agendaArea.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Nenhuma sessão agendada para hoje.</div>';
-      } else {
-        agendaArea.innerHTML = data.todayAgenda.map(function(a) {
-          const time = new Date(a.scheduled_at).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
-          const done = a.status === 'completed';
-          const icon = done 
-            ? '<i class="ti ti-circle-check" style="color:#4caf82;font-size:20px;"></i>'
-            : '<i class="ti ti-clock" style="color:#4fc3f7;font-size:20px;"></i>';
-          return '<div class="sch-item' + (done ? ' done' : '') + '">'
-            + '<div class="sch-time">' + time + '</div>'
-            + '<div class="sch-info"><div class="sch-name">' + a.patient_name + '</div>'
-            + '<div class="sch-det">' + (a.status === 'confirmed' ? 'Confirmado' : (done ? 'Concluído' : a.status)) + '</div></div>'
-            + icon + '</div>';
-        }).join('');
-      }
-    }
-  } catch (err) {
-    console.error(err);
-    toast('Erro ao carregar dashboard');
-  }
-}
 
 // ─ Agenda de hoje do Pro ─────────────────────────
+// ── Painel Pro — carrega dados em tempo real ────
+async function loadDashboard(){
+  var user = getUser();
+  if(!user || user.role !== 'professional') return;
+  var greet = document.getElementById('pro-greet');
+  if(greet) greet.textContent = 'Olá, '+((user.name||'').split(' ')[0])+' 👋';
+  try{
+    var data   = await api('GET','/api/appointments?limit=50');
+    var appts  = data.appointments || [];
+    var pending = appts.filter(function(a){ return a.status === 'pending'; });
+    var today   = appts.filter(function(a){
+      var d = new Date(a.scheduled_at);
+      return d.toDateString() === new Date().toDateString() && a.status !== 'cancelled';
+    });
+    var statPending = document.getElementById('stat-pending');
+    var statToday   = document.getElementById('stat-today');
+    if(statPending) statPending.textContent = pending.length;
+    if(statToday)   statToday.textContent   = today.length;
+    loadTodayAgenda();
+    var demandArea = document.getElementById('pro-demand-area');
+    if(demandArea){
+      if(!pending.length){
+        demandArea.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Nenhum pedido pendente no momento.</div>';
+      } else {
+        demandArea.innerHTML = pending.slice(0,3).map(function(a){
+          var d = new Date(a.scheduled_at);
+          var ds = d.toLocaleDateString("pt-BR",{day:"2-digit",month:"short"});
+          var ts = d.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+          return '<div class="demand-card urgent" style="margin-bottom:10px;">'
+            +'<div class="d-top"><div>'
+              +'<div class="d-patient">'+(a.patient_name||'Paciente')+'</div>'
+              +'<div class="d-type">'+(a.service_type==="domiciliar"?"🏠 Domiciliar":"🏥 Clínica")+' · '+ds+' às '+ts+'</div>'
+            +'</div><span class="urg-badge">⚡ Novo</span></div>'
+            +'<div class="d-actions">'
+              +'<button class="btn-accept" onclick="changeStatus(\''+a.id+'\',\'confirmed\')">✓ Confirmar</button>'
+              +'<button class="btn-refuse" onclick="changeStatus(\''+a.id+'\',\'cancelled\')">✕ Recusar</button>'
+            +'</div></div>';
+        }).join('');
+      }
+    }
+  } catch(e){ console.error('loadDashboard', e.message); }
+}
+
 async function loadTodayAgenda(){
   var container = document.getElementById('pro-agenda-today');
   if(!container) return;
@@ -2321,6 +2140,8 @@ async function loadTodayAgenda(){
     container.innerHTML = '<div style="font-size:13px;color:#ef5350;padding:8px 0;">Erro ao carregar agenda</div>';
   }
 }
+
+function changeProStatus(id,status){ changeStatus(id,status); }
 
 // ── Filtro de especialidade ──────────────────
 function filterPros(el, specialty){
