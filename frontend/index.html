@@ -1151,8 +1151,24 @@ html,body{
     </svg>
     <div class="map-search">
       <i class="ti ti-search" style="color:#94a3b8;font-size:17px;"></i>
-      <input type="text" placeholder="Buscar fisioterapeuta...">
-      <i class="ti ti-adjustments-horizontal" style="color:#94a3b8;font-size:17px;cursor:pointer;" onclick="toast('Filtros')"></i>
+      <input type="text" id="map-search-input" placeholder="Buscar fisioterapeuta..." oninput="filterMapSearch(this.value)">
+      <i class="ti ti-adjustments-horizontal" id="map-filter-icon" style="color:#94a3b8;font-size:17px;cursor:pointer;" onclick="toggleMapFilter()"></i>
+    </div>
+    <div id="map-filter-panel" style="display:none;position:absolute;top:58px;left:12px;right:12px;background:#fff;border-radius:14px;padding:14px;box-shadow:0 4px 20px rgba(0,0,0,.18);z-index:25;">
+      <div style="font-size:12px;font-weight:700;color:#374151;margin-bottom:8px;">💰 Preço máximo por sessão</div>
+      <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;">
+        <div class="chip on" onclick="setPriceFilter(this,0)" id="fp-all">Qualquer</div>
+        <div class="chip" onclick="setPriceFilter(this,100)" id="fp-100">Até R$100</div>
+        <div class="chip" onclick="setPriceFilter(this,150)" id="fp-150">Até R$150</div>
+        <div class="chip" onclick="setPriceFilter(this,200)" id="fp-200">Até R$200</div>
+      </div>
+      <div style="font-size:12px;font-weight:700;color:#374151;margin-bottom:8px;">📍 Distância máxima</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <div class="chip on" onclick="setDistFilter(this,10)" id="fd-10">10 km</div>
+        <div class="chip" onclick="setDistFilter(this,5)" id="fd-5">5 km</div>
+        <div class="chip" onclick="setDistFilter(this,2)" id="fd-2">2 km</div>
+        <div class="chip" onclick="setDistFilter(this,1)" id="fd-1">1 km</div>
+      </div>
     </div>
     <div class="map-pin" style="left:27%;top:43%;" onclick="go('page-detail')">
       <div class="pin-lbl" style="background:#16a34a;">Dra. Ana · R$120</div>
@@ -1164,20 +1180,22 @@ html,body{
     </div>
 
     <button class="loc-btn" onclick="toast('Localizando...')"><i class="ti ti-current-location" style="font-size:20px;color:#1a73e8;"></i></button>
-    <div class="map-sheet">
+    <div class="map-sheet" style="max-height:58%;overflow:hidden;display:flex;flex-direction:column;">
       <div class="drag-hdl"></div>
       <div class="sheet-hdr">
-        <span class="sheet-cnt">3 disponíveis perto de você</span>
-        <button class="filter-btn"><i class="ti ti-bolt"></i> Filtros</button>
+        <span class="sheet-cnt" id="map-cnt">Buscando...</span>
+        <button class="filter-btn" onclick="toggleMapFilter()"><i class="ti ti-adjustments-horizontal"></i> Filtros</button>
       </div>
-      <div class="chip-row">
+      <div class="chip-row" style="flex-shrink:0;padding-bottom:4px;">
         <div class="chip on" onclick="filterPros(this,'Todos')">Todos</div>
-        <div class="chip" onclick="filterPros(this,'Ortopedia')">Ortopedia</div>
-        <div class="chip" onclick="filterPros(this,'Neurológico')">Neurológico</div>
-        <div class="chip" onclick="filterPros(this,'Esportivo')">Esportivo</div>
-        <div class="chip" onclick="filterPros(this,'Domiciliar')">Domiciliar</div>
+        <div class="chip" onclick="filterPros(this,'Ortopédica')">Ortopedia</div>
+        <div class="chip" onclick="filterPros(this,'Neurológica')">Neurológico</div>
+        <div class="chip" onclick="filterPros(this,'Esportiva')">Esportivo</div>
+        <div class="chip" onclick="filterPros(this,'Pediátrica')">Pediátrico</div>
+        <div class="chip" onclick="filterPros(this,'Respiratória')">Respiratório</div>
+        <div class="chip" onclick="filterPros(this,'Pilates')">Pilates</div>
       </div>
-      <div id="map-card-area">
+      <div id="map-card-area" style="overflow-y:auto;flex:1;scrollbar-width:none;">
         <div style="text-align:center;padding:20px;color:#64748b;">Buscando fisioterapeutas...</div>
       </div>
     </div>
@@ -1200,16 +1218,28 @@ html,body{
     
   </div>
   <div style="background:#fff;flex-shrink:0;padding:10px 16px 12px;">
-    <div style="display:flex;align-items:center;gap:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:10px 14px;margin-bottom:10px;">
-      <i class="ti ti-search" style="color:#94a3b8;font-size:17px;"></i>
-      <input type="text" placeholder="Especialidade, nome..." style="border:none;outline:none;flex:1;font-size:14px;background:transparent;font-family:'Nunito Sans',sans-serif;color:#0f172a;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <div style="flex:1;display:flex;align-items:center;gap:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:10px 14px;">
+        <i class="ti ti-search" style="color:#94a3b8;font-size:17px;"></i>
+        <input type="text" id="list-search-input" placeholder="Nome, especialidade..." style="border:none;outline:none;flex:1;font-size:14px;background:transparent;font-family:'Nunito Sans',sans-serif;color:#0f172a;" oninput="applyListFilters()">
+      </div>
     </div>
-    <div class="chip-row" style="margin-bottom:0;">
-      <div class="chip on">Todos</div>
-      <div class="chip" onclick="chipSel(this)">Ortopedia</div>
-      <div class="chip" onclick="chipSel(this)">Neurológico</div>
-      <div class="chip" onclick="chipSel(this)">Esportivo</div>
-      <div class="chip" onclick="chipSel(this)">Pediátrico</div>
+    <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#374151;font-weight:600;">💰</div>
+      <div class="chip on" id="lf-price-0" onclick="setListPrice(this,0)">Qualquer</div>
+      <div class="chip" id="lf-price-100" onclick="setListPrice(this,100)">≤ R$100</div>
+      <div class="chip" id="lf-price-150" onclick="setListPrice(this,150)">≤ R$150</div>
+      <div class="chip" id="lf-price-200" onclick="setListPrice(this,200)">≤ R$200</div>
+    </div>
+    <div class="chip-row" style="margin-bottom:0;" id="list-spec-chips">
+      <div class="chip on" onclick="setListSpec(this,'')">Todos</div>
+      <div class="chip" onclick="setListSpec(this,'Ortopédica')">Ortopedia</div>
+      <div class="chip" onclick="setListSpec(this,'Neurológica')">Neurológico</div>
+      <div class="chip" onclick="setListSpec(this,'Esportiva')">Esportivo</div>
+      <div class="chip" onclick="setListSpec(this,'Pediátrica')">Pediátrico</div>
+      <div class="chip" onclick="setListSpec(this,'Respiratória')">Respiratório</div>
+      <div class="chip" onclick="setListSpec(this,'Pilates')">Pilates</div>
+      <div class="chip" onclick="setListSpec(this,'Drenagem')">Drenagem</div>
     </div>
   </div>
   <div class="scroll" id="pros-list">
@@ -1395,6 +1425,21 @@ html,body{
 <div id="page-pro-sessions" class="page" style="background:#0f1f35;">
   <div class="app-topbar dark-bar"><button class="topbar-back" onclick="goAndLoad('page-pro-dash')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div></div>
   <div class="page-hdr dark-hdr"><div class="ph-title">Minhas Sessões</div><div class="ph-sub">Pedidos recebidos e histórico</div></div>
+  <div style="background:#132840;border-bottom:1px solid #1e3a5f;padding:10px 14px;flex-shrink:0;">
+    <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+      <div style="flex:1;display:flex;align-items:center;gap:8px;background:#0f1f35;border:1px solid #1e3a5f;border-radius:10px;padding:8px 12px;">
+        <i class="ti ti-search" style="color:#4a6fa5;font-size:15px;"></i>
+        <input type="text" id="pro-sess-search" placeholder="Buscar paciente..." style="border:none;outline:none;flex:1;font-size:13px;background:transparent;color:#fff;font-family:'Nunito Sans',sans-serif;" oninput="applyProSessFilters()">
+      </div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+      <div style="font-size:11px;color:#4a6fa5;display:flex;align-items:center;margin-right:2px;">📅</div>
+      <div class="chip on" id="psf-all" onclick="setProSessDate(this,0)" style="background:#4fc3f7;border-color:#4fc3f7;color:#0d2137;font-size:11px;padding:5px 10px;">Todos</div>
+      <div class="chip" id="psf-7" onclick="setProSessDate(this,7)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;font-size:11px;padding:5px 10px;">7 dias</div>
+      <div class="chip" id="psf-15" onclick="setProSessDate(this,15)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;font-size:11px;padding:5px 10px;">15 dias</div>
+      <div class="chip" id="psf-30" onclick="setProSessDate(this,30)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;font-size:11px;padding:5px 10px;">30 dias</div>
+    </div>
+  </div>
   <div class="scroll" id="pro-sessions-list" style="background:#0f1f35;">
     <div style="text-align:center;padding:30px;color:#7fb3e8;">Carregando...</div>
   </div>
@@ -1443,6 +1488,31 @@ html,body{
         <input id="edit-ano-form" class="finput pro" type="number" placeholder="2015" min="1980" max="2030" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
       <div class="field"><label style="color:#7fb3e8;">Anos de experiência</label>
         <input id="edit-experiencia" class="finput pro" type="number" placeholder="5" min="0" max="50" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+    </div>
+    <div style="font-size:12px;font-weight:700;color:#4fc3f7;margin:14px 0 8px;text-transform:uppercase;letter-spacing:.4px;">Valores dos serviços</div>
+    <div style="background:#0a1628;border-radius:12px;padding:12px;margin-bottom:14px;border:1px solid #1e3a5f;">
+      <div style="font-size:12px;color:#7fb3e8;margin-bottom:10px;">Ajuste o valor cobrado por tipo de atendimento:</div>
+      <div class="field-row">
+        <div class="field">
+          <label style="color:#7fb3e8;">Avaliação inicial (R$)</label>
+          <input id="edit-price-aval" class="finput pro" type="number" min="0" placeholder="120" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+        </div>
+        <div class="field">
+          <label style="color:#7fb3e8;">Sessão padrão (R$)</label>
+          <input id="edit-price" class="finput pro" type="number" min="0" placeholder="120" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label style="color:#7fb3e8;">Pilates (R$)</label>
+          <input id="edit-price-pilates" class="finput pro" type="number" min="0" placeholder="140" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+        </div>
+        <div class="field">
+          <label style="color:#7fb3e8;">Drenagem (R$)</label>
+          <input id="edit-price-drain" class="finput pro" type="number" min="0" placeholder="150" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+        </div>
+      </div>
+      <div style="font-size:11px;color:#4a6fa5;margin-top:6px;"><i class="ti ti-info-circle" style="vertical-align:-1px;"></i> Taxa myFisio de 5% é descontada sobre o valor da sessão realizada.</div>
     </div>
     <div style="font-size:12px;font-weight:700;color:#4fc3f7;margin:4px 0 8px;text-transform:uppercase;letter-spacing:.4px;">Especialidades</div>
     <div class="check-grid" id="edit-specs" style="margin-bottom:16px;">
@@ -1702,69 +1772,7 @@ async function cadastrarPaciente(){
 }
 
 // ── Cadastro fisioterapeuta ─────────────────────
-async function cadastrarPro(){
-  var nome    = document.getElementById('pro-nome')?.value?.trim();
-  var email   = document.getElementById('pro-email')?.value?.trim();
-  var cpf     = (document.getElementById('pro-cpf')?.value||'').replace(/\D/g,'');
-  var tel     = document.getElementById('pro-tel')?.value?.trim();
-  var crefito = document.getElementById('pro-crefito')?.value?.trim();
-  var uf      = document.getElementById('pro-uf')?.value;
-  var valor   = document.getElementById('pro-valor')?.value;
-  var pw      = document.getElementById('pw-pro')?.value;
-  var pw2     = document.getElementById('pro-pw2')?.value;
-  var terms   = document.getElementById('terms-pro')?.checked;
-  var specs   = Array.from(document.querySelectorAll('#spec-grid .check-chip.sel')).map(function(c){ return c.textContent.trim(); });
-  if(!nome)        { toast('Preencha o nome completo'); return; }
-  if(!email)       { toast('Preencha o e-mail'); return; }
-  if(cpf.length < 11){ toast('CPF inválido — preencha os 11 dígitos'); return; }
-  if(!tel)         { toast('Preencha o telefone'); return; }
-  if(!crefito)     { toast('Preencha o CREFITO'); return; }
-  if(!pw)          { toast('Preencha a senha'); return; }
-  if(pw.length < 8){ toast('A senha deve ter pelo menos 8 caracteres'); return; }
-  if(pw !== pw2)   { toast('As senhas não conferem'); return; }
-  if(!terms)       { toast('Aceite os termos para continuar'); return; }
-  var faculdade = document.getElementById('pro-faculdade')?.value?.trim();
-  var anoForm   = document.getElementById('pro-ano-form')?.value;
-  var experiencia = document.getElementById('pro-experiencia')?.value;
 
-  toast('Obtendo sua localização...');
-
-  // Tenta capturar localização automaticamente
-  var latitude = null, longitude = null;
-  try{
-    var pos = await new Promise(function(resolve, reject){
-      navigator.geolocation.getCurrentPosition(resolve, reject, {timeout:6000});
-    });
-    latitude  = pos.coords.latitude;
-    longitude = pos.coords.longitude;
-    toast('Enviando cadastro...');
-  } catch(e){
-    toast('Localização não obtida — cadastrando sem coordenadas...');
-    await new Promise(function(r){ setTimeout(r, 1000); });
-  }
-
-  try{
-    var bio = '';
-    if(faculdade) bio += faculdade;
-    if(anoForm)   bio += (bio ? ' · ' : '') + 'Formado em '+anoForm;
-    if(experiencia) bio += (bio ? ' · ' : '') + experiencia+' anos de experiência';
-
-    var payload = {
-      name:nome, email:email, cpf:cpf, phone:tel, password:pw, role:'professional',
-      crefito:crefito, crefito_uf:uf||'SP', specialties:specs,
-      service_types:['domiciliar'], session_price:parseFloat(valor)||0,
-      bio: bio || null,
-    };
-    if(latitude !== null)  payload.latitude  = latitude;
-    if(longitude !== null) payload.longitude = longitude;
-
-    var data = await api('POST','/api/auth/register', payload);
-    saveSession(data.token, data.user);
-    go('page-ok-pro');
-  } catch(e){
-    toast(e.message || 'Erro ao enviar cadastro');
-  }
-}
 
 // ── Logout ──────────────────────────────────────
 function doLogout(){
@@ -1942,11 +1950,7 @@ function loadProfessionals(specialty){
 
       renderProfessionalsList(allPros, listEl);
       renderMapPins(allPros);
-      if(allPros.length) renderMapCard(allPros[0]);
-      else if(mapArea) mapArea.innerHTML =
-        '<div style="text-align:center;padding:16px;color:#64748b;font-size:13px;">'
-        +'Nenhum fisioterapeuta disponível na sua área.</div>';
-
+      renderMapCard(allPros);
     } catch(e){
       if(listEl) listEl.innerHTML =
         '<div style="text-align:center;padding:24px;color:#64748b;font-size:13px;">'
@@ -1960,8 +1964,8 @@ function loadProfessionals(specialty){
 
 function renderProfessionalsList(pros, container){
   if(!container) return;
-  if(!pros.length){
-    container.innerHTML = '<div style="text-align:center;padding:30px;color:#64748b;">Nenhum fisioterapeuta encontrado nesta área.</div>';
+  if(!pros || !pros.length){
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:#64748b;font-size:13px;"><div style="font-size:28px;margin-bottom:8px;">🔍</div>Nenhum resultado encontrado.<br><br><button onclick="loadProfessionals()" style="background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:8px 18px;font-size:12px;cursor:pointer;">Ver todos</button></div>';
     return;
   }
   container.innerHTML = pros.map(function(p, i){
@@ -1991,27 +1995,17 @@ function renderProfessionalsList(pros, container){
   }).join('');
 }
 
-function renderMapCard(p){
+function renderMapCard(pros){
   var area = document.getElementById('map-card-area');
-  if(!area || !p) return;
-  var av  = avColor(p.name);
-  var ini = initials(p.name);
-  var price = p.session_price > 0 ? 'R$ '+parseFloat(p.session_price).toFixed(0)+'/sessão' : 'Consulte';
-  var specs = (p.specialties||[]).slice(0,1).join('') || 'Fisioterapia';
-  area.innerHTML =
-    '<div class="fc" onclick="openProfDetail(0)" style="margin-bottom:0;">'+
-      '<div class="fc-hdr">'+
-        '<div class="av '+av+'">'+ini+'</div>'+
-        '<div class="fc-info"><div class="fc-name">'+p.name+'</div><div class="fc-spec">'+specs+' · CREFITO '+p.crefito+'</div></div>'+
-        '<div class="bdg bdg-s">⭐ '+(p.rating_avg>0?parseFloat(p.rating_avg).toFixed(1):'Novo')+'</div>'+
-      '</div>'+
-      '<div class="badge-row"><span class="bdg bdg-g">✓ Disponível</span><span class="bdg bdg-b">Domiciliar</span></div>'+
-      '<div class="fc-foot">'+
-        '<span class="fc-dist">📍 '+(p.distance_km||'?')+' km</span>'+
-        '<span class="fc-price">'+price+'</span>'+
-        '<button class="btn-sm" onclick="event.stopPropagation();openProfDetail(0)">Agendar</button>'+
-      '</div>'+
-    '</div>';
+  var cnt  = document.getElementById('map-cnt');
+  if(!area) return;
+  var list = Array.isArray(pros) ? pros : (pros ? [pros] : []);
+  if(cnt) cnt.textContent = list.length+' disponível'+(list.length!==1?'s':'')+ ' perto de você';
+  if(!list.length){
+    area.innerHTML = '<div style="text-align:center;padding:20px;color:#64748b;font-size:13px;">Nenhum fisioterapeuta disponível.<br><br><button onclick="loadProfessionals()" style="background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:8px 18px;font-size:12px;cursor:pointer;">Atualizar</button></div>';
+    return;
+  }
+  renderProfessionalsList(list, area);
 }
 
 function renderMapPins(pros){
@@ -2065,47 +2059,7 @@ function closeModal(){
 
 // ─ Agenda de hoje do Pro ─────────────────────────
 // ── Painel Pro — carrega dados em tempo real ────
-async function loadDashboard(){
-  var user = getUser();
-  if(!user || user.role !== 'professional') return;
-  var greet = document.getElementById('pro-greet');
-  if(greet) greet.textContent = 'Olá, '+((user.name||'').split(' ')[0])+' 👋';
-  try{
-    var data   = await api('GET','/api/appointments?limit=50');
-    var appts  = data.appointments || [];
-    var pending = appts.filter(function(a){ return a.status === 'pending'; });
-    var today   = appts.filter(function(a){
-      var d = new Date(a.scheduled_at);
-      return d.toDateString() === new Date().toDateString() && a.status !== 'cancelled';
-    });
-    var statPending = document.getElementById('stat-pending');
-    var statToday   = document.getElementById('stat-today');
-    if(statPending) statPending.textContent = pending.length;
-    if(statToday)   statToday.textContent   = today.length;
-    loadTodayAgenda();
-    var demandArea = document.getElementById('pro-demand-area');
-    if(demandArea){
-      if(!pending.length){
-        demandArea.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Nenhum pedido pendente no momento.</div>';
-      } else {
-        demandArea.innerHTML = pending.slice(0,3).map(function(a){
-          var d = new Date(a.scheduled_at);
-          var ds = d.toLocaleDateString("pt-BR",{day:"2-digit",month:"short"});
-          var ts = d.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
-          return '<div class="demand-card urgent" style="margin-bottom:10px;">'
-            +'<div class="d-top"><div>'
-              +'<div class="d-patient">'+(a.patient_name||'Paciente')+'</div>'
-              +'<div class="d-type">'+(a.service_type==="domiciliar"?"🏠 Domiciliar":"🏥 Clínica")+' · '+ds+' às '+ts+'</div>'
-            +'</div><span class="urg-badge">⚡ Novo</span></div>'
-            +'<div class="d-actions">'
-              +'<button class="btn-accept" onclick="changeStatus(\''+a.id+'\',\'confirmed\')">✓ Confirmar</button>'
-              +'<button class="btn-refuse" onclick="changeStatus(\''+a.id+'\',\'cancelled\')">✕ Recusar</button>'
-            +'</div></div>';
-        }).join('');
-      }
-    }
-  } catch(e){ console.error('loadDashboard', e.message); }
-}
+
 
 async function loadTodayAgenda(){
   var container = document.getElementById('pro-agenda-today');
@@ -2141,7 +2095,6 @@ async function loadTodayAgenda(){
   }
 }
 
-function changeProStatus(id,status){ changeStatus(id,status); }
 
 // ── Filtro de especialidade ──────────────────
 function filterPros(el, specialty){
@@ -2388,38 +2341,7 @@ async function cancelAppt(id){
 }
 
 // ─ Sessões do fisio ─────────────────────────────
-async function loadProSessions(){
-  if(document.getElementById('page-pro-sessions').classList.contains('active')){
-    var container = document.getElementById('pro-sessions-list');
-    if(!container) return;
-    container.innerHTML = '<div style="text-align:center;padding:30px;color:#7fb3e8;">Carregando...</div>';
-    try{
-      var data  = await api('GET','/api/appointments?limit=50');
-      var appts = data.appointments || [];
-      var statusMap = {
-        pending:   {cls:'sp-sched',label:'⏳ Aguardando',color:'#4fc3f7'},
-        confirmed: {cls:'sp-sched',label:'✅ Confirmado',color:'#4caf82'},
-        completed: {cls:'sp-done', label:'✔ Concluído', color:'#4caf82'},
-        cancelled: {cls:'sp-cancel',label:'✕ Cancelado',color:'#ef5350'},
-      };
-      if(!appts.length){
-        container.innerHTML = '<div style="text-align:center;padding:40px;color:#7fb3e8;"><div style="font-size:32px;margin-bottom:12px;">📬</div><div>Nenhuma sessão ainda.</div></div>';
-        return;
-      }
-      var html = '<div class="slbl dk" style="margin-top:4px;">Pendentes de confirmação</div>';
-      var pending = appts.filter(function(a){ return a.status==='pending'; });
-      if(pending.length) html += pending.map(function(a){ return renderApptCard(a, statusMap, true); }).join('');
-      else html += '<div style="font-size:12px;color:#4a6fa5;padding:8px 0 12px;">Nenhum pedido pendente</div>';
-      html += '<div class="slbl dk">Confirmadas / Histórico</div>';
-      var rest = appts.filter(function(a){ return a.status!=='pending'; });
-      if(rest.length) html += rest.map(function(a){ return renderApptCard(a, statusMap, true); }).join('');
-      else html += '<div style="font-size:12px;color:#4a6fa5;padding:8px 0;">Nenhuma sessão no histórico</div>';
-      container.innerHTML = html;
-    } catch(e){
-      container.innerHTML = '<div style="text-align:center;padding:20px;color:#ef5350;">'+e.message+'</div>';
-    }
-  }
-}
+async 
 
 // ═══════════════════════════════════════════════
 //  AVALIAÇÃO
@@ -2463,33 +2385,6 @@ async function submitReview(){
 // ═══════════════════════════════════════════════
 var favoritesSet = new Set();
 
-async function loadFavorites(){
-  var container = document.getElementById('favorites-list');
-  if(!container) return;
-  container.innerHTML = '<div style="text-align:center;padding:30px;color:#64748b;">Carregando...</div>';
-  try{
-    var data = await api('GET','/api/patients/favorites');
-    var favs = data.favorites || [];
-    favoritesSet = new Set(favs.map(function(f){ return f.professional_id; }));
-    if(!favs.length){
-      container.innerHTML = '<div style="text-align:center;padding:40px;color:#64748b;"><div style="font-size:32px;margin-bottom:12px;">❤️</div><div style="font-size:14px;font-weight:600;">Nenhum favorito ainda</div><div style="font-size:12px;margin-top:6px;">Toque no ❤ no perfil do fisioterapeuta para adicionar</div></div>';
-      return;
-    }
-    container.innerHTML = favs.map(function(p){
-      var av    = avColor(p.name);
-      var ini   = initials(p.name);
-      var price = p.session_price > 0 ? 'R$ '+parseFloat(p.session_price).toFixed(0) : 'Consulte';
-      var specs = (p.specialties||[]).slice(0,2).join(', ')||'Fisioterapia';
-      return '<div class="fc" style="display:flex;align-items:center;gap:12px;padding:12px;">'
-        +'<div class="av '+av+'" style="width:44px;height:44px;font-size:15px;">'+ini+'</div>'
-        +'<div style="flex:1;"><div class="fc-name">'+p.name+'</div><div class="fc-spec">'+specs+'</div><div style="font-size:12px;color:#1a73e8;font-weight:700;margin-top:3px;">'+price+'/sessão</div></div>'
-        +'<button onclick="removeFav(\''+p.professional_id+'\')" style="background:#fee2e2;color:#dc2626;border:none;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;">✕</button>'
-        +'</div>';
-    }).join('');
-  } catch(e){
-    container.innerHTML = '<div style="text-align:center;padding:20px;color:#dc2626;">Erro ao carregar favoritos</div>';
-  }
-}
 
 async function toggleFavorite(proId){
   if(!proId){ toast('Erro: profissional não identificado'); return; }
@@ -2520,14 +2415,6 @@ function updateFavBtn(proId){
   }
 }
 
-async function removeFav(proId){
-  try{
-    await api('DELETE','/api/patients/favorites/'+proId);
-    favoritesSet.delete(proId);
-    toast('Removido dos favoritos');
-    loadFavorites();
-  } catch(e){ toast(e.message||'Erro'); }
-}
 
 // ═══════════════════════════════════════════════
 //  NOTIFICAÇÕES
@@ -2563,74 +2450,7 @@ async function loadNotifications(){
 // ═══════════════════════════════════════════════
 //  EDITAR CADASTRO — FISIO
 // ═══════════════════════════════════════════════
-async function loadProEdit(){
-  try{
-    var data = await api('GET','/api/auth/me');
-    if(document.getElementById('edit-nome'))    document.getElementById('edit-nome').value    = data.name   || '';
-    if(document.getElementById('edit-tel'))     document.getElementById('edit-tel').value     = data.phone  || '';
-    if(document.getElementById('edit-address')) document.getElementById('edit-address').value = data.address|| '';
-    if(document.getElementById('edit-price'))   document.getElementById('edit-price').value   = data.session_price || '';
-    if(document.getElementById('edit-start'))   document.getElementById('edit-start').value   = (data.work_start||'08:00').slice(0,5);
-    if(document.getElementById('edit-end'))     document.getElementById('edit-end').value     = (data.work_end  ||'20:00').slice(0,5);
-    if(document.getElementById('edit-bio'))     document.getElementById('edit-bio').value     = data.bio    || '';
-    // Tenta extrair faculdade e experiência do campo bio (formato: "Faculdade · Formado em XXXX · N anos de experiência")
-    var bio = data.bio || '';
-    var parts = bio.split(' · ');
-    if(parts.length >= 1 && document.getElementById('edit-faculdade'))
-      document.getElementById('edit-faculdade').value = parts[0] || '';
-    var anoMatch = bio.match(/Formado em (\d{4})/);
-    if(anoMatch && document.getElementById('edit-ano-form'))
-      document.getElementById('edit-ano-form').value = anoMatch[1];
-    var expMatch = bio.match(/(\d+) anos de experiência/);
-    if(expMatch && document.getElementById('edit-experiencia'))
-      document.getElementById('edit-experiencia').value = expMatch[1];
-    // Marca especialidades
-    var specs = data.specialties || [];
-    document.querySelectorAll('#edit-specs .check-chip').forEach(function(chip){
-      var label = chip.textContent.trim();
-      if(specs.includes(label)){
-        chip.classList.add('sel');
-        var box = chip.querySelector('.cbox');
-        if(box) box.innerHTML = '<i class="ti ti-check" style="font-size:10px;color:#0d2137;"></i>';
-      }
-    });
-  } catch(e){ toast('Erro ao carregar dados: '+e.message); }
-}
 
-async function saveProEdit(){
-  var nome      = document.getElementById('edit-nome')?.value?.trim();
-  var tel       = document.getElementById('edit-tel')?.value?.trim();
-  var address   = document.getElementById('edit-address')?.value?.trim();
-  var price     = document.getElementById('edit-price')?.value;
-  var start     = document.getElementById('edit-start')?.value;
-  var end       = document.getElementById('edit-end')?.value;
-  var bio       = document.getElementById('edit-bio')?.value?.trim();
-  var faculdade = document.getElementById('edit-faculdade')?.value?.trim();
-  var anoForm   = document.getElementById('edit-ano-form')?.value;
-  var exp       = document.getElementById('edit-experiencia')?.value;
-  var specs     = Array.from(document.querySelectorAll('#edit-specs .check-chip.sel')).map(function(c){ return c.textContent.trim(); });
-
-  // Compõe bio com formação se não foi informada manualmente
-  var bioFinal = bio || '';
-  if(!bioFinal && (faculdade || anoForm || exp)){
-    if(faculdade) bioFinal += faculdade;
-    if(anoForm)   bioFinal += (bioFinal ? ' · ' : '') + 'Formado em '+anoForm;
-    if(exp)       bioFinal += (bioFinal ? ' · ' : '') + exp+' anos de experiência';
-  }
-
-  toast('Salvando...');
-  try{
-    await api('PUT','/api/professionals/profile',{
-      name: nome, phone: tel, address: address,
-      session_price: parseFloat(price)||0,
-      work_start: start, work_end: end,
-      bio: bioFinal || null, specialties: specs,
-    });
-    var user = getUser();
-    if(user){ user.name = nome; saveSession(getToken(), user); }
-    toast('✅ Cadastro atualizado com sucesso!');
-  } catch(e){ toast(e.message||'Erro ao salvar'); }
-}
 
 async function getProLocation(){
   toast('Obtendo localização...');
@@ -2654,10 +2474,12 @@ function openProfDetail(idx){
   var p = allPros[idx];
   if(!p){ go('page-detail'); return; }
   currentPro = p;
+
   // Avatar
   var avEl = document.getElementById('d-av');
   if(avEl){ avEl.textContent = initials(p.name); avEl.className = 'detail-av '+avColor(p.name); }
-  // Textos
+
+  // Header
   var nm  = document.querySelector('#page-detail .d-name');
   var crm = document.querySelector('#page-detail .d-crm');
   var sp  = document.querySelector('#page-detail .d-spec');
@@ -2666,30 +2488,494 @@ function openProfDetail(idx){
   if(nm)  nm.textContent  = p.name;
   if(crm) crm.textContent = 'CREFITO: '+(p.crefito||'—')+' · '+(p.crefito_uf||'');
   if(sp)  sp.textContent  = (p.specialties||[]).join(', ')||'Fisioterapia Geral';
-  if(rt)  rt.textContent  = p.rating_avg > 0 ? parseFloat(p.rating_avg).toFixed(1) : 'Novo';
-  if(cnt) cnt.textContent = '('+p.rating_count+' avaliações)';
-  // Infos
+  if(rt)  rt.textContent  = p.rating_avg>0 ? parseFloat(p.rating_avg).toFixed(1) : 'Novo';
+  if(cnt) cnt.textContent = '('+(p.rating_count||0)+' avaliações)';
+
+  // Info fields
   var dloc  = document.getElementById('d-loc');
   var dhora = document.getElementById('d-hora');
   var dtipo = document.getElementById('d-tipo');
-  if(dloc)  dloc.textContent  = p.distance_km ? p.distance_km+' km de distância' : 'Localização disponível no app';
+  var dform = document.getElementById('d-form');
+  var dexp  = document.getElementById('d-exp');
+  var dbio  = document.getElementById('d-bio');
+  if(dloc)  dloc.textContent  = p.distance_km ? p.distance_km+' km de distância' : 'Localização disponível';
   if(dhora) dhora.textContent = 'Atende das '+(p.work_start||'08:00').slice(0,5)+' às '+(p.work_end||'20:00').slice(0,5);
-  if(dtipo) dtipo.textContent = (p.service_types||[]).map(function(t){ return t==='domiciliar'?'Domiciliar':'Clínica'; }).join(' e ');
-  // Preços
-  var price = p.session_price > 0 ? 'R$ '+parseFloat(p.session_price).toFixed(2).replace('.',',') : 'Consulte';
-  ['d-preco1','d-preco2'].forEach(function(id){ var el=document.getElementById(id); if(el) el.textContent=price; });
-  // Botão favoritar
+  if(dtipo) dtipo.textContent = (p.service_types||[]).map(function(t){ return t==='domiciliar'?'Domiciliar':'Clínica'; }).join(' e ')||'Domiciliar';
+
+  // Formation — parse from bio field
+  var bio = p.bio || '';
+  var faculdade = '';
+  var anoForm   = '';
+  var expYears  = '';
+  var bioText   = bio;
+  var anoMatch  = bio.match(/Formado em (\d{4})/);
+  var expMatch  = bio.match(/(\d+) anos de experiência/);
+  if(anoMatch)  anoForm  = anoMatch[1];
+  if(expMatch)  expYears = expMatch[1];
+  // Extract faculty (first segment before ·)
+  var parts = bio.split(' · ');
+  if(parts.length > 1) faculdade = parts[0];
+  // Build display strings
+  var formStr = faculdade || 'Não informado';
+  if(anoForm) formStr += ' ('+anoForm+')';
+  var expStr = expYears ? expYears+' anos de experiência' : 'Não informada';
+  if(dform) dform.textContent = formStr;
+  if(dexp)  dexp.textContent  = expStr;
+  if(dbio)  dbio.textContent  = bio || '';
+
+  // Prices
+  var price = p.session_price>0 ? 'R$ '+parseFloat(p.session_price).toFixed(2).replace('.',',') : 'Consulte';
+  var p1 = document.getElementById('d-preco1');
+  var p2 = document.getElementById('d-preco2');
+  if(p1) p1.textContent = price;
+  if(p2) p2.textContent = price;
+
+  // Reviews — show empty state then load real data
+  var reviewsList = document.getElementById('d-reviews-list');
+  if(reviewsList) reviewsList.innerHTML = '<div style="text-align:center;padding:12px;color:#94a3b8;font-size:13px;">Carregando avaliações...</div>';
+
+  // Fav button
   var favBtn = document.getElementById('fav-btn');
-  if(favBtn){ favBtn.style.color = favoritesSet.has(p.id) ? '#ef4444' : '#64748b'; }
-  // Botão agendar
+  if(favBtn){
+    favBtn.dataset.proid = p.id;
+    favBtn.innerHTML     = favoritesSet.has(p.id) ? '❤️' : '🤍';
+    favBtn.style.color   = favoritesSet.has(p.id) ? '#ef4444' : '#64748b';
+  }
+
+  // Book button
   var agBtn = document.getElementById('agendar-btn');
-  if(agBtn){ agBtn.onclick = function(){ openBooking(idx); }; }
+  if(agBtn) agBtn.onclick = function(){ openBooking(idx); };
+
   go('page-detail');
+
+  // Load real data from API in background
+  if(p.id && getToken()){
+    api('GET','/api/professionals/'+p.id).then(function(data){
+      if(!data) return;
+      // Update reviews
+      if(reviewsList){
+        var revs = data.reviews || [];
+        if(!revs.length){
+          reviewsList.innerHTML = '<div style="font-size:13px;color:#94a3b8;text-align:center;padding:8px;">Seja o primeiro a avaliar!</div>';
+        } else {
+          reviewsList.innerHTML = revs.slice(0,5).map(function(r){
+            var stars = '⭐'.repeat(Math.min(r.rating||0,5));
+            return '<div style="font-size:13px;color:#374151;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #f8fafc;">'
+              +'<div style="font-weight:700;margin-bottom:3px;">'+stars+' '+r.patient_name+'</div>'
+              +(r.comment||'')+'</div>';
+          }).join('');
+        }
+      }
+      // Update bio/formation with real data
+      var realBio = data.bio || bio;
+      if(dbio && realBio) dbio.textContent = realBio;
+    }).catch(function(){
+      if(reviewsList) reviewsList.innerHTML = '<div style="font-size:13px;color:#94a3b8;text-align:center;padding:8px;">Sem avaliações ainda.</div>';
+    });
+  } else {
+    if(reviewsList) reviewsList.innerHTML = '<div style="font-size:13px;color:#94a3b8;text-align:center;padding:8px;">Faça login para ver avaliações.</div>';
+  }
 }
 
 // ═══════════════════════════════════════════════
 //  go() — atualizado para novas páginas
 // ═══════════════════════════════════════════════
+
+// ════════════════════════════════════════════════════
+//  FILTROS — MAPA
+// ════════════════════════════════════════════════════
+var mapFilterState   = { price: 0, dist: 10, search: '' };
+var listFilterState  = { price: 0, spec: '', search: '' };
+var proSessFilterState = { days: 0, patient: '' };
+var allProSessionsCache = [];
+
+function toggleMapFilter(){
+  var p = document.getElementById('map-filter-panel');
+  if(p) p.style.display = (p.style.display==='none'||!p.style.display) ? 'block' : 'none';
+  var icon = document.getElementById('map-filter-icon');
+  if(icon) icon.style.color = p && p.style.display==='block' ? '#1a73e8' : '#94a3b8';
+}
+
+function setPriceFilter(el, price){
+  mapFilterState.price = price;
+  document.querySelectorAll('[id^="fp-"]').forEach(function(e){ e.classList.remove('on'); });
+  if(el) el.classList.add('on');
+  applyMapFilters();
+}
+
+function setDistFilter(el, dist){
+  mapFilterState.dist = dist;
+  document.querySelectorAll('[id^="fd-"]').forEach(function(e){ e.classList.remove('on'); });
+  if(el) el.classList.add('on');
+  // Reload with new radius
+  loadProfessionals();
+}
+
+function filterMapSearch(val){
+  mapFilterState.search = (val||'').toLowerCase();
+  applyMapFilters();
+}
+
+function applyMapFilters(){
+  var filtered = allPros.filter(function(p){
+    var price = parseFloat(p.session_price)||0;
+    var name  = (p.name||'').toLowerCase();
+    var specs = (p.specialties||[]).join(' ').toLowerCase();
+    if(mapFilterState.price > 0 && price > mapFilterState.price) return false;
+    if(mapFilterState.search && !name.includes(mapFilterState.search) && !specs.includes(mapFilterState.search)) return false;
+    return true;
+  });
+  var area = document.getElementById('map-card-area');
+  var cnt  = document.getElementById('map-cnt');
+  if(cnt) cnt.textContent = filtered.length+' disponível'+(filtered.length!==1?'s':'')+' perto de você';
+  renderProfessionalsList(filtered, area);
+  renderMapPins(filtered);
+}
+
+// ════════════════════════════════════════════════════
+//  FILTROS — LISTA (BUSCAR)
+// ════════════════════════════════════════════════════
+function setListPrice(el, price){
+  listFilterState.price = price;
+  document.querySelectorAll('[id^="lf-price-"]').forEach(function(e){ e.classList.remove('on'); });
+  if(el) el.classList.add('on');
+  applyListFilters();
+}
+
+function setListSpec(el, spec){
+  listFilterState.spec = spec;
+  document.querySelectorAll('#list-spec-chips .chip').forEach(function(e){ e.classList.remove('on'); });
+  if(el) el.classList.add('on');
+  applyListFilters();
+}
+
+function applyListFilters(){
+  var inp = document.getElementById('list-search-input');
+  listFilterState.search = inp ? inp.value.toLowerCase() : '';
+  var filtered = allPros.filter(function(p){
+    var price = parseFloat(p.session_price)||0;
+    var name  = (p.name||'').toLowerCase();
+    var specs = (p.specialties||[]).join(' ').toLowerCase();
+    if(listFilterState.price>0 && price>listFilterState.price) return false;
+    if(listFilterState.spec && !(p.specialties||[]).includes(listFilterState.spec)) return false;
+    if(listFilterState.search && !name.includes(listFilterState.search) && !specs.includes(listFilterState.search)) return false;
+    return true;
+  });
+  renderProfessionalsList(filtered, document.getElementById('pros-list'));
+}
+
+// ════════════════════════════════════════════════════
+//  FILTROS — SESSÕES PRO (data + paciente)
+// ════════════════════════════════════════════════════
+function setProSessDate(el, days){
+  proSessFilterState.days = days;
+  ['psf-all','psf-7','psf-15','psf-30'].forEach(function(id){
+    var e = document.getElementById(id);
+    if(e){ e.style.background='#132840'; e.style.borderColor='#1e3a5f'; e.style.color='#7fb3e8'; e.classList.remove('on'); }
+  });
+  if(el){ el.style.background='#4fc3f7'; el.style.borderColor='#4fc3f7'; el.style.color='#0d2137'; el.classList.add('on'); }
+  applyProSessFilters();
+}
+
+function applyProSessFilters(){
+  var searchEl = document.getElementById('pro-sess-search');
+  var search   = searchEl ? searchEl.value.toLowerCase().trim() : '';
+  proSessFilterState.patient = search;
+
+  var days    = proSessFilterState.days;
+  var cutoff  = days > 0 ? new Date(Date.now() - days*24*60*60*1000) : null;
+
+  var filtered = allProSessionsCache.filter(function(a){
+    if(cutoff && new Date(a.scheduled_at) < cutoff) return false;
+    if(search && !(a.patient_name||'').toLowerCase().includes(search)) return false;
+    return true;
+  });
+  renderProSessionsList(filtered);
+}
+
+function renderProSessionsList(appts){
+  var container = document.getElementById('pro-sessions-list');
+  if(!container) return;
+  var statusMap = {
+    pending:   {cls:'sp-sched',label:'⏳ Aguardando',color:'#4fc3f7'},
+    confirmed: {cls:'sp-sched',label:'✅ Confirmado', color:'#4caf82'},
+    completed: {cls:'sp-done', label:'✔ Concluído',  color:'#4caf82'},
+    cancelled: {cls:'sp-cancel',label:'✕ Cancelado', color:'#ef5350'},
+  };
+  if(!appts.length){
+    container.innerHTML = '<div style="text-align:center;padding:40px;color:#7fb3e8;"><div style="font-size:32px;margin-bottom:12px;">📅</div>Nenhuma sessão encontrada.</div>';
+    return;
+  }
+  var pending = appts.filter(function(a){ return a.status==='pending'; });
+  var rest    = appts.filter(function(a){ return a.status!=='pending'; });
+  var html = '';
+  if(pending.length){
+    html += '<div class="slbl dk" style="margin-top:4px;">Pendentes de confirmação</div>';
+    html += pending.map(function(a){ return renderApptCard(a, statusMap, true); }).join('');
+  }
+  if(rest.length){
+    html += '<div class="slbl dk">Histórico</div>';
+    html += rest.map(function(a){ return renderApptCard(a, statusMap, true); }).join('');
+  }
+  container.innerHTML = html;
+}
+
+// ════════════════════════════════════════════════════
+//  PRO SESSIONS — override loadProSessions to cache
+// ════════════════════════════════════════════════════
+async function loadProSessions(){
+  if(!document.getElementById('page-pro-sessions').classList.contains('active')) return;
+  var container = document.getElementById('pro-sessions-list');
+  if(container) container.innerHTML = '<div style="text-align:center;padding:30px;color:#7fb3e8;">Carregando...</div>';
+  try{
+    var data  = await api('GET','/api/appointments?limit=100');
+    allProSessionsCache = data.appointments || [];
+    applyProSessFilters();
+  } catch(e){
+    if(container) container.innerHTML = '<div style="text-align:center;padding:20px;color:#ef5350;">'+e.message+'</div>';
+  }
+}
+
+// ════════════════════════════════════════════════════
+//  PRO EDIT — save service prices + fix bio/formation
+// ════════════════════════════════════════════════════
+async function loadProEdit(){
+  try{
+    var data = await api('GET','/api/auth/me');
+    if(!data) return;
+    if(document.getElementById('edit-nome'))    document.getElementById('edit-nome').value    = data.name   || '';
+    if(document.getElementById('edit-tel'))     document.getElementById('edit-tel').value     = data.phone  || '';
+    if(document.getElementById('edit-address')) document.getElementById('edit-address').value = data.address|| '';
+    if(document.getElementById('edit-price'))   document.getElementById('edit-price').value   = data.session_price || '';
+    if(document.getElementById('edit-price-aval')) document.getElementById('edit-price-aval').value = data.session_price || '';
+    if(document.getElementById('edit-start'))   document.getElementById('edit-start').value   = (data.work_start||'08:00').slice(0,5);
+    if(document.getElementById('edit-end'))     document.getElementById('edit-end').value     = (data.work_end||'20:00').slice(0,5);
+
+    // Bio raw text
+    var bio = data.bio || '';
+    if(document.getElementById('edit-bio')) document.getElementById('edit-bio').value = bio;
+
+    // Extract formation from bio
+    var anoMatch = bio.match(/Formado em (\d{4})/);
+    var expMatch = bio.match(/(\d+) anos de experiência/);
+    var parts    = bio.split(' · ');
+    var facul    = parts.length > 1 && !parts[0].match(/Formado|anos/) ? parts[0] : '';
+    if(document.getElementById('edit-faculdade')  && facul)           document.getElementById('edit-faculdade').value   = facul;
+    if(document.getElementById('edit-ano-form')   && anoMatch)        document.getElementById('edit-ano-form').value    = anoMatch[1];
+    if(document.getElementById('edit-experiencia')&& expMatch)        document.getElementById('edit-experiencia').value = expMatch[1];
+
+    // Specialties
+    var specs = data.specialties || [];
+    document.querySelectorAll('#edit-specs .check-chip').forEach(function(chip){
+      var label = chip.textContent.trim();
+      if(specs.includes(label)){
+        chip.classList.add('sel');
+        var box = chip.querySelector('.cbox');
+        if(box) box.innerHTML = '<i class="ti ti-check" style="font-size:10px;color:#0d2137;"></i>';
+      }
+    });
+  } catch(e){ toast('Erro ao carregar: '+e.message); }
+}
+
+async function saveProEdit(){
+  var nome       = document.getElementById('edit-nome')?.value?.trim();
+  var tel        = document.getElementById('edit-tel')?.value?.trim();
+  var address    = document.getElementById('edit-address')?.value?.trim();
+  var price      = parseFloat(document.getElementById('edit-price')?.value)||0;
+  var start      = document.getElementById('edit-start')?.value;
+  var end        = document.getElementById('edit-end')?.value;
+  var bioRaw     = document.getElementById('edit-bio')?.value?.trim() || '';
+  var faculdade  = document.getElementById('edit-faculdade')?.value?.trim() || '';
+  var anoForm    = document.getElementById('edit-ano-form')?.value || '';
+  var exp        = document.getElementById('edit-experiencia')?.value || '';
+  var specs      = Array.from(document.querySelectorAll('#edit-specs .check-chip.sel')).map(function(c){ return c.textContent.trim(); });
+
+  // Build bio combining manual text and formation fields
+  var bioFinal = bioRaw;
+  if(!bioFinal){
+    var parts = [];
+    if(faculdade) parts.push(faculdade);
+    if(anoForm)   parts.push('Formado em '+anoForm);
+    if(exp)       parts.push(exp+' anos de experiência');
+    bioFinal = parts.join(' · ');
+  }
+
+  toast('Salvando...');
+  try{
+    await api('PUT','/api/professionals/profile',{
+      name: nome, phone: tel, address: address,
+      session_price: price,
+      work_start: start, work_end: end,
+      bio: bioFinal || null,
+      specialties: specs,
+    });
+    var user = getUser();
+    if(user){ user.name = nome; saveSession(getToken(), user); }
+    toast('✅ Cadastro atualizado com sucesso!');
+  } catch(e){ toast(e.message||'Erro ao salvar'); }
+}
+
+// ════════════════════════════════════════════════════
+//  PRO CADASTRO — save formation fields
+// ════════════════════════════════════════════════════
+async function cadastrarPro(){
+  var nome       = document.getElementById('pro-nome')?.value?.trim();
+  var email      = document.getElementById('pro-email')?.value?.trim();
+  var cpf        = (document.getElementById('pro-cpf')?.value||'').replace(/\D/g,'');
+  var tel        = document.getElementById('pro-tel')?.value?.trim();
+  var crefito    = document.getElementById('pro-crefito')?.value?.trim();
+  var uf         = document.getElementById('pro-uf')?.value || 'SP';
+  var valor      = document.getElementById('pro-valor')?.value;
+  var pw         = document.getElementById('pw-pro')?.value;
+  var pw2        = document.getElementById('pro-pw2')?.value;
+  var terms      = document.getElementById('terms-pro')?.checked;
+  var faculdade  = document.getElementById('pro-faculdade')?.value?.trim() || '';
+  var anoForm    = document.getElementById('pro-ano-form')?.value || '';
+  var experiencia= document.getElementById('pro-experiencia')?.value || '';
+  var specs      = Array.from(document.querySelectorAll('#spec-grid .check-chip.sel')).map(function(c){ return c.textContent.trim(); });
+
+  if(!nome)         { toast('Preencha o nome completo'); return; }
+  if(!email)        { toast('Preencha o e-mail'); return; }
+  if(cpf.length<11) { toast('CPF inválido'); return; }
+  if(!tel)          { toast('Preencha o telefone'); return; }
+  if(!crefito)      { toast('Preencha o CREFITO'); return; }
+  if(!pw)           { toast('Preencha a senha'); return; }
+  if(pw.length<8)   { toast('Senha mínima de 8 caracteres'); return; }
+  if(pw!==pw2)      { toast('As senhas não conferem'); return; }
+  if(!terms)        { toast('Aceite os termos para continuar'); return; }
+
+  // Build bio from formation fields
+  var bioParts = [];
+  if(faculdade)   bioParts.push(faculdade);
+  if(anoForm)     bioParts.push('Formado em '+anoForm);
+  if(experiencia) bioParts.push(experiencia+' anos de experiência');
+  var bio = bioParts.join(' · ') || null;
+
+  toast('Obtendo sua localização...');
+  var latitude = null, longitude = null;
+  try{
+    var pos = await Promise.race([
+      new Promise(function(res,rej){ navigator.geolocation.getCurrentPosition(res,rej,{timeout:5000}); }),
+      new Promise(function(_,rej){ setTimeout(function(){ rej(new Error('timeout')); },5500); })
+    ]);
+    latitude  = pos.coords.latitude;
+    longitude = pos.coords.longitude;
+    toast('Enviando cadastro...');
+  } catch(e){ toast('Sem localização — cadastrando assim mesmo...'); await new Promise(function(r){ setTimeout(r,800); }); }
+
+  try{
+    var payload = {
+      name: nome, email: email, cpf: cpf, phone: tel, password: pw,
+      role: 'professional', crefito: crefito, crefito_uf: uf,
+      specialties: specs, service_types: ['domiciliar'],
+      session_price: parseFloat(valor)||0, bio: bio,
+    };
+    if(latitude!==null)  payload.latitude  = latitude;
+    if(longitude!==null) payload.longitude = longitude;
+    var data = await api('POST','/api/auth/register', payload);
+    saveSession(data.token, data.user);
+    go('page-ok-pro');
+  } catch(e){ toast(e.message||'Erro ao enviar cadastro'); }
+}
+
+// ════════════════════════════════════════════════════
+//  FAVORITOS — load on favorites page
+// ════════════════════════════════════════════════════
+async function loadFavorites(){
+  var container = document.getElementById('favorites-list');
+  if(!container) return;
+  container.innerHTML = '<div style="text-align:center;padding:30px;color:#64748b;">Carregando favoritos...</div>';
+  try{
+    var data = await api('GET','/api/patients/favorites');
+    var favs = data.favorites || [];
+    favoritesSet = new Set(favs.map(function(f){ return f.professional_id; }));
+    if(!favs.length){
+      container.innerHTML = '<div style="text-align:center;padding:40px;color:#64748b;"><div style="font-size:36px;margin-bottom:12px;">🤍</div><div style="font-size:14px;font-weight:600;">Nenhum favorito ainda</div><div style="font-size:12px;margin-top:6px;">Toque no 🤍 no perfil do fisioterapeuta para adicionar</div></div>';
+      return;
+    }
+    container.innerHTML = favs.map(function(p){
+      var av    = avColor(p.name);
+      var ini   = initials(p.name);
+      var price = p.session_price>0 ? 'R$ '+parseFloat(p.session_price).toFixed(0) : 'Consulte';
+      var specs = (p.specialties||[]).slice(0,2).join(', ')||'Fisioterapia';
+      // Find index in allPros for booking
+      var proIdx = allPros.findIndex(function(x){ return x.id===p.professional_id; });
+      return '<div class="fc" style="display:flex;align-items:center;gap:12px;padding:12px;">'
+        +'<div class="av '+av+'" style="width:44px;height:44px;font-size:15px;flex-shrink:0;">'+ini+'</div>'
+        +'<div style="flex:1;">'
+          +'<div class="fc-name">'+p.name+'</div>'
+          +'<div class="fc-spec">'+specs+'</div>'
+          +'<div style="font-size:12px;color:#1a73e8;font-weight:700;margin-top:3px;">'+price+'/sessão</div>'
+        +'</div>'
+        +'<div style="display:flex;gap:6px;">'
+          +(proIdx>=0?'<button class="btn-sm" onclick="openProfDetail('+proIdx+')" style="font-size:11px;padding:6px 10px;">Ver</button>':'')
+          +'<button onclick="removeFav(\"'+p.professional_id+'\")" style="background:#fee2e2;color:#dc2626;border:none;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;">✕</button>'
+        +'</div>'
+        +'</div>';
+    }).join('');
+  } catch(e){
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:#dc2626;">Erro ao carregar favoritos</div>';
+  }
+}
+
+async function removeFav(proId){
+  try{
+    await api('DELETE','/api/patients/favorites/'+proId);
+    favoritesSet.delete(proId);
+    toast('Removido dos favoritos');
+    loadFavorites();
+  } catch(e){ toast(e.message||'Erro'); }
+}
+
+// ════════════════════════════════════════════════════
+//  DASHBOARD PRO — load imediatamente após login
+// ════════════════════════════════════════════════════
+async function loadDashboard(){
+  var user = getUser();
+  if(!user || user.role!=='professional') return;
+  var greet = document.getElementById('pro-greet');
+  if(greet) greet.textContent = 'Olá, '+((user.name||'').split(' ')[0])+' 👋';
+  try{
+    var data    = await api('GET','/api/appointments?limit=100');
+    var appts   = data.appointments || [];
+    var pending = appts.filter(function(a){ return a.status==='pending'; });
+    var todayStr= new Date().toDateString();
+    var today   = appts.filter(function(a){
+      return new Date(a.scheduled_at).toDateString()===todayStr && a.status!=='cancelled';
+    });
+    var statPending = document.getElementById('stat-pending');
+    var statToday   = document.getElementById('stat-today');
+    if(statPending) statPending.textContent = pending.length;
+    if(statToday)   statToday.textContent   = today.length;
+
+    // Demand area
+    var demandArea = document.getElementById('pro-demand-area');
+    if(demandArea){
+      if(!pending.length){
+        demandArea.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Nenhum pedido pendente.</div>';
+      } else {
+        demandArea.innerHTML = pending.slice(0,3).map(function(a){
+          var d  = new Date(a.scheduled_at);
+          var ds = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
+          var ts = d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+          return '<div class="demand-card urgent" style="margin-bottom:10px;">'
+            +'<div class="d-top"><div>'
+              +'<div class="d-patient">'+(a.patient_name||'Paciente')+'</div>'
+              +'<div class="d-type">'+(a.service_type==='domiciliar'?'🏠':'🏥')+' '+ds+' às '+ts+'</div>'
+            +'</div><span class="urg-badge">⚡ Novo</span></div>'
+            +'<div class="d-actions">'
+              +'<button class="btn-accept" onclick="changeStatus(\'+a.id+\'\',\'confirmed\')">✓ Confirmar</button>'
+              +'<button class="btn-refuse" onclick="changeStatus(\'+a.id+\'\',\'cancelled\')">✕ Recusar</button>'
+            +'</div></div>';
+        }).join('');
+      }
+    }
+    loadTodayAgenda();
+  } catch(e){ console.error('loadDashboard', e.message); }
+}
+
+function changeProStatus(id,status){ changeStatus(id,status); }
+
 </script>
 </body>
 </html>
