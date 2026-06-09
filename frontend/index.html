@@ -1976,7 +1976,10 @@ function renderProfessionalsList(pros, container){
     var price = p.session_price > 0 ? 'R$ '+parseFloat(p.session_price).toFixed(0) : 'Consulte';
     var specs = (p.specialties||[]).slice(0,2).join(', ') || 'Fisioterapia Geral';
     var tipos = (p.service_types||[]).map(function(t){ return t==='domiciliar'?'Domiciliar':'Clínica'; }).join(' · ');
-    return '<div class="fc" onclick="openProfDetail('+i+')">' +
+    // Use real index in allPros (not filtered index) so openProfDetail works after filtering
+    var realIdx = allPros.indexOf(p);
+    if(realIdx < 0) realIdx = i;
+    return '<div class="fc" onclick="openProfDetail('+realIdx+')">' +
       '<div class="fc-hdr">'+
         '<div class="av '+av+'">'+ini+'</div>'+
         '<div class="fc-info"><div class="fc-name">'+p.name+'</div><div class="fc-spec">'+specs+'</div></div>'+
@@ -2113,8 +2116,10 @@ var bookingState = {
 };
 
 function openBooking(proIdx){
-  var p = allPros[proIdx];
-  if(!p){ toast('Profissional não encontrado'); return; }
+  var p = allPros[proIdx] || currentPro;
+  if(!p){ toast('Selecione um fisioterapeuta primeiro'); return; }
+  // Update proIdx to match allPros
+  if(allPros.indexOf(p) >= 0) proIdx = allPros.indexOf(p);
   currentPro = p;
   bookingState.proId    = p.id;
   bookingState.proName  = p.name;
@@ -2724,7 +2729,6 @@ function renderProSessionsList(appts){
 //  PRO SESSIONS — override loadProSessions to cache
 // ════════════════════════════════════════════════════
 async function loadProSessions(){
-  if(!document.getElementById('page-pro-sessions').classList.contains('active')) return;
   var container = document.getElementById('pro-sessions-list');
   if(container) container.innerHTML = '<div style="text-align:center;padding:30px;color:#7fb3e8;">Carregando...</div>';
   try{
@@ -2971,6 +2975,8 @@ async function loadDashboard(){
       }
     }
     loadTodayAgenda();
+    // Preload sessions cache silently
+    api('GET','/api/appointments?limit=100').then(function(d){ allProSessionsCache = (d&&d.appointments)||[]; }).catch(function(){});
   } catch(e){ console.error('loadDashboard', e.message); }
 }
 
