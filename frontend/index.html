@@ -92,4 +92,1201 @@ html,body{
   --c-text2:#475569;
   --c-text3:#94a3b8;
   --c-r-lg:12px;
-  --c-r-
+  --c-r-md:8px;
+}
+
+.field{margin-bottom:14px;}
+.field label{font-size:12px;color:var(--c-text2);display:block;margin-bottom:5px;font-weight:600;}
+.finput{
+  width:100%;height:42px;
+  border:1px solid var(--c-border);border-radius:var(--c-r-md);
+  background:var(--c-bg2);color:var(--c-text1);
+  font-size:14px;padding:0 38px 0 12px;outline:none;
+  font-family:'Nunito Sans',sans-serif;
+  transition:border-color .15s,box-shadow .15s;
+}
+.finput:focus{border-color:#1a73e8;box-shadow:0 0 0 3px rgba(26,115,232,.12);}
+.finput.pro:focus{border-color:#4fc3f7;box-shadow:0 0 0 3px rgba(79,195,247,.12);}
+
+.fselect{
+  width:100%;height:42px;
+  border:1px solid var(--c-border);border-radius:var(--c-r-md);
+  background:var(--c-bg2);color:var(--c-text1);
+  font-size:14px;padding:0 12px;outline:none;cursor:pointer;
+  appearance:none;font-family:'Nunito Sans',sans-serif;
+}
+
+.finput-wrap{position:relative;}
+.fi-icon{
+  position:absolute;right:11px;top:50%;transform:translateY(-50%);
+  font-size:17px;color:var(--c-text3);pointer-events:none;
+}
+.fi-icon.clickable{pointer-events:auto;cursor:pointer;}
+.fi-icon.clickable:hover{color:var(--c-text2);}
+
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.field-hint{font-size:11px;color:var(--c-text3);margin-top:4px;}
+
+/* Buttons */
+.btn-main{
+  width:100%;height:46px;border:none;border-radius:var(--c-r-lg);
+  font-size:14px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font-family:'Nunito',sans-serif;transition:opacity .15s,transform .1s;
+}
+.btn-main:hover{opacity:.9;}
+.btn-main:active{transform:scale(.98);}
+.btn-blue{background:#1a73e8;color:#fff;}
+.btn-pro-c{background:#4fc3f7;color:#0d2137;}
+.btn-ghost{
+  width:100%;height:42px;border:1px solid var(--c-border);
+  border-radius:var(--c-r-lg);font-size:13px;color:var(--c-text2);
+  background:transparent;cursor:pointer;font-family:'Nunito',sans-serif;
+  transition:background .15s;
+}
+.btn-ghost:hover{background:var(--c-bg3);}
+
+/* Divider */
+.divider{display:flex;align-items:center;gap:10px;margin:14px 0;}
+.div-line{flex:1;height:1px;background:var(--c-border);}
+.div-txt{font-size:12px;color:var(--c-text3);}
+
+/* Social */
+.social-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.btn-social{
+  height:42px;border:1px solid var(--c-border);border-radius:var(--c-r-md);
+  background:var(--c-bg2);font-size:13px;color:var(--c-text2);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;
+  transition:background .15s;font-family:'Nunito Sans',sans-serif;
+}
+.btn-social:hover{background:var(--c-bg3);}
+
+/* Links */
+.link-txt{font-size:13px;color:var(--c-text2);text-align:center;margin-top:14px;}
+.link-txt a{color:#1a73e8;cursor:pointer;text-decoration:none;font-weight:600;}
+.link-txt a:hover{text-decoration:underline;}
+.link-txt a.pro{color:#0891b2;}
+.forgot{font-size:12px;color:#1a73e8;text-align:right;margin-top:-8px;margin-bottom:14px;cursor:pointer;}
+
+/* Back row */
+.back-row{
+  display:flex;align-items:center;gap:6px;
+  margin-bottom:16px;cursor:pointer;
+  color:var(--c-text2);font-size:13px;font-weight:600;
+}
+.back-row:hover{color:var(--c-text1);}
+
+/* Section title */
+.sec-title{
+  font-size:12px;font-weight:700;color:var(--c-text2);
+  text-transform:uppercase;letter-spacing:.5px;
+  margin:18px 0 10px;padding-bottom:8px;
+  border-bottom:1px solid var(--c-border);
+  display:flex;align-items:center;gap:6px;
+}
+.sec-title i{font-size:15px;color:#1a73e8;}
+.sec-title.pro-t i{color:#4fc3f7;}
+
+/* Step bar */
+.step-bar{display:flex;align-items:center;margin-bottom:6px;}
+.sdot{
+  width:26px;height:26px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;flex-shrink:0;
+}
+.sdot-on{background:#1a73e8;color:#fff;}
+.sdot-on-pro{background:#4fc3f7;color:#0d2137;}
+.sdot-off{background:var(--c-bg3);border:1px solid var(--c-border);color:var(--c-text3);}
+.sline{flex:1;height:2px;background:var(--c-border);}
+.sline.done{background:#1a73e8;}
+.sline.done-pro{background:#4fc3f7;}
+.step-labels{display:grid;grid-template-columns:repeat(3,1fr);font-size:10px;color:var(--c-text3);text-align:center;margin-bottom:18px;}
+.step-labels .sl-on{color:#1a73e8;font-weight:700;}
+.step-labels .sl-on-pro{color:#4fc3f7;font-weight:700;}
+
+/* Type cards */
+.type-select{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.type-card{
+  padding:16px 10px;border:1px solid var(--c-border);
+  border-radius:var(--c-r-lg);cursor:pointer;text-align:center;
+  background:var(--c-bg2);transition:all .15s;
+}
+.type-card i{font-size:30px;color:var(--c-text3);display:block;margin-bottom:8px;}
+.tc-name{font-size:13px;font-weight:700;color:var(--c-text1);}
+.tc-sub{font-size:11px;color:var(--c-text2);margin-top:3px;line-height:1.4;}
+.type-card.pc:hover{border-color:#1a73e8;background:#eff6ff;}
+.type-card.pc:hover i{color:#1a73e8;}
+.type-card.prc:hover{border-color:#4fc3f7;background:#ecfeff;}
+.type-card.prc:hover i{color:#0891b2;}
+
+/* Check chips */
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px;}
+.check-chip{
+  display:flex;align-items:center;gap:7px;padding:9px 10px;
+  border:1px solid var(--c-border);border-radius:var(--c-r-md);
+  cursor:pointer;font-size:12px;color:var(--c-text2);
+  background:var(--c-bg2);transition:all .15s;user-select:none;
+}
+.check-chip.sel{border-color:#4fc3f7;background:#ecfeff;color:#0e7490;}
+.cbox{
+  width:15px;height:15px;border-radius:4px;
+  border:1px solid var(--c-border);display:flex;
+  align-items:center;justify-content:center;flex-shrink:0;
+}
+.check-chip.sel .cbox{background:#4fc3f7;border-color:#4fc3f7;color:#fff;}
+
+/* Atend cards */
+.atend-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.atend-card{
+  padding:12px 10px;border:1px solid var(--c-border);
+  border-radius:var(--c-r-md);cursor:pointer;text-align:center;
+  background:var(--c-bg2);transition:all .15s;
+}
+.atend-card.sel{border-color:#4fc3f7;background:#ecfeff;}
+.atend-card i{font-size:22px;color:var(--c-text3);display:block;margin-bottom:4px;}
+.atend-card.sel i{color:#0891b2;}
+.atend-card span{font-size:12px;color:var(--c-text2);font-weight:600;}
+
+/* Upload */
+.upload-zone{
+  border:1.5px dashed var(--c-border2);border-radius:var(--c-r-md);
+  padding:16px;text-align:center;cursor:pointer;
+  background:var(--c-bg2);transition:border-color .15s;margin-bottom:14px;
+}
+.upload-zone:hover{border-color:#4fc3f7;}
+.upload-zone i{font-size:26px;color:var(--c-text3);display:block;margin-bottom:5px;}
+.upload-zone p{font-size:12px;color:var(--c-text2);}
+.upload-zone small{font-size:11px;color:var(--c-text3);}
+
+/* Terms */
+.terms-row{
+  display:flex;align-items:flex-start;gap:9px;
+  margin-bottom:16px;font-size:12px;color:var(--c-text2);line-height:1.5;
+}
+.terms-row input[type=checkbox]{margin-top:2px;flex-shrink:0;accent-color:#1a73e8;}
+.terms-row a{color:#1a73e8;font-weight:600;}
+.terms-row a.pro{color:#0891b2;}
+
+/* Info box */
+.info-box{
+  background:var(--c-bg2);border-radius:var(--c-r-lg);
+  padding:14px;border:1px solid var(--c-border);
+}
+.info-box-title{font-size:12px;font-weight:700;color:var(--c-text1);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.info-box p{font-size:12px;color:var(--c-text2);line-height:1.6;}
+
+/* Taxa notice */
+.taxa-notice{
+  background:#ecfeff;border:1px solid #a5f3fc;border-radius:var(--c-r-md);
+  padding:12px;margin-bottom:14px;
+  display:flex;gap:8px;align-items:flex-start;
+  font-size:12px;color:#0e7490;line-height:1.5;
+}
+.taxa-notice i{font-size:16px;flex-shrink:0;margin-top:1px;}
+
+/* Success */
+.success-page{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;flex:1;padding:28px 20px;text-align:center;
+  background:#fff;
+}
+.success-icon{
+  width:72px;height:72px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 18px;
+}
+.si-blue{background:#eff6ff;}
+.si-pro{background:#ecfeff;}
+.success-page h2{font-size:20px;font-weight:800;color:#0f172a;font-family:'Nunito',sans-serif;margin-bottom:8px;}
+.success-page p{font-size:13px;color:#475569;line-height:1.7;margin-bottom:22px;}
+
+.analysis-steps{
+  width:100%;background:var(--c-bg2);border-radius:var(--c-r-lg);
+  padding:14px;border:1px solid var(--c-border);
+  margin-bottom:22px;text-align:left;
+}
+.as-item{
+  display:flex;align-items:center;gap:9px;
+  font-size:12px;color:var(--c-text2);padding:5px 0;
+}
+.as-item i{font-size:15px;flex-shrink:0;}
+.as-item.done{color:#059669;}
+.as-item.done i{color:#059669;}
+
+/* ═══════════════════════════════════════════
+   SPLASH
+═══════════════════════════════════════════ */
+#page-splash{background:#1a73e8;display:flex;align-items:center;justify-content:center;}
+.splash-inner{text-align:center;padding:40px 30px;}
+.splash-mark{
+  width:80px;height:80px;border-radius:24px;
+  background:rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 20px;
+}
+.splash-mark i{font-size:40px;color:#fff;}
+.splash-name{font-size:32px;font-weight:800;color:#fff;font-family:'Nunito',sans-serif;}
+.splash-name span{color:#93c5fd;}
+.splash-sub{font-size:14px;color:rgba(255,255,255,.75);margin-top:6px;}
+.loader{width:160px;height:3px;background:rgba(255,255,255,.2);border-radius:2px;margin:32px auto 0;overflow:hidden;}
+.loader-bar{width:0;height:100%;background:white;border-radius:2px;animation:load 2s ease-out forwards;}
+@keyframes load{0%{width:0}80%{width:90%}100%{width:100%}}
+
+/* ═══════════════════════════════════════════
+   APP — TOP BAR
+═══════════════════════════════════════════ */
+.app-topbar{
+  height:56px;background:#1a73e8;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;flex-shrink:0;
+}
+.app-topbar.dark-bar{background:#0a1628;}
+.topbar-logo{font-family:'Nunito',sans-serif;font-weight:800;font-size:18px;color:#fff;}
+.topbar-logo .acc{color:#93c5fd;}
+.topbar-logo .pro-acc{color:#4fc3f7;}
+.topbar-logo .pro-label{font-size:11px;font-weight:700;background:#4fc3f7;color:#0d2137;padding:2px 6px;border-radius:6px;margin-left:5px;vertical-align:1px;}
+.topbar-back{
+  background:rgba(255,255,255,.18);border:none;border-radius:10px;
+  color:#fff;padding:6px 12px;font-size:13px;font-weight:700;
+  cursor:pointer;font-family:'Nunito',sans-serif;
+}
+.topbar-icon{
+  background:rgba(255,255,255,.18);border:none;border-radius:50%;
+  width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:18px;cursor:pointer;
+}
+
+/* ═══════════════════════════════════════════
+   APP — PAGE HEADER
+═══════════════════════════════════════════ */
+.page-hdr{background:#1a73e8;padding:16px 16px 18px;flex-shrink:0;}
+.page-hdr.dark-hdr{background:#132840;}
+.ph-title{font-size:20px;font-weight:800;color:#fff;font-family:'Nunito',sans-serif;}
+.ph-sub{font-size:13px;color:rgba(255,255,255,.8);margin-top:3px;}
+
+/* ═══════════════════════════════════════════
+   APP — SCROLL
+═══════════════════════════════════════════ */
+.scroll{flex:1;overflow-y:auto;padding:14px 16px;scrollbar-width:none;}
+.scroll::-webkit-scrollbar{display:none;}
+
+/* ═══════════════════════════════════════════
+   APP — BOTTOM NAV (paciente)
+═══════════════════════════════════════════ */
+.bot-nav{
+  height:70px;background:#fff;border-top:1px solid #e2e8f0;
+  display:flex;align-items:center;justify-content:space-around;
+  flex-shrink:0;padding-bottom:6px;
+}
+.bot-nav.dark-nav{background:#0a1628;border-top-color:#1e3a5f;}
+.nav-it{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  cursor:pointer;padding:6px 14px;border-radius:14px;
+  transition:background .15s;flex:1;
+}
+.nav-it:hover{background:#f0f4ff;}
+.dark-nav .nav-it:hover{background:#1e3a5f;}
+.nv-icon{font-size:22px;color:#94a3b8;line-height:1;}
+.nv-lbl{font-size:10px;color:#94a3b8;font-weight:600;}
+.nav-it.on .nv-icon{color:#1a73e8;}
+.nav-it.on .nv-lbl{color:#1a73e8;font-weight:700;}
+.dark-nav .nav-it.on .nv-icon{color:#4fc3f7;}
+.dark-nav .nav-it.on .nv-lbl{color:#4fc3f7;}
+
+/* ═══════════════════════════════════════════
+   SECTION LABEL
+═══════════════════════════════════════════ */
+.slbl{
+  font-size:11px;font-weight:700;color:#64748b;
+  text-transform:uppercase;letter-spacing:.6px;margin:14px 0 10px;
+}
+.slbl.dk{color:#4a6fa5;}
+
+/* ═══════════════════════════════════════════
+   MAP
+═══════════════════════════════════════════ */
+.map-wrap{flex:1;position:relative;background:#dce8f7;overflow:hidden;}
+.map-svg{position:absolute;inset:0;width:100%;height:100%;}
+
+.map-pin{
+  position:absolute;cursor:pointer;
+  transform:translate(-50%,-100%);
+  display:flex;flex-direction:column;align-items:center;
+  transition:transform .2s;z-index:10;
+}
+.map-pin:hover{transform:translate(-50%,-100%) scale(1.12);}
+.pin-lbl{
+  color:#fff;padding:5px 10px;border-radius:12px;
+  font-size:11px;font-weight:700;white-space:nowrap;
+  font-family:'Nunito',sans-serif;
+  box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+.pin-tri{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;}
+
+.map-search{
+  position:absolute;top:12px;left:12px;right:12px;
+  background:#fff;border-radius:14px;
+  padding:10px 14px;display:flex;align-items:center;gap:10px;
+  box-shadow:0 2px 12px rgba(0,0,0,.15);z-index:20;
+}
+.map-search input{
+  border:none;outline:none;flex:1;font-size:14px;
+  font-family:'Nunito Sans',sans-serif;color:#333;background:transparent;
+}
+
+.loc-btn{
+  position:absolute;right:14px;bottom:248px;
+  background:#fff;border:none;width:42px;height:42px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:20px;box-shadow:0 2px 10px rgba(0,0,0,.15);
+  cursor:pointer;z-index:20;
+}
+
+.map-sheet{
+  position:absolute;bottom:0;left:0;right:0;
+  background:#fff;border-radius:22px 22px 0 0;
+  padding:10px 16px 14px;
+  box-shadow:0 -4px 20px rgba(0,0,0,.1);z-index:20;
+}
+.drag-hdl{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 12px;}
+.sheet-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.sheet-cnt{font-size:14px;font-weight:700;color:#0f172a;font-family:'Nunito',sans-serif;}
+.filter-btn{
+  background:#fff;border:1.5px solid #c7d7f5;border-radius:12px;
+  padding:6px 12px;font-size:12px;font-weight:700;color:#1a73e8;
+  cursor:pointer;font-family:'Nunito',sans-serif;
+  display:flex;align-items:center;gap:5px;
+}
+
+/* Chips */
+.chip-row{display:flex;gap:8px;overflow-x:auto;margin-bottom:12px;scrollbar-width:none;}
+.chip-row::-webkit-scrollbar{display:none;}
+.chip{
+  background:#fff;border:1.5px solid #e0e7ff;border-radius:24px;
+  padding:6px 14px;font-size:12px;font-weight:700;color:#64748b;
+  cursor:pointer;white-space:nowrap;font-family:'Nunito',sans-serif;
+  transition:all .15s;flex-shrink:0;
+}
+.chip.on{background:#1a73e8;border-color:#1a73e8;color:#fff;}
+
+/* ═══════════════════════════════════════════
+   FISIO CARD
+═══════════════════════════════════════════ */
+.fc{
+  background:#fff;border-radius:18px;padding:14px;
+  margin-bottom:12px;border:1px solid #e8edf5;
+  cursor:pointer;transition:transform .15s,box-shadow .15s;
+}
+.fc:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(26,115,232,.13);}
+.fc-hdr{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.av{
+  width:48px;height:48px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:16px;font-family:'Nunito',sans-serif;flex-shrink:0;
+}
+.av-g{background:#dcfce7;color:#16a34a;}
+.av-b{background:#dbeafe;color:#2563eb;}
+.av-p{background:#f3e8ff;color:#7c3aed;}
+.av-o{background:#fef3c7;color:#d97706;}
+.av-c{background:#ecfeff;color:#0891b2;}
+.fc-info{flex:1;}
+.fc-name{font-size:15px;font-weight:700;color:#0f172a;font-family:'Nunito',sans-serif;}
+.fc-spec{font-size:12px;color:#64748b;margin-top:2px;}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap;}
+.bdg{font-size:11px;font-weight:700;padding:3px 9px;border-radius:24px;}
+.bdg-b{background:#dbeafe;color:#1d4ed8;}
+.bdg-g{background:#dcfce7;color:#15803d;}
+.bdg-s{background:#fef3c7;color:#b45309;}
+.fc-foot{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:10px;padding-top:10px;border-top:1px solid #f1f5f9;gap:8px;
+}
+.fc-dist{font-size:12px;color:#64748b;}
+.fc-price{font-size:14px;font-weight:700;color:#1a73e8;font-family:'Nunito',sans-serif;}
+.btn-sm{
+  background:#1a73e8;color:#fff;border:none;border-radius:12px;
+  padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;
+  font-family:'Nunito',sans-serif;transition:background .15s;
+}
+.btn-sm:hover{background:#1557b0;}
+.btn-sm-out{
+  background:#fff;color:#1a73e8;border:1.5px solid #1a73e8;
+  border-radius:12px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;
+}
+
+/* ═══════════════════════════════════════════
+   DETALHE FISIO
+═══════════════════════════════════════════ */
+.detail-hero{
+  background:linear-gradient(160deg,#1a73e8,#0d47a1);
+  padding:14px 16px 22px;flex-shrink:0;
+}
+.detail-av-row{display:flex;align-items:center;gap:14px;margin-top:10px;}
+.detail-av{
+  width:66px;height:66px;border-radius:50%;background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:800;color:#1a73e8;font-family:'Nunito',sans-serif;
+}
+.d-name{font-size:19px;font-weight:800;color:#fff;font-family:'Nunito',sans-serif;}
+.d-crm{font-size:12px;color:rgba(255,255,255,.75);margin-top:2px;}
+.d-spec{font-size:13px;color:rgba(255,255,255,.9);margin-top:4px;}
+.d-rating{display:flex;align-items:center;gap:5px;margin-top:5px;}
+.d-rnum{font-size:14px;font-weight:700;color:#fff;}
+.d-rcnt{font-size:12px;color:rgba(255,255,255,.7);}
+
+.info-card{background:#fff;border-radius:16px;padding:14px;margin-bottom:12px;border:1px solid #e8edf5;}
+.ic-title{font-size:11px;font-weight:700;color:#1a73e8;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px;}
+.ic-row{display:flex;align-items:center;gap:10px;margin-bottom:7px;font-size:13px;color:#374151;}
+.ic-icon{font-size:16px;width:22px;text-align:center;flex-shrink:0;}
+.svc-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:7px 0;border-bottom:1px solid #f8fafc;font-size:13px;color:#374151;
+}
+.svc-row:last-child{border:none;}
+.svc-p{font-weight:700;color:#1a73e8;font-family:'Nunito',sans-serif;}
+
+.booking-bar{
+  background:#fff;padding:12px 16px;border-top:1px solid #e8edf5;
+  display:flex;gap:10px;align-items:center;flex-shrink:0;
+}
+.time-sel{
+  background:#f0f7ff;border:1.5px solid #bfdbfe;border-radius:12px;
+  padding:10px 14px;font-size:12px;font-weight:700;color:#1a73e8;
+  cursor:pointer;flex:1;text-align:center;font-family:'Nunito',sans-serif;
+}
+
+/* ═══════════════════════════════════════════
+   SESSÕES
+═══════════════════════════════════════════ */
+.appt{
+  background:#fff;border-radius:16px;padding:14px;
+  margin-bottom:12px;border-left:4px solid #1a73e8;
+}
+.appt.done{border-left-color:#16a34a;}
+.appt.cancel{border-left-color:#dc2626;}
+.appt-top{display:flex;justify-content:space-between;align-items:flex-start;}
+.appt-name{font-size:15px;font-weight:700;color:#0f172a;font-family:'Nunito',sans-serif;}
+.appt-type{font-size:12px;color:#64748b;margin-top:2px;}
+.appt-date{font-size:12px;font-weight:700;color:#1a73e8;text-align:right;}
+.appt-time{font-size:12px;color:#64748b;text-align:right;}
+.status-pill{
+  display:inline-block;font-size:11px;font-weight:700;
+  padding:3px 10px;border-radius:24px;margin-top:8px;
+}
+.sp-sched{background:#dbeafe;color:#1d4ed8;}
+.sp-done{background:#dcfce7;color:#15803d;}
+.sp-cancel{background:#fee2e2;color:#b91c1c;}
+
+/* ═══════════════════════════════════════════
+   PERFIL
+═══════════════════════════════════════════ */
+.profile-hdr{
+  background:#1a73e8;padding:24px 16px 28px;flex-shrink:0;
+  display:flex;align-items:center;gap:16px;
+}
+.profile-hdr.dark-phdr{background:#0a1628;}
+.p-av-big{
+  width:72px;height:72px;border-radius:50%;
+  background:rgba(255,255,255,.22);
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;font-weight:800;color:#fff;
+  font-family:'Nunito',sans-serif;border:2px solid rgba(255,255,255,.4);
+}
+.p-name{font-size:19px;font-weight:800;color:#fff;font-family:'Nunito',sans-serif;}
+.p-email{font-size:13px;color:rgba(255,255,255,.8);margin-top:3px;}
+.menu-it{
+  background:#fff;border-radius:14px;padding:14px;
+  margin-bottom:10px;display:flex;align-items:center;gap:14px;
+  cursor:pointer;border:1px solid #e8edf5;transition:background .15s;
+}
+.menu-it:hover{background:#f8faff;}
+.menu-icon-box{
+  font-size:20px;width:40px;height:40px;background:#eff6ff;
+  border-radius:12px;display:flex;align-items:center;justify-content:center;
+}
+.menu-lbl{font-size:14px;font-weight:600;color:#0f172a;flex:1;font-family:'Nunito',sans-serif;}
+.menu-arr{color:#94a3b8;font-size:18px;}
+.stat-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.stat-mini{background:#fff;border-radius:14px;padding:14px;text-align:center;border:1px solid #e8edf5;}
+.sm-num{font-size:24px;font-weight:800;font-family:'Nunito',sans-serif;}
+.sm-lbl{font-size:12px;color:#64748b;margin-top:3px;}
+
+/* ═══════════════════════════════════════════
+   PRO — PAINEL
+═══════════════════════════════════════════ */
+.online-toggle{
+  display:flex;align-items:center;gap:12px;
+  background:#132840;border-radius:16px;padding:14px;
+  margin-bottom:14px;cursor:pointer;border:1px solid #1e3a5f;
+}
+.tog-track{
+  width:48px;height:26px;border-radius:13px;background:#4fc3f7;
+  position:relative;transition:background .2s;flex-shrink:0;
+}
+.tog-track.off{background:#2d4a6a;}
+.tog-knob{
+  position:absolute;top:3px;left:3px;width:20px;height:20px;
+  background:#fff;border-radius:50%;transition:transform .2s;
+  transform:translateX(22px);
+}
+.tog-track.off .tog-knob{transform:none;}
+.tog-info{flex:1;}
+.tog-title{font-size:14px;font-weight:700;color:#fff;font-family:'Nunito',sans-serif;}
+.tog-sub{font-size:11px;color:#7fb3e8;margin-top:2px;}
+
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.stat-card{background:#132840;border-radius:14px;padding:12px;border:1px solid #1e3a5f;}
+.stat-n{font-size:22px;font-weight:800;font-family:'Nunito',sans-serif;}
+.stat-n.blue{color:#4fc3f7;}
+.stat-n.green{color:#4caf82;}
+.stat-n.amber{color:#fbbf24;}
+.stat-l{font-size:11px;color:#7fb3e8;margin-top:2px;}
+
+.demand-card{
+  background:#132840;border-radius:14px;padding:12px;
+  margin-bottom:10px;border:1px solid #1e3a5f;cursor:pointer;
+  transition:border-color .15s;
+}
+.demand-card.urgent{border-left:4px solid #4fc3f7;}
+.demand-card:hover{border-color:#4fc3f7;}
+.d-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
+.d-patient{font-size:14px;font-weight:700;color:#fff;font-family:'Nunito',sans-serif;}
+.d-type{font-size:11px;color:#7fb3e8;margin-top:2px;}
+.d-det{font-size:12px;color:#7fb3e8;margin-bottom:8px;}
+.urg-badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;background:rgba(79,195,247,.15);color:#4fc3f7;}
+.d-actions{display:flex;gap:7px;}
+.btn-accept{
+  background:#4fc3f7;color:#0d2137;border:none;border-radius:10px;
+  padding:8px 0;font-size:12px;font-weight:700;cursor:pointer;
+  font-family:'Nunito',sans-serif;flex:1;
+}
+.btn-refuse{
+  background:rgba(255,255,255,.08);color:#ef4444;border:1px solid rgba(239,68,68,.3);
+  border-radius:10px;padding:8px 0;font-size:12px;font-weight:600;cursor:pointer;
+  font-family:'Nunito',sans-serif;flex:1;
+}
+</style>
+</head>
+<body>
+
+<div id="app">
+
+  <div id="page-splash" class="page active">
+    <div class="splash-inner">
+      <div class="splash-mark"><i class="ti ti-activity"></i></div>
+      <h1 class="splash-name">my<span>Fisio</span></h1>
+      <p class="splash-sub">Fisioterapia onde você estiver</p>
+      <div class="loader"><div class="loader-bar"></div></div>
+    </div>
+  </div>
+
+  <div id="page-login" class="page">
+    <div class="sbar sbar-blue">
+      <div class="time">09:41</div>
+    </div>
+    <div class="hero-blue">
+      <div class="logo-mark"><i class="ti ti-activity"></i></div>
+      <h2 class="app-name-hero">my<span>Fisio</span></h2>
+      <p class="app-sub-hero">Acesse sua conta para continuar</p>
+    </div>
+    <div class="form-area">
+      <div class="field">
+        <label>E-mail ou Celular</label>
+        <div class="finput-wrap">
+          <input type="text" class="finput" value="paciente@email.com" id="login-user">
+          <i class="ti ti-mail fi-icon"></i>
+        </div>
+      </div>
+      <div class="field">
+        <label>Senha</label>
+        <div class="finput-wrap">
+          <input type="password" class="finput" value="123456" id="login-pass">
+          <i class="ti ti-lock fi-icon"></i>
+        </div>
+      </div>
+      <div class="forgot">Esqueceu a senha?</div>
+      <button class="btn-main btn-blue" onclick="doLogin()">Entrar</button>
+      
+      <div class="divider">
+        <div class="div-line"></div><div class="div-txt">ou conecte com</div><div class="div-line"></div>
+      </div>
+      <div class="social-row">
+        <button class="btn-social"><i class="ti ti-brand-google" style="color:#ea4335"></i>Google</button>
+        <button class="btn-social"><i class="ti ti-brand-apple" style="color:#000"></i>Apple</button>
+      </div>
+      <div class="link-txt">Não tem conta? <a onclick="go('register-type')">Cadastre-se</a></div>
+    </div>
+  </div>
+
+  <div id="page-register-type" class="page">
+    <div class="sbar sbar-blue"><div class="time">09:41</div></div>
+    <div class="hero-blue hero-sm">
+      <h2 class="app-name-hero">Criar Conta</h2>
+      <p class="app-sub-hero">Escolha o tipo de perfil ideal para você</p>
+    </div>
+    <div class="form-area">
+      <div class="back-row" onclick="go('login')"><i class="ti ti-arrow-left"></i> Voltar para o login</div>
+      <div class="type-select">
+        <div class="type-card pc" onclick="startReg('paciente')">
+          <i class="ti ti-user"></i>
+          <div class="tc-name">Paciente</div>
+          <div class="tc-sub">Quero buscar fisioterapeutas e agendar sessões</div>
+        </div>
+        <div class="type-card prc" onclick="startReg('pro')">
+          <i class="ti ti-stethoscope"></i>
+          <div class="tc-name">Fisioterapeuta</div>
+          <div class="tc-sub">Quero atender pacientes e gerenciar minha agenda</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="page-reg-paciente" class="page">
+    <div class="sbar sbar-blue"><div class="time">09:41</div></div>
+    <div class="hero-blue hero-sm">
+      <h2 class="app-name-hero">Cadastro <span>Paciente</span></h2>
+    </div>
+    <div class="form-area">
+      <div class="back-row" onclick="go('register-type')"><i class="ti ti-arrow-left"></i> Voltar</div>
+      <div class="field"><label>Nome Completo</label><input type="text" class="finput" placeholder="Ex: João Silva"></div>
+      <div class="field"><label>WhatsApp / Celular</label><input type="text" class="finput" placeholder="(11) 99999-0000"></div>
+      <div class="field"><label>E-mail</label><input type="email" class="finput" placeholder="seu@email.com"></div>
+      <div class="field"><label>Criar Senha</label><input type="password" class="finput" placeholder="Mínimo 6 dígitos"></div>
+      <div class="terms-row">
+        <input type="checkbox" id="t-pac">
+        <label for="t-pac">Li e aceito os <a href="#">Termos de Uso</a> e a <a href="#">Política de Privacidade</a> do myFisio.</label>
+      </div>
+      <button class="btn-main btn-blue" onclick="go('success-paciente')">Concluir Cadastro</button>
+    </div>
+  </div>
+
+  <div id="page-reg-pro-1" class="page">
+    <div class="sbar sbar-dark"><div class="time" style="color:#7fb3e8">09:41</div></div>
+    <div class="hero-dark hero-sm">
+      <h2 class="app-name-hero">Seja um <span>Pro</span></h2>
+    </div>
+    <div class="form-area">
+      <div class="back-row" onclick="go('register-type')"><i class="ti ti-arrow-left"></i> Voltar</div>
+      <div class="step-bar">
+        <div class="sdot sdot-on-pro">1</div><div class="sline done-pro"></div><div class="sdot sdot-off">2</div><div class="sline"></div><div class="sdot sdot-off">3</div>
+      </div>
+      <div class="step-labels">
+        <div class="sl-on-pro">Dados de Acesso</div><div>Atendimento</div><div>Documentos</div>
+      </div>
+      <div class="sec-title pro-t"><i class="ti ti-user-circle"></i> Informações básicas</div>
+      <div class="field"><label>Nome Completo</label><input type="text" class="finput" placeholder="Nome de registro"></div>
+      <div class="field"><label>E-mail Profissional</label><input type="email" class="finput" placeholder="seu.nome@fisiopro.com"></div>
+      <div class="field-row">
+        <div class="field"><label>CREFITO</label><input type="text" class="finput" placeholder="Ex: 12345-F"></div>
+        <div class="field">
+          <label>Região / UF</label>
+          <select class="fselect">
+            <option>CREFITO 3 (SP)</option><option>CREFITO 2 (RJ)</option><option>CREFITO 4 (MG)</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-main btn-pro-c" onclick="go('reg-pro-2')">Avançar <i class="ti ti-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <div id="page-reg-pro-2" class="page">
+    <div class="sbar sbar-dark"><div class="time" style="color:#7fb3e8">09:41</div></div>
+    <div class="hero-dark hero-sm"><h2 class="app-name-hero">Seja um <span>Pro</span></h2></div>
+    <div class="form-area">
+      <div class="back-row" onclick="go('reg-pro-1')"><i class="ti ti-arrow-left"></i> Voltar</div>
+      <div class="step-bar">
+        <div class="sdot sdot-on-pro">1</div><div class="sline done-pro"></div><div class="sdot sdot-on-pro">2</div><div class="sline done-pro"></div><div class="sdot sdot-off">3</div>
+      </div>
+      <div class="step-labels">
+        <div>Dados de Acesso</div><div class="sl-on-pro">Atendimento</div><div>Documentos</div>
+      </div>
+      <div class="sec-title pro-t"><i class="ti ti-briefcase"></i> Especialidades principais</div>
+      <div class="check-grid">
+        <div class="check-chip sel" onclick="toggleChip(this)"><div class="cbox"><i class="ti ti-check"></i></div>Ortopedia</div>
+        <div class="check-chip" onclick="toggleChip(this)"><div class="cbox"><i class="ti ti-check"></i></div>Neurologia</div>
+        <div class="check-chip" onclick="toggleChip(this)"><div class="cbox"><i class="ti ti-check"></i></div>Respiratória</div>
+        <div class="check-chip sel" onclick="toggleChip(this)"><div class="cbox"><i class="ti ti-check"></i></div>Desportiva</div>
+        <div class="check-chip" onclick="toggleChip(this)"><div class="cbox"><i class="ti ti-check"></i></div>Geriatria</div>
+        <div class="check-chip" onclick="toggleChip(this)"><div class="cbox"><i class="ti ti-check"></i></div>Pediatria</div>
+      </div>
+      <div class="sec-title pro-t"><i class="ti ti-map-pin"></i> Formato de Atendimento</div>
+      <div class="atend-row">
+        <div class="atend-card sel" onclick="toggleAtend(this)"><i class="ti ti-home"></i><span>Domiciliar</span></div>
+        <div class="atend-card" onclick="toggleAtend(this)"><i class="ti ti-building-hospital"></i><span>Consultório</span></div>
+      </div>
+      <button class="btn-main btn-pro-c" onclick="go('reg-pro-3')">Avançar <i class="ti ti-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <div id="page-reg-pro-3" class="page">
+    <div class="sbar sbar-dark"><div class="time" style="color:#7fb3e8">09:41</div></div>
+    <div class="hero-dark hero-sm"><h2 class="app-name-hero">Seja um <span>Pro</span></h2></div>
+    <div class="form-area">
+      <div class="back-row" onclick="go('reg-pro-2')"><i class="ti ti-arrow-left"></i> Voltar</div>
+      <div class="step-bar">
+        <div class="sdot sdot-on-pro">1</div><div class="sline done-pro"></div><div class="sdot sdot-on-pro">2</div><div class="sline done-pro"></div><div class="sdot sdot-on-pro">3</div>
+      </div>
+      <div class="step-labels">
+        <div>Dados de Acesso</div><div>Atendimento</div><div class="sl-on-pro">Documentos</div>
+      </div>
+      <div class="sec-title pro-t"><i class="ti ti-file-text"></i> Validação Profissional</div>
+      <div class="upload-zone">
+        <i class="ti ti-id"></i><p>Frente da Cédula CREFITO</p><small>PDF, JPG ou PNG de até 5MB</small>
+      </div>
+      <div class="upload-zone">
+        <i class="ti ti-id-badge"></i><p>Verso da Cédula CREFITO</p><small>PDF, JPG ou PNG de até 5MB</small>
+      </div>
+      <div class="taxa-notice">
+        <i class="ti ti-info-circle"></i>
+        <div>Sem taxa de adesão ou mensalidade. Cobramos apenas uma comissão de 12% por atendimento realizado na plataforma.</div>
+      </div>
+      <div class="terms-row">
+        <input type="checkbox" id="t-pro">
+        <label for="t-pro">Li e concordo com os <a class="pro" href="#">Termos de Parceria</a>.</label>
+      </div>
+      <button class="btn-main btn-pro-c" onclick="go('success-pro')">Finalizar Credenciamento</button>
+    </div>
+  </div>
+
+  <div id="page-success-paciente" class="page">
+    <div class="success-page">
+      <div class="success-icon si-blue"><i class="ti ti-circle-check" style="font-size:44px;color:#1a73e8"></i></div>
+      <h2>Conta Criada!</h2>
+      <p>Seu perfil de paciente foi configurado com sucesso. Agora você já pode buscar especialistas perto de você.</p>
+      <button class="btn-main btn-blue" onclick="go('login')">Acessar Conta</button>
+    </div>
+  </div>
+
+  <div id="page-success-pro" class="page">
+    <div class="success-page">
+      <div class="success-icon si-pro"><i class="ti ti-circle-check" style="font-size:44px;color:#0891b2"></i></div>
+      <h2>Cadastro Enviado!</h2>
+      <p>Sua documentação foi encaminhada para o setor de compliance. O prazo de análise regulatória é de até 24 horas úteis.</p>
+      <div class="analysis-steps">
+        <div class="as-item done"><i class="ti ti-circle-check-filled"></i> Envio dos dados de cadastro</div>
+        <div class="as-item done"><i class="ti ti-circle-check-filled"></i> Upload do CREFITO</div>
+        <div class="as-item"><i class="ti ti-loader animate-spin" style="color:#0891b2"></i> Verificação de regularidade (Em andamento)</div>
+      </div>
+      <button class="btn-main btn-blue" onclick="forceLoginPro()">Entrar no Painel (Simulação)</button>
+    </div>
+  </div>
+
+  <div id="page-app-explore" class="page">
+    <div class="sbar sbar-blue"><div class="time">09:41</div></div>
+    <div class="app-topbar">
+      <div class="topbar-logo">my<span class="acc">Fisio</span></div>
+      <button class="topbar-icon" onclick="go('app-profile')"><i class="ti ti-user"></i></button>
+    </div>
+    <div class="map-wrap">
+      <div class="map-search">
+        <i class="ti ti-search" style="color:#94a3b8"></i>
+        <input type="text" value="Av. Paulista, 1000 - São Paulo">
+      </div>
+      <div class="map-pin" style="top:40%;left:35%" onclick="selectFisio(0)">
+        <div class="pin-lbl av-g" style="background:#16a34a">Dr. Lucas R. • R$140</div>
+        <div class="pin-tri" style="border-top:8px solid #16a34a"></div>
+      </div>
+      <div class="map-pin" style="top:58%;left:68%" onclick="selectFisio(1)">
+        <div class="pin-lbl av-b" style="background:#2563eb">Dra. Mariana S. • R$160</div>
+        <div class="pin-tri" style="border-top:8px solid #2563eb"></div>
+      </div>
+      <button class="loc-btn"><i class="ti ti-current-location" style="color:#1a73e8"></i></button>
+      
+      <div class="map-sheet">
+        <div class="drag-hdl"></div>
+        <div class="sheet-hdr">
+          <div class="sheet-cnt">Especialistas Domiciliares</div>
+          <button class="filter-btn"><i class="ti ti-adjustments-horizontal"></i> Filtros</button>
+        </div>
+        <div class="chip-row">
+          <div class="chip on">Todos</div><div class="chip">Ortopedia</div><div class="chip">Desportiva</div><div class="chip">Geriatria</div>
+        </div>
+        <div id="fisio-list" style="max-height:190px;overflow-y:auto;">
+          </div>
+      </div>
+    </div>
+    <div class="bot-nav">
+      <div class="nav-it on"><i class="ti ti-map nv-icon"></i><div class="nv-lbl">Explorar</div></div>
+      <div class="nav-it" onclick="go('app-sessions')"><i class="ti ti-calendar-event nv-icon"></i><div class="nv-lbl">Sessões</div></div>
+      <div class="nav-it" onclick="go('app-profile')"><i class="ti ti-user nv-icon"></i><div class="nv-lbl">Perfil</div></div>
+    </div>
+  </div>
+
+  <div id="page-detail" class="page">
+    <div class="sbar sbar-blue"><div class="time">09:41</div></div>
+    <div class="app-topbar">
+      <button class="topbar-back" onclick="go('app-explore')"><i class="ti ti-chevron-left"></i> Voltar</button>
+      <div class="topbar-logo">Especialista</div>
+    </div>
+    <div class="detail-hero" id="detail-hero-content">
+      </div>
+    <div class="scroll">
+      <div class="info-card">
+        <div class="ic-title">Sobre o Profissional</div>
+        <p style="font-size:13px;color:#475569;line-height:1.5;" id="detail-bio"></p>
+      </div>
+      <div class="info-card">
+        <div class="ic-title">Valores por Serviço</div>
+        <div class="svc-row"><div>🏠 Atendimento Domiciliar</div><div class="svc-p" id="detail-p1"></div></div>
+        <div class="svc-row"><div>🏥 Atendimento em Consultório</div><div class="svc-p" id="detail-p2"></div></div>
+      </div>
+      <div class="info-card">
+        <div class="ic-title">Formação Acadêmica</div>
+        <div class="ic-row"><i class="ti ti-school ic-icon" style="color:#64748b"></i><div style="font-size:13px;">Graduação em Fisioterapia — USP</div></div>
+        <div class="ic-row"><i class="ti ti-award ic-icon" style="color:#64748b"></i><div style="font-size:13px;">Especialização em Fisioterapia Traumato-Ortopédica</div></div>
+      </div>
+    </div>
+    <div class="booking-bar">
+      <div class="time-sel"><i class="ti ti-clock"></i> Hoje às 16:00</div>
+      <button class="btn-main btn-blue" style="flex:1.4;height:42px;font-size:13px;" onclick="confirmBooking()">Agendar Sessão</button>
+    </div>
+  </div>
+
+  <div id="page-app-sessions" class="page">
+    <div class="sbar sbar-blue"><div class="time">09:41</div></div>
+    <div class="page-hdr">
+      <h2 class="ph-title">Minhas Sessões</h2>
+      <p class="ph-sub">Histórico e agendamentos confirmados</p>
+    </div>
+    <div class="scroll" id="patient-sessions-list">
+      </div>
+    <div class="bot-nav">
+      <div class="nav-it" onclick="go('app-explore')"><i class="ti ti-map nv-icon"></i><div class="nv-lbl">Explorar</div></div>
+      <div class="nav-it on"><i class="ti ti-calendar-event nv-icon"></i><div class="nv-lbl">Sessões</div></div>
+      <div class="nav-it" onclick="go('app-profile')"><i class="ti ti-user nv-icon"></i><div class="nv-lbl">Perfil</div></div>
+    </div>
+  </div>
+
+  <div id="page-app-profile" class="page">
+    <div class="sbar sbar-blue"><div class="time">09:41</div></div>
+    <div class="profile-hdr">
+      <div class="p-av-big">JS</div>
+      <div>
+        <h3 class="p-name" id="prof-name">João Silva</h3>
+        <p class="p-email" id="prof-mail">paciente@email.com</p>
+      </div>
+    </div>
+    <div class="scroll">
+      <div class="menu-it"><div class="menu-icon-box"><i class="ti ti-user-edit" style="color:#1a73e8"></i></div><div class="menu-lbl">Dados Pessoais</div><i class="ti ti-chevron-right class menu-arr"></i></div>
+      <div class="menu-it"><div class="menu-icon-box"><i class="ti ti-credit-card" style="color:#1a73e8"></i></div><div class="menu-lbl">Formas de Pagamento</div><i class="ti ti-chevron-right class menu-arr"></i></div>
+      <div class="menu-it"><div class="menu-icon-box"><i class="ti ti-map-pin" style="color:#1a73e8"></i></div><div class="menu-lbl">Endereços Salvos</div><i class="ti ti-chevron-right class menu-arr"></i></div>
+      <div class="menu-it" onclick="logout()"><div class="menu-icon-box"><i class="ti ti-logout" style="color:#dc2626"></i></div><div class="menu-lbl" style="color:#dc2626">Sair do Aplicativo</div></div>
+    </div>
+    <div class="bot-nav">
+      <div class="nav-it" onclick="go('app-explore')"><i class="ti ti-map nv-icon"></i><div class="nv-lbl">Explorar</div></div>
+      <div class="nav-it" onclick="go('app-sessions')"><i class="ti ti-calendar-event nv-icon"></i><div class="nv-lbl">Sessões</div></div>
+      <div class="nav-it on"><i class="ti ti-user nv-icon"></i><div class="nv-lbl">Perfil</div></div>
+    </div>
+  </div>
+
+  <div id="page-pro-dashboard" class="page">
+    <div class="sbar sbar-dark"><div class="time" style="color:#7fb3e8">09:41</div></div>
+    <div class="app-topbar dark-bar">
+      <div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div>
+      <button class="topbar-icon" style="background:rgba(255,255,255,.08)" onclick="logout()"><i class="ti ti-logout" style="color:#7fb3e8"></i></button>
+    </div>
+    <div class="page-hdr dark-hdr">
+      <div class="profile-hdr dark-phdr" style="padding:0;background:transparent;">
+        <div class="p-av-big" style="background:#ecfeff;color:#0891b2;border-color:#4fc3f7">LR</div>
+        <div>
+          <h3 class="p-name">Dr. Lucas Ribeiro</h3>
+          <p class="p-email" style="color:#7fb3e8">CREFITO 3: 24891-F</p>
+        </div>
+      </div>
+    </div>
+    <div class="scroll">
+      <div class="online-toggle" onclick="toggleOnline()">
+        <div class="tog-track" id="pro-status-track"><div class="tog-knob"></div></div>
+        <div class="tog-info">
+          <div class="tog-title" id="pro-status-title">Disponível no Mapa</div>
+          <div class="tog-sub" id="pro-status-sub">Pacientes podem solicitar agora</div>
+        </div>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-n blue" id="pro-stat-sessions">2</div><div class="stat-l">Sessões Hoje</div></div>
+        <div class="stat-card"><div class="stat-n green">R$ 280</div><div class="stat-l">Saldo a Receber</div></div>
+      </div>
+      
+      <div class="slbl dk">Solicitações de Agendamento</div>
+      <div id="pro-demand-area">
+        </div>
+
+      <div class="slbl dk" style="margin-top:20px;">Agenda de Hoje</div>
+      <div id="pro-agenda-area">
+        </div>
+    </div>
+  </div>
+
+  <div id="page-booking-success" class="page">
+    <div class="success-page">
+      <div class="success-icon si-blue"><i class="ti ti-circle-check" style="font-size:44px;color:#1a73e8"></i></div>
+      <h2>Solicitação Enviada!</h2>
+      <p>O agendamento foi encaminhado ao fisioterapeuta. Você será notificado assim que o profissional confirmar a solicitação.</p>
+      <button class="btn-main btn-blue" onclick="go('app-sessions')">Ver Minhas Sessões</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Mock Data Store
+var FISIOS = [
+  {id:'f0',name:'Dr. Lucas Ribeiro',spec:'Traumato-Ortopedia / Desportiva',dist:'1.2 km',priceDomicilio:140,priceConsultorio:120,avClass:'av-g',initials:'LR',rating:'4.9',reviews:'42 avaliações',bio:'Especialista em reabilitação de atletas e disfunções musculoesqueléticas com mais de 6 anos de experiência clínica.'},
+  {id:'f1',name:'Dra. Mariana Souza',spec:'Neurologia / Geriatria',dist:'2.8 km',priceDomicilio:160,priceConsultorio:130,avClass:'av-b',initials:'MS',rating:'5.0',reviews:'68 avaliações',bio:'Dedicada à fisioterapia neurofuncional e atendimento humanizado para idosos, focando na recuperação da autonomia.'}
+];
+
+var SESSIONS = [
+  {id:'s1',patient_name:'João Silva',fisio_name:'Dra. Mariana Souza',service_type:'domiciliar',scheduled_at:new Date().setHours(10,0,0,0),status:'confirmed',price:160},
+  {id:'s2',patient_name:'João Silva',fisio_name:'Dr. Lucas Ribeiro',service_type:'consultorio',scheduled_at:new Date().setHours(14,30,0,0),status:'confirmed',price:120},
+  {id:'s3',patient_name:'João Silva',fisio_name:'Dr. Lucas Ribeiro',service_type:'domiciliar',scheduled_at:new Date().getTime()-(24*60*60*1000),status:'completed',price:140}
+];
+
+var currentSelectedFisioId = 'f0';
+var currentUserProfile = {name:'João Silva',email:'paciente@email.com',role:'paciente'};
+
+// Splash screen delay simulation
+setTimeout(function(){
+  go('login');
+}, 1800);
+
+// Basic Navigation Core
+function go(pageId){
+  var pages = document.querySelectorAll('.page');
+  pages.forEach(function(p){ p.classList.remove('active'); });
+  var activePage = document.getElementById('page-'+pageId);
+  if(activePage){
+    activePage.classList.add('active');
+  }
+  
+  // Hook layouts dynamically when entering views
+  if(pageId === 'app-explore') { renderExploreFisios(); }
+  if(pageId === 'app-sessions') { renderPatientSessions(); }
+  if(pageId === 'pro-dashboard') { loadProDashboard(); }
+}
+
+function goBackExplore(){ go('app-explore'); }
+
+function startReg(type){
+  if(type==='paciente') go('reg-paciente');
+  else go('pro-1');
+}
+
+function toggleChip(el){ el.classList.toggle('sel'); }
+function toggleAtend(el){
+  var sibling = el.parentNode.querySelectorAll('.atend-card');
+  sibling.forEach(function(c){c.classList.remove('sel')});
+  el.classList.add('sel');
+}
+
+// Auth simulation
+function doLogin(){
+  var user = document.getElementById('login-user').value.trim();
+  if(user.includes('pro')){
+    currentUserProfile = {name:'Dr. Lucas Ribeiro',email:user,role:'pro'};
+    go('pro-dashboard');
+  } else {
+    currentUserProfile = {name:'João Silva',email:user,role:'paciente'};
+    document.getElementById('prof-name').innerText = currentUserProfile.name;
+    document.getElementById('prof-mail').innerText = currentUserProfile.email;
+    go('app-explore');
+  }
+}
+
+function forceLoginPro(){
+  currentUserProfile = {name:'Dr. Lucas Ribeiro',email:'lucas.pro@myfisio.com',role:'pro'};
+  go('pro-dashboard');
+}
+
+function logout(){ go('login'); }
+
+// Render Specialists
+function renderExploreFisios(){
+  var container = document.getElementById('fisio-list');
+  if(!container) return;
+  container.innerHTML = FISIOS.map(function(f,idx){
+    return '<div class="fc" onclick="selectFisio('+idx+')">'
+      +'<div class="fc-hdr">'
+        +'<div class="av '+f.avClass+'">'+f.initials+'</div>'
+        +'<div class="fc-info">'
+          +'<div class="fc-name">'+f.name+'</div>'
+          +'<div class="fc-spec">'+f.spec+'</div>'
+        +'</div>'
+      +'</div>'
+      +'<div class="badge-row">'
+        +'<span class="bdg bdg-b">⭐ '+f.rating+'</span>'
+        +'<span class="bdg bdg-g">✓ CREFITO Ativo</span>'
+      +'</div>'
+      +'<div class="fc-foot">'
+        +'<div class="fc-dist"><i class="ti ti-map-pin"></i> '+f.dist+'</div>'
+        +'<div class="fc-price">R$ '+f.priceDomicilio+' <span style="font-size:10px;font-weight:400;color:#64748b">/sessão</span></div>'
+        +'<button class="btn-sm">Ver Perfil</button>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+}
+
+// Select Specialist for Detail Page
+function selectFisio(index){
+  var f = FISIOS[index];
+  if(!f) return;
+  currentSelectedFisioId = f.id;
+  
+  var heroHtml = '<div class="detail-av-row">'
+    +'<div class="detail-av">'+f.initials+'</div>'
+    +'<div>'
+      +'<h3 class="d-name">'+f.name+'</h3>'
+      +'<div class="d-crm">Regulamentado • '+f.spec.split('/')[0]+'</div>'
+      +'<div class="d-rating"><i class="ti ti-star-filled" style="color:#fbbf24;font-size:14px"></i><span class="d-rnum">'+f.rating+'</span><span class="d-rcnt">('+f.reviews+')</span></div>'
+    +'</div>'
+  +'</div>';
+  
+  document.getElementById('detail-hero-content').innerHTML = heroHtml;
+  document.getElementById('detail-bio').innerText = f.bio;
+  document.getElementById('detail-p1').innerText = 'R$ ' + f.priceDomicilio;
+  document.getElementById('detail-p2').innerText = 'R$ ' + f.priceConsultorio;
+  
+  go('detail');
+}
+
+// CORREÇÃO: Função acionada pelo botão do paciente para criar uma solicitação pendente
+function confirmBooking() {
+  var targetFisio = FISIOS.find(function(f){ return f.id === currentSelectedFisioId; }) || FISIOS[0];
+  
+  // Empurra um novo agendamento para o array de sessões globais
+  var newAppt = {
+    id: 's_' + Date.now(),
+    patient_name: 'João Silva',
+    fisio_name: targetFisio.name,
+    service_type: 'domiciliar',
+    scheduled_at: new Date().setHours(new Date().getHours() + 2), // Próximas horas
+    status: 'pending',
+    price: targetFisio.priceDomicilio
+  };
+  
+  SESSIONS.push(newAppt);
+  go('booking-success');
+}
+
+// Render Patient Sessions View
+function renderPatientSessions(){
+  var container = document.getElementById('patient-sessions-list');
+  if(!container) return;
+  
+  // Filtra as sessões referentes ao paciente João Silva
+  var patientData = SESSIONS.filter(function(s){ return s.patient_name === 'João Silva'; });
+  
+  if(!patientData.length){
+    container.innerHTML = '<div style="text-align:center;color:#64748b;padding:40px 0;">Nenhum agendamento encontrado.</div>';
+    return;
+  }
+  
+  container.innerHTML = patientData.map(function(s){
+    var d = new Date(s.scheduled_at);
+    var dateStr = d.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'});
+    var timeStr = d.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+    
+    var statusLbl = 'Agendado';
+    var statusClass = 'sp-sched';
+    if(s.status === 'completed') { statusLbl = 'Concluído'; statusClass = 'sp-done'; }
+    if(s.status === 'cancelled') { statusLbl = 'Cancelado'; statusClass = 'sp-cancel'; }
+    if(s.status === 'pending') { statusLbl = 'Aguardando Confirmação'; statusClass = 'sp-sched'; }
+    
+    return '<div class="appt">'
+      +'<div class="appt-top">'
+        +'<div>'
+          +'<div class="appt-name">'+s.fisio_name+'</div>'
+          +'<div class="appt-type">'+(s.service_type==='domiciliar'?'🏠 Atendimento Domiciliar':'🏥 Consultório')+'</div>'
+        +'</div>'
+        +'<div>'
+          +'<div class="appt-date">'+dateStr+'</div>'
+          +'<div class="appt-time">'+timeStr+'</div>'
+        +'</div>'
+      +'</div>'
+      +'<div style="display:flex;justify-content:between;align-items:center;margin-top:5px;">'
+        +'<span class="status-pill '+statusClass+'">'+statusLbl+'</span>'
+        +'<span style="font-size:13px;font-weight:700;color:#1a73e8;margin-left:auto;">R$ '+s.price+'</span>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+}
+
+// PRO Dashboard Functionalities
+var proOnline = true;
+function toggleOnline(){
+  proOnline = !proOnline;
+  var track = document.getElementById('pro-status-track');
+  var title = document.getElementById('pro-status-title');
+  var sub = document.getElementById('pro-status-sub');
+  if(proOnline){
+    track.classList.remove('off');
+    title.innerText = 'Disponível no Mapa';
+    sub.innerText = 'Pacientes podem solicitar agora';
+  } else {
+    track.classList.add('off');
+    title.innerText = 'Invisível';
+    sub.innerText = 'Ficando offline para novas chamadas';
+  }
+}
+
+// CORREÇÃO: Função global para que o fisioterapeuta possa Confirmar ou Recusar solicitações
+function changeStatus(id, newStatus){
+  var session = SESSIONS.find(function(s){ return s.id == id; });
+  if(session){
+    session.status = newStatus;
+  }
+  loadProDashboard(); // Recarrega os painéis e contadores da área Pro
+}
+
+function loadProDashboard(){
+  var demandArea = document.getElementById('pro-demand-area');
+  var agendaArea = document.getElementById('pro-agenda-area');
+  
+  // Filtra as sessões com status 'pending' destinadas ao Dr. Lucas Ribeiro
+  var pending = SESSIONS.filter(function(s){ return s.status === 'pending' && s.fisio_name.includes('Lucas'); });
+  // Filtra agendamentos confirmados para o dia de hoje
+  var confirmed = SESSIONS.filter(function(s){ return s.status === 'confirmed' && s.fisio_name.includes('Lucas'); });
+  
+  document.getElementById('pro-stat-sessions').innerText = confirmed.length;
+  
+  if(demandArea){
+    if(!pending.length){
+      demandArea.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Nenhum pedido pendente.</div>';
+    } else {
+      demandArea.innerHTML = pending.map(function(a){
+        var d  = new Date(a.scheduled_at);
+        var ds = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
+        var ts = d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+        return '<div class="demand-card urgent">'
+          +'<div class="d-top"><div>'
+            +'<div class="d-patient">'+a.patient_name+'</div>'
+            +'<div class="d-type">'+(a.service_type==='domiciliar'?'🏠 Domiciliar':'🏥 Consultório')+' — '+ds+' às '+ts+'</div>'
+          +'</div><span class="urg-badge">⚡ Novo</span></div>'
+          +'<div class="d-det">Valor da sessão: R$ '+a.price+'</div>'
+          +'<div class="d-actions">'
+            +'<button class="btn-accept" onclick="changeStatus(\''+a.id+'\',\'confirmed\')">✓ Confirmar</button>'
+            +'<button class="btn-refuse" onclick="changeStatus(\''+a.id+'\',\'cancelled\')">✕ Recusar</button>'
+          +'</div></div>';
+      }).join('');
+    }
+  }
+  
+  if(agendaArea){
+    if(!confirmed.length){
+      agendaArea.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Nenhum atendimento confirmado para hoje.</div>';
+    } else {
+      agendaArea.innerHTML = confirmed.map(function(c){
+        var d = new Date(c.scheduled_at);
+        var ts = d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+        return '<div class="demand-card" style="border-left:4px solid #4caf82;">'
+          +'<div class="d-top"><div>'
+            +'<div class="d-patient" style="color:#fff">'+c.patient_name+'</div>'
+            +'<div class="d-type" style="color:#7fb3e8">Horário: '+ts+' • '+(c.service_type==='domiciliar'?'🏠 Domicílio':'🏥 Clínica')+'</div>'
+          +'</div>'
+          +'<span class="urg-badge" style="background:rgba(76,175,130,.15);color:#4caf82;">✓ Confirmado</span>'
+          +'</div></div>';
+      }).join('');
+    }
+  }
+}
+</script>
+</body>
+</html>
