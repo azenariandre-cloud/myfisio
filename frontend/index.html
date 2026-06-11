@@ -13,587 +13,2975 @@
 /* ═══════════════════════════════════════════
    RESET & BASE
 ═══════════════════════════════════════════ */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}\nhtml,body{\n  height:100%;min-height:100vh;\n  background:#c9d8ee;\n  font-family:'Nunito Sans',sans-serif;\n  display:flex;align-items:center;justify-content:center;\n}\n\n/* ═══════════════════════════════════════════\n   LAYOUT CONTAINER (MOBILE EMULATOR)\n═══════════════════════════════════════════ */\n.phone-container {\n  position:relative;\n  width:100%;\n  max-width:420px;\n  height:100%;\n  max-height:850px;\n  background:#f4f7fc;\n  overflow:hidden;\n  display:flex;\n  flex-direction:column;\n  box-shadow:0 15px 35px rgba(0,0,0,0.1);\n}\n@media(min-width:421px){\n  .phone-container{border-radius:32px;}\n}\n\n/* TOP BAR / HEADER */\n.main-header {\n  background:#ffffff;\n  padding:16px 20px 12px 20px;\n  display:flex;\n  align-items:center;\n  justify-content:space-between;\n  border-bottom:1px solid #e2e8f0;\n  z-index:10;\n}\n.logo-area {\n  display:flex;\n  align-items:center;\n  gap:8px;\n}\n.logo-icon {\n  width:32px;\n  height:32px;\n  background:linear-gradient(135deg, #1a73e8, #1155cc);\n  border-radius:8px;\n  display:flex;\n  align-items:center;\n  justify-content:center;\n  color:#fff;\n  font-weight:bold;\n}\n.logo-text {\n  font-family:'Nunito', sans-serif;\n  font-weight:800;\n  font-size:20px;\n  color:#1a73e8;\n}\n.profile-badge {\n  background:#e8f0fe;\n  color:#1a73e8;\n  padding:4px 10px;\n  border-radius:12px;\n  font-size:12px;\n  font-weight:700;\n  cursor:pointer;\n  transition:0.2s;\n}\n.profile-badge:hover{background:#d2e3fc;}\n\n/* SCREEN VIEWS */\n.screen-content {\n  flex:1;\n  overflow-y:auto;\n  padding:20px;\n  padding-bottom:80px; /* Space for navbar */\n  display:none;\n}\n.screen-content.active { display:block; }\n\n/* NAVBAR */\n.bottom-nav {\n  position:absolute;\n  bottom:0;left:0;right:0;\n  height:68px;\n  background:#ffffff;\n  border-top:1px solid #e2e8f0;\n  display:flex;\n  justify-content:space-around;\n  align-items:center;\n  z-index:10;\n  padding-bottom:env(safe-area-inset-bottom);\n}\n.nav-item {\n  display:flex;\n  flex-direction:column;\n  align-items:center;\n  color:#70757a;\n  text-decoration:none;\n  font-size:11px;\n  font-weight:600;\n  cursor:pointer;\n  background:none;border:none;\n  flex:1;height:100%;justify-content:center;\n  gap:2px;\n}\n.nav-item i {\n  font-size:22px;\n  transition:transform 0.2s;\n}\n.nav-item.active {\n  color:#1a73e8;\n}\n.nav-item.active i {\n  transform:translateY(-2px);\n}\n\n/* COMMON UI ELEMENTS */\nh2.section-title {\n  font-family:'Nunito', sans-serif;\n  font-size:20px;\n  color:#202124;\n  margin-bottom:16px;\n  font-weight:700;\n}\n.card {\n  background:#fff;\n  border-radius:16px;\n  padding:16px;\n  margin-bottom:16px;\n  border:1px solid #e2e8f0;\n}\n.btn-primary {\n  background:#1a73e8;\n  color:#fff;\n  border:none;\n  border-radius:12px;\n  padding:12px 20px;\n  font-size:15px;\n  font-weight:700;\n  width:100%;\n  cursor:pointer;\n  display:flex;align-items:center;justify-content:center;gap:8px;\n  transition:background 0.2s;\n}\n.btn-primary:hover{background:#1557b0;}\n\n/* ═══════════════════════════════════════════\n   PATIENT VIEW SPECIFICS\n═══════════════════════════════════════════ */\n.welcome-banner {\n  background:linear-gradient(135deg, #1a73e8, #1155cc);\n  color:#fff; border-radius:20px; padding:20px; margin-bottom:20px;\n}\n.welcome-banner h1{ font-family:'Nunito',sans-serif; font-size:22px; margin-bottom:6px; }\n.welcome-banner p{ font-size:14px; opacity:0.9; }\n\n.category-grid {\n  display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-bottom:24px;\n}\n.cat-card {\n  background:#fff; border-radius:14px; padding:12px; text-align:center;\n  border:1px solid #e2e8f0; cursor:pointer; transition:0.2s;\n}\n.cat-card:hover{ transform:translateY(-2px); border-color:#1a73e8; }\n.cat-icon {\n  width:40px; height:40px; background:#e8f0fe; color:#1a73e8; border-radius:10px;\n  display:flex; align-items:center; justify-content:center; margin:0 auto 8px auto; font-size:20px;\n}\n.cat-title{ font-size:12px; font-weight:700; color:#3c4043; }\n\n.pro-strip-card {\n  background:#e6f4ea; border:1px solid #ceead6; border-radius:14px; padding:12px 16px;\n  display:flex; align-items:center; justify-content:between; margin-bottom:20px;\n}\n.pro-strip-info{ flex:1; }\n.pro-strip-title{ font-size:14px; font-weight:700; color:#137333; }\n.pro-strip-desc{ font-size:12px; color:#137333; opacity:0.8; }\n\n/* FORM STYLING */\n.form-group { margin-bottom:14px; }\n.form-group label { display:block; font-size:13px; font-weight:700; color:#3c4043; margin-bottom:6px; }\n.form-control {\n  width:100%; padding:10px 12px; border:1px solid #dadce0; border-radius:8px;\n  font-size:14px; font-family:inherit; outline:none; transition:border 0.2s;\n}\n.form-control:focus{ border-color:#1a73e8; }\n\n/* ═══════════════════════════════════════════\n   PRO VIEW SPECIFICS (DASHBOARD)\n═══════════════════════════════════════════ */\n.kpi-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-bottom:20px; }\n.kpi-card { background:#fff; border-radius:12px; padding:12px; border:1px solid #e2e8f0; text-align:center; }\n.kpi-val { font-size:18px; font-weight:800; color:#1a73e8; margin-bottom:2px; }\n.kpi-lbl { font-size:11px; color:#5f6368; font-weight:600; }\n\n.demand-card {\n  background:#fff; border-radius:12px; padding:12px; border:1px solid #e2e8f0; margin-bottom:12px;\n}\n.demand-card.urgent { border-left:4px solid #f9ab00; background:#fef7e0; }\n.d-top { display:flex; justify-content:between; align-items:flex-start; margin-bottom:8px; }\n.d-patient { font-weight:700; color:#202124; font-size:14px; }\n.d-type { font-size:12px; color:#5f6368; margin-top:2px; }\n.urg-badge { background:#f9ab00; color:#202124; font-size:10px; font-weight:800; padding:2px 6px; border-radius:4px; }\n.d-actions { display:flex; gap:8px; margin-top:10px; }\n.d-actions button { flex:1; padding:8px; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer; border:none; }\n.btn-accept { background:#1a73e8; color:#fff; }\n.btn-refuse { background:#fce8e6; color:#c5221f; }\n\n/* LISTS & SESSIONS */\n.session-item {\n  background:#fff; padding:14px; border-radius:12px; border:1px solid #e2e8f0; margin-bottom:10px;\n  display:flex; justify-content:space-between; align-items:center;\n}\n.sess-info { display:flex; flex-direction:column; gap:2px; }\n.sess-name { font-weight:700; color:#202124; font-size:14px; }\n.sess-meta { font-size:12px; color:#5f6368; }\n.status-badge { font-size:11px; font-weight:700; padding:3px 8px; border-radius:20px; }\n.status-badge.confirmed { background:#e6f4ea; color:#137333; }\n.status-badge.pending { background:#fef7e0; color:#b06000; }\n.status-badge.cancelled { background:#fce8e6; color:#c5221f; }\n\n/* AUTH SCREEN */\n.auth-screen { text-align:center; padding:40px 20px; }\n.auth-icon { width:64px; height:64px; background:#e8f0fe; color:#1a73e8; border-radius:16px; display:flex; align-items:center; justify-content:center; font-size:32px; margin:0 auto 20px auto; }\n\n/* TOAST NOTIFICATION */\.toast { position:absolute; bottom:85px; left:20px; right:20px; background:#323232; color:#fff; padding:12px 16px; border-radius:8px; font-size:13px; display:flex; align-items:center; gap:8px; box-shadow:0 4px 10px rgba(0,0,0,0.2); transform:translateY(100px); opacity:0; transition:0.3s; z-index:100; }\n.toast.show { transform:translateY(0); opacity:1; }\n</style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{
+  height:100%;min-height:100vh;
+  background:#c9d8ee;
+  font-family:'Nunito Sans',sans-serif;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ═══════════════════════════════════════════
+   PHONE SHELL
+═══════════════════════════════════════════ */
+#app{
+  width:375px;height:812px;
+  background:#f0f4f8;
+  border-radius:44px;
+  overflow:hidden;
+  position:relative;
+  border:10px solid #111827;
+  box-shadow:0 0 0 2px #374151,0 40px 100px rgba(0,0,0,.45),0 10px 30px rgba(0,0,0,.25);
+}
+
+/* ═══════════════════════════════════════════
+   SCREENS — cada tela ocupa 100% do frame
+═══════════════════════════════════════════ */
+.page{
+  position:absolute;inset:0;
+  display:none;flex-direction:column;
+  background:#f0f4f8;
+  transition:opacity .18s;
+}
+.page.active{display:flex;}
+
+/* ═══════════════════════════════════════════
+   STATUS BAR
+═══════════════════════════════════════════ */
+.sbar{
+  height:44px;display:flex;align-items:center;
+  justify-content:center;padding:0 20px;
+  font-size:12px;font-weight:600;flex-shrink:0;
+}
+.sbar-blue{background:#1a73e8;color:#fff;}
+.sbar-dark{background:#0a1628;color:#7fb3e8;}
+.sbar .time{font-size:15px;font-weight:700;}
+.sbar .logo{font-family:'Nunito',sans-serif;font-weight:800;}
+.sbar .logo-acc{color:#93c5fd;}
+.sbar-dark .logo-acc{color:#4fc3f7;}
+
+/* ═══════════════════════════════════════════
+   HERO HEADER (login / cadastro)
+═══════════════════════════════════════════ */
+.hero-blue{background:#1a73e8;padding:28px 20px 32px;text-align:center;flex-shrink:0;}
+.hero-dark{background:#0d2137;padding:20px 20px 24px;flex-shrink:0;}
+.hero-sm{padding:18px 20px 22px;}
+
+.logo-mark{
+  width:60px;height:60px;border-radius:18px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;margin:0 auto 14px;
+  background:rgba(255,255,255,.2);color:#fff;
+}
+.app-name-hero{font-size:24px;font-weight:800;color:#fff;font-family:'Nunito',sans-serif;letter-spacing:-.3px;}
+.app-name-hero span{opacity:.75;}
+.app-sub-hero{font-size:13px;color:rgba(255,255,255,.7);margin-top:5px;}
+
+/* ═══════════════════════════════════════════
+   FORM AREA
+═══════════════════════════════════════════ */
+.form-area{flex:1;padding:20px 18px 18px;overflow-y:auto;scrollbar-width:none;background:#fff;}
+.form-area::-webkit-scrollbar{display:none;}
+
+/* CSS vars substitutos (sem depender do claude.ai) */
+:root{
+  --c-border:#e2e8f0;
+  --c-border2:#cbd5e1;
+  --c-bg2:#f8fafc;
+  --c-bg3:#f1f5f9;
+  --c-text1:#0f172a;
+  --c-text2:#475569;
+  --c-text3:#94a3b8;
+  --c-r-lg:12px;
+  --c-r-md:8px;
+}
+
+.field{margin-bottom:14px;}
+.field label{font-size:12px;color:var(--c-text2);display:block;margin-bottom:5px;font-weight:600;}
+.finput{
+  width:100%;height:42px;
+  border:1px solid var(--c-border);border-radius:var(--c-r-md);
+  background:var(--c-bg2);color:var(--c-text1);
+  font-size:14px;padding:0 38px 0 12px;outline:none;
+  font-family:'Nunito Sans',sans-serif;
+  transition:border-color .15s,box-shadow .15s;
+}
+.finput:focus{border-color:#1a73e8;box-shadow:0 0 0 3px rgba(26,115,232,.12);}
+.finput.pro:focus{border-color:#4fc3f7;box-shadow:0 0 0 3px rgba(79,195,247,.12);}
+
+.fselect{
+  width:100%;height:42px;
+  border:1px solid var(--c-border);border-radius:var(--c-r-md);
+  background:var(--c-bg2);color:var(--c-text1);
+  font-size:14px;padding:0 12px;outline:none;cursor:pointer;
+  appearance:none;font-family:'Nunito Sans',sans-serif;
+}
+
+.finput-wrap{position:relative;}
+.fi-icon{
+  position:absolute;right:11px;top:50%;transform:translateY(-50%);
+  font-size:17px;color:var(--c-text3);pointer-events:none;
+}
+.fi-icon.clickable{pointer-events:auto;cursor:pointer;}
+.fi-icon.clickable:hover{color:var(--c-text2);}
+
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.field-hint{font-size:11px;color:var(--c-text3);margin-top:4px;}
+
+/* Buttons */
+.btn-main{
+  width:100%;height:46px;border:none;border-radius:var(--c-r-lg);
+  font-size:14px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font-family:'Nunito',sans-serif;transition:opacity .15s,transform .1s;
+}
+.btn-main:hover{opacity:.9;}
+.btn-main:active{transform:scale(.98);}
+.btn-blue{background:#1a73e8;color:#fff;}
+.btn-pro-c{background:#4fc3f7;color:#0d2137;}
+.btn-ghost{
+  width:100%;height:42px;border:1px solid var(--c-border);
+  border-radius:var(--c-r-lg);font-size:13px;color:var(--c-text2);
+  background:transparent;cursor:pointer;font-family:'Nunito',sans-serif;
+  transition:background .15s;
+}
+.btn-ghost:hover{background:var(--c-bg3);}
+
+/* Divider */
+.divider{display:flex;align-items:center;gap:10px;margin:14px 0;}
+.div-line{flex:1;height:1px;background:var(--c-border);}
+.div-txt{font-size:12px;color:var(--c-text3);}
+
+/* Social */
+.social-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.btn-social{
+  height:42px;border:1px solid var(--c-border);border-radius:var(--c-r-md);
+  background:var(--c-bg2);font-size:13px;color:var(--c-text2);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;
+  transition:background .15s;font-family:'Nunito Sans',sans-serif;
+}
+.btn-social:hover{background:var(--c-bg3);}
+
+/* Links */
+.link-txt{font-size:13px;color:var(--c-text2);text-align:center;margin-top:14px;}
+.link-txt a{color:#1a73e8;cursor:pointer;text-decoration:none;font-weight:600;}
+.link-txt a:hover{text-decoration:underline;}
+.link-txt a.pro{color:#0891b2;}
+.forgot{font-size:12px;color:#1a73e8;text-align:right;margin-top:-8px;margin-bottom:14px;cursor:pointer;}
+
+/* Back row */
+.back-row{
+  display:flex;align-items:center;gap:6px;
+  margin-bottom:16px;cursor:pointer;
+  color:var(--c-text2);font-size:13px;font-weight:600;
+}
+.back-row:hover{color:var(--c-text1);}
+
+/* Section title */
+.sec-title{
+  font-size:12px;font-weight:700;color:var(--c-text2);
+  text-transform:uppercase;letter-spacing:.5px;
+  margin:18px 0 10px;padding-bottom:8px;
+  border-bottom:1px solid var(--c-border);
+  display:flex;align-items:center;gap:6px;
+}
+.sec-title i{font-size:15px;color:#1a73e8;}
+.sec-title.pro-t i{color:#4fc3f7;}
+
+/* Step bar */
+.step-bar{display:flex;align-items:center;margin-bottom:6px;}
+.sdot{
+  width:26px;height:26px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;flex-shrink:0;
+}
+.sdot-on{background:#1a73e8;color:#fff;}
+.sdot-on-pro{background:#4fc3f7;color:#0d2137;}
+.sdot-off{background:var(--c-bg3);border:1px solid var(--c-border);color:var(--c-text3);}
+.sline{flex:1;height:2px;background:var(--c-border);}
+.sline.done{background:#1a73e8;}
+.sline.done-pro{background:#4fc3f7;}
+.step-labels{display:grid;grid-template-columns:repeat(3,1fr);font-size:10px;color:var(--c-text3);text-align:center;margin-bottom:18px;}
+.step-labels .sl-on{color:#1a73e8;font-weight:700;}
+.step-labels .sl-on-pro{color:#4fc3f7;font-weight:700;}
+
+/* Type cards */
+.type-select{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.type-card{
+  padding:16px 10px;border:1px solid var(--c-border);
+  border-radius:var(--c-r-lg);cursor:pointer;text-align:center;
+  background:var(--c-bg2);transition:all .15s;
+}
+.type-card i{font-size:30px;color:var(--c-text3);display:block;margin-bottom:8px;}
+.tc-name{font-size:13px;font-weight:700;color:var(--c-text1);}
+.tc-sub{font-size:11px;color:var(--c-text2);margin-top:3px;line-height:1.4;}
+.type-card.pc:hover{border-color:#1a73e8;background:#eff6ff;}
+.type-card.pc:hover i{color:#1a73e8;}
+.type-card.prc:hover{border-color:#4fc3f7;background:#ecfeff;}
+.type-card.prc:hover i{color:#0891b2;}
+
+/* Check chips */
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px;}
+.check-chip{
+  display:flex;align-items:center;gap:7px;padding:9px 10px;
+  border:1px solid var(--c-border);border-radius:var(--c-r-md);
+  cursor:pointer;font-size:12px;color:var(--c-text2);
+  background:var(--c-bg2);transition:all .15s;user-select:none;
+}
+.check-chip.sel{border-color:#4fc3f7;background:#ecfeff;color:#0e7490;}
+.cbox{
+  width:15px;height:15px;border-radius:4px;
+  border:1px solid var(--c-border);display:flex;
+  align-items:center;justify-content:center;flex-shrink:0;
+}
+.check-chip.sel .cbox{background:#4fc3f7;border-color:#4fc3f7;color:#fff;}
+
+/* Atend cards */
+.atend-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.atend-card{
+  padding:12px 10px;border:1px solid var(--c-border);
+  border-radius:var(--c-r-md);cursor:pointer;text-align:center;
+  background:var(--c-bg2);transition:all .15s;
+}
+.atend-card.sel{border-color:#4fc3f7;background:#ecfeff;}
+.atend-card i{font-size:22px;color:var(--c-text3);display:block;margin-bottom:4px;}
+.atend-card.sel i{color:#0891b2;}
+.atend-card span{font-size:12px;color:var(--c-text2);font-weight:600;}
+
+/* Upload */
+.upload-zone{
+  border:1.5px dashed var(--c-border2);border-radius:var(--c-r-md);
+  padding:16px;text-align:center;cursor:pointer;
+  background:var(--c-bg2);transition:border-color .15s;margin-bottom:14px;
+}
+.upload-zone:hover{border-color:#4fc3f7;}
+.upload-zone i{font-size:26px;color:var(--c-text3);display:block;margin-bottom:5px;}
+.upload-zone p{font-size:12px;color:var(--c-text2);}
+.upload-zone small{font-size:11px;color:var(--c-text3);}
+
+/* Terms */
+.terms-row{
+  display:flex;align-items:flex-start;gap:9px;
+  margin-bottom:16px;font-size:12px;color:var(--c-text2);line-height:1.5;
+}
+.terms-row input[type=checkbox]{margin-top:2px;flex-shrink:0;accent-color:#1a73e8;}
+.terms-row a{color:#1a73e8;font-weight:600;}
+.terms-row a.pro{color:#0891b2;}
+
+/* Info box */
+.info-box{
+  background:var(--c-bg2);border-radius:var(--c-r-lg);
+  padding:14px;border:1px solid var(--c-border);
+}
+.info-box-title{font-size:12px;font-weight:700;color:var(--c-text1);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.info-box p{font-size:12px;color:var(--c-text2);line-height:1.6;}
+
+/* Taxa notice */
+.taxa-notice{
+  background:#ecfeff;border:1px solid #a5f3fc;border-radius:var(--c-r-md);
+  padding:12px;margin-bottom:14px;
+  display:flex;gap:8px;align-items:flex-start;
+  font-size:12px;color:#0e7490;line-height:1.5;
+}
+.taxa-notice i{font-size:16px;flex-shrink:0;margin-top:1px;}
+
+/* Success */
+.success-page{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;flex:1;padding:28px 20px;text-align:center;
+  background:#fff;
+}
+.success-icon{
+  width:72px;height:72px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 18px;
+}
+.si-blue{background:#eff6ff;}
+.si-pro{background:#ecfeff;}
+.success-page h2{font-size:20px;font-weight:800;color:#0f172a;font-family:'Nunito',sans-serif;margin-bottom:8px;}
+.success-page p{font-size:13px;color:#475569;line-height:1.7;margin-bottom:22px;}
+
+.analysis-steps{
+  width:100%;background:var(--c-bg2);border-radius:var(--c-r-lg);
+  padding:14px;border:1px solid var(--c-border);
+  margin-bottom:22px;text-align:left;
+}
+.as-item{
+  display:flex;align-items:center;gap:9px;
+  font-size:12px;color:var(--c-text2);padding:5px 0;
+}
+.as-item i{font-size:15px;flex-shrink:0;}
+.as-item.done{color:#059669;}
+.as-item.done i{color:#059669;}
+
+/* ═══════════════════════════════════════════
+   SPLASH
+═══════════════════════════════════════════ */
+#page-splash{background:#1a73e8;display:flex;align-items:center;justify-content:center;}
+.splash-inner{text-align:center;padding:40px 30px;}
+.splash-mark{
+  width:80px;height:80px;border-radius:24px;
+  background:rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 20px;
+}
+.splash-mark i{font-size:40px;color:#fff;}
+.splash-name{font-size:32px;font-weight:800;color:#fff;font-family:'Nunito',sans-serif;}
+.splash-name span{color:#93c5fd;}
+.splash-sub{font-size:14px;color:rgba(255,255,255,.75);margin-top:6px;}
+.loader{width:160px;height:3px;background:rgba(255,255,255,.2);border-radius:2px;margin:32px auto 0;overflow:hidden;}
+.loader-bar{width:0;height:100%;background:white;border-radius:2px;animation:load 2s ease-out forwards;}
+@keyframes load{0%{width:0}80%{width:90%}100%{width:100%}}
+
+/* ═══════════════════════════════════════════
+   APP — TOP BAR
+═══════════════════════════════════════════ */
+.app-topbar{
+  height:56px;background:#1a73e8;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;flex-shrink:0;
+}
+.app-topbar.dark-bar{background:#0a1628;}
+.topbar-logo{font-family:'Nunito',sans-serif;font-weight:800;font-size:18px;color:#fff;}
+.topbar-logo .acc{color:#93c5fd;}
+.topbar-logo .pro-acc{color:#4fc3f7;}
+.topbar-logo .pro-label{font-size:11px;font-weight:700;background:#4fc3f7;color:#0d2137;padding:2px 6px;border-radius:6px;margin-left:5px;vertical-align:1px;}
+.topbar-back{
+  background:rgba(255,255,255,.18);border:none;border-radius:10px;
+  color:#fff;padding:6px 12px;font-size:13px;font-weight:700;
+  cursor:pointer;font-family:'Nunito',sans-serif;
+}
+.topbar-icon{
+  background:rgba(255,255,255,.18);border:none;border-radius:50%;
+  width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:18px;cursor:pointer;
+}
+
+/* ═══════════════════════════════════════════
+   APP — PAGE HEADER
+═══════════════════════════════════════════ */
+.page-hdr{background:#1a73e8;padding:16px 16px 18px;flex-shrink:0;}
+.page-hdr.dark-hdr{background:#132840;}
+.ph-title{font-size:20px;font-weight:800;color:#fff;font-family:'Nunito',sans-serif;}
+.ph-sub{font-size:13px;color:rgba(255,255,255,.8);margin-top:3px;}
+
+/* ═══════════════════════════════════════════
+   APP — SCROLL
+═══════════════════════════════════════════ */
+.scroll{flex:1;overflow-y:auto;padding:14px 16px;scrollbar-width:none;}
+.scroll::-webkit-scrollbar{display:none;}
+
+/* ═══════════════════════════════════════════
+   APP — BOTTOM NAV (paciente)
+═══════════════════════════════════════════ */
+.bot-nav{
+  height:70px;background:#fff;border-top:1px solid #e2e8f0;
+  display:flex;align-items:center;justify-content:space-around;
+  flex-shrink:0;padding-bottom:6px;
+}
+.bot-nav.dark-nav{background:#0a1628;border-top-color:#1e3a5f;}
+.nav-it{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  cursor:pointer;padding:6px 14px;border-radius:14px;
+  transition:background .15s;flex:1;
+}
+.nav-it:hover{background:#f0f4ff;}
+.dark-nav .nav-it:hover{background:#1e3a5f;}
+.nv-icon{font-size:22px;color:#94a3b8;line-height:1;}
+.nv-lbl{font-size:10px;color:#94a3b8;font-weight:600;}
+.nav-it.on .nv-icon{color:#1a73e8;}
+.nav-it.on .nv-lbl{color:#1a73e8;font-weight:700;}
+.dark-nav .nav-it.on .nv-icon{color:#4fc3f7;}
+.dark-nav .nav-it.on .nv-lbl{color:#4fc3f7;}
+
+/* ═══════════════════════════════════════════
+   SECTION LABEL
+═══════════════════════════════════════════ */
+.slbl{
+  font-size:11px;font-weight:700;color:#64748b;
+  text-transform:uppercase;letter-spacing:.6px;margin:14px 0 10px;
+}
+.slbl.dk{color:#4a6fa5;}
+
+/* ═══════════════════════════════════════════
+   MAP
+═══════════════════════════════════════════ */
+.map-wrap{flex:1;position:relative;background:#dce8f7;overflow:hidden;}
+.map-svg{position:absolute;inset:0;width:100%;height:100%;}
+
+.map-pin{
+  position:absolute;cursor:pointer;
+  transform:translate(-50%,-100%);
+  display:flex;flex-direction:column;align-items:center;
+  transition:transform .2s;z-index:10;
+}
+.map-pin:hover{transform:translate(-50%,-100%) scale(1.12);}
+.pin-lbl{
+  color:#fff;padding:5px 10px;border-radius:12px;
+  font-size:11px;font-weight:700;white-space:nowrap;
+  font-family:'Nunito',sans-serif;
+  box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+.pin-tri{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;}
+
+.map-search{
+  position:absolute;top:12px;left:12px;right:12px;
+  background:#fff;border-radius:14px;
+  padding:10px 14px;display:flex;align-items:center;gap:10px;
+  box-shadow:0 2px 12px rgba(0,0,0,.15);z-index:20;
+}
+.map-search input{
+  border:none;outline:none;flex:1;font-size:14px;
+  font-family:'Nunito Sans',sans-serif;color:#333;background:transparent;
+}
+
+.loc-btn{
+  position:absolute;right:14px;bottom:248px;
+  background:#fff;border:none;width:42px;height:42px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:20px;box-shadow:0 2px 10px rgba(0,0,0,.15);
+  cursor:pointer;z-index:20;
+}
+
+.map-sheet{
+  position:absolute;bottom:0;left:0;right:0;
+  background:#fff;border-radius:22px 22px 0 0;
+  padding:10px 16px 14px;
+  box-shadow:0 -4px 20px rgba(0,0,0,.1);z-index:20;
+}
+.drag-hdl{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 12px;}
+.sheet-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.sheet-cnt{font-size:14px;font-weight:700;color:#0f172a;font-family:'Nunito',sans-serif;}
+.filter-btn{
+  background:#fff;border:1.5px solid #c7d7f5;border-radius:12px;
+  padding:6px 12px;font-size:12px;font-weight:700;color:#1a73e8;
+  cursor:pointer;font-family:'Nunito',sans-serif;
+  display:flex;align-items:center;gap:5px;
+}
+
+/* Chips */
+.chip-row{display:flex;gap:8px;overflow-x:auto;margin-bottom:12px;scrollbar-width:none;}
+.chip-row::-webkit-scrollbar{display:none;}
+.chip{
+  background:#fff;border:1.5px solid #e0e7ff;border-radius:24px;
+  padding:6px 14px;font-size:12px;font-weight:700;color:#64748b;
+  cursor:pointer;white-space:nowrap;font-family:'Nunito',sans-serif;
+  transition:all .15s;flex-shrink:0;
+}
+.chip.on{background:#1a73e8;border-color:#1a73e8;color:#fff;}
+
+/* ═══════════════════════════════════════════
+   FISIO CARD
+═══════════════════════════════════════════ */
+.fc{
+  background:#fff;border-radius:18px;padding:14px;
+  margin-bottom:12px;border:1px solid #e8edf5;
+  cursor:pointer;transition:transform .15s,box-shadow .15s;
+}
+.fc:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(26,115,232,.13);}
+.fc-hdr{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.av{
+  width:48px;height:48px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:16px;font-family:'Nunito',sans-serif;flex-shrink:0;
+}
+.av-g{background:#dcfce7;color:#16a34a;}
+.av-b{background:#dbeafe;color:#2563eb;}
+.av-p{background:#f3e8ff;color:#7c3aed;}
+.av-o{background:#fef3c7;color:#d97706;}
+.av-c{background:#ecfeff;color:#0891b2;}
+.fc-info{flex:1;}
+.fc-name{font-size:15px;font-weight:700;color:#0f172a;font-family:'Nunito',sans-serif;}
+.fc-spec{font-size:12px;color:#64748b;margin-top:2px;}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap;}
+.bdg{font-size:11px;font-weight:700;padding:3px 9px;border-radius:24px;}
+.bdg-b{background:#dbeafe;color:#1d4ed8;}
+.bdg-g{background:#dcfce7;color:#15803d;}
+.bdg-s{background:#fef3c7;color:#b45309;}
+.fc-foot{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:10px;padding-top:10px;border-top:1px solid #f1f5f9;gap:8px;
+}
+.fc-dist{font-size:12px;color:#64748b;}
+.fc-price{font-size:14px;font-weight:700;color:#1a73e8;font-family:'Nunito',sans-serif;}
+.btn-sm{
+  background:#1a73e8;color:#fff;border:none;border-radius:12px;
+  padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;
+  font-family:'Nunito',sans-serif;transition:background .15s;
+}
+.btn-sm:hover{background:#1557b0;}
+.btn-sm-out{
+  background:#fff;color:#1a73e8;border:1.5px solid #1a73e8;
+  border-radius:12px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;
+}
+
+/* ═══════════════════════════════════════════
+   DETALHE FISIO
+═══════════════════════════════════════════ */
+.detail-hero{
+  background:linear-gradient(160deg,#1a73e8,#0d47a1);
+  padding:14px 16px 22px;flex-shrink:0;
+}
+.detail-av-row{display:flex;align-items:center;gap:14px;margin-top:10px;}
+.detail-av{
+  width:66px;height:66px;border-radius:50%;background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:800;color:#1a73e8;font-family:'Nunito',sans-serif;
+}
+.d-name{font-size:19px;font-weight:800;color:#fff;font-family:'Nunito',sans-serif;}
+.d-crm{font-size:12px;color:rgba(255,255,255,.75);margin-top:2px;}
+.d-spec{font-size:13px;color:rgba(255,255,255,.9);margin-top:4px;}
+.d-rating{display:flex;align-items:center;gap:5px;margin-top:5px;}
+.d-rnum{font-size:14px;font-weight:700;color:#fff;}
+.d-rcnt{font-size:12px;color:rgba(255,255,255,.7);}
+
+.info-card{background:#fff;border-radius:16px;padding:14px;margin-bottom:12px;border:1px solid #e8edf5;}
+.ic-title{font-size:11px;font-weight:700;color:#1a73e8;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px;}
+.ic-row{display:flex;align-items:center;gap:10px;margin-bottom:7px;font-size:13px;color:#374151;}
+.ic-icon{font-size:16px;width:22px;text-align:center;flex-shrink:0;}
+.svc-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:7px 0;border-bottom:1px solid #f8fafc;font-size:13px;color:#374151;
+}
+.svc-row:last-child{border:none;}
+.svc-p{font-weight:700;color:#1a73e8;font-family:'Nunito',sans-serif;}
+
+.booking-bar{
+  background:#fff;padding:12px 16px;border-top:1px solid #e8edf5;
+  display:flex;gap:10px;align-items:center;flex-shrink:0;
+}
+.time-sel{
+  background:#f0f7ff;border:1.5px solid #bfdbfe;border-radius:12px;
+  padding:10px 14px;font-size:12px;font-weight:700;color:#1a73e8;
+  cursor:pointer;flex:1;text-align:center;font-family:'Nunito',sans-serif;
+}
+
+/* ═══════════════════════════════════════════
+   SESSÕES
+═══════════════════════════════════════════ */
+.appt{
+  background:#fff;border-radius:16px;padding:14px;
+  margin-bottom:12px;border-left:4px solid #1a73e8;
+}
+.appt.done{border-left-color:#16a34a;}
+.appt.cancel{border-left-color:#dc2626;}
+.appt-top{display:flex;justify-content:space-between;align-items:flex-start;}
+.appt-name{font-size:15px;font-weight:700;color:#0f172a;font-family:'Nunito',sans-serif;}
+.appt-type{font-size:12px;color:#64748b;margin-top:2px;}
+.appt-date{font-size:12px;font-weight:700;color:#1a73e8;text-align:right;}
+.appt-time{font-size:12px;color:#64748b;text-align:right;}
+.status-pill{
+  display:inline-block;font-size:11px;font-weight:700;
+  padding:3px 10px;border-radius:24px;margin-top:8px;
+}
+.sp-sched{background:#dbeafe;color:#1d4ed8;}
+.sp-done{background:#dcfce7;color:#15803d;}
+.sp-cancel{background:#fee2e2;color:#b91c1c;}
+
+/* ═══════════════════════════════════════════
+   PERFIL
+═══════════════════════════════════════════ */
+.profile-hdr{
+  background:#1a73e8;padding:24px 16px 28px;flex-shrink:0;
+  display:flex;align-items:center;gap:16px;
+}
+.profile-hdr.dark-phdr{background:#0a1628;}
+.p-av-big{
+  width:72px;height:72px;border-radius:50%;
+  background:rgba(255,255,255,.22);
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;font-weight:800;color:#fff;
+  font-family:'Nunito',sans-serif;border:2px solid rgba(255,255,255,.4);
+}
+.p-name{font-size:19px;font-weight:800;color:#fff;font-family:'Nunito',sans-serif;}
+.p-email{font-size:13px;color:rgba(255,255,255,.8);margin-top:3px;}
+.menu-it{
+  background:#fff;border-radius:14px;padding:14px;
+  margin-bottom:10px;display:flex;align-items:center;gap:14px;
+  cursor:pointer;border:1px solid #e8edf5;transition:background .15s;
+}
+.menu-it:hover{background:#f8faff;}
+.menu-icon-box{
+  font-size:20px;width:40px;height:40px;background:#eff6ff;
+  border-radius:12px;display:flex;align-items:center;justify-content:center;
+}
+.menu-lbl{font-size:14px;font-weight:600;color:#0f172a;flex:1;font-family:'Nunito',sans-serif;}
+.menu-arr{color:#94a3b8;font-size:18px;}
+.stat-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.stat-mini{background:#fff;border-radius:14px;padding:14px;text-align:center;border:1px solid #e8edf5;}
+.sm-num{font-size:24px;font-weight:800;font-family:'Nunito',sans-serif;}
+.sm-lbl{font-size:12px;color:#64748b;margin-top:3px;}
+
+/* ═══════════════════════════════════════════
+   PRO — PAINEL
+═══════════════════════════════════════════ */
+.online-toggle{
+  display:flex;align-items:center;gap:12px;
+  background:#132840;border-radius:16px;padding:14px;
+  margin-bottom:14px;cursor:pointer;border:1px solid #1e3a5f;
+}
+.tog-track{
+  width:48px;height:26px;border-radius:13px;background:#4fc3f7;
+  position:relative;transition:background .2s;flex-shrink:0;
+}
+.tog-track.off{background:#2d4a6a;}
+.tog-knob{
+  position:absolute;top:3px;left:3px;width:20px;height:20px;
+  background:#fff;border-radius:50%;transition:transform .2s;
+  transform:translateX(22px);
+}
+.tog-track.off .tog-knob{transform:none;}
+.tog-info{flex:1;}
+.tog-title{font-size:14px;font-weight:700;color:#fff;font-family:'Nunito',sans-serif;}
+.tog-sub{font-size:11px;color:#7fb3e8;margin-top:2px;}
+
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.stat-card{background:#132840;border-radius:14px;padding:12px;border:1px solid #1e3a5f;}
+.stat-n{font-size:22px;font-weight:800;font-family:'Nunito',sans-serif;}
+.stat-n.blue{color:#4fc3f7;}
+.stat-n.green{color:#4caf82;}
+.stat-n.amber{color:#fbbf24;}
+.stat-l{font-size:11px;color:#7fb3e8;margin-top:2px;}
+
+.demand-card{
+  background:#132840;border-radius:14px;padding:12px;
+  margin-bottom:10px;border:1px solid #1e3a5f;cursor:pointer;
+  transition:border-color .15s;
+}
+.demand-card.urgent{border-left:4px solid #4fc3f7;}
+.demand-card:hover{border-color:#4fc3f7;}
+.d-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
+.d-patient{font-size:14px;font-weight:700;color:#fff;font-family:'Nunito',sans-serif;}
+.d-type{font-size:11px;color:#7fb3e8;margin-top:2px;}
+.d-det{font-size:12px;color:#7fb3e8;margin-bottom:8px;}
+.urg-badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;background:rgba(79,195,247,.15);color:#4fc3f7;}
+.d-actions{display:flex;gap:7px;}
+.btn-accept{
+  background:#4fc3f7;color:#0d2137;border:none;border-radius:10px;
+  padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;
+  font-family:'Nunito',sans-serif;flex:1;transition:background .15s;
+}
+.btn-accept:hover{background:#29b6f6;}
+.btn-refuse{
+  background:transparent;color:#ef5350;border:1.5px solid #2d4a6a;
+  border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;
+  cursor:pointer;font-family:'Nunito',sans-serif;transition:border-color .15s;
+}
+.btn-refuse:hover{border-color:#ef5350;}
+
+.sch-item{
+  background:#132840;border-radius:12px;padding:11px 12px;
+  margin-bottom:8px;display:flex;align-items:center;gap:12px;
+  border-left:4px solid #4fc3f7;
+}
+.sch-item.done{border-left-color:#4caf82;}
+.sch-time{font-size:13px;font-weight:800;color:#4fc3f7;min-width:44px;font-family:'Nunito',sans-serif;}
+.sch-item.done .sch-time{color:#4caf82;}
+.sch-info{flex:1;}
+.sch-name{font-size:13px;font-weight:700;color:#fff;font-family:'Nunito',sans-serif;}
+.sch-det{font-size:11px;color:#7fb3e8;margin-top:1px;}
+
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
+#toast{
+  position:absolute;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:#1e293b;color:#fff;padding:10px 18px;border-radius:24px;
+  font-size:13px;font-weight:600;white-space:nowrap;
+  opacity:0;pointer-events:none;transition:all .3s;z-index:999;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media(max-width:420px){
+  #app{width:100vw;height:100vh;border-radius:0;border:none;box-shadow:none;}
+  html,body{background:#fff;align-items:flex-start;}
+}
+</style>
 </head>
 <body>
+<div id="app">
 
-<div class="phone-container">
-  <header class="main-header">
-    <div class="logo-area">
-      <div class="logo-icon"><i class="ti ti-activity-heartbeat"></i></div>
-      <div class="logo-text">myFisio</div>
+<!-- ══════════════════════════════════════
+     SPLASH
+══════════════════════════════════════ -->
+<div id="page-splash" class="page active">
+  <div class="splash-inner" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;background:#1a73e8;">
+    <div class="splash-mark"><i class="ti ti-heart-pulse"></i></div>
+    <div class="splash-name">my<span>Fisio</span></div>
+    <div class="splash-sub">Fisioterapia onde você estiver</div>
+    <div class="loader"><div class="loader-bar"></div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     LOGIN
+══════════════════════════════════════ -->
+<div id="page-login" class="page">
+  <div class="sbar sbar-blue">
+    
+    <span class="logo">my<span class="logo-acc">Fisio</span></span>
+    
+  </div>
+  <div class="hero-blue" style="padding:20px 20px 28px;">
+    <div style="width:88px;height:88px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="88" height="88" aria-label="Ícone myFisio">
+        <!-- Cabeça -->
+        <circle cx="50" cy="16" r="10" fill="rgba(255,255,255,0.92)"/>
+        <!-- Corpo -->
+        <rect x="46" y="26" width="8" height="28" rx="4" fill="rgba(255,255,255,0.92)"/>
+        <!-- Braço esquerdo levantado -->
+        <line x1="46" y1="34" x2="18" y2="14" stroke="rgba(255,255,255,0.92)" stroke-width="7" stroke-linecap="round"/>
+        <!-- Braço direito levantado -->
+        <line x1="54" y1="34" x2="82" y2="14" stroke="rgba(255,255,255,0.92)" stroke-width="7" stroke-linecap="round"/>
+        <!-- Perna esquerda aberta -->
+        <line x1="48" y1="54" x2="22" y2="82" stroke="rgba(255,255,255,0.92)" stroke-width="7" stroke-linecap="round"/>
+        <!-- Perna direita aberta -->
+        <line x1="52" y1="54" x2="78" y2="82" stroke="rgba(255,255,255,0.92)" stroke-width="7" stroke-linecap="round"/>
+      </svg>
     </div>
-    <div class="profile-badge" id="profileToggle" onclick="toggleMode()">Paciente</div>
-  </header>
-
-  <main id="scr-patient-home" class="screen-content active">
-    <div class="welcome-banner">
-      <h1 id="patient-welcome-title">Olá, Paciente!</h1>
-      <p>Encontre fisioterapeutas qualificados para atendimento personalizado hoje mesmo.</p>
-    </div>
-
-    <div class="pro-strip-card" id="pro-banner-cta" style="display:none; cursor:pointer;" onclick="toggleMode()">
-      <div class="pro-strip-info">
-        <div class="pro-strip-title">Você é Fisioterapeuta?</div>
-        <div class="pro-strip-desc">Ative seu perfil profissional e atenda pedidos.</div>
-      </div>
-      <i class="ti ti-chevron-right" style="color:#137333; font-size:20px;"></i>
-    </div>
-
-    <h2 class="section-title">Especialidades</h2>
-    <div class="category-grid">
-      <div class="cat-card" onclick="startBooking('Ortopedia')">
-        <div class="cat-icon"><i class="ti ti-bone"></i></div>
-        <div class="cat-title">Ortopedia</div>
-      </div>
-      <div class="cat-card" onclick="startBooking('Respiratória')">
-        <div class="cat-icon"><i class="ti ti-wind"></i></div>
-        <div class="cat-title">Respiratória</div>
-      </div>
-      <div class="cat-card" onclick="startBooking('Neurologia')">
-        <div class="cat-icon"><i class="ti ti-brain"></i></div>
-        <div class="cat-title">Neurologia</div>
-      </div>
-      <div class="cat-card" onclick="startBooking('Pediatria')">
-        <div class="cat-icon"><i class="ti ti-mood-kid"></i></div>
-        <div class="cat-title">Pediatria</div>
-      </div>
-      <div class="cat-card" onclick="startBooking('Desportiva')">
-        <div class="cat-icon"><i class="ti ti-trophy"></i></div>
-        <div class="cat-title">Desportiva</div>
-      </div>
-      <div class="cat-card" onclick="startBooking('Geriatria')">
-        <div class="cat-icon"><i class="ti ti-user-check"></i></div>
-        <div class="cat-title">Geriatria</div>
+    <div class="app-name-hero" style="font-size:30px;">my<span>Fisio</span></div>
+    <div class="app-sub-hero">Fisioterapia onde você estiver</div>
+  </div>
+  <div class="form-area">
+    <div class="field">
+      <label>E-mail ou CPF</label>
+      <div class="finput-wrap">
+        <input class="finput" type="email" placeholder="seu@email.com" id="login-email" autocomplete="email">
+        <i class="ti ti-mail fi-icon"></i>
       </div>
     </div>
-
-    <h2 class="section-title">Ações Rápidas</h2>
-    <button class="btn-primary" onclick="switchView('patient-schedule')">
-      <i class="ti ti-calendar-plus"></i> Agendar Nova Sessão
+    <div class="field">
+      <label>Senha</label>
+      <div class="finput-wrap">
+        <input class="finput" type="password" placeholder="••••••••" id="login-pw" autocomplete="current-password">
+        <i class="ti ti-eye fi-icon clickable" id="eye-login" onclick="togglePw('login-pw','eye-login')" aria-label="Mostrar senha"></i>
+      </div>
+    </div>
+    <div class="forgot" onclick="toast('Link enviado para seu e-mail!')">Esqueci minha senha</div>
+    <button class="btn-main btn-blue" onclick="doLogin()">
+      <i class="ti ti-login"></i> Entrar
     </button>
-  </main>
-
-  <main id="scr-patient-schedule" class="screen-content">
-    <h2 class="section-title">Agendar Sessão</h2>
-    <div class="card">
-      <form id="form-booking" onsubmit="handleSchedule(event)">
-        <div class="form-group">
-          <label>Seu Nome Completo</label>
-          <input type="text" id="bk-name" class="form-control" placeholder="Ex: João da Silva" required>
-        </div>
-        <div class="form-group">
-          <label>Especialidade Necessária</label>
-          <select id="bk-specialty" class="form-control">
-            <option value="Ortopedia">Ortopedia</option>
-            <option value="Respiratória">Respiratória</option>
-            <option value="Neurologia">Neurologia</option>
-            <option value="Pediatria">Pediatria</option>
-            <option value="Desportiva">Desportiva</option>
-            <option value="Geriatria">Geriatria</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Modalidade de Atendimento</label>
-          <select id="bk-type" class="form-control">
-            <option value="domiciliar">🏠 Atendimento Domiciliar (Home Care)</option>
-            <option value="clinica">🏥 Atendimento em Clínica / Consultório</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Data e Horário</label>
-          <input type="datetime-local" id="bk-date" class="form-control" required>
-        </div>
-        <div class="form-group">
-          <label>Observações ou Sintomas (Opcional)</label>
-          <textarea id="bk-notes" class="form-control" rows="2" placeholder="Ex: Dor lombar crônica há 2 semanas..."></textarea>
-        </div>
-        <button type="submit" class="btn-primary" style="margin-top:10px;">
-          <i class="ti ti-check"></i> Concluir Solicitação
-        </button>
-      </form>
-    </div>
-  </main>
-
-  <main id="scr-patient-history" class="screen-content">
-    <h2 class="section-title">Minhas Sessões</h2>
-    <div id="patient-sessions-list">
-      </div>
-  </main>
-
-  <main id="scr-pro-auth" class="screen-content">
-    <div class="card auth-screen">
-      <div class="auth-icon"><i class="ti ti-id-badge"></i></div>
-      <h2 style="font-family:'Nunito'; margin-bottom:8px;">Área do Profissional</h2>
-      <p style="font-size:14px; color:#5f6368; margin-bottom:24px;">Acesse para visualizar chamados de pacientes, gerenciar agenda e ganhos.</p>
-      
-      <div class="form-group" style="text-align:left;">
-        <label>Número do CREFITO</label>
-        <input type="text" id="pro-crefito" class="form-control" placeholder="123456-F" value="234567-F">
-      </div>
-      <div class="form-group" style="text-align:left; margin-bottom:24px;">
-        <label>Senha de Acesso</label>
-        <input type="password" id="pro-pass" class="form-control" value="******">
-      </div>
-
-      <button class="btn-primary" onclick="handleProLogin()">
-        <i class="ti ti-login"></i> Entrar como Fisioterapeuta
+    <div class="divider"><div class="div-line"></div><div class="div-txt">ou continue com</div><div class="div-line"></div></div>
+    <div class="social-row">
+      <button class="btn-social" onclick="toast('Login com Google em breve!')">
+        <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Google
+      </button>
+      <button class="btn-social" onclick="toast('Login com Facebook em breve!')">
+        <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Facebook
       </button>
     </div>
-  </main>
+    <button class="btn-ghost" onclick="go('page-tipo')">
+      <i class="ti ti-user-plus" style="vertical-align:-2px;margin-right:6px;"></i> Criar nova conta
+    </button>
+    <div class="link-txt">É fisioterapeuta? <a onclick="go('page-cad-pro')">Cadastre-se como profissional</a></div>
+  </div>
+</div>
 
-  <main id="scr-pro-dashboard" class="screen-content">
-    <div class="welcome-banner" style="background:linear-gradient(135deg, #0f9d58, #0b7541); margin-bottom:16px;">
-      <h1 id="pro-welcome-title">Olá, Dr(a).</h1>
-      <p>Seu consultório móvel está ativo e pronto para receber chamados.</p>
+<!-- ══════════════════════════════════════
+     TIPO DE CONTA
+══════════════════════════════════════ -->
+<div id="page-tipo" class="page">
+  <div class="sbar sbar-blue">
+    
+    <span class="logo">my<span class="logo-acc">Fisio</span></span>
+    
+  </div>
+  <div class="hero-blue hero-sm" style="text-align:center;">
+    <div class="app-name-hero" style="font-size:20px;">Criar conta</div>
+    <div class="app-sub-hero">Escolha o tipo de acesso</div>
+  </div>
+  <div class="form-area" style="padding-top:24px;">
+    <div class="back-row" onclick="go('page-login')"><i class="ti ti-arrow-left" style="font-size:16px;"></i> Voltar ao login</div>
+    <p style="font-size:13px;color:#475569;margin-bottom:18px;">Selecione como você vai usar o myFisio:</p>
+    <div class="type-select">
+      <div class="type-card pc" onclick="go('page-cad-pac')">
+        <i class="ti ti-user"></i>
+        <div class="tc-name">Sou paciente</div>
+        <div class="tc-sub">Quero contratar um fisioterapeuta</div>
+      </div>
+      <div class="type-card prc" onclick="go('page-cad-pro')">
+        <i class="ti ti-stethoscope"></i>
+        <div class="tc-name">Sou fisioterapeuta</div>
+        <div class="tc-sub">Quero oferecer meus serviços</div>
+      </div>
     </div>
+    <div class="info-box">
+      <div class="info-box-title"><i class="ti ti-info-circle" style="color:#1a73e8;font-size:16px;"></i> O que muda entre as contas?</div>
+      <p><strong>Paciente</strong> — busca e agenda sessões com fisioterapeutas próximos.</p>
+      <p style="margin-top:8px;"><strong>Fisioterapeuta</strong> — cadastra CREFITO, especialidades e aparece no mapa para receber pedidos.</p>
+    </div>
+    <div class="link-txt" style="margin-top:18px;">Já tem conta? <a onclick="go('page-login')">Fazer login</a></div>
+  </div>
+</div>
 
-    <div class="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-val" id="kpi-today">0</div>
-        <div class="kpi-lbl">Hoje</div>
+<!-- ══════════════════════════════════════
+     CADASTRO — PACIENTE
+══════════════════════════════════════ -->
+<div id="page-cad-pac" class="page">
+  <div class="sbar sbar-blue"><span style="color:#fff;font-size:13px;font-weight:600;">Nova conta — paciente</span></div>
+  <div class="form-area" style="padding-top:16px;">
+    <div class="back-row" onclick="go('page-tipo')"><i class="ti ti-arrow-left" style="font-size:16px;"></i> Voltar</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+      <div style="width:38px;height:38px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center;">
+        <i class="ti ti-user" style="font-size:18px;color:#2563eb;"></i>
       </div>
-      <div class="kpi-card">
-        <div class="kpi-val" id="kpi-pending" style="color:#f2994a;">0</div>
-        <div class="kpi-lbl">Pendentes</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-val" id="kpi-revenue" style="color:#27ae60;">R$ 0</div>
-        <div class="kpi-lbl">Faturamento</div>
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#0f172a;">Conta de paciente</div>
+        <div style="font-size:12px;color:#64748b;">Preencha seus dados pessoais</div>
       </div>
     </div>
+    <div class="step-bar">
+      <div class="sdot sdot-on">1</div>
+      <div class="sline done"></div>
+      <div class="sdot sdot-on">2</div>
+      <div class="sline"></div>
+      <div class="sdot sdot-off">3</div>
+    </div>
+    <div class="step-labels"><span class="sl-on">Dados</span><span class="sl-on">Acesso</span><span>Confirmar</span></div>
 
-    <h2 class="section-title">Pedidos Urgentes Próximos</h2>
-    <div id="pro-demand-area">
+    <div class="sec-title"><i class="ti ti-user"></i> Dados pessoais</div>
+    <div class="field">
+      <label>Nome completo</label>
+      <div class="finput-wrap">
+        <input id="pac-nome" class="finput" type="text" placeholder="João da Silva" autocomplete="name">
+        <i class="ti ti-user fi-icon"></i>
       </div>
-
-    <h2 class="section-title" style="margin-top:10px;">Agenda de Hoje</h2>
-    <div id="pro-today-agenda">
+    </div>
+    <div class="field-row">
+      <div class="field"><label>CPF</label><input id="pac-cpf" class="finput" type="text" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)"></div>
+      <div class="field"><label>Nascimento</label><input class="finput" type="text" placeholder="DD/MM/AAAA" maxlength="10" oninput="maskDate(this)"></div>
+    </div>
+    <div class="field">
+      <label>Telefone / WhatsApp</label>
+      <div class="finput-wrap">
+        <input id="pac-tel" class="finput" type="tel" placeholder="(11) 99999-9999" maxlength="15" oninput="maskPhone(this)">
+        <i class="ti ti-phone fi-icon"></i>
       </div>
-  </main>
-
-  <main id="scr-pro-sessions" class="screen-content">
-    <h2 class="section-title">Todas as Sessões</h2>
-    <div style="margin-bottom:12px; display:flex; gap:6px;">
-      <select id="filter-pro-status" class="form-control" onchange="renderProSessionsList()" style="padding:6px 10px; font-size:13px;">
-        <option value="all">Todos os Status</option>
-        <option value="pending">⏳ Pendentes</option>
-        <option value="confirmed">✓ Confirmados</option>
-        <option value="cancelled">✕ Cancelados</option>
+    </div>
+    <div class="field">
+      <label>E-mail</label>
+      <div class="finput-wrap">
+        <input id="pac-email" class="finput" type="email" placeholder="seu@email.com" autocomplete="email">
+        <i class="ti ti-mail fi-icon"></i>
+      </div>
+    </div>
+    <div class="field">
+      <label>Endereço principal</label>
+      <div class="finput-wrap">
+        <input class="finput" type="text" placeholder="Rua, número — bairro">
+        <i class="ti ti-map-pin fi-icon"></i>
+      </div>
+      <div class="field-hint">Usado para calcular a distância dos profissionais</div>
+    </div>
+    <div class="field">
+      <label>Convênio de saúde (opcional)</label>
+      <select class="fselect">
+        <option value="">Nenhum / Particular</option>
+        <option>Unimed</option><option>Bradesco Saúde</option>
+        <option>Amil</option><option>SulAmérica</option><option>Hapvida</option>
       </select>
     </div>
-    <div id="pro-all-sessions-list">
+    <div class="sec-title"><i class="ti ti-lock"></i> Dados de acesso</div>
+    <div class="field">
+      <label>Senha</label>
+      <div class="finput-wrap">
+        <input class="finput" type="password" placeholder="Mínimo 8 caracteres" id="pac-pw" autocomplete="new-password">
+        <i class="ti ti-eye fi-icon clickable" id="eye-pac" onclick="togglePw('pac-pw','eye-pac')" aria-label="Ver senha"></i>
       </div>
-  </main>
-
-  <nav class="bottom-nav" id="main-navbar">
-    </nav>
+    </div>
+    <div class="field">
+      <label>Confirmar senha</label>
+      <div class="finput-wrap">
+        <input id="pac-pw2" class="finput" type="password" placeholder="Repita a senha" autocomplete="new-password">
+        <i class="ti ti-eye fi-icon"></i>
+      </div>
+    </div>
+    <div class="terms-row">
+      <input type="checkbox" id="terms-pac">
+      <label for="terms-pac">Li e aceito os <a href="#">Termos de uso</a> e a <a href="#">Política de privacidade</a> do myFisio.</label>
+    </div>
+    <button class="btn-main btn-blue" onclick="cadastrarPaciente()">
+      <i class="ti ti-user-check"></i> Criar minha conta
+    </button>
+    <div class="link-txt">Já tem conta? <a onclick="go('page-login')">Fazer login</a></div>
+  </div>
 </div>
 
-<div id="app-toast" class="toast">
-  <i class="ti ti-info-circle"></i> <span id="toast-msg">Mensagem</span>
+<!-- ══════════════════════════════════════
+     CADASTRO — FISIOTERAPEUTA
+══════════════════════════════════════ -->
+<div id="page-cad-pro" class="page" style="background:#0f1f35;">
+  <div class="sbar sbar-dark"><span class="logo" style="color:#4fc3f7;">my<span class="logo-acc" style="color:#7fb3e8;">Fisio</span> Pro</span></div>
+  <div class="hero-dark" style="text-align:left;display:flex;align-items:center;gap:12px;">
+    <div style="width:44px;height:44px;border-radius:14px;background:rgba(79,195,247,.15);border:1px solid rgba(79,195,247,.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <i class="ti ti-stethoscope" style="font-size:22px;color:#4fc3f7;"></i>
+    </div>
+    <div>
+      <div class="app-name-hero" style="font-size:18px;color:#4fc3f7;">Cadastro profissional</div>
+      <div class="app-sub-hero" style="font-size:12px;">Fisioterapeuta · myFisio Pro</div>
+    </div>
+  </div>
+  <div class="form-area" style="background:#0f1f35;padding-top:14px;">
+    <div class="back-row" style="color:#7fb3e8;" onclick="go('page-tipo')"><i class="ti ti-arrow-left" style="font-size:16px;"></i> Voltar</div>
+    <div class="step-bar">
+      <div class="sdot sdot-on-pro">1</div>
+      <div class="sline"></div>
+      <div class="sdot sdot-off">2</div>
+      <div class="sline"></div>
+      <div class="sdot sdot-off">3</div>
+      <div class="sline"></div>
+      <div class="sdot sdot-off">4</div>
+    </div>
+    <div class="step-labels" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px;">
+      <span class="sl-on-pro" style="color:#4fc3f7;">Pessoal</span>
+      <span style="color:#4a6fa5;">Registro</span><span style="color:#4a6fa5;">Serviços</span><span style="color:#4a6fa5;">Acesso</span>
+    </div>
+
+    <div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-user" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Dados pessoais</span></div>
+    <div class="field">
+      <label style="color:#7fb3e8;">Nome completo</label>
+      <div class="finput-wrap">
+        <input id="pro-nome" class="finput pro" type="text" placeholder="Dra. Ana Nascimento" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="name">
+        <i class="ti ti-user fi-icon"></i>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label style="color:#7fb3e8;">CPF</label><input id="pro-cpf" class="finput pro" type="text" placeholder="000.000.000-00" maxlength="14" oninput="maskCPF(this)" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+      <div class="field"><label style="color:#7fb3e8;">Nascimento</label><input class="finput pro" type="text" placeholder="DD/MM/AAAA" maxlength="10" oninput="maskDate(this)" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+    </div>
+    <div class="field">
+      <label style="color:#7fb3e8;">Telefone / WhatsApp</label>
+      <div class="finput-wrap">
+        <input id="pro-tel" class="finput pro" type="tel" placeholder="(11) 99999-9999" maxlength="15" oninput="maskPhone(this)" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+        <i class="ti ti-phone fi-icon"></i>
+      </div>
+    </div>
+    <div class="field">
+      <label style="color:#7fb3e8;">E-mail profissional</label>
+      <div class="finput-wrap">
+        <input id="pro-email" class="finput pro" type="email" placeholder="fisio@email.com" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="email">
+        <i class="ti ti-mail fi-icon"></i>
+      </div>
+    </div>
+
+    <div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-id-badge" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Registro profissional</span></div>
+    <div class="field-row" style="grid-template-columns:1fr 80px;">
+      <div class="field"><label style="color:#7fb3e8;">CREFITO</label><input id="pro-crefito" class="finput pro" type="text" placeholder="12345-F" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+      <div class="field"><label style="color:#7fb3e8;">UF</label>
+        <select id="pro-uf" class="fselect" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+          <option>SP</option><option>RJ</option><option>MG</option><option>RS</option><option>BA</option><option>PR</option>
+        </select>
+      </div>
+    </div>
+    <div class="field-hint" style="color:#4a6fa5;margin-top:-8px;margin-bottom:12px;font-size:11px;">
+      <i class="ti ti-shield-check" style="color:#4fc3f7;font-size:13px;vertical-align:-1px;"></i>
+      Verificaremos seu CREFITO junto ao COFFITO automaticamente.
+    </div>
+    <div class="field">
+      <label style="color:#7fb3e8;">Diploma ou certificado de graduação</label>
+      <div class="upload-zone" style="background:#132840;border-color:#2d4a6a;" onclick="toast('Seleção de arquivo disponível no app mobile')">
+        <i class="ti ti-upload" style="color:#4a6fa5;"></i>
+        <p style="color:#7fb3e8;">Toque para enviar o arquivo</p>
+        <small style="color:#4a6fa5;">PDF ou JPG · máx. 10 MB</small>
+      </div>
+    </div>
+    <div class="field">
+      <label style="color:#7fb3e8;">Faculdade / Universidade</label>
+      <div class="finput-wrap">
+        <input id="pro-faculdade" class="finput pro" type="text" placeholder="Ex: USP, UNIFESP, PUC..." style="background:#132840;border-color:#1e3a5f;color:#fff;">
+        <i class="ti ti-school fi-icon"></i>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label style="color:#7fb3e8;">Ano de formação</label>
+        <input id="pro-ano-form" class="finput pro" type="number" placeholder="2015" min="1980" max="2030" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+      </div>
+      <div class="field">
+        <label style="color:#7fb3e8;">Anos de experiência</label>
+        <input id="pro-experiencia" class="finput pro" type="number" placeholder="5" min="0" max="50" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+      </div>
+    </div>
+
+    <div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-list-check" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Especialidades</span></div>
+    <div class="check-grid" style="margin-bottom:14px;">
+      <div class="check-chip sel" onclick="toggleChip(this)" style="background:#132840;border-color:#4fc3f7;color:#4fc3f7;"><div class="cbox" style="background:#4fc3f7;border-color:#4fc3f7;"><i class="ti ti-check" style="font-size:10px;color:#0d2137;"></i></div>Ortopédica</div>
+      <div class="check-chip sel" onclick="toggleChip(this)" style="background:#132840;border-color:#4fc3f7;color:#4fc3f7;"><div class="cbox" style="background:#4fc3f7;border-color:#4fc3f7;"><i class="ti ti-check" style="font-size:10px;color:#0d2137;"></i></div>Esportiva</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Neurológica</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Pediátrica</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Respiratória</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Pilates</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Drenagem</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="background:transparent;border-color:#2d4a6a;"></div>Obstétrica</div>
+    </div>
+
+    <div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-home" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Tipo de atendimento</span></div>
+    <div class="atend-row">
+      <div class="atend-card sel" onclick="this.classList.toggle('sel')" style="background:#132840;border-color:#4fc3f7;">
+        <i class="ti ti-home" style="color:#4fc3f7;font-size:22px;display:block;margin-bottom:4px;"></i><span style="color:#fff;font-size:12px;font-weight:600;">Domiciliar</span>
+      </div>
+      <div class="atend-card" onclick="this.classList.toggle('sel')" style="background:#132840;border-color:#1e3a5f;">
+        <i class="ti ti-building-hospital" style="color:#4a6fa5;font-size:22px;display:block;margin-bottom:4px;"></i><span style="color:#7fb3e8;font-size:12px;font-weight:600;">Clínica</span>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label style="color:#7fb3e8;">Valor por sessão (R$)</label><input class="finput pro" type="number" placeholder="120" id="pro-valor" oninput="calcTaxa()" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+      <div class="field"><label style="color:#7fb3e8;">Raio</label>
+        <select class="fselect" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+          <option>3 km</option><option selected>5 km</option><option>10 km</option><option>15 km</option>
+        </select>
+      </div>
+    </div>
+    <div id="taxa-preview" style="display:none;background:#0a1628;border-radius:10px;padding:12px;margin-bottom:12px;border:1px solid #1e3a5f;font-size:12px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="color:#7fb3e8;">Bruto por sessão</span><span id="tp-bruto" style="color:#fff;font-weight:700;font-family:'Nunito',sans-serif;"></span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="color:#ef5350;">Taxa myFisio (5%)</span><span id="tp-taxa" style="color:#ef5350;font-weight:700;font-family:'Nunito',sans-serif;"></span></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:#fff;font-weight:700;">Você recebe</span><span id="tp-liq" style="color:#4caf82;font-size:14px;font-weight:800;font-family:'Nunito',sans-serif;"></span></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label style="color:#7fb3e8;">Início</label><input class="finput pro" type="time" value="08:00" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+      <div class="field"><label style="color:#7fb3e8;">Fim</label><input class="finput pro" type="time" value="20:00" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+    </div>
+
+    <div class="sec-title pro-t" style="color:#4fc3f7;border-bottom-color:#1e3a5f;"><i class="ti ti-lock" style="color:#4fc3f7;"></i> <span style="color:#7fb3e8;">Dados de acesso</span></div>
+    <div class="field">
+      <label style="color:#7fb3e8;">Senha</label>
+      <div class="finput-wrap">
+        <input class="finput pro" type="password" placeholder="Mínimo 8 caracteres" id="pw-pro" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="new-password">
+        <i class="ti ti-eye fi-icon clickable" id="eye-pro" onclick="togglePw('pw-pro','eye-pro')" aria-label="Ver senha"></i>
+      </div>
+    </div>
+    <div class="field">
+      <label style="color:#7fb3e8;">Confirmar senha</label>
+      <div class="finput-wrap">
+        <input id="pro-pw2" class="finput pro" type="password" placeholder="Repita a senha" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="new-password">
+        <i class="ti ti-eye fi-icon"></i>
+      </div>
+    </div>
+
+    <div class="taxa-notice">
+      <i class="ti ti-info-circle" style="color:#4fc3f7;font-size:17px;flex-shrink:0;margin-top:1px;"></i>
+      <span>Ao se cadastrar você concorda com a <strong>taxa de 5% por sessão realizada</strong>. Nenhuma cobrança em cancelamentos.</span>
+    </div>
+    <div class="terms-row" style="color:#7fb3e8;">
+      <input type="checkbox" id="terms-pro" style="accent-color:#4fc3f7;">
+      <label for="terms-pro" style="color:#7fb3e8;">Li e aceito os <a href="#" class="pro">Termos para profissionais</a>, a <a href="#" class="pro">Política de privacidade</a> e o <a href="#" class="pro">Contrato de prestação de serviços</a> myFisio.</label>
+    </div>
+    <button class="btn-main btn-pro-c" onclick="cadastrarPro()">
+      <i class="ti ti-send"></i> Enviar cadastro para análise
+    </button>
+    <div class="link-txt" style="color:#7fb3e8;">Já tem conta? <a onclick="go('page-login')" style="color:#4fc3f7;">Fazer login</a></div>
+    <div style="height:16px;"></div>
+  </div>
 </div>
+
+<!-- ══════════════════════════════════════
+     SUCESSO — PACIENTE
+══════════════════════════════════════ -->
+<div id="page-ok-pac" class="page">
+  <div class="sbar sbar-blue"><span class="logo">my<span class="logo-acc">Fisio</span></span></div>
+  <div class="hero-blue hero-sm" style="text-align:center;"><div class="app-name-hero" style="font-size:20px;">Conta criada!</div></div>
+  <div class="success-page">
+    <div class="success-icon si-blue"><i class="ti ti-circle-check" style="font-size:38px;color:#1a73e8;"></i></div>
+    <h2>Bem-vindo ao myFisio!</h2>
+    <p>Sua conta foi criada com sucesso.<br>Enviamos um e-mail de confirmação.</p>
+    <button class="btn-main btn-blue" style="max-width:260px;" onclick="goAndLoad('page-map')">
+      <i class="ti ti-map-pin"></i> Encontrar fisioterapeutas
+    </button>
+    <p style="font-size:12px;color:#94a3b8;margin-top:14px;margin-bottom:0;">Verifique seu e-mail para ativar a conta</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SUCESSO — FISIO
+══════════════════════════════════════ -->
+<div id="page-ok-pro" class="page" style="background:#0f1f35;">
+  <div class="sbar sbar-dark"><span style="color:#4fc3f7;font-size:13px;font-weight:700;">myFisio Pro</span></div>
+  <div class="hero-dark hero-sm" style="text-align:center;"><div class="app-name-hero" style="font-size:20px;color:#4fc3f7;">Cadastro enviado!</div></div>
+  <div class="success-page" style="background:#0f1f35;">
+    <div class="success-icon si-pro"><i class="ti ti-clock-check" style="font-size:38px;color:#4fc3f7;"></i></div>
+    <h2 style="color:#fff;">Cadastro em análise</h2>
+    <p style="color:#7fb3e8;">Nossa equipe verificará seu CREFITO junto ao COFFITO em até <strong style="color:#fff;">24 horas úteis</strong>.</p>
+    <div class="analysis-steps" style="background:#132840;border-color:#1e3a5f;">
+      <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:10px;">Próximas etapas:</div>
+      <div class="as-item done"><i class="ti ti-check" style="color:#4caf82;"></i> Cadastro recebido</div>
+      <div class="as-item" style="color:#7fb3e8;"><i class="ti ti-clock" style="color:#4a6fa5;"></i> Verificação do CREFITO (até 24h)</div>
+      <div class="as-item" style="color:#7fb3e8;"><i class="ti ti-clock" style="color:#4a6fa5;"></i> Aprovação e ativação da conta</div>
+      <div class="as-item" style="color:#7fb3e8;"><i class="ti ti-clock" style="color:#4a6fa5;"></i> Aparecer no mapa para pacientes</div>
+    </div>
+    <button class="btn-main btn-pro-c" style="max-width:260px;" onclick="go('page-login')">
+      <i class="ti ti-home"></i> Ir para o início
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     APP — MAPA (paciente)
+══════════════════════════════════════ -->
+<div id="page-map" class="page">
+  <div class="app-topbar">
+    <div class="topbar-logo">my<span class="acc">Fisio</span></div>
+    <button class="topbar-icon" onclick="toast('Notificações')"><i class="ti ti-bell"></i></button>
+  </div>
+  <div class="map-wrap">
+    <svg class="map-svg" viewBox="0 0 375 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <rect width="375" height="600" fill="#dce8f7"/>
+      <rect x="0" y="90" width="375" height="16" fill="#c5d5ea" opacity=".7"/>
+      <rect x="0" y="210" width="375" height="16" fill="#c5d5ea" opacity=".7"/>
+      <rect x="0" y="330" width="375" height="16" fill="#c5d5ea" opacity=".7"/>
+      <rect x="0" y="450" width="375" height="16" fill="#c5d5ea" opacity=".7"/>
+      <rect x="70" y="0" width="16" height="600" fill="#c5d5ea" opacity=".7"/>
+      <rect x="190" y="0" width="16" height="600" fill="#c5d5ea" opacity=".7"/>
+      <rect x="300" y="0" width="16" height="600" fill="#c5d5ea" opacity=".7"/>
+      <rect x="10" y="116" width="50" height="86" rx="6" fill="#bccfe6" opacity=".75"/>
+      <rect x="96" y="116" width="86" height="86" rx="6" fill="#bccfe6" opacity=".75"/>
+      <rect x="210" y="120" width="80" height="82" rx="6" fill="#bccfe6" opacity=".75"/>
+      <rect x="316" y="116" width="50" height="86" rx="6" fill="#bccfe6" opacity=".75"/>
+      <rect x="10" y="234" width="50" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
+      <rect x="96" y="234" width="86" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
+      <rect x="210" y="234" width="80" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
+      <rect x="10" y="354" width="160" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
+      <rect x="210" y="354" width="155" height="88" rx="6" fill="#bccfe6" opacity=".75"/>
+      <circle cx="187" cy="295" r="16" fill="#1a73e8" opacity=".18"/>
+      <circle cx="187" cy="295" r="8" fill="white"/>
+      <circle cx="187" cy="295" r="5" fill="#1a73e8"/>
+    </svg>
+    <div class="map-search">
+      <i class="ti ti-search" style="color:#94a3b8;font-size:17px;"></i>
+      <input type="text" id="map-search-input" placeholder="Buscar fisioterapeuta..." oninput="filterMapSearch(this.value)">
+      <i class="ti ti-adjustments-horizontal" id="map-filter-icon" style="color:#94a3b8;font-size:17px;cursor:pointer;" onclick="toggleMapFilter()"></i>
+    </div>
+    <div id="map-filter-panel" style="display:none;position:absolute;top:58px;left:12px;right:12px;background:#fff;border-radius:14px;padding:14px;box-shadow:0 4px 20px rgba(0,0,0,.18);z-index:25;">
+      <div style="font-size:12px;font-weight:700;color:#374151;margin-bottom:8px;">💰 Preço máximo por sessão</div>
+      <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;">
+        <div class="chip on" onclick="setPriceFilter(this,0)" id="fp-all">Qualquer</div>
+        <div class="chip" onclick="setPriceFilter(this,100)" id="fp-100">Até R$100</div>
+        <div class="chip" onclick="setPriceFilter(this,150)" id="fp-150">Até R$150</div>
+        <div class="chip" onclick="setPriceFilter(this,200)" id="fp-200">Até R$200</div>
+      </div>
+      <div style="font-size:12px;font-weight:700;color:#374151;margin-bottom:8px;">📍 Distância máxima</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <div class="chip on" onclick="setDistFilter(this,10)" id="fd-10">10 km</div>
+        <div class="chip" onclick="setDistFilter(this,5)" id="fd-5">5 km</div>
+        <div class="chip" onclick="setDistFilter(this,2)" id="fd-2">2 km</div>
+        <div class="chip" onclick="setDistFilter(this,1)" id="fd-1">1 km</div>
+      </div>
+    </div>
+    <div class="map-pin" style="left:27%;top:43%;" onclick="go('page-detail')">
+      <div class="pin-lbl" style="background:#16a34a;">Dra. Ana · R$120</div>
+      <div class="pin-tri" style="border-top:9px solid #16a34a;"></div>
+    </div>
+    <div class="map-pin" style="left:64%;top:29%;" onclick="go('page-detail')">
+      <div class="pin-lbl" style="background:#1a73e8;">Dr. Carlos · R$150</div>
+      <div class="pin-tri" style="border-top:9px solid #1a73e8;"></div>
+    </div>
+
+    <button class="loc-btn" onclick="toast('Localizando...')"><i class="ti ti-current-location" style="font-size:20px;color:#1a73e8;"></i></button>
+    <div class="map-sheet" style="max-height:58%;overflow:hidden;display:flex;flex-direction:column;">
+      <div class="drag-hdl"></div>
+      <div class="sheet-hdr">
+        <span class="sheet-cnt" id="map-cnt">Buscando...</span>
+        <button class="filter-btn" onclick="toggleMapFilter()"><i class="ti ti-adjustments-horizontal"></i> Filtros</button>
+      </div>
+      <div class="chip-row" style="flex-shrink:0;padding-bottom:4px;">
+        <div class="chip on" onclick="filterPros(this,'Todos')">Todos</div>
+        <div class="chip" onclick="filterPros(this,'Ortopédica')">Ortopedia</div>
+        <div class="chip" onclick="filterPros(this,'Neurológica')">Neurológico</div>
+        <div class="chip" onclick="filterPros(this,'Esportiva')">Esportivo</div>
+        <div class="chip" onclick="filterPros(this,'Pediátrica')">Pediátrico</div>
+        <div class="chip" onclick="filterPros(this,'Respiratória')">Respiratório</div>
+        <div class="chip" onclick="filterPros(this,'Pilates')">Pilates</div>
+      </div>
+      <div id="map-card-area" style="overflow-y:auto;flex:1;scrollbar-width:none;">
+        <div style="text-align:center;padding:20px;color:#64748b;">Buscando fisioterapeutas...</div>
+      </div>
+    </div>
+  </div>
+  <div class="bot-nav">
+    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-list')"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-profile')"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     APP — LISTA
+══════════════════════════════════════ -->
+<div id="page-list" class="page">
+  <div class="app-topbar">
+    <button class="topbar-back" onclick="goAndLoad('page-map')"><i class="ti ti-arrow-left"></i></button>
+    <div class="topbar-logo">my<span class="acc">Fisio</span></div>
+    
+  </div>
+  <div style="background:#fff;flex-shrink:0;padding:10px 16px 12px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <div style="flex:1;display:flex;align-items:center;gap:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:10px 14px;">
+        <i class="ti ti-search" style="color:#94a3b8;font-size:17px;"></i>
+        <input type="text" id="list-search-input" placeholder="Nome, especialidade..." style="border:none;outline:none;flex:1;font-size:14px;background:transparent;font-family:'Nunito Sans',sans-serif;color:#0f172a;" oninput="applyListFilters()">
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#374151;font-weight:600;">💰</div>
+      <div class="chip on" id="lf-price-0" onclick="setListPrice(this,0)">Qualquer</div>
+      <div class="chip" id="lf-price-100" onclick="setListPrice(this,100)">≤ R$100</div>
+      <div class="chip" id="lf-price-150" onclick="setListPrice(this,150)">≤ R$150</div>
+      <div class="chip" id="lf-price-200" onclick="setListPrice(this,200)">≤ R$200</div>
+    </div>
+    <div class="chip-row" style="margin-bottom:0;" id="list-spec-chips">
+      <div class="chip on" onclick="setListSpec(this,'')">Todos</div>
+      <div class="chip" onclick="setListSpec(this,'Ortopédica')">Ortopedia</div>
+      <div class="chip" onclick="setListSpec(this,'Neurológica')">Neurológico</div>
+      <div class="chip" onclick="setListSpec(this,'Esportiva')">Esportivo</div>
+      <div class="chip" onclick="setListSpec(this,'Pediátrica')">Pediátrico</div>
+      <div class="chip" onclick="setListSpec(this,'Respiratória')">Respiratório</div>
+      <div class="chip" onclick="setListSpec(this,'Pilates')">Pilates</div>
+      <div class="chip" onclick="setListSpec(this,'Drenagem')">Drenagem</div>
+    </div>
+  </div>
+  <div class="scroll" id="pros-list">
+    <div style="text-align:center;padding:30px;color:#64748b;">Buscando fisioterapeutas...</div>
+  </div>
+  <div class="bot-nav">
+    <div class="nav-it" onclick="goAndLoad('page-map')"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
+    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-profile')"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     APP — DETALHE FISIO
+══════════════════════════════════════ -->
+<div id="page-detail" class="page">
+  <div class="detail-hero">
+    <button class="topbar-back" onclick="goAndLoad('page-list')"><i class="ti ti-arrow-left"></i> Voltar</button>
+    <div class="detail-av-row">
+      <div class="detail-av" id="d-av">AN</div>
+      <div>
+        <div class="d-name">Dra. Ana Nascimento</div>
+        <div class="d-crm">CREFITO: 12345-F · SP</div>
+        <div class="d-spec">Fisioterapia Ortopédica e Esportiva</div>
+        <div class="d-rating">⭐ <span class="d-rnum">4.9</span><span class="d-rcnt">(128 avaliações)</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll">
+    <div class="info-card">
+      <div class="ic-title">Informações</div>
+      <div class="ic-row"><span class="ic-icon">📍</span><span id="d-loc">—</span></div>
+      <div class="ic-row"><span class="ic-icon">🕐</span><span id="d-hora">—</span></div>
+      <div class="ic-row"><span class="ic-icon">🏠</span><span id="d-tipo">—</span></div>
+      <div class="ic-row"><span class="ic-icon">🎓</span><span id="d-form">—</span></div>
+      <div class="ic-row"><span class="ic-icon">📋</span><span id="d-exp">—</span></div>
+      <div class="ic-row"><span class="ic-icon">💬</span><span id="d-bio" style="color:#64748b;font-style:italic;"></span></div>
+    </div>
+    <div class="info-card">
+      <div class="ic-title">Serviços</div>
+      <div class="svc-row"><span>Avaliação inicial (60 min)</span><span class="svc-p" id="d-preco1">—</span></div>
+      <div class="svc-row"><span>Sessão de fisioterapia (50 min)</span><span class="svc-p" id="d-preco2">—</span></div>
+      <div class="svc-row" style="border:none;"><span>Outros serviços</span><span class="svc-p">Consulte</span></div>
+    </div>
+    <div class="info-card" id="d-reviews-card">
+      <div class="ic-title">Avaliações recentes</div>
+      <div id="d-reviews-list"><div style="font-size:13px;color:#94a3b8;text-align:center;padding:8px;">Sem avaliações ainda</div></div>
+    </div>
+  </div>
+  <div class="booking-bar">
+    <button id="fav-btn" onclick="toggleFavorite(this.dataset.proid)" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px 14px;font-size:20px;cursor:pointer;transition:.15s;" data-proid="">❤️</button>
+    <div class="time-sel" onclick="if(currentPro){openBooking(allPros.indexOf(currentPro))}else{toast('Selecione um fisioterapeuta')}">📅 Escolher horário</div>
+    <button class="btn-main btn-blue" id="agendar-btn" style="flex:1;height:44px;">Agendar</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     APP — SESSÕES
+══════════════════════════════════════ -->
+<div id="page-sessions" class="page">
+  <div class="app-topbar">
+    <div class="topbar-logo">my<span class="acc">Fisio</span></div>
+    <button class="topbar-icon" onclick="toast('Filtrar')"><i class="ti ti-filter"></i></button>
+  </div>
+  <div class="page-hdr">
+    <div class="ph-title">Minhas Sessões</div>
+    <div class="ph-sub">Histórico e agendamentos</div>
+  </div>
+  <div class="scroll" id="sessions-list">
+    <div style="text-align:center;padding:30px;color:#64748b;">Carregando sessões...</div>
+  </div>
+  <div class="bot-nav">
+    <div class="nav-it" onclick="goAndLoad('page-map')"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-list')"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
+    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-profile')"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
+  </div>
+</div>
+
+<!-- ══ PERFIL DO PACIENTE ══ -->
+<div id="page-profile" class="page">
+  <div class="profile-hdr">
+    <div class="p-av-big" id="p-av">JS</div>
+    <div>
+      <div class="p-name" id="p-name">Carregando...</div>
+      <div class="p-email" id="p-email"></div>
+      <div style="margin-top:8px;"><span class="bdg bdg-b" style="font-size:11px;">✓ Plano Basic</span></div>
+    </div>
+  </div>
+  <div class="scroll">
+    <div class="stat-mini-grid">
+      <div class="stat-mini"><div class="sm-num" style="color:#1a73e8;" id="p-sessions">—</div><div class="sm-lbl">Sessões realizadas</div></div>
+      <div class="stat-mini"><div class="sm-num" style="color:#16a34a;" id="p-pros">—</div><div class="sm-lbl">Profissionais</div></div>
+    </div>
+    <div class="menu-it" onclick="goAndLoad('page-favorites')"><div class="menu-icon-box">❤️</div><div class="menu-lbl">Favoritos</div><div class="menu-arr">›</div></div>
+    <div class="menu-it" onclick="goAndLoad('page-sessions')"><div class="menu-icon-box">📅</div><div class="menu-lbl">Minhas sessões</div><div class="menu-arr">›</div></div>
+    <div class="menu-it" onclick="goAndLoad('page-notifications')"><div class="menu-icon-box">🔔</div><div class="menu-lbl">Notificações <span id="notif-badge" style="display:none;background:#ef4444;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;margin-left:6px;">0</span></div><div class="menu-arr">›</div></div>
+    <div class="menu-it" onclick="showPaymentInfo()"><div class="menu-icon-box">💳</div><div class="menu-lbl">Pagamento</div><div class="menu-arr">›</div></div>
+    <div class="menu-it" onclick="openSupport()"><div class="menu-icon-box">❓</div><div class="menu-lbl">Ajuda e suporte</div><div class="menu-arr">›</div></div>
+    <div class="menu-it" style="border-color:#fee2e2;" onclick="doLogout()">
+      <div class="menu-icon-box" style="background:#fee2e2;">🚪</div>
+      <div class="menu-lbl" style="color:#b91c1c;">Sair</div>
+    </div>
+  </div>
+  <div class="bot-nav">
+    <div class="nav-it" onclick="goAndLoad('page-map')"><div class="nv-icon"><i class="ti ti-map"></i></div><div class="nv-lbl">Mapa</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-list')"><div class="nv-icon"><i class="ti ti-search"></i></div><div class="nv-lbl">Buscar</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-user"></i></div><div class="nv-lbl">Perfil</div></div>
+  </div>
+</div>
+
+<!-- ══ AGENDAMENTO — ESCOLHA DE HORÁRIO ══ -->
+<div id="page-booking" class="page">
+  <div class="app-topbar"><button class="topbar-back" onclick="go('page-detail')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Agendar sessão</div></div>
+  <div class="scroll">
+    <div style="background:#e8f0fe;border-radius:14px;padding:12px;margin-bottom:14px;display:flex;gap:10px;align-items:center;">
+      <div class="av av-g" id="bk-av" style="width:44px;height:44px;font-size:15px;">AN</div>
+      <div><div style="font-size:14px;font-weight:600;color:#0f172a;" id="bk-name">Fisioterapeuta</div><div style="font-size:12px;color:#64748b;" id="bk-spec">Especialidade</div></div>
+    </div>
+    <div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:8px;">Escolha a data</div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:16px;" id="bk-dates"></div>
+    <div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:8px;">Horários disponíveis <span id="bk-date-label" style="color:#1a73e8;font-size:12px;"></span></div>
+    <div id="bk-slots" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;">
+      <div style="text-align:center;padding:20px;color:#64748b;grid-column:1/-1;">Selecione uma data acima</div>
+    </div>
+    <div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:8px;">Tipo de atendimento</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+      <div class="atend-card sel" id="bk-tipo-dom" onclick="setBkTipo('domiciliar')"><i class="ti ti-home" style="font-size:20px;display:block;margin-bottom:4px;"></i><span style="font-size:12px;font-weight:600;">Domiciliar</span></div>
+      <div class="atend-card" id="bk-tipo-cli" onclick="setBkTipo('clinica')"><i class="ti ti-building-hospital" style="font-size:20px;display:block;margin-bottom:4px;"></i><span style="font-size:12px;font-weight:600;">Clínica</span></div>
+    </div>
+    <div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:6px;">Endereço do atendimento</div>
+    <input id="bk-address" class="finput" type="text" placeholder="Rua, número — bairro" style="margin-bottom:14px;">
+    <div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:6px;">Observações (opcional)</div>
+    <textarea id="bk-notes" style="width:100%;border:1px solid #e2e8f0;border-radius:10px;padding:10px;font-size:13px;font-family:'Nunito Sans',sans-serif;resize:none;height:70px;outline:none;margin-bottom:14px;" placeholder="Descreva brevemente o problema..."></textarea>
+    <div style="background:#e8f0fe;border-radius:10px;padding:10px 12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-size:13px;color:#475569;">Valor da sessão</span>
+      <span style="font-size:16px;font-weight:700;color:#1a73e8;font-family:'Nunito',sans-serif;" id="bk-price">R$ —</span>
+    </div>
+    <button class="btn-main btn-blue" onclick="confirmBooking()" id="bk-confirm-btn" disabled style="opacity:.5;">
+      <i class="ti ti-calendar-check"></i> Confirmar agendamento
+    </button>
+  </div>
+</div>
+
+<!-- ══ FAVORITOS ══ -->
+<div id="page-favorites" class="page">
+  <div class="app-topbar"><button class="topbar-back" onclick="goAndLoad('page-profile')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Favoritos</div></div>
+  <div class="scroll" id="favorites-list"><div style="text-align:center;padding:30px;color:#64748b;">Carregando...</div></div>
+</div>
+
+<!-- ══ NOTIFICAÇÕES ══ -->
+<div id="page-notifications" class="page">
+  <div class="app-topbar"><button class="topbar-back" onclick="goAndLoad('page-profile')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Notificações</div></div>
+  <div class="scroll" id="notif-list"><div style="text-align:center;padding:30px;color:#64748b;">Carregando...</div></div>
+</div>
+
+<!-- ══ AVALIAÇÃO ══ -->
+<div id="page-review" class="page">
+  <div class="app-topbar"><button class="topbar-back" onclick="goAndLoad('page-sessions')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">Avaliar sessão</div></div>
+  <div class="scroll" style="display:flex;flex-direction:column;align-items:center;padding-top:30px;">
+    <div class="av av-g" id="rv-av" style="width:72px;height:72px;font-size:26px;margin-bottom:12px;">AN</div>
+    <div style="font-size:17px;font-weight:700;color:#0f172a;font-family:'Nunito',sans-serif;margin-bottom:4px;" id="rv-name">Fisioterapeuta</div>
+    <div style="font-size:13px;color:#64748b;margin-bottom:24px;" id="rv-date">Data da sessão</div>
+    <div style="font-size:14px;font-weight:600;color:#0f172a;margin-bottom:12px;">Como foi o atendimento?</div>
+    <div style="display:flex;gap:12px;margin-bottom:20px;" id="rv-stars">
+      <span onclick="setRating(1)" style="font-size:36px;cursor:pointer;transition:.15s;">⭐</span>
+      <span onclick="setRating(2)" style="font-size:36px;cursor:pointer;transition:.15s;">⭐</span>
+      <span onclick="setRating(3)" style="font-size:36px;cursor:pointer;transition:.15s;">⭐</span>
+      <span onclick="setRating(4)" style="font-size:36px;cursor:pointer;transition:.15s;">⭐</span>
+      <span onclick="setRating(5)" style="font-size:36px;cursor:pointer;transition:.15s;">⭐</span>
+    </div>
+    <div style="font-size:14px;font-weight:600;color:#0f172a;margin-bottom:8px;align-self:flex-start;">Comentário (opcional)</div>
+    <textarea id="rv-comment" style="width:100%;border:1px solid #e2e8f0;border-radius:10px;padding:10px;font-size:13px;font-family:'Nunito Sans',sans-serif;resize:none;height:90px;outline:none;margin-bottom:20px;" placeholder="Conte como foi a experiência..."></textarea>
+    <button class="btn-main btn-blue" onclick="submitReview()" style="width:100%;max-width:280px;">
+      <i class="ti ti-send"></i> Enviar avaliação
+    </button>
+  </div>
+</div>
+
+<!-- ══ PRO — SESSÕES ══ -->
+<div id="page-pro-sessions" class="page" style="background:#0f1f35;">
+  <div class="app-topbar dark-bar"><button class="topbar-back" onclick="goAndLoad('page-pro-dash')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div></div>
+  <div class="page-hdr dark-hdr"><div class="ph-title">Minhas Sessões</div><div class="ph-sub">Pedidos recebidos e histórico</div></div>
+  <div style="background:#132840;border-bottom:1px solid #1e3a5f;padding:10px 14px;flex-shrink:0;">
+    <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+      <div style="flex:1;display:flex;align-items:center;gap:8px;background:#0f1f35;border:1px solid #1e3a5f;border-radius:10px;padding:8px 12px;">
+        <i class="ti ti-search" style="color:#4a6fa5;font-size:15px;"></i>
+        <input type="text" id="pro-sess-search" placeholder="Buscar paciente..." style="border:none;outline:none;flex:1;font-size:13px;background:transparent;color:#fff;font-family:'Nunito Sans',sans-serif;" oninput="applyProSessFilters()">
+      </div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+      <div style="font-size:11px;color:#4a6fa5;display:flex;align-items:center;margin-right:2px;">📅</div>
+      <div class="chip on" id="psf-all" onclick="setProSessDate(this,0)" style="background:#4fc3f7;border-color:#4fc3f7;color:#0d2137;font-size:11px;padding:5px 10px;">Todos</div>
+      <div class="chip" id="psf-7" onclick="setProSessDate(this,7)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;font-size:11px;padding:5px 10px;">7 dias</div>
+      <div class="chip" id="psf-15" onclick="setProSessDate(this,15)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;font-size:11px;padding:5px 10px;">15 dias</div>
+      <div class="chip" id="psf-30" onclick="setProSessDate(this,30)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;font-size:11px;padding:5px 10px;">30 dias</div>
+    </div>
+  </div>
+  <div class="scroll" id="pro-sessions-list" style="background:#0f1f35;">
+    <div style="text-align:center;padding:30px;color:#7fb3e8;">Carregando...</div>
+  </div>
+  <div class="bot-nav dark-nav">
+    <div class="nav-it" onclick="goAndLoad('page-pro-dash')"><div class="nv-icon"><i class="ti ti-layout-dashboard"></i></div><div class="nv-lbl">Painel</div></div>
+    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-pro-edit')"><div class="nv-icon"><i class="ti ti-user-edit"></i></div><div class="nv-lbl">Cadastro</div></div>
+    <div class="nav-it" onclick="doLogout()"><div class="nv-icon"><i class="ti ti-logout"></i></div><div class="nv-lbl">Sair</div></div>
+  </div>
+</div>
+
+<!-- ══ PRO — EDITAR CADASTRO ══ -->
+<div id="page-pro-edit" class="page" style="background:#0f1f35;">
+  <div class="app-topbar dark-bar"><button class="topbar-back" onclick="goAndLoad('page-pro-dash')"><i class="ti ti-arrow-left"></i></button><div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div></div>
+  <div class="form-area" style="background:#0f1f35;padding-top:14px;">
+    <div style="font-size:16px;font-weight:700;color:#fff;font-family:'Nunito',sans-serif;margin-bottom:14px;">Editar meu cadastro</div>
+    <div class="field"><label style="color:#7fb3e8;">Nome completo</label>
+      <div class="finput-wrap"><input id="edit-nome" class="finput pro" type="text" placeholder="Seu nome" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+    </div>
+    <div class="field"><label style="color:#7fb3e8;">Telefone</label>
+      <div class="finput-wrap"><input id="edit-tel" class="finput pro" type="tel" placeholder="(11) 99999-9999" style="background:#132840;border-color:#1e3a5f;color:#fff;" oninput="maskPhone(this)"></div>
+    </div>
+    <div style="font-size:12px;font-weight:700;color:#4fc3f7;margin:14px 0 8px;text-transform:uppercase;letter-spacing:.4px;">Endereço de atendimento</div>
+    <div class="field"><label style="color:#7fb3e8;">Endereço manual</label>
+      <input id="edit-address" class="finput pro" type="text" placeholder="Rua, número — bairro — cidade" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+    </div>
+    <button onclick="getProLocation()" style="width:100%;background:rgba(79,195,247,.15);border:1px solid #4fc3f7;border-radius:10px;color:#4fc3f7;padding:10px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:14px;font-family:'Nunito',sans-serif;">
+      <i class="ti ti-current-location" style="vertical-align:-2px;margin-right:4px;"></i> Usar minha localização atual
+    </button>
+    <div class="field"><label style="color:#7fb3e8;">Valor por sessão (R$)</label>
+      <input id="edit-price" class="finput pro" type="number" min="0" placeholder="120" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <div class="field"><label style="color:#7fb3e8;">Início</label><input id="edit-start" class="finput pro" type="time" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+      <div class="field"><label style="color:#7fb3e8;">Fim</label><input id="edit-end" class="finput pro" type="time" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+    </div>
+    <div class="field"><label style="color:#7fb3e8;">Bio / Apresentação</label>
+      <textarea id="edit-bio" style="width:100%;background:#132840;border:1px solid #1e3a5f;border-radius:10px;padding:10px;color:#fff;font-size:13px;font-family:'Nunito Sans',sans-serif;resize:none;height:80px;outline:none;" placeholder="Fale um pouco sobre você e sua experiência..."></textarea>
+    </div>
+    <div style="font-size:12px;font-weight:700;color:#4fc3f7;margin:4px 0 8px;text-transform:uppercase;letter-spacing:.4px;">Formação acadêmica</div>
+    <div class="field"><label style="color:#7fb3e8;">Faculdade / Universidade</label>
+      <input id="edit-faculdade" class="finput pro" type="text" placeholder="Ex: USP, UNIFESP..." style="background:#132840;border-color:#1e3a5f;color:#fff;">
+    </div>
+    <div class="field-row">
+      <div class="field"><label style="color:#7fb3e8;">Ano de formação</label>
+        <input id="edit-ano-form" class="finput pro" type="number" placeholder="2015" min="1980" max="2030" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+      <div class="field"><label style="color:#7fb3e8;">Anos de experiência</label>
+        <input id="edit-experiencia" class="finput pro" type="number" placeholder="5" min="0" max="50" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
+    </div>
+    <div style="font-size:12px;font-weight:700;color:#4fc3f7;margin:14px 0 8px;text-transform:uppercase;letter-spacing:.4px;">Valores dos serviços</div>
+    <div style="background:#0a1628;border-radius:12px;padding:12px;margin-bottom:14px;border:1px solid #1e3a5f;">
+      <div style="font-size:12px;color:#7fb3e8;margin-bottom:10px;">Ajuste o valor cobrado por tipo de atendimento:</div>
+      <div class="field-row">
+        <div class="field">
+          <label style="color:#7fb3e8;">Avaliação inicial (R$)</label>
+          <input id="edit-price-aval" class="finput pro" type="number" min="0" placeholder="120" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+        </div>
+        <div class="field">
+          <label style="color:#7fb3e8;">Sessão padrão (R$)</label>
+          <input id="edit-price" class="finput pro" type="number" min="0" placeholder="120" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label style="color:#7fb3e8;">Pilates (R$)</label>
+          <input id="edit-price-pilates" class="finput pro" type="number" min="0" placeholder="140" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+        </div>
+        <div class="field">
+          <label style="color:#7fb3e8;">Drenagem (R$)</label>
+          <input id="edit-price-drain" class="finput pro" type="number" min="0" placeholder="150" style="background:#132840;border-color:#1e3a5f;color:#fff;">
+        </div>
+      </div>
+      <div style="font-size:11px;color:#4a6fa5;margin-top:6px;"><i class="ti ti-info-circle" style="vertical-align:-1px;"></i> Taxa myFisio de 5% é descontada sobre o valor da sessão realizada.</div>
+    </div>
+    <div style="font-size:12px;font-weight:700;color:#4fc3f7;margin:4px 0 8px;text-transform:uppercase;letter-spacing:.4px;">Especialidades</div>
+    <div class="check-grid" id="edit-specs" style="margin-bottom:16px;">
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Ortopédica</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Esportiva</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Neurológica</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Pediátrica</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Respiratória</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Pilates</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Drenagem</div>
+      <div class="check-chip" onclick="toggleChip(this)" style="background:#132840;border-color:#1e3a5f;color:#7fb3e8;"><div class="cbox" style="border-color:#2d4a6a;"></div>Obstétrica</div>
+    </div>
+    <button class="btn-main btn-pro-c" onclick="saveProEdit()">
+      <i class="ti ti-device-floppy"></i> Salvar alterações
+    </button>
+    <div style="height:20px;"></div>
+  </div>
+  <div class="bot-nav dark-nav">
+    <div class="nav-it" onclick="goAndLoad('page-pro-dash')"><div class="nv-icon"><i class="ti ti-layout-dashboard"></i></div><div class="nv-lbl">Painel</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-pro-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-user-edit"></i></div><div class="nv-lbl">Cadastro</div></div>
+    <div class="nav-it" onclick="doLogout()"><div class="nv-icon"><i class="ti ti-logout"></i></div><div class="nv-lbl">Sair</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     APP PRO — PAINEL (fisioterapeuta)
+══════════════════════════════════════ -->
+<div id="page-pro-dash" class="page" style="background:#0f1f35;">
+  <div class="app-topbar dark-bar">
+    <div class="topbar-logo">my<span class="pro-acc">Fisio</span><span class="pro-label">PRO</span></div>
+    <button class="topbar-icon" onclick="toast('Notificações')"><i class="ti ti-bell"></i></button>
+  </div>
+  <div class="scroll" style="background:#0f1f35;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;margin-top:4px;">
+      <div style="font-size:13px;color:#7fb3e8;" id="pro-greet">Olá, Dra. Ana 👋</div>
+      <span style="background:rgba(76,175,130,.15);color:#4caf82;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;">✓ Verificada</span>
+    </div>
+    <div class="online-toggle" onclick="toggleOnline(this)">
+      <div class="tog-track" id="pro-tog"><div class="tog-knob"></div></div>
+      <div class="tog-info">
+        <div class="tog-title" id="tog-title">🟢 Online — Recebendo pedidos</div>
+        <div class="tog-sub" id="tog-sub">Visível no mapa para pacientes</div>
+      </div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-n blue" id="stat-pending">—</div><div class="stat-l">Pedidos novos</div></div>
+      <div class="stat-card"><div class="stat-n green" id="stat-today">—</div><div class="stat-l">Sessões hoje</div></div>
+      <div class="stat-card"><div class="stat-n amber">⭐ —</div><div class="stat-l">Avaliação</div></div>
+      <div class="stat-card"><div class="stat-n blue">—</div><div class="stat-l">Ganhos hoje</div></div>
+    </div>
+    <div class="slbl dk">Pedidos pendentes</div>
+    <div id="pro-demand-area">
+      <div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Carregando pedidos...</div>
+    </div>
+    <div class="slbl dk">Agenda de hoje</div>
+    <div id="pro-agenda-today">
+      <div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Carregando agenda...</div>
+    </div>
+  </div>
+  <div class="bot-nav dark-nav">
+    <div class="nav-it on"><div class="nv-icon"><i class="ti ti-layout-dashboard"></i></div><div class="nv-lbl">Painel</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-pro-sessions')"><div class="nv-icon"><i class="ti ti-calendar"></i></div><div class="nv-lbl">Sessões</div></div>
+    <div class="nav-it" onclick="goAndLoad('page-pro-edit')"><div class="nv-icon"><i class="ti ti-user-edit"></i></div><div class="nv-lbl">Cadastro</div></div>
+    <div class="nav-it" onclick="doLogout()"><div class="nv-icon"><i class="ti ti-logout"></i></div><div class="nv-lbl">Sair</div></div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="modal-overlay" onclick="closeModal()" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,.55);z-index:9998;align-items:flex-end;justify-content:center;">
+  <div id="modal-box" onclick="event.stopPropagation()" style="background:#fff;border-radius:20px 20px 0 0;padding:24px 20px;width:100%;text-align:center;"></div>
+</div>
+
+<div id="toast"></div>
+
+</div><!-- #app -->
 
 <script>
-// --- APP STATE & SEED DATA ---
-var currentMode = 'patient'; // 'patient' ou 'pro'
-var currentUser = { name: "Paciente Teste", isPro: false, crefito: null };
-var activeView = 'patient-home';
+// ═══════════════════════════════════════════════
+//  myFisio — Integração com API real
+// ═══════════════════════════════════════════════
+var API_URL = 'https://myfisio-api.onrender.com';
 
-// Banco local inicializado simulando localStorage/API remoto
-var appointments = JSON.parse(localStorage.getItem('myfisio_appointments')) || [
-  {
-    id: "1001",
-    patient_name: "Carlos Eduardo",
-    specialty: "Ortopedia",
-    service_type: "domiciliar",
-    scheduled_at: new Date(new Date().setHours(14,0,0,0)).toISOString(), // Hoje às 14:00
-    status: "confirmed",
-    price: 150.00
-  },
-  {
-    id: "1002",
-    patient_name: "Maria Alencar",
-    specialty: "Neurologia",
-    service_type: "clinica",
-    scheduled_at: new Date(new Date().setHours(16,30,0,0)).toISOString(), // Hoje às 16:30
-    status: "pending",
-    price: 180.00
-  },
-  {
-    id: "1003",
-    patient_name: "Antônio Filho",
-    specialty: "Geriatria",
-    service_type: "domiciliar",
-    scheduled_at: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(), // Amanhã
-    status: "pending",
-    price: 160.00
+// ── Sessão ─────────────────────────────────────
+function getToken(){ return localStorage.getItem('myfisio_token'); }
+function getUser() { try{ return JSON.parse(localStorage.getItem('myfisio_user')||'null'); }catch(e){ return null; } }
+function saveSession(token,user){
+  localStorage.setItem('myfisio_token', token);
+  localStorage.setItem('myfisio_user', JSON.stringify(user));
+}
+function clearSession(){
+  localStorage.removeItem('myfisio_token');
+  localStorage.removeItem('myfisio_user');
+}
+
+// ── Requisição ─────────────────────────────────
+async function api(method, path, body){
+  var headers = {'Content-Type':'application/json'};
+  var token = getToken();
+  if(token) headers['Authorization'] = 'Bearer '+token;
+
+  // Timeout de 15 segundos para não travar a UI
+  var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+  var timer = controller ? setTimeout(function(){ controller.abort(); }, 15000) : null;
+
+  try{
+    var res = await fetch(API_URL+path, {
+      method: method,
+      headers: headers,
+      body: body ? JSON.stringify(body) : undefined,
+      signal: controller ? controller.signal : undefined,
+    });
+    if(timer) clearTimeout(timer);
+    var data = await res.json();
+    if(!res.ok){
+      if(res.status === 422 && data.errors && data.errors.length){
+        var msgs = data.errors.map(function(e){ return e.msg || e.message; }).join(' | ');
+        throw new Error(msgs);
+      }
+      throw new Error(data.error || 'Erro '+res.status);
+    }
+    return data;
+  } catch(e){
+    if(timer) clearTimeout(timer);
+    if(e.name === 'AbortError') throw new Error('Tempo de resposta esgotado. Verifique sua conexão.');
+    throw e;
   }
-];
-
-// Persiste dados iniciais caso não existam
-if(!localStorage.getItem('myfisio_appointments')) {
-  localStorage.setItem('myfisio_appointments', JSON.stringify(appointments));
 }
 
-function saveToStorage() {
-  localStorage.setItem('myfisio_appointments', JSON.stringify(appointments));
+// ── Flag: evita fetches antes do app estar pronto ─
+// ═══════════════════════════════════════════════
+//  INICIALIZAÇÃO — não bloqueia a UI em nenhum caso
+// ═══════════════════════════════════════════════
+
+// go() navega entre páginas SEM disparar fetch
+// Os fetches são disparados explicitamente pelo usuário ou pelo afterLogin
+function go(id){
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  var el = document.getElementById(id);
+  if(el) el.classList.add('active');
 }
 
-// --- INITIALIZATION ---
-document.addEventListener("DOMContentLoaded", function() {
-  buildNavbar();
-  switchView('patient-home');
-  checkProBannerStatus();
+// goAndLoad() = go() + carrega dados da página
+function goAndLoad(id){
+  go(id);
+  if(id === 'page-profile')       { loadProfile(); loadNotifications(); }
+  if(id === 'page-sessions')      loadSessions();
+  if(id === 'page-pro-sessions')  loadProSessions();
+  if(id === 'page-pro-dash')      loadDashboard();
+  if(id === 'page-pro-edit')      loadProEdit();
+  if(id === 'page-favorites')     loadFavorites();
+  if(id === 'page-notifications') loadNotifications();
+  if(id === 'page-map' || id === 'page-list') loadProfessionals();
+}
+
+// Inicialização: splash rápido → login ou app
+// NÃO faz nenhuma chamada à API aqui
+window.addEventListener('load', function(){
+  var token = getToken();
+  var user  = getUser();
+
+  // Splash curto (1s) depois navega — sem nenhum fetch
+  setTimeout(function(){
+    if(token && user){
+      afterLogin(user);
+    } else {
+      go('page-login');
+    }
+  }, 1000);
 });
 
-// --- UI UTILS & NAVIGATION ---
-function showToast(msg, icon) {
-  var t = document.getElementById('app-toast');
-  t.querySelector('#toast-msg').innerText = msg;
-  if(icon) {
-    t.querySelector('i').className = "ti ti-" + icon;
-  }
-  t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); }, 3000);
-}
+// Chamado após login bem-sucedido ou ao retornar com token salvo
+function afterLogin(user){
+  if(!user) user = getUser();
+  if(!user) { go('page-login'); return; }
 
-function buildNavbar() {
-  var nav = document.getElementById('main-navbar');
-  if (currentMode === 'patient') {
-    nav.innerHTML = `
-      <button class="nav-item active" id="nav-patient-home" onclick="switchView('patient-home')">
-        <i class="ti ti-smart-home"></i>Início
-      </button>
-      <button class="nav-item" id="nav-patient-schedule" onclick="switchView('patient-schedule')">
-        <i class="ti ti-calendar-plus"></i>Agendar
-      </button>
-      <button class="nav-item" id="nav-patient-history" onclick="switchView('patient-history')">
-        <i class="ti ti-history"></i>Sessões
-      </button>
-    `;
+  if(user.role === 'professional'){
+    go('page-pro-dash');
+    // Carrega painel em background — sem travar
+    setTimeout(function(){ loadDashboard(); }, 100);
   } else {
-    nav.innerHTML = `
-      <button class="nav-item active" id="nav-pro-dashboard" onclick="switchView('pro-dashboard')">
-        <i class="ti ti-chart-pie"></i>Painel
-      </button>
-      <button class="nav-item" id="nav-pro-sessions" onclick="switchView('pro-sessions')">
-        <i class="ti ti-report-medical"></i>Sessões
-      </button>
-    `;
+    go('page-map');
+    // Carrega profissionais em background — sem travar
+    setTimeout(function(){ loadProfessionals(); }, 100);
+    // Favoritos silenciosamente
+    api('GET','/api/patients/favorites').then(function(d){
+      (d.favorites||[]).forEach(function(f){ favoritesSet.add(f.professional_id); });
+    }).catch(function(){});
   }
+  loadProfile();
 }
 
-function switchView(viewName) {
-  activeView = viewName;
-  
-  // Oculta todas as telas
-  var screens = document.querySelectorAll('.screen-content');
-  screens.forEach(function(s){ s.classList.remove('active'); });
-  
-  // Desativa todos os itens de menu
-  var navItems = document.querySelectorAll('.nav-item');
-  navItems.forEach(function(n){ n.classList.remove('active'); });
+// ── Login — aceita e-mail OU CPF ─────────────────
+async function doLogin(){
+  var em = document.getElementById('login-email').value.trim();
+  var pw = document.getElementById('login-pw').value;
+  if(!em||!pw){ toast('Preencha e-mail/CPF e senha'); return; }
+  toast('Entrando...');
 
-  // Ativa tela correspondente
-  var targetScreen = document.getElementById('scr-' + viewName);
-  if(targetScreen) targetScreen.classList.add('active');
+  // Detecta se é CPF (somente dígitos ou com máscara xxx.xxx.xxx-xx)
+  var isCpf = /^\d{11}$/.test(em) || /^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/.test(em);
 
-  // Ativa item correspondente na navbar
-  var targetNav = document.getElementById('nav-' + viewName);
-  if(targetNav) targetNav.classList.add('active');
-
-  // Gatilhos de carregamento sob demanda por tela
-  if(viewName === 'patient-history') { renderPatientHistory(); }
-  if(viewName === 'pro-dashboard') { refreshProDashboard(); }
-  if(viewName === 'pro-sessions') { renderProSessionsList(); }
-}
-
-function toggleMode() {
-  var badge = document.getElementById('profileToggle');
-  if(currentMode === 'patient') {
-    // Se não estiver logado como profissional, manda para tela de autenticação
-    if(!currentUser.isPro) {
-      switchView('pro-auth');
-    } else {
-      activateProMode();
+  if(isCpf){
+    var cpfClean = em.replace(/\D/g,'');
+    try{
+      var data = await api('POST','/api/auth/login-cpf',{cpf:cpfClean, password:pw});
+      saveSession(data.token, data.user);
+      afterLogin(data.user);
+      return;
+    } catch(e){
+      toast(e.message || 'CPF ou senha incorretos');
+      return;
     }
+  }
+
+  try{
+    var data = await api('POST','/api/auth/login',{email:em, password:pw});
+    saveSession(data.token, data.user);
+    if(data.user.role === 'professional'){
+      go('page-pro-dash');
+    } else {
+      go('page-map');
+    }
+    loadProfile();
+  } catch(e){
+    toast(e.message || 'E-mail ou senha incorretos');
+  }
+}
+
+// ── Cadastro paciente ───────────────────────────
+async function cadastrarPaciente(){
+  var nome  = document.getElementById('pac-nome')?.value?.trim();
+  var email = document.getElementById('pac-email')?.value?.trim();
+  var cpf   = (document.getElementById('pac-cpf')?.value||'').replace(/\D/g,'');
+  var tel   = document.getElementById('pac-tel')?.value?.trim();
+  var pw    = document.getElementById('pac-pw')?.value;
+  var pw2   = document.getElementById('pac-pw2')?.value;
+  var terms = document.getElementById('terms-pac')?.checked;
+  if(!nome)       { toast('Preencha o nome completo'); return; }
+  if(!email)      { toast('Preencha o e-mail'); return; }
+  if(cpf.length < 11) { toast('CPF inválido — preencha os 11 dígitos'); return; }
+  if(!tel)        { toast('Preencha o telefone'); return; }
+  if(!pw)         { toast('Preencha a senha'); return; }
+  if(pw.length < 8){ toast('A senha deve ter pelo menos 8 caracteres'); return; }
+  if(pw !== pw2)  { toast('As senhas não conferem'); return; }
+  if(!terms)      { toast('Aceite os termos para continuar'); return; }
+  toast('Criando conta...');
+  try{
+    var data = await api('POST','/api/auth/register',{
+      name:nome, email:email, cpf:cpf, phone:tel, password:pw, role:'patient'
+    });
+    saveSession(data.token, data.user);
+    go('page-ok-pac');
+  } catch(e){
+    toast(e.message || 'Erro ao criar conta');
+  }
+}
+
+// ── Cadastro fisioterapeuta ─────────────────────
+
+
+// ── Logout ──────────────────────────────────────
+function doLogout(){
+  clearSession();
+  go('page-login');
+}
+
+// ── Perfil ──────────────────────────────────────
+async function loadProfile(){
+  var user = getUser();
+  if(!user) return;
+  var initials = user.name ? user.name.split(' ').map(function(w){ return w[0]; }).join('').slice(0,2).toUpperCase() : '?';
+  var av = document.getElementById('p-av');
+  var nm = document.getElementById('p-name');
+  var em = document.getElementById('p-email');
+  if(av) av.textContent = initials;
+  if(nm) nm.textContent = user.name || '';
+  if(em) em.textContent = user.email || '';
+  // Atualiza o saudação no painel pro
+  var greet = document.getElementById('pro-greet');
+  if(greet) greet.textContent = 'Olá, '+(user.name ? user.name.split(' ')[0] : '')+'  👋';
+  // Busca stats reais
+  try{
+    if(user.role === 'patient'){
+      var stats = await api('GET','/api/patients/stats');
+      var se = document.getElementById('p-sessions');
+      var pe = document.getElementById('p-pros');
+      if(se) se.textContent = stats.completed || 0;
+      if(pe) pe.textContent = stats.unique_professionals || 0;
+    }
+  } catch(e){ /* silencioso */ }
+}
+
+// ── Sessões ─────────────────────────────────────
+
+// ── Toggle senha ────────────────────────────────
+function togglePw(inputId,iconId){
+  var inp=document.getElementById(inputId);
+  var ico=document.getElementById(iconId);
+  if(!inp||!ico) return;
+  if(inp.type==='password'){
+    inp.type='text';
+    ico.classList.remove('ti-eye'); ico.classList.add('ti-eye-off');
   } else {
-    // Volta para modo paciente
-    currentMode = 'patient';
-    badge.innerText = "Paciente";
-    badge.style.background = "#e8f0fe";
-    badge.style.color = "#1a73e8";
-    buildNavbar();
-    switchView('patient-home');
+    inp.type='password';
+    ico.classList.remove('ti-eye-off'); ico.classList.add('ti-eye');
   }
 }
 
-function checkProBannerStatus() {
-  var banner = document.getElementById('pro-banner-cta');
-  if(banner) {
-    banner.style.display = (currentUser.isPro) ? 'none' : 'flex';
+// ── Chips ───────────────────────────────────────
+function chipSel(el){
+  var row=el.closest('.chip-row');
+  if(row) row.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('on'); });
+  el.classList.add('on');
+}
+
+function toggleChip(el){
+  el.classList.toggle('sel');
+  var box=el.querySelector('.cbox');
+  if(el.classList.contains('sel')){
+    box.innerHTML='<i class="ti ti-check" style="font-size:10px;color:#0d2137;"></i>';
+  } else { box.innerHTML=''; }
+}
+
+// ── Taxa ────────────────────────────────────────
+function calcTaxa(){
+  var v=parseFloat(document.getElementById('pro-valor').value)||0;
+  var prev=document.getElementById('taxa-preview');
+  if(v>0){
+    prev.style.display='block';
+    var taxa=v*0.05, liq=v-taxa;
+    document.getElementById('tp-bruto').textContent='R$ '+v.toFixed(2).replace('.',',');
+    document.getElementById('tp-taxa').textContent='- R$ '+taxa.toFixed(2).replace('.',',');
+    document.getElementById('tp-liq').textContent='R$ '+liq.toFixed(2).replace('.',',');
+  } else { prev.style.display='none'; }
+}
+
+// ── Toggle online (Pro) ─────────────────────────
+function toggleOnline(el){
+  var track=document.getElementById('pro-tog');
+  var title=document.getElementById('tog-title');
+  var sub=document.getElementById('tog-sub');
+  var isOn=!track.classList.contains('off');
+  if(isOn){
+    track.classList.add('off');
+    title.textContent='🔴 Offline — Pausado';
+    sub.textContent='Você não aparece no mapa';
+  } else {
+    track.classList.remove('off');
+    title.textContent='🟢 Online — Recebendo pedidos';
+    sub.textContent='Visível no mapa para pacientes';
+  }
+  var token = getToken();
+  if(token){
+    api('PATCH','/api/professionals/online',{is_online:!isOn}).catch(function(){});
   }
 }
 
-// --- PATIENT INTERACTION LOGIC ---
-function startBooking(specialty) {
-  document.getElementById('bk-specialty').value = specialty;
-  switchView('patient-schedule');
+// ── Máscaras ────────────────────────────────────
+function maskCPF(el){
+  var v=el.value.replace(/\D/g,'').slice(0,11);
+  el.value=v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/,'$1.$2.$3-$4')
+            .replace(/(\d{3})(\d{3})(\d{1,3})$/,'$1.$2.$3')
+            .replace(/(\d{3})(\d{1,3})$/,'$1.$2');
+}
+function maskDate(el){
+  // Captura apenas dígitos
+  var v = el.value.replace(/\D/g,'').slice(0,8);
+  // Aplica máscara progressiva sem nunca inserir barra prematuramente
+  if(v.length <= 2)      el.value = v;
+  else if(v.length <= 4) el.value = v.slice(0,2) + '/' + v.slice(2);
+  else                   el.value = v.slice(0,2) + '/' + v.slice(2,4) + '/' + v.slice(4);
+}
+function maskPhone(el){
+  var v=el.value.replace(/\D/g,'').slice(0,11);
+  el.value=v.replace(/(\d{2})(\d{5})(\d{1,4})/,'($1) $2-$3')
+            .replace(/(\d{2})(\d{4,5})$/,'($1) $2');
 }
 
-function handleSchedule(event) {
-  event.preventDefault();
-  
-  var name = document.getElementById('bk-name').value;
-  var spec = document.getElementById('bk-specialty').value;
-  var type = document.getElementById('bk-type').value;
-  var dateVal = document.getElementById('bk-date').value;
-  var notes = document.getElementById('bk-notes').value;
-
-  if(!name || !dateVal) {
-    showToast('Por favor, preencha todos os campos obrigatórios.', 'alert-circle');
-    return;
-  }
-
-  // Cria o novo objeto de agendamento de forma consistente
-  var newApp = {
-    id: String(Date.now()),
-    patient_name: name,
-    specialty: spec,
-    service_type: type,
-    scheduled_at: new Date(dateVal).toISOString(),
-    status: 'pending',
-    price: type === 'domiciliar' ? 160.00 : 140.00,
-    notes: notes
-  };
-
-  appointments.push(newApp);
-  saveToStorage();
-
-  showToast('Solicitação de agendamento enviada!', 'circle-check');
-  document.getElementById('form-booking').reset();
-  
-  switchView('patient-history');
+// ── Toast ────────────────────────────────────────
+var toastTimer;
+function toast(msg){
+  var el=document.getElementById('toast');
+  el.textContent=msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){ el.classList.remove('show'); },2800);
 }
 
-function renderPatientHistory() {
-  var container = document.getElementById('patient-sessions-list');
+// ── Cores de avatar ─────────────────────────────
+var avColors = ['av-g','av-b','av-p','av-o','av-c'];
+function avColor(name){
+  var i = (name||'').charCodeAt(0) % avColors.length;
+  return avColors[i];
+}
+function initials(name){
+  if(!name) return '?';
+  return name.split(' ').filter(Boolean).map(function(w){ return w[0]; }).join('').slice(0,2).toUpperCase();
+}
+
+// ── Carregar fisioterapeutas da API ─────────────
+var allPros = [];
+var currentPro = null;
+
+function loadProfessionals(specialty){
+  var listEl  = document.getElementById('pros-list');
+  var mapArea = document.getElementById('map-card-area');
+
+  // Mostra estado de carregamento mas NÃO bloqueia
+  if(listEl) listEl.innerHTML =
+    '<div style="text-align:center;padding:30px;color:#64748b;">'
+    +'<div style="font-size:28px;margin-bottom:10px;">🔍</div>'
+    +'<div style="font-size:13px;">Buscando fisioterapeutas...</div>'
+    +'</div>';
+
+  // Tudo em background — não usa await aqui para não travar
+  (async function(){
+    try{
+      var params = 'radius=10&limit=50';
+      // GPS com timeout bem curto
+      try{
+        var pos = await Promise.race([
+          new Promise(function(res,rej){
+            navigator.geolocation.getCurrentPosition(res,rej,{timeout:2500,maximumAge:120000});
+          }),
+          new Promise(function(_,rej){ setTimeout(function(){rej(new Error('geo-timeout'));},3000); })
+        ]);
+        params += '&lat='+pos.coords.latitude+'&lng='+pos.coords.longitude;
+      } catch(e){ /* sem GPS */ }
+
+      if(specialty && specialty !== 'Todos') params += '&specialty='+encodeURIComponent(specialty);
+
+      var data = await api('GET','/api/professionals?'+params,null);
+      allPros  = data.professionals || [];
+
+      renderProfessionalsList(allPros, listEl);
+      renderMapPins(allPros);
+      renderMapCard(allPros);
+    } catch(e){
+      if(listEl) listEl.innerHTML =
+        '<div style="text-align:center;padding:24px;color:#64748b;font-size:13px;">'
+        +'<div style="font-size:28px;margin-bottom:8px;">📡</div>'
+        +'Serviço iniciando... aguarde um momento.'
+        +'<br><br><button onclick="loadProfessionals()" style="background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:8px 18px;font-size:13px;cursor:pointer;font-family:Nunito,sans-serif;">Tentar novamente</button>'
+        +'</div>';
+    }
+  })();
+}
+
+function renderProfessionalsList(pros, container){
   if(!container) return;
-
-  if(!appointments.length) {
-    container.innerHTML = '<div style="text-align:center; padding:40px 0; color:#5f6368;">Nenhuma sessão encontrada.</div>';
+  if(!pros || !pros.length){
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:#64748b;font-size:13px;"><div style="font-size:28px;margin-bottom:8px;">🔍</div>Nenhum resultado encontrado.<br><br><button onclick="loadProfessionals()" style="background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:8px 18px;font-size:12px;cursor:pointer;">Ver todos</button></div>';
     return;
   }
-
-  // Ordena por data mais recente
-  var sorted = appointments.slice().sort(function(a,b){
-    return new Date(b.scheduled_at) - new Date(a.scheduled_at);
-  });
-
-  container.innerHTML = sorted.map(function(item){
-    var d = new Date(item.scheduled_at);
-    var dateStr = d.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit', year:'numeric'});
-    var timeStr = d.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
-    
-    var statusLbl = item.status === 'confirmed' ? '✓ Confirmado' : (item.status === 'pending' ? '⏳ Pendente' : '✕ Cancelado');
-    var badgeClass = item.status;
-
-    return `
-      <div class="card" style="margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
-          <div>
-            <div style="font-weight:700; color:#202124; font-size:15px;">Fisioterapia ${item.specialty}</div>
-            <div style="font-size:12px; color:#5f6368; margin-top:2px;">${item.service_type === 'domiciliar' ? '🏠 Domiciliar' : '🏥 Na Clínica'}</div>
-          </div>
-          <span class="status-badge ${badgeClass}">${statusLbl}</span>
-        </div>
-        <div style="font-size:13px; color:#3c4043; display:flex; gap:12px; border-top:1px dashed #e2e8f0; padding-top:8px;">
-          <span><i class="ti ti-calendar" style="color:#1a73e8;"></i> ${dateStr}</span>
-          <span><i class="ti ti-clock" style="color:#1a73e8;"></i> ${timeStr}</span>
-          <span style="margin-left:auto; font-weight:700; color:#202124;">R$ ${item.price.toFixed(2)}</span>
-        </div>
-      </div>
-    `;
+  container.innerHTML = pros.map(function(p, i){
+    var av  = avColor(p.name);
+    var ini = initials(p.name);
+    var rating = p.rating_avg > 0 ? '⭐ '+parseFloat(p.rating_avg).toFixed(1) : '⭐ Novo';
+    var dist = p.distance_km > 0 ? '📍 '+p.distance_km+' km' : '📍 Próximo';
+    var price = p.session_price > 0 ? 'R$ '+parseFloat(p.session_price).toFixed(0) : 'Consulte';
+    var specs = (p.specialties||[]).slice(0,2).join(', ') || 'Fisioterapia Geral';
+    var tipos = (p.service_types||[]).map(function(t){ return t==='domiciliar'?'Domiciliar':'Clínica'; }).join(' · ');
+    // Use real index in allPros (not filtered index) so openProfDetail works after filtering
+    var realIdx = allPros.indexOf(p);
+    if(realIdx < 0) realIdx = i;
+    return '<div class="fc" onclick="openProfDetail('+realIdx+')">' +
+      '<div class="fc-hdr">'+
+        '<div class="av '+av+'">'+ini+'</div>'+
+        '<div class="fc-info"><div class="fc-name">'+p.name+'</div><div class="fc-spec">'+specs+'</div></div>'+
+        '<div class="bdg bdg-s">'+rating+'</div>'+
+      '</div>'+
+      '<div class="badge-row">'+
+        '<span class="bdg bdg-g">✓ Disponível</span>'+
+        '<span class="bdg bdg-b">'+tipos+'</span>'+
+      '</div>'+
+      '<div class="fc-foot">'+
+        '<span class="fc-dist">'+dist+'</span>'+
+        '<span class="fc-price">'+price+'</span>'+
+        '<button class="btn-sm" onclick="event.stopPropagation();openProfDetail('+i+')">Agendar</button>'+
+      '</div>'+
+    '</div>';
   }).join('');
 }
 
-// --- PRO BUSINESS LOGIC ---
-function handleProLogin() {
-  var crefito = document.getElementById('pro-crefito').value;
-  if(!crefito) {
-    showToast('Informe um número de CREFITO válido.', 'alert-circle');
+function renderMapCard(pros){
+  var area = document.getElementById('map-card-area');
+  var cnt  = document.getElementById('map-cnt');
+  if(!area) return;
+  var list = Array.isArray(pros) ? pros : (pros ? [pros] : []);
+  if(cnt) cnt.textContent = list.length+' disponível'+(list.length!==1?'s':'')+ ' perto de você';
+  if(!list.length){
+    area.innerHTML = '<div style="text-align:center;padding:20px;color:#64748b;font-size:13px;">Nenhum fisioterapeuta disponível.<br><br><button onclick="loadProfessionals()" style="background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:8px 18px;font-size:12px;cursor:pointer;">Atualizar</button></div>';
     return;
   }
-  
-  currentUser.isPro = true;
-  currentUser.crefito = crefito;
-  currentUser.name = "Dr(a). Fisioterapeuta";
-  
-  showToast('Autenticado com sucesso!', 'discount-check');
-  checkProBannerStatus();
-  activateProMode();
+  renderProfessionalsList(list, area);
 }
 
-function activateProMode() {
-  currentMode = 'pro';
-  var badge = document.getElementById('profileToggle');
-  badge.innerText = "Modo Pro";
-  badge.style.background = "#e6f4ea";
-  badge.style.color = "#137333";
-  
-  document.getElementById('pro-welcome-title').innerText = "Olá, " + currentUser.name;
-  
-  buildNavbar();
-  // Vai direto para o painel carregando tudo automaticamente
-  switchView('pro-dashboard');
-}
-
-// NOVO: Função centralizada para atualizar o Painel do Modo Pro sem depender do clique em abas externas
-function refreshProDashboard() {
-  var todayCount = 0;
-  var pendingCount = 0;
-  var revenue = 0;
-
-  var now = new Date();
-  var todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-  var todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999).getTime();
-
-  var pendingList = [];
-  var todayList = [];
-
-  appointments.forEach(function(item) {
-    var itemTime = new Date(item.scheduled_at).getTime();
-
-    // Contadores gerais e cálculo de receita de sessões confirmadas
-    if (item.status === 'pending') {
-      pendingCount++;
-      pendingList.push(item);
-    } else if (item.status === 'confirmed') {
-      revenue += item.price;
+function renderMapPins(pros){
+  // Pins dinâmicos — posiciona até 3 pins nos slots fixos do mapa
+  var pinEls = document.querySelectorAll('.map-pin');
+  var pinColors = ['#16a34a','#1a73e8','#d97706'];
+  pros.slice(0,3).forEach(function(p, i){
+    if(pinEls[i]){
+      var lbl = pinEls[i].querySelector('.pin-lbl');
+      var tri = pinEls[i].querySelector('.pin-tri');
+      if(lbl){
+        lbl.textContent = p.name.split(' ').slice(0,2).join(' ')+' · '+(p.session_price>0?'R$'+parseFloat(p.session_price).toFixed(0):'?');
+        lbl.style.background = pinColors[i];
+      }
+      if(tri) tri.style.borderTopColor = pinColors[i];
+      pinEls[i].onclick = function(){ openProfDetail(i); };
     }
+  });
+}
 
-    // Filtro para o dia de hoje
-    if (itemTime >= todayStart && itemTime <= todayEnd) {
-      if (item.status === 'confirmed' || item.status === 'pending') {
-        todayCount++;
-        if (item.status === 'confirmed') {
-          todayList.push(item);
+// ── Pagamento ───────────────────────────────────
+function showPaymentInfo(){
+  var modal = document.getElementById('modal-overlay');
+  var box   = document.getElementById('modal-box');
+  if(!modal || !box) return;
+  box.innerHTML =
+    '<div style="font-size:22px;margin-bottom:10px;">💳</div>'
+    +'<div style="font-size:16px;font-weight:700;color:#0f172a;margin-bottom:8px;">Pagamento</div>'
+    +'<div style="font-size:13px;color:#475569;line-height:1.7;margin-bottom:18px;">'
+    +'O myFisio opera no modelo <strong>pós-pago</strong>.<br><br>'
+    +'Um relatório detalhado de todas as sessões realizadas, com o valor correspondente à taxa de <strong>5% por sessão confirmada</strong>, será enviado automaticamente para o seu <strong>e-mail cadastrado</strong> no final de cada mês.<br><br>'
+    +'O pagamento pode ser realizado via <strong>Pix ou boleto</strong> conforme instruções do e-mail.'
+    +'</div>'
+    +'<button onclick="closeModal()" style="width:100%;background:#1a73e8;color:#fff;border:none;border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:Nunito,sans-serif;">Entendi</button>';
+  modal.style.display = 'flex';
+}
+
+// ── Suporte WhatsApp ─────────────────────────────
+function openSupport(){
+  var msg = encodeURIComponent('Olá! Preciso de ajuda com o myFisio.');
+  window.open('https://wa.me/5511981045900?text='+msg, '_blank');
+}
+
+// ── Modal genérico ───────────────────────────────
+function closeModal(){
+  var modal = document.getElementById('modal-overlay');
+  if(modal) modal.style.display = 'none';
+}
+
+// ── Detalhes do fisioterapeuta — dados reais ─────
+
+// ─ Agenda de hoje do Pro ─────────────────────────
+// ── Painel Pro — carrega dados em tempo real ────
+
+
+async function loadTodayAgenda(){
+  var container = document.getElementById('pro-agenda-today');
+  if(!container) return;
+  try{
+    var data  = await api('GET','/api/appointments?limit=50');
+    var appts = data.appointments || [];
+    var today = new Date().toDateString();
+    var todayAppts = appts.filter(function(a){
+      return new Date(a.scheduled_at).toDateString() === today
+          && a.status !== 'cancelled';
+    }).sort(function(a,b){ return new Date(a.scheduled_at)-new Date(b.scheduled_at); });
+
+    if(!todayAppts.length){
+      container.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Nenhuma sessão agendada para hoje.</div>';
+      return;
+    }
+    container.innerHTML = todayAppts.map(function(a){
+      var d    = new Date(a.scheduled_at);
+      var time = d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+      var done = a.status === 'completed';
+      var icon = done
+        ? '<i class="ti ti-circle-check" style="color:#4caf82;font-size:20px;"></i>'
+        : '<i class="ti ti-clock" style="color:#4fc3f7;font-size:20px;"></i>';
+      return '<div class="sch-item'+(done?' done':'')+'">'
+        +'<div class="sch-time">'+time+'</div>'
+        +'<div class="sch-info"><div class="sch-name">'+(a.patient_name||'Paciente')+'</div>'
+        +'<div class="sch-det">'+(a.service_type==='domiciliar'?'Domiciliar':'Clínica')+'</div></div>'
+        +icon+'</div>';
+    }).join('');
+  } catch(e){
+    container.innerHTML = '<div style="font-size:13px;color:#ef5350;padding:8px 0;">Erro ao carregar agenda</div>';
+  }
+}
+
+
+// ── Filtro de especialidade ──────────────────
+function filterPros(el, specialty){
+  document.querySelectorAll('.chip-row .chip').forEach(function(c){ c.classList.remove('on'); });
+  el.classList.add('on');
+  loadProfessionals(specialty === 'Todos' ? null : specialty);
+}
+
+// ═══════════════════════════════════════════════
+//  AGENDAMENTO — ESCOLHA DE HORÁRIO
+// ═══════════════════════════════════════════════
+var bookingState = {
+  proId: null, proName: '', proSpec: '', price: 0,
+  selectedDate: null, selectedSlot: null, selectedTime: null,
+  tipo: 'domiciliar', cachedSlots: []
+};
+
+function openBooking(proIdx){
+  var p = allPros[proIdx] || currentPro;
+  if(!p){ toast('Selecione um fisioterapeuta primeiro'); return; }
+  // Update proIdx to match allPros
+  if(allPros.indexOf(p) >= 0) proIdx = allPros.indexOf(p);
+  currentPro = p;
+  bookingState.proId    = p.id;
+  bookingState.proName  = p.name;
+  bookingState.proSpec  = (p.specialties||[]).join(', ') || 'Fisioterapia';
+  bookingState.price    = parseFloat(p.session_price)||0;
+  bookingState.selectedDate = null;
+  bookingState.selectedSlot = null;
+  bookingState.selectedTime = null;
+  bookingState.cachedSlots  = [];
+
+  var avEl = document.getElementById('bk-av');
+  if(avEl){ avEl.textContent = initials(p.name); avEl.className = 'av '+avColor(p.name); }
+  var nameEl = document.getElementById('bk-name');
+  if(nameEl) nameEl.textContent = p.name;
+  var specEl = document.getElementById('bk-spec');
+  if(specEl) specEl.textContent = bookingState.proSpec;
+  var priceEl = document.getElementById('bk-price');
+  if(priceEl) priceEl.textContent = bookingState.price > 0
+    ? 'R$ '+bookingState.price.toFixed(2).replace('.',',') : 'Consulte';
+
+  renderBookingDates();
+  setBkTipo('domiciliar');
+  setConfirmBtn(false);
+  var slotsEl = document.getElementById('bk-slots');
+  if(slotsEl) slotsEl.innerHTML = '<div style="text-align:center;padding:16px;color:#64748b;grid-column:1/-1;">Selecione uma data acima</div>';
+  var label = document.getElementById('bk-date-label');
+  if(label) label.textContent = '';
+  go('page-booking');
+}
+
+function setConfirmBtn(enabled){
+  var btn = document.getElementById('bk-confirm-btn');
+  if(btn){ btn.disabled = !enabled; btn.style.opacity = enabled ? '1' : '.5'; }
+}
+
+function renderBookingDates(){
+  var container = document.getElementById('bk-dates');
+  if(!container) return;
+  var today = new Date();
+  var days  = ['D','S','T','Q','Q','S','S'];
+  var html  = '';
+  for(var i = 0; i < 14; i++){
+    var d   = new Date(today); d.setDate(today.getDate() + i);
+    var iso = d.toISOString().split('T')[0];
+    var dow = days[d.getDay()];
+    var dom = d.getDate();
+    var sel = bookingState.selectedDate === iso;
+    html += '<div onclick="selectDate(\''+iso+'\')" style="text-align:center;padding:8px 4px;border-radius:10px;cursor:pointer;background:'+(sel?'#1a73e8':'#f8fafc')+';color:'+(sel?'#fff':'#374151')+';border:'+(sel?'none':'1px solid #e2e8f0')+';">'
+          + '<div style="font-size:10px;font-weight:600;margin-bottom:3px;">'+dow+'</div>'
+          + '<div style="font-size:14px;font-weight:700;">'+dom+'</div>'
+          + '</div>';
+  }
+  container.innerHTML = html;
+}
+
+async function selectDate(iso){
+  bookingState.selectedDate = iso;
+  bookingState.selectedSlot = null;
+  bookingState.selectedTime = null;
+  bookingState.cachedSlots  = [];
+  setConfirmBtn(false);
+  renderBookingDates();
+
+  var label = document.getElementById('bk-date-label');
+  if(label){
+    var d = new Date(iso+'T12:00:00');
+    label.textContent = d.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
+  }
+
+  var slotsEl = document.getElementById('bk-slots');
+  if(slotsEl) slotsEl.innerHTML = '<div style="text-align:center;padding:16px;color:#64748b;grid-column:1/-1;">Buscando horários...</div>';
+
+  try{
+    var data = await api('GET','/api/appointments/slots?professional_id='+bookingState.proId+'&date='+iso);
+    bookingState.cachedSlots = data.slots || [];
+    renderSlots();
+  } catch(e){
+    if(slotsEl) slotsEl.innerHTML = '<div style="text-align:center;padding:16px;color:#dc2626;grid-column:1/-1;">Erro ao buscar horários</div>';
+  }
+}
+
+function renderSlots(){
+  var container = document.getElementById('bk-slots');
+  if(!container) return;
+  var slots = bookingState.cachedSlots;
+  if(!slots.length){
+    container.innerHTML = '<div style="text-align:center;padding:16px;color:#64748b;grid-column:1/-1;">Sem horários disponíveis nesta data</div>';
+    return;
+  }
+  container.innerHTML = slots.map(function(s){
+    var isSel = bookingState.selectedSlot === s.datetime;
+    if(!s.available){
+      return '<div style="text-align:center;padding:10px 6px;border-radius:10px;background:#f1f5f9;color:#94a3b8;font-size:13px;font-weight:700;cursor:default;">'
+           + s.time+'<br><span style="font-size:9px;opacity:.6;">Ocupado</span></div>';
+    }
+    return '<div onclick="selectSlot(\''+s.datetime+'\',\''+s.time+'\')" style="text-align:center;padding:10px 6px;border-radius:10px;cursor:pointer;'
+         + 'background:'+(isSel?'#1a73e8':'#e8f0fe')+';color:'+(isSel?'#fff':'#1a73e8')+';'
+         + 'font-size:13px;font-weight:700;transition:.15s;">'
+         + s.time+'</div>';
+  }).join('');
+}
+
+function selectSlot(datetime, time){
+  bookingState.selectedSlot = datetime;
+  bookingState.selectedTime = time;
+  renderSlots();           // só re-renderiza com os slots em cache — sem chamar API
+  setConfirmBtn(true);
+  toast('Horário '+time+' selecionado ✓');
+}
+
+function setBkTipo(tipo){
+  bookingState.tipo = tipo;
+  document.getElementById('bk-tipo-dom').classList.toggle('sel', tipo==='domiciliar');
+  document.getElementById('bk-tipo-cli').classList.toggle('sel', tipo==='clinica');
+}
+
+async function confirmBooking(){
+  if(!bookingState.selectedSlot){ toast('Selecione um horário'); return; }
+  var address = document.getElementById('bk-address')?.value?.trim();
+  var notes   = document.getElementById('bk-notes')?.value?.trim();
+  toast('Agendando...');
+  try{
+    await api('POST','/api/appointments',{
+      professional_id: bookingState.proId,
+      scheduled_at:    bookingState.selectedSlot,
+      service_type:    bookingState.tipo,
+      address:         address || '',
+      notes:           notes   || '',
+    });
+    toast('✅ Sessão agendada com sucesso!');
+    setTimeout(function(){ go('page-sessions'); },1200);
+  } catch(e){
+    toast(e.message || 'Erro ao agendar');
+  }
+}
+
+// ═══════════════════════════════════════════════
+//  SESSÕES — PACIENTE E FISIO
+// ═══════════════════════════════════════════════
+async function loadSessions(){
+  var user = getUser();
+  if(!user) return;
+  if(user.role === 'professional'){
+    loadProSessions();
+    return;
+  }
+  var container = document.getElementById('sessions-list');
+  if(!container) return;
+  container.innerHTML = '<div style="text-align:center;padding:30px;color:#64748b;">Carregando...</div>';
+  try{
+    var data  = await api('GET','/api/appointments?limit=50');
+    var appts = data.appointments || [];
+    if(!appts.length){
+      container.innerHTML = '<div style="text-align:center;padding:40px;color:#64748b;"><div style="font-size:32px;margin-bottom:12px;">📅</div><div style="font-size:14px;font-weight:600;">Nenhuma sessão ainda</div><div style="font-size:12px;margin-top:6px;">Busque um fisioterapeuta e agende sua primeira sessão</div></div>';
+      return;
+    }
+    var statusMap = {
+      pending:   {cls:'sp-sched', label:'⏳ Aguardando confirmação', color:'#1a73e8'},
+      confirmed: {cls:'sp-sched', label:'✅ Confirmado',             color:'#16a34a'},
+      completed: {cls:'sp-done',  label:'✔ Concluído',              color:'#16a34a'},
+      cancelled: {cls:'sp-cancel',label:'✕ Cancelado',              color:'#dc2626'},
+    };
+    var upcoming = appts.filter(function(a){ return ['pending','confirmed'].includes(a.status); });
+    var past     = appts.filter(function(a){ return !['pending','confirmed'].includes(a.status); });
+    var html = '';
+    if(upcoming.length){
+      html += '<div class="slbl" style="margin-top:4px;">Próximas</div>';
+      html += upcoming.map(function(a){ return renderApptCard(a, statusMap, false); }).join('');
+    }
+    if(past.length){
+      html += '<div class="slbl">Histórico</div>';
+      html += past.map(function(a){ return renderApptCard(a, statusMap, false); }).join('');
+    }
+    container.innerHTML = html;
+  } catch(e){
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:#dc2626;">Erro ao carregar sessões</div>';
+  }
+}
+
+function renderApptCard(a, statusMap, isPro){
+  var d   = new Date(a.scheduled_at);
+  var ds  = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
+  var ts  = d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  var s   = statusMap[a.status] || {cls:'sp-sched',label:a.status,color:'#1a73e8'};
+  var name= isPro ? (a.patient_name||'Paciente') : (a.professional_name||'Fisioterapeuta');
+  var price = parseFloat(a.gross_price||0).toFixed(2).replace('.',',');
+  var canCancel = ['pending','confirmed'].includes(a.status);
+  var canReview = !isPro && a.status === 'completed' && !a.review_rating;
+  var canComplete = isPro && a.status === 'confirmed';
+  var canConfirm  = isPro && a.status === 'pending';
+  var actions = '';
+  if(canConfirm)  actions += '<button onclick="changeStatus(\''+a.id+'\',\'confirmed\')" style="flex:1;background:#4caf82;color:#fff;border:none;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Nunito,sans-serif;">✓ Confirmar</button>';
+  if(canComplete) actions += '<button onclick="changeStatus(\''+a.id+'\',\'completed\')" style="flex:1;background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Nunito,sans-serif;">✔ Concluir</button>';
+  if(canCancel)   actions += '<button onclick="cancelAppt(\''+a.id+'\')" style="flex:1;background:#fff;color:#dc2626;border:1.5px solid #dc2626;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Nunito,sans-serif;">✕ Cancelar</button>';
+  if(canReview)   actions += '<button onclick="openReview(\''+a.id+'\',\''+name+'\')" style="flex:1;background:#fef3c7;color:#b45309;border:1.5px solid #fcd34d;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Nunito,sans-serif;">⭐ Avaliar</button>';
+  if(a.review_rating) actions += '<div style="font-size:12px;color:#b45309;text-align:center;padding:4px;">'+('⭐'.repeat(a.review_rating))+' Avaliado</div>';
+  return '<div class="appt" style="border-left-color:'+s.color+';">'
+    +'<div class="appt-top">'
+      +'<div><div class="appt-name">'+name+'</div>'
+      +'<div class="appt-type">'+(a.service_type==='domiciliar'?'🏠 Domiciliar':'🏥 Clínica')+'</div></div>'
+      +'<div><div class="appt-date">'+ds+'</div><div class="appt-time">'+ts+'</div></div>'
+    +'</div>'
+    +'<div style="font-size:12px;color:#64748b;margin-top:5px;">R$ '+price+'</div>'
+    +'<span class="status-pill '+s.cls+'">'+s.label+'</span>'
+    +(actions ? '<div style="display:flex;gap:6px;margin-top:8px;">'+actions+'</div>' : '')
+    +'</div>';
+}
+
+async function changeStatus(id, status){
+  try{
+    await api('PATCH','/api/appointments/'+id+'/status',{status:status});
+    toast(status==='confirmed'?'✅ Sessão confirmada!':(status==='completed'?'✔ Sessão concluída!':'Status atualizado'));
+    setTimeout(function(){ loadSessions(); },600);
+  } catch(e){ toast(e.message||'Erro ao atualizar'); }
+}
+
+async function cancelAppt(id){
+  var reason = prompt('Motivo do cancelamento (opcional):') || '';
+  try{
+    await api('PATCH','/api/appointments/'+id+'/status',{status:'cancelled', cancel_reason: reason});
+    toast('Sessão cancelada.');
+    setTimeout(function(){ loadSessions(); },600);
+  } catch(e){ toast(e.message||'Erro ao cancelar'); }
+}
+
+// ─ Sessões do fisio ─────────────────────────────
+async 
+
+// ═══════════════════════════════════════════════
+//  AVALIAÇÃO
+// ═══════════════════════════════════════════════
+var reviewState = { apptId: null, rating: 0 };
+
+function openReview(apptId, proName){
+  reviewState.apptId = apptId;
+  reviewState.rating = 0;
+  var avEl   = document.getElementById('rv-av');
+  var nameEl = document.getElementById('rv-name');
+  if(avEl)   { avEl.textContent = initials(proName); avEl.className = 'av '+avColor(proName); }
+  if(nameEl) nameEl.textContent = proName;
+  var comment = document.getElementById('rv-comment');
+  if(comment) comment.value = '';
+  setRating(0);
+  go('page-review');
+}
+
+function setRating(n){
+  reviewState.rating = n;
+  var stars = document.querySelectorAll('#rv-stars span');
+  stars.forEach(function(s,i){
+    s.style.opacity = i < n ? '1' : '.3';
+    s.style.transform = i < n ? 'scale(1.1)' : 'scale(1)';
+  });
+}
+
+async function submitReview(){
+  if(!reviewState.rating){ toast('Selecione uma avaliação de 1 a 5 estrelas'); return; }
+  var comment = document.getElementById('rv-comment')?.value?.trim() || '';
+  try{
+    await api('POST','/api/appointments/'+reviewState.apptId+'/review',{rating:reviewState.rating, comment:comment});
+    toast('⭐ Avaliação enviada! Obrigado.');
+    setTimeout(function(){ go('page-sessions'); },1000);
+  } catch(e){ toast(e.message||'Erro ao enviar avaliação'); }
+}
+
+// ═══════════════════════════════════════════════
+//  FAVORITOS
+// ═══════════════════════════════════════════════
+var favoritesSet = new Set();
+
+
+async function toggleFavorite(proId){
+  if(!proId){ toast('Erro: profissional não identificado'); return; }
+  if(!getToken()){ toast('Faça login para favoritar'); return; }
+  try{
+    if(favoritesSet.has(proId)){
+      await api('DELETE','/api/patients/favorites/'+proId);
+      favoritesSet.delete(proId);
+      toast('Removido dos favoritos');
+    } else {
+      await api('POST','/api/patients/favorites',{professional_id:proId});
+      favoritesSet.add(proId);
+      toast('❤️ Adicionado aos favoritos!');
+    }
+    var btn = document.getElementById('fav-btn');
+    if(btn){
+      btn.innerHTML   = favoritesSet.has(proId) ? '❤️' : '🤍';
+      btn.style.color = favoritesSet.has(proId) ? '#ef4444' : '#64748b';
+    }
+  } catch(e){ toast(e.message||'Erro ao favoritar'); }
+}
+
+function updateFavBtn(proId){
+  var btn = document.getElementById('fav-btn');
+  if(btn){
+    btn.innerHTML   = favoritesSet.has(proId) ? '❤️' : '🤍';
+    btn.style.color = favoritesSet.has(proId) ? '#ef4444' : '#64748b';
+  }
+}
+
+
+// ═══════════════════════════════════════════════
+//  NOTIFICAÇÕES
+// ═══════════════════════════════════════════════
+async function loadNotifications(){
+  var container = document.getElementById('notif-list');
+  if(!container) return;
+  container.innerHTML = '<div style="text-align:center;padding:30px;color:#64748b;">Carregando...</div>';
+  try{
+    var data  = await api('GET','/api/patients/notifications');
+    var notifs = data.notifications || [];
+    var badge  = document.getElementById('notif-badge');
+    var unread = notifs.filter(function(n){ return !n.read; }).length;
+    if(badge){ badge.style.display = unread > 0 ? 'inline' : 'none'; badge.textContent = unread; }
+    if(!notifs.length){
+      container.innerHTML = '<div style="text-align:center;padding:40px;color:#64748b;"><div style="font-size:32px;margin-bottom:12px;">🔔</div><div>Sem notificações</div></div>';
+      return;
+    }
+    container.innerHTML = notifs.map(function(n){
+      var d  = new Date(n.created_at);
+      var ds = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'}) + ' ' + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+      return '<div style="background:'+(n.read?'var(--c-bg2,#f8fafc)':'#fff')+';border-radius:12px;padding:12px;margin-bottom:8px;border:1px solid #e2e8f0;'+(n.read?'':'border-left:4px solid #1a73e8;')+'">'
+        +'<div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:3px;">'+n.title+'</div>'
+        +'<div style="font-size:12px;color:#64748b;">'+n.body+'</div>'
+        +'<div style="font-size:11px;color:#94a3b8;margin-top:5px;">'+ds+'</div>'
+        +'</div>';
+    }).join('');
+  } catch(e){
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:#dc2626;">Erro ao carregar notificações</div>';
+  }
+}
+
+// ═══════════════════════════════════════════════
+//  EDITAR CADASTRO — FISIO
+// ═══════════════════════════════════════════════
+
+
+async function getProLocation(){
+  toast('Obtendo localização...');
+  try{
+    var pos = await new Promise(function(res,rej){
+      navigator.geolocation.getCurrentPosition(res, rej, {timeout:8000});
+    });
+    await api('PATCH','/api/professionals/online',{
+      is_online: true,
+      latitude:  pos.coords.latitude,
+      longitude: pos.coords.longitude,
+    });
+    toast('✅ Localização atualizada!');
+  } catch(e){ toast('Não foi possível obter a localização.'); }
+}
+
+// ═══════════════════════════════════════════════
+//  BOTÃO FAVORITAR no detalhe do fisio
+// ═══════════════════════════════════════════════
+function openProfDetail(idx){
+  var p = allPros[idx];
+  if(!p){ go('page-detail'); return; }
+  currentPro = p;
+
+  // Avatar
+  var avEl = document.getElementById('d-av');
+  if(avEl){ avEl.textContent = initials(p.name); avEl.className = 'detail-av '+avColor(p.name); }
+
+  // Header
+  var nm  = document.querySelector('#page-detail .d-name');
+  var crm = document.querySelector('#page-detail .d-crm');
+  var sp  = document.querySelector('#page-detail .d-spec');
+  var rt  = document.querySelector('#page-detail .d-rnum');
+  var cnt = document.querySelector('#page-detail .d-rcnt');
+  if(nm)  nm.textContent  = p.name;
+  if(crm) crm.textContent = 'CREFITO: '+(p.crefito||'—')+' · '+(p.crefito_uf||'');
+  if(sp)  sp.textContent  = (p.specialties||[]).join(', ')||'Fisioterapia Geral';
+  if(rt)  rt.textContent  = p.rating_avg>0 ? parseFloat(p.rating_avg).toFixed(1) : 'Novo';
+  if(cnt) cnt.textContent = '('+(p.rating_count||0)+' avaliações)';
+
+  // Info fields
+  var dloc  = document.getElementById('d-loc');
+  var dhora = document.getElementById('d-hora');
+  var dtipo = document.getElementById('d-tipo');
+  var dform = document.getElementById('d-form');
+  var dexp  = document.getElementById('d-exp');
+  var dbio  = document.getElementById('d-bio');
+  if(dloc)  dloc.textContent  = p.distance_km ? p.distance_km+' km de distância' : 'Localização disponível';
+  if(dhora) dhora.textContent = 'Atende das '+(p.work_start||'08:00').slice(0,5)+' às '+(p.work_end||'20:00').slice(0,5);
+  if(dtipo) dtipo.textContent = (p.service_types||[]).map(function(t){ return t==='domiciliar'?'Domiciliar':'Clínica'; }).join(' e ')||'Domiciliar';
+
+  // Formation — parse from bio field
+  var bio = p.bio || '';
+  var faculdade = '';
+  var anoForm   = '';
+  var expYears  = '';
+  var bioText   = bio;
+  var anoMatch  = bio.match(/Formado em (\d{4})/);
+  var expMatch  = bio.match(/(\d+) anos de experiência/);
+  if(anoMatch)  anoForm  = anoMatch[1];
+  if(expMatch)  expYears = expMatch[1];
+  // Extract faculty (first segment before ·)
+  var parts = bio.split(' · ');
+  if(parts.length > 1) faculdade = parts[0];
+  // Build display strings
+  var formStr = faculdade || 'Não informado';
+  if(anoForm) formStr += ' ('+anoForm+')';
+  var expStr = expYears ? expYears+' anos de experiência' : 'Não informada';
+  if(dform) dform.textContent = formStr;
+  if(dexp)  dexp.textContent  = expStr;
+  if(dbio)  dbio.textContent  = bio || '';
+
+  // Prices
+  var price = p.session_price>0 ? 'R$ '+parseFloat(p.session_price).toFixed(2).replace('.',',') : 'Consulte';
+  var p1 = document.getElementById('d-preco1');
+  var p2 = document.getElementById('d-preco2');
+  if(p1) p1.textContent = price;
+  if(p2) p2.textContent = price;
+
+  // Reviews — show empty state then load real data
+  var reviewsList = document.getElementById('d-reviews-list');
+  if(reviewsList) reviewsList.innerHTML = '<div style="text-align:center;padding:12px;color:#94a3b8;font-size:13px;">Carregando avaliações...</div>';
+
+  // Fav button
+  var favBtn = document.getElementById('fav-btn');
+  if(favBtn){
+    favBtn.dataset.proid = p.id;
+    favBtn.innerHTML     = favoritesSet.has(p.id) ? '❤️' : '🤍';
+    favBtn.style.color   = favoritesSet.has(p.id) ? '#ef4444' : '#64748b';
+  }
+
+  // Book button
+  var agBtn = document.getElementById('agendar-btn');
+  if(agBtn) agBtn.onclick = function(){ openBooking(realIdx >= 0 ? realIdx : idx); };
+
+  go('page-detail');
+
+  // Load real data from API in background
+  if(p.id && getToken()){
+    api('GET','/api/professionals/'+p.id).then(function(data){
+      if(!data) return;
+      // Update reviews
+      if(reviewsList){
+        var revs = data.reviews || [];
+        if(!revs.length){
+          reviewsList.innerHTML = '<div style="font-size:13px;color:#94a3b8;text-align:center;padding:8px;">Seja o primeiro a avaliar!</div>';
+        } else {
+          reviewsList.innerHTML = revs.slice(0,5).map(function(r){
+            var stars = '⭐'.repeat(Math.min(r.rating||0,5));
+            return '<div style="font-size:13px;color:#374151;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #f8fafc;">'
+              +'<div style="font-weight:700;margin-bottom:3px;">'+stars+' '+r.patient_name+'</div>'
+              +(r.comment||'')+'</div>';
+          }).join('');
         }
       }
-    }
+      // Update bio/formation with real data
+      var realBio = data.bio || bio;
+      if(dbio && realBio) dbio.textContent = realBio;
+    }).catch(function(){
+      if(reviewsList) reviewsList.innerHTML = '<div style="font-size:13px;color:#94a3b8;text-align:center;padding:8px;">Sem avaliações ainda.</div>';
+    });
+  } else {
+    if(reviewsList) reviewsList.innerHTML = '<div style="font-size:13px;color:#94a3b8;text-align:center;padding:8px;">Faça login para ver avaliações.</div>';
+  }
+}
+
+// ═══════════════════════════════════════════════
+//  go() — atualizado para novas páginas
+// ═══════════════════════════════════════════════
+
+// ════════════════════════════════════════════════════
+//  FILTROS — MAPA
+// ════════════════════════════════════════════════════
+var mapFilterState   = { price: 0, dist: 10, search: '' };
+var listFilterState  = { price: 0, spec: '', search: '' };
+var proSessFilterState = { days: 0, patient: '' };
+var allProSessionsCache = [];
+
+function toggleMapFilter(){
+  var p = document.getElementById('map-filter-panel');
+  if(p) p.style.display = (p.style.display==='none'||!p.style.display) ? 'block' : 'none';
+  var icon = document.getElementById('map-filter-icon');
+  if(icon) icon.style.color = p && p.style.display==='block' ? '#1a73e8' : '#94a3b8';
+}
+
+function setPriceFilter(el, price){
+  mapFilterState.price = price;
+  document.querySelectorAll('[id^="fp-"]').forEach(function(e){ e.classList.remove('on'); });
+  if(el) el.classList.add('on');
+  applyMapFilters();
+}
+
+function setDistFilter(el, dist){
+  mapFilterState.dist = dist;
+  document.querySelectorAll('[id^="fd-"]').forEach(function(e){ e.classList.remove('on'); });
+  if(el) el.classList.add('on');
+  // Reload with new radius
+  loadProfessionals();
+}
+
+function filterMapSearch(val){
+  mapFilterState.search = (val||'').toLowerCase();
+  applyMapFilters();
+}
+
+function applyMapFilters(){
+  var filtered = allPros.filter(function(p){
+    var price = parseFloat(p.session_price)||0;
+    var name  = (p.name||'').toLowerCase();
+    var specs = (p.specialties||[]).join(' ').toLowerCase();
+    if(mapFilterState.price > 0 && price > mapFilterState.price) return false;
+    if(mapFilterState.search && !name.includes(mapFilterState.search) && !specs.includes(mapFilterState.search)) return false;
+    return true;
   });
-
-  // Atualiza os contadores na tela
-  document.getElementById('kpi-today').innerText = todayCount;
-  document.getElementById('kpi-pending').innerText = pendingCount;
-  document.getElementById('kpi-revenue').innerText = "R$ " + revenue.toFixed(2);
-
-  // Renderiza Pedidos Pendentes / Urgentes
-  var demandArea = document.getElementById('pro-demand-area');
-  if(demandArea) {
-    if(!pendingList.length) {
-      demandArea.innerHTML = '<div style="font-size:13px; color:#70757a; padding:10px 0;">Nenhum pedido pendente de aprovação.</div>';
-    } else {
-      demandArea.innerHTML = pendingList.map(function(a) {
-        var d = new Date(a.scheduled_at);
-        var ds = d.toLocaleDateString('pt-BR', {day:'2-digit', month:'short'});
-        var ts = d.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
-        return `
-          <div class="demand-card urgent">
-            <div class="d-top">
-              <div>
-                <div class="d-patient">${a.patient_name}</div>
-                <div class="d-type">${a.service_type === 'domiciliar' ? '🏠 Domiciliar' : '🏥 Clínica'} • ${a.specialty}</div>
-                <div style="font-size:11px; color:#1a73e8; font-weight:700; margin-top:4px;">${ds} às ${ts}</div>
-              </div>
-              <span class="urg-badge">⚡ Novo</span>
-            </div>
-            <div class="d-actions">
-              <button class="btn-accept" onclick="changeStatus('${a.id}', 'confirmed')">✓ Confirmar</button>
-              <button class="btn-refuse" onclick="changeStatus('${a.id}', 'cancelled')">✕ Recusar</button>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-  }
-
-  // Renderiza a agenda de hoje na home pro
-  var todayArea = document.getElementById('pro-today-agenda');
-  if(todayArea) {
-    if(!todayList.length) {
-      todayArea.innerHTML = '<div style="font-size:13px; color:#70757a; padding:10px 0;">Nenhum atendimento confirmado para hoje.</div>';
-    } else {
-      todayArea.innerHTML = todayList.map(function(t) {
-        var hourStr = new Date(t.scheduled_at).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
-        return `
-          <div class="session-item" style="border-left:4px solid #0f9d58; margin-bottom:8px;">
-            <div class="sess-info">
-              <span class="sess-name">${t.patient_name}</span>
-              <span class="sess-meta">${hourStr} • ${t.service_type === 'domiciliar' ? '🏠 Domiciliar' : '🏥 Consultório'} (${t.specialty})</span>
-            </div>
-            <span style="font-weight:700; font-size:13px; color:#202124;">R$ ${t.price.toFixed(2)}</span>
-          </div>
-        `;
-      }).join('');
-    }
-  }
+  var area = document.getElementById('map-card-area');
+  var cnt  = document.getElementById('map-cnt');
+  if(cnt) cnt.textContent = filtered.length+' disponível'+(filtered.length!==1?'s':'')+' perto de você';
+  renderProfessionalsList(filtered, area);
+  renderMapPins(filtered);
 }
 
-function changeStatus(id, newStatus) {
-  var found = appointments.find(function(item){ return item.id === id; });
-  if(found) {
-    found.status = newStatus;
-    saveToStorage();
-    showToast(newStatus === 'confirmed' ? 'Sessão confirmada com sucesso!' : 'Agendamento recusado.', 'info-circle');
-    
-    // Atualiza dinamicamente as telas do profissional para refletir a mudança
-    refreshProDashboard();
-    if(activeView === 'pro-sessions') { renderProSessionsList(); }
-  }
+// ════════════════════════════════════════════════════
+//  FILTROS — LISTA (BUSCAR)
+// ════════════════════════════════════════════════════
+function setListPrice(el, price){
+  listFilterState.price = price;
+  document.querySelectorAll('[id^="lf-price-"]').forEach(function(e){ e.classList.remove('on'); });
+  if(el) el.classList.add('on');
+  applyListFilters();
 }
 
-function renderProSessionsList() {
-  var container = document.getElementById('pro-all-sessions-list');
+function setListSpec(el, spec){
+  listFilterState.spec = spec;
+  document.querySelectorAll('#list-spec-chips .chip').forEach(function(e){ e.classList.remove('on'); });
+  if(el) el.classList.add('on');
+  applyListFilters();
+}
+
+function applyListFilters(){
+  var inp = document.getElementById('list-search-input');
+  listFilterState.search = inp ? inp.value.toLowerCase() : '';
+  var filtered = allPros.filter(function(p){
+    var price = parseFloat(p.session_price)||0;
+    var name  = (p.name||'').toLowerCase();
+    var specs = (p.specialties||[]).join(' ').toLowerCase();
+    if(listFilterState.price>0 && price>listFilterState.price) return false;
+    if(listFilterState.spec && !(p.specialties||[]).includes(listFilterState.spec)) return false;
+    if(listFilterState.search && !name.includes(listFilterState.search) && !specs.includes(listFilterState.search)) return false;
+    return true;
+  });
+  renderProfessionalsList(filtered, document.getElementById('pros-list'));
+}
+
+// ════════════════════════════════════════════════════
+//  FILTROS — SESSÕES PRO (data + paciente)
+// ════════════════════════════════════════════════════
+function setProSessDate(el, days){
+  proSessFilterState.days = days;
+  ['psf-all','psf-7','psf-15','psf-30'].forEach(function(id){
+    var e = document.getElementById(id);
+    if(e){ e.style.background='#132840'; e.style.borderColor='#1e3a5f'; e.style.color='#7fb3e8'; e.classList.remove('on'); }
+  });
+  if(el){ el.style.background='#4fc3f7'; el.style.borderColor='#4fc3f7'; el.style.color='#0d2137'; el.classList.add('on'); }
+  applyProSessFilters();
+}
+
+function applyProSessFilters(){
+  var searchEl = document.getElementById('pro-sess-search');
+  var search   = searchEl ? searchEl.value.toLowerCase().trim() : '';
+  proSessFilterState.patient = search;
+
+  var days    = proSessFilterState.days;
+  var cutoff  = days > 0 ? new Date(Date.now() - days*24*60*60*1000) : null;
+
+  var filtered = allProSessionsCache.filter(function(a){
+    if(cutoff && new Date(a.scheduled_at) < cutoff) return false;
+    if(search && !(a.patient_name||'').toLowerCase().includes(search)) return false;
+    return true;
+  });
+  renderProSessionsList(filtered);
+}
+
+function renderProSessionsList(appts){
+  var container = document.getElementById('pro-sessions-list');
   if(!container) return;
-
-  var filter = document.getElementById('filter-pro-status').value;
-
-  var filtered = appointments.slice().sort(function(a,b){
-    return new Date(b.scheduled_at) - new Date(a.scheduled_at);
-  });
-
-  if(filter !== 'all') {
-    filtered = filtered.filter(function(item){ return item.status === filter; });
-  }
-
-  if(!filtered.length) {
-    container.innerHTML = '<div style="text-align:center; padding:30px 0; color:#5f6368; font-size:14px;">Nenhuma sessão nesta categoria.</div>';
+  var statusMap = {
+    pending:   {cls:'sp-sched',label:'⏳ Aguardando',color:'#4fc3f7'},
+    confirmed: {cls:'sp-sched',label:'✅ Confirmado', color:'#4caf82'},
+    completed: {cls:'sp-done', label:'✔ Concluído',  color:'#4caf82'},
+    cancelled: {cls:'sp-cancel',label:'✕ Cancelado', color:'#ef5350'},
+  };
+  if(!appts.length){
+    container.innerHTML = '<div style="text-align:center;padding:40px;color:#7fb3e8;"><div style="font-size:32px;margin-bottom:12px;">📅</div>Nenhuma sessão encontrada.</div>';
     return;
   }
-
-  container.innerHTML = filtered.map(function(item){
-    var d = new Date(item.scheduled_at);
-    var dateStr = d.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'});
-    var timeStr = d.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
-    var statusText = item.status === 'confirmed' ? 'Confirmado' : (item.status === 'pending' ? 'Pendente' : 'Cancelado');
-
-    return `
-      <div class="session-item">
-        <div class="sess-info">
-          <span class="sess-name">${item.patient_name}</span>
-          <span class="sess-meta">${dateStr} às ${timeStr} • ${item.specialty} (${item.service_type === 'domiciliar' ? '🏠' : '🏥'})</span>
-        </div>
-        <div style="text-align:right; display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
-          <span class="status-badge ${item.status}">${statusText}</span>
-          <span style="font-size:12px; font-weight:700; color:#3c4043;">R$ ${item.price.toFixed(2)}</span>
-        </div>
-      </div>
-    `;
-  }).join('');
+  var pending = appts.filter(function(a){ return a.status==='pending'; });
+  var rest    = appts.filter(function(a){ return a.status!=='pending'; });
+  var html = '';
+  if(pending.length){
+    html += '<div class="slbl dk" style="margin-top:4px;">Pendentes de confirmação</div>';
+    html += pending.map(function(a){ return renderApptCard(a, statusMap, true); }).join('');
+  }
+  if(rest.length){
+    html += '<div class="slbl dk">Histórico</div>';
+    html += rest.map(function(a){ return renderApptCard(a, statusMap, true); }).join('');
+  }
+  container.innerHTML = html;
 }
-</script>
 
+// ════════════════════════════════════════════════════
+//  PRO SESSIONS — override loadProSessions to cache
+// ════════════════════════════════════════════════════
+async function loadProSessions(){
+  var container = document.getElementById('pro-sessions-list');
+  if(container) container.innerHTML = '<div style="text-align:center;padding:30px;color:#7fb3e8;">Carregando...</div>';
+  try{
+    var data  = await api('GET','/api/appointments?limit=100');
+    allProSessionsCache = data.appointments || [];
+    applyProSessFilters();
+  } catch(e){
+    if(container) container.innerHTML = '<div style="text-align:center;padding:20px;color:#ef5350;">'+e.message+'</div>';
+  }
+}
+
+// ════════════════════════════════════════════════════
+//  PRO EDIT — save service prices + fix bio/formation
+// ════════════════════════════════════════════════════
+async function loadProEdit(){
+  try{
+    var data = await api('GET','/api/auth/me');
+    if(!data) return;
+    if(document.getElementById('edit-nome'))    document.getElementById('edit-nome').value    = data.name   || '';
+    if(document.getElementById('edit-tel'))     document.getElementById('edit-tel').value     = data.phone  || '';
+    if(document.getElementById('edit-address')) document.getElementById('edit-address').value = data.address|| '';
+    if(document.getElementById('edit-price'))   document.getElementById('edit-price').value   = data.session_price || '';
+    if(document.getElementById('edit-price-aval')) document.getElementById('edit-price-aval').value = data.session_price || '';
+    if(document.getElementById('edit-start'))   document.getElementById('edit-start').value   = (data.work_start||'08:00').slice(0,5);
+    if(document.getElementById('edit-end'))     document.getElementById('edit-end').value     = (data.work_end||'20:00').slice(0,5);
+
+    // Bio raw text
+    var bio = data.bio || '';
+    if(document.getElementById('edit-bio')) document.getElementById('edit-bio').value = bio;
+
+    // Extract formation from bio
+    var anoMatch = bio.match(/Formado em (\d{4})/);
+    var expMatch = bio.match(/(\d+) anos de experiência/);
+    var parts    = bio.split(' · ');
+    var facul    = parts.length > 1 && !parts[0].match(/Formado|anos/) ? parts[0] : '';
+    if(document.getElementById('edit-faculdade')  && facul)           document.getElementById('edit-faculdade').value   = facul;
+    if(document.getElementById('edit-ano-form')   && anoMatch)        document.getElementById('edit-ano-form').value    = anoMatch[1];
+    if(document.getElementById('edit-experiencia')&& expMatch)        document.getElementById('edit-experiencia').value = expMatch[1];
+
+    // Specialties
+    var specs = data.specialties || [];
+    document.querySelectorAll('#edit-specs .check-chip').forEach(function(chip){
+      var label = chip.textContent.trim();
+      if(specs.includes(label)){
+        chip.classList.add('sel');
+        var box = chip.querySelector('.cbox');
+        if(box) box.innerHTML = '<i class="ti ti-check" style="font-size:10px;color:#0d2137;"></i>';
+      }
+    });
+  } catch(e){ toast('Erro ao carregar: '+e.message); }
+}
+
+async function saveProEdit(){
+  var nome       = document.getElementById('edit-nome')?.value?.trim();
+  var tel        = document.getElementById('edit-tel')?.value?.trim();
+  var address    = document.getElementById('edit-address')?.value?.trim();
+  var price      = parseFloat(document.getElementById('edit-price')?.value)||0;
+  var start      = document.getElementById('edit-start')?.value;
+  var end        = document.getElementById('edit-end')?.value;
+  var bioRaw     = document.getElementById('edit-bio')?.value?.trim() || '';
+  var faculdade  = document.getElementById('edit-faculdade')?.value?.trim() || '';
+  var anoForm    = document.getElementById('edit-ano-form')?.value || '';
+  var exp        = document.getElementById('edit-experiencia')?.value || '';
+  var specs      = Array.from(document.querySelectorAll('#edit-specs .check-chip.sel')).map(function(c){ return c.textContent.trim(); });
+
+  // Build bio combining manual text and formation fields
+  var bioFinal = bioRaw;
+  if(!bioFinal){
+    var parts = [];
+    if(faculdade) parts.push(faculdade);
+    if(anoForm)   parts.push('Formado em '+anoForm);
+    if(exp)       parts.push(exp+' anos de experiência');
+    bioFinal = parts.join(' · ');
+  }
+
+  toast('Salvando...');
+  try{
+    await api('PUT','/api/professionals/profile',{
+      name: nome, phone: tel, address: address,
+      session_price: price,
+      work_start: start, work_end: end,
+      bio: bioFinal || null,
+      specialties: specs,
+    });
+    var user = getUser();
+    if(user){ user.name = nome; saveSession(getToken(), user); }
+    toast('✅ Cadastro atualizado com sucesso!');
+  } catch(e){ toast(e.message||'Erro ao salvar'); }
+}
+
+// ════════════════════════════════════════════════════
+//  PRO CADASTRO — save formation fields
+// ════════════════════════════════════════════════════
+async function cadastrarPro(){
+  var nome       = document.getElementById('pro-nome')?.value?.trim();
+  var email      = document.getElementById('pro-email')?.value?.trim();
+  var cpf        = (document.getElementById('pro-cpf')?.value||'').replace(/\D/g,'');
+  var tel        = document.getElementById('pro-tel')?.value?.trim();
+  var crefito    = document.getElementById('pro-crefito')?.value?.trim();
+  var uf         = document.getElementById('pro-uf')?.value || 'SP';
+  var valor      = document.getElementById('pro-valor')?.value;
+  var pw         = document.getElementById('pw-pro')?.value;
+  var pw2        = document.getElementById('pro-pw2')?.value;
+  var terms      = document.getElementById('terms-pro')?.checked;
+  var faculdade  = document.getElementById('pro-faculdade')?.value?.trim() || '';
+  var anoForm    = document.getElementById('pro-ano-form')?.value || '';
+  var experiencia= document.getElementById('pro-experiencia')?.value || '';
+  var specs      = Array.from(document.querySelectorAll('#spec-grid .check-chip.sel')).map(function(c){ return c.textContent.trim(); });
+
+  if(!nome)         { toast('Preencha o nome completo'); return; }
+  if(!email)        { toast('Preencha o e-mail'); return; }
+  if(cpf.length<11) { toast('CPF inválido'); return; }
+  if(!tel)          { toast('Preencha o telefone'); return; }
+  if(!crefito)      { toast('Preencha o CREFITO'); return; }
+  if(!pw)           { toast('Preencha a senha'); return; }
+  if(pw.length<8)   { toast('Senha mínima de 8 caracteres'); return; }
+  if(pw!==pw2)      { toast('As senhas não conferem'); return; }
+  if(!terms)        { toast('Aceite os termos para continuar'); return; }
+
+  // Build bio from formation fields
+  var bioParts = [];
+  if(faculdade)   bioParts.push(faculdade);
+  if(anoForm)     bioParts.push('Formado em '+anoForm);
+  if(experiencia) bioParts.push(experiencia+' anos de experiência');
+  var bio = bioParts.join(' · ') || null;
+
+  toast('Obtendo sua localização...');
+  var latitude = null, longitude = null;
+  try{
+    var pos = await Promise.race([
+      new Promise(function(res,rej){ navigator.geolocation.getCurrentPosition(res,rej,{timeout:5000}); }),
+      new Promise(function(_,rej){ setTimeout(function(){ rej(new Error('timeout')); },5500); })
+    ]);
+    latitude  = pos.coords.latitude;
+    longitude = pos.coords.longitude;
+    toast('Enviando cadastro...');
+  } catch(e){ toast('Sem localização — cadastrando assim mesmo...'); await new Promise(function(r){ setTimeout(r,800); }); }
+
+  try{
+    var payload = {
+      name: nome, email: email, cpf: cpf, phone: tel, password: pw,
+      role: 'professional', crefito: crefito, crefito_uf: uf,
+      specialties: specs, service_types: ['domiciliar'],
+      session_price: parseFloat(valor)||0, bio: bio,
+    };
+    if(latitude!==null)  payload.latitude  = latitude;
+    if(longitude!==null) payload.longitude = longitude;
+    var data = await api('POST','/api/auth/register', payload);
+    saveSession(data.token, data.user);
+    go('page-ok-pro');
+  } catch(e){ toast(e.message||'Erro ao enviar cadastro'); }
+}
+
+// ════════════════════════════════════════════════════
+//  FAVORITOS — load on favorites page
+// ════════════════════════════════════════════════════
+async function loadFavorites(){
+  var container = document.getElementById('favorites-list');
+  if(!container) return;
+  container.innerHTML = '<div style="text-align:center;padding:30px;color:#64748b;">Carregando favoritos...</div>';
+  try{
+    var data = await api('GET','/api/patients/favorites');
+    var favs = data.favorites || [];
+    favoritesSet = new Set(favs.map(function(f){ return f.professional_id; }));
+    if(!favs.length){
+      container.innerHTML = '<div style="text-align:center;padding:40px;color:#64748b;"><div style="font-size:36px;margin-bottom:12px;">🤍</div><div style="font-size:14px;font-weight:600;">Nenhum favorito ainda</div><div style="font-size:12px;margin-top:6px;">Toque no 🤍 no perfil do fisioterapeuta para adicionar</div></div>';
+      return;
+    }
+    container.innerHTML = favs.map(function(p){
+      var av    = avColor(p.name);
+      var ini   = initials(p.name);
+      var price = p.session_price>0 ? 'R$ '+parseFloat(p.session_price).toFixed(0) : 'Consulte';
+      var specs = (p.specialties||[]).slice(0,2).join(', ')||'Fisioterapia';
+      // Find index in allPros for booking
+      var proIdx = allPros.findIndex(function(x){ return x.id===p.professional_id; });
+      return '<div class="fc" style="display:flex;align-items:center;gap:12px;padding:12px;">'
+        +'<div class="av '+av+'" style="width:44px;height:44px;font-size:15px;flex-shrink:0;">'+ini+'</div>'
+        +'<div style="flex:1;">'
+          +'<div class="fc-name">'+p.name+'</div>'
+          +'<div class="fc-spec">'+specs+'</div>'
+          +'<div style="font-size:12px;color:#1a73e8;font-weight:700;margin-top:3px;">'+price+'/sessão</div>'
+        +'</div>'
+        +'<div style="display:flex;gap:6px;">'
+          +(proIdx>=0?'<button class="btn-sm" onclick="openProfDetail('+proIdx+')" style="font-size:11px;padding:6px 10px;">Ver</button>':'')
+          +'<button onclick="removeFav(\"'+p.professional_id+'\")" style="background:#fee2e2;color:#dc2626;border:none;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;">✕</button>'
+        +'</div>'
+        +'</div>';
+    }).join('');
+  } catch(e){
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:#dc2626;">Erro ao carregar favoritos</div>';
+  }
+}
+
+async function removeFav(proId){
+  try{
+    await api('DELETE','/api/patients/favorites/'+proId);
+    favoritesSet.delete(proId);
+    toast('Removido dos favoritos');
+    loadFavorites();
+  } catch(e){ toast(e.message||'Erro'); }
+}
+
+// ════════════════════════════════════════════════════
+//  DASHBOARD PRO — load imediatamente após login
+// ════════════════════════════════════════════════════
+async function loadDashboard(){
+  var user = getUser();
+  if(!user || user.role!=='professional') return;
+  var greet = document.getElementById('pro-greet');
+  if(greet) greet.textContent = 'Olá, '+((user.name||'').split(' ')[0])+' 👋';
+  try{
+    var data    = await api('GET','/api/appointments?limit=100');
+    var appts   = data.appointments || [];
+    var pending = appts.filter(function(a){ return a.status==='pending'; });
+    var todayStr= new Date().toDateString();
+    var today   = appts.filter(function(a){
+      return new Date(a.scheduled_at).toDateString()===todayStr && a.status!=='cancelled';
+    });
+    var statPending = document.getElementById('stat-pending');
+    var statToday   = document.getElementById('stat-today');
+    if(statPending) statPending.textContent = pending.length;
+    if(statToday)   statToday.textContent   = today.length;
+
+    // Demand area
+    var demandArea = document.getElementById('pro-demand-area');
+    if(demandArea){
+      if(!pending.length){
+        demandArea.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Nenhum pedido pendente.</div>';
+      } else {
+        demandArea.innerHTML = pending.slice(0,3).map(function(a){
+          var d  = new Date(a.scheduled_at);
+          var ds = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
+          var ts = d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+          return '<div class="demand-card urgent" style="margin-bottom:10px;">'
+            +'<div class="d-top"><div>'
+              +'<div class="d-patient">'+(a.patient_name||'Paciente')+'</div>'
+              +'<div class="d-type">'+(a.service_type==='domiciliar'?'🏠':'🏥')+' '+ds+' às '+ts+'</div>'
+            +'</div><span class="urg-badge">⚡ Novo</span></div>'
+            +'<div class="d-actions">'
+              +'<button class="btn-accept" onclick="changeStatus(\'+a.id+\'\',\'confirmed\')">✓ Confirmar</button>'
+              +'<button class="btn-refuse" onclick="changeStatus(\'+a.id+\'\',\'cancelled\')">✕ Recusar</button>'
+            +'</div></div>';
+        }).join('');
+      }
+    }
+    loadTodayAgenda();
+    // Preload sessions cache silently
+    api('GET','/api/appointments?limit=100').then(function(d){ allProSessionsCache = (d&&d.appointments)||[]; }).catch(function(){});
+  } catch(e){ console.error('loadDashboard', e.message); }
+}
+
+function changeProStatus(id,status){ changeStatus(id,status); }
+
+</script>
 </body>
 </html>
