@@ -2549,7 +2549,7 @@ function openProfDetail(idx){
 
   // Book button
   var agBtn = document.getElementById('agendar-btn');
-  if(agBtn) agBtn.onclick = function(){ openBooking(idx); };
+  if(agBtn) agBtn.onclick = function(){ openBooking(realIdx >= 0 ? realIdx : idx); };
 
   go('page-detail');
 
