@@ -1658,14 +1658,36 @@ function go(id){
 // goAndLoad() = go() + carrega dados da página
 function goAndLoad(id){
   go(id);
-  if(id === 'page-profile')       { loadProfile(); loadNotifications(); }
-  if(id === 'page-sessions')      loadSessions();
-  if(id === 'page-pro-sessions')  loadProSessions();
-  if(id === 'page-pro-dash')      loadDashboard();
-  if(id === 'page-pro-edit')      loadProEdit();
-  if(id === 'page-favorites')     loadFavorites();
-  if(id === 'page-notifications') loadNotifications();
-  if(id === 'page-map' || id === 'page-list') loadProfessionals();
+
+  switch(id){
+    case 'page-profile':
+      loadProfile();
+      loadNotifications();
+      break;
+    case 'page-sessions':
+      loadSessions();
+      break;
+    case 'page-pro-sessions':
+      loadProSessions();
+      break;
+    case 'page-pro-dash':
+      loadDashboard();
+      loadProSessions();
+      break;
+    case 'page-pro-edit':
+      loadProEdit();
+      break;
+    case 'page-favorites':
+      loadFavorites();
+      break;
+    case 'page-notifications':
+      loadNotifications();
+      break;
+    case 'page-map':
+    case 'page-list':
+      loadProfessionals();
+      break;
+  }
 }
 
 // Inicialização: splash rápido → login ou app
@@ -1692,7 +1714,10 @@ function afterLogin(user){
   if(user.role === 'professional'){
     go('page-pro-dash');
     // Carrega painel em background — sem travar
-    setTimeout(function(){ loadDashboard(); }, 100);
+    setTimeout(async function(){
+      await loadDashboard();
+      await loadProSessions();
+    }, 100);
   } else {
     go('page-map');
     // Carrega profissionais em background — sem travar
@@ -2250,7 +2275,7 @@ async function confirmBooking(){
       notes:           notes   || '',
     });
     toast('✅ Sessão agendada com sucesso!');
-    setTimeout(function(){ go('page-sessions'); },1200);
+    setTimeout(async function(){ go('page-sessions'); await loadSessions(); },1200);
   } catch(e){
     toast(e.message || 'Erro ao agendar');
   }
@@ -2977,7 +3002,18 @@ async function loadDashboard(){
     loadTodayAgenda();
     // Preload sessions cache silently
     api('GET','/api/appointments?limit=100').then(function(d){ allProSessionsCache = (d&&d.appointments)||[]; }).catch(function(){});
-  } catch(e){ console.error('loadDashboard', e.message); }
+  } catch(e){ console.error('loadDashboard', e.message);
+  }
+
+  try{
+    var sessData = await api('GET','/api/appointments?limit=100');
+    allProSessionsCache = sessData.appointments || [];
+    if(typeof applyProSessFilters === 'function'){
+      applyProSessFilters();
+    }
+  }catch(err){
+    console.error('Erro ao pré-carregar sessões', err);
+  } }
 }
 
 function changeProStatus(id,status){ changeStatus(id,status); }
