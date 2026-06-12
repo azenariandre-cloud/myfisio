@@ -1590,7 +1590,25 @@ html,body{
 
 </div><!-- #app -->
 
-<script>
+<script>// ════════════════════════════════════════════════════
+//  myFisio — Estado global (declarado no topo)
+// ════════════════════════════════════════════════════
+var API_URL             = 'https://myfisio-api.onrender.com';
+var allPros             = [];
+var currentPro          = null;
+var favoritesSet        = new Set();
+var allProSessionsCache = [];
+var mapFilterState      = { price: 0, dist: 10, search: '' };
+var listFilterState     = { price: 0, spec: '', search: '' };
+var proSessFilterState  = { days: 0, patient: '' };
+var bookingState        = {
+  proId: null, proName: '', proSpec: '', price: 0,
+  selectedDate: null, selectedSlot: null, selectedTime: null,
+  tipo: 'domiciliar', cachedSlots: []
+};
+var reviewState         = { apptId: null, rating: 0 };
+
+
 // ── Ação inline de agendamento via data-attribute ──
 function apptAction(btn){
   var id     = btn.getAttribute('data-id');
@@ -1605,7 +1623,7 @@ function apptAction(btn){
 // ═══════════════════════════════════════════════
 //  myFisio — Integração com API real
 // ═══════════════════════════════════════════════
-var API_URL = 'https://myfisio-api.onrender.com';
+
 
 // ── Sessão ─────────────────────────────────────
 function getToken(){ return localStorage.getItem('myfisio_token'); }
@@ -1925,8 +1943,8 @@ function initials(name){
 }
 
 // ── Carregar fisioterapeutas da API ─────────────
-var allPros = [];
-var currentPro = null;
+
+
 
 function loadProfessionals(specialty){
   var listEl  = document.getElementById('pros-list');
@@ -2120,11 +2138,7 @@ function filterPros(el, specialty){
 // ═══════════════════════════════════════════════
 //  AGENDAMENTO — ESCOLHA DE HORÁRIO
 // ═══════════════════════════════════════════════
-var bookingState = {
-  proId: null, proName: '', proSpec: '', price: 0,
-  selectedDate: null, selectedSlot: null, selectedTime: null,
-  tipo: 'domiciliar', cachedSlots: []
-};
+
 
 function openBooking(proIdx){
   var p = allPros[proIdx] || currentPro;
@@ -2311,6 +2325,8 @@ async function loadSessions(){
 }
 
 function renderApptCard(a, statusMap, isPro){
+  if(!a || !a.id) return '';
+  statusMap = statusMap || {};
   var d   = new Date(a.scheduled_at);
   var ds  = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
   var ts  = d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
@@ -2362,7 +2378,7 @@ async
 // ═══════════════════════════════════════════════
 //  AVALIAÇÃO
 // ═══════════════════════════════════════════════
-var reviewState = { apptId: null, rating: 0 };
+
 
 function openReview(apptId, proName){
   reviewState.apptId = apptId;
@@ -2399,7 +2415,7 @@ async function submitReview(){
 // ═══════════════════════════════════════════════
 //  FAVORITOS
 // ═══════════════════════════════════════════════
-var favoritesSet = new Set();
+
 
 
 async function toggleFavorite(proId){
@@ -2600,10 +2616,6 @@ function openProfDetail(idx){
 // ════════════════════════════════════════════════════
 //  FILTROS — MAPA
 // ════════════════════════════════════════════════════
-var mapFilterState   = { price: 0, dist: 10, search: '' };
-var listFilterState  = { price: 0, spec: '', search: '' };
-var proSessFilterState = { days: 0, patient: '' };
-var allProSessionsCache = [];
 
 function toggleMapFilter(){
   var p = document.getElementById('map-filter-panel');
@@ -2694,6 +2706,7 @@ function setProSessDate(el, days){
 }
 
 function applyProSessFilters(){
+  if(!proSessFilterState) proSessFilterState = { days: 0, patient: '' };
   var searchEl = document.getElementById('pro-sess-search');
   var search   = searchEl ? searchEl.value.toLowerCase().trim() : '';
   proSessFilterState.patient = search;
@@ -2710,6 +2723,7 @@ function applyProSessFilters(){
 }
 
 function renderProSessionsList(appts){
+  if(!appts) appts = [];
   var container = document.getElementById('pro-sessions-list');
   if(!container) return;
   var statusMap = {
