@@ -1591,6 +1591,17 @@ html,body{
 </div><!-- #app -->
 
 <script>
+// ── Ação inline de agendamento via data-attribute ──
+function apptAction(btn){
+  var id     = btn.getAttribute('data-id');
+  var action = btn.getAttribute('data-action');
+  var extra  = btn.getAttribute('data-extra') || '';
+  if(!id || !action) return;
+  if(action === 'cancel')   { cancelAppt(id); return; }
+  if(action === 'review')   { openReview(id, extra); return; }
+  changeStatus(id, action);
+}
+
 // ═══════════════════════════════════════════════
 //  myFisio — Integração com API real
 // ═══════════════════════════════════════════════
@@ -2311,10 +2322,10 @@ function renderApptCard(a, statusMap, isPro){
   var canComplete = isPro && a.status === 'confirmed';
   var canConfirm  = isPro && a.status === 'pending';
   var actions = '';
-  if(canConfirm)  actions += '<button onclick="changeStatus(\''+a.id+'\',\'confirmed\')" style="flex:1;background:#4caf82;color:#fff;border:none;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Nunito,sans-serif;">✓ Confirmar</button>';
-  if(canComplete) actions += '<button onclick="changeStatus(\''+a.id+'\',\'completed\')" style="flex:1;background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Nunito,sans-serif;">✔ Concluir</button>';
-  if(canCancel)   actions += '<button onclick="cancelAppt(\''+a.id+'\')" style="flex:1;background:#fff;color:#dc2626;border:1.5px solid #dc2626;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Nunito,sans-serif;">✕ Cancelar</button>';
-  if(canReview)   actions += '<button onclick="openReview(\''+a.id+'\',\''+name+'\')" style="flex:1;background:#fef3c7;color:#b45309;border:1.5px solid #fcd34d;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Nunito,sans-serif;">⭐ Avaliar</button>';
+if(canConfirm)  actions += '<button data-id="'+a.id+'" data-action="confirmed" onclick="apptAction(this)" style="flex:1;background:#4caf82;color:#fff;border:none;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;">✓ Confirmar</button>';
+if(canComplete) actions += '<button data-id="'+a.id+'" data-action="completed" onclick="apptAction(this)" style="flex:1;background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;">✔ Concluir</button>';
+if(canCancel)   actions += '<button data-id="'+a.id+'" data-action="cancel" onclick="apptAction(this)" style="flex:1;background:#fff;color:#dc2626;border:1.5px solid #dc2626;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;">✕ Cancelar</button>';
+if(canReview)   actions += '<button data-id="'+a.id+'" data-action="review" data-extra="'+name+'" onclick="apptAction(this)" style="flex:1;background:#fef3c7;color:#b45309;border:1.5px solid #fcd34d;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;">⭐ Avaliar</button>';
   if(a.review_rating) actions += '<div style="font-size:12px;color:#b45309;text-align:center;padding:4px;">'+('⭐'.repeat(a.review_rating))+' Avaliado</div>';
   return '<div class="appt" style="border-left-color:'+s.color+';">'
     +'<div class="appt-top">'
@@ -2968,8 +2979,8 @@ async function loadDashboard(){
               +'<div class="d-type">'+(a.service_type==='domiciliar'?'🏠':'🏥')+' '+ds+' às '+ts+'</div>'
             +'</div><span class="urg-badge">⚡ Novo</span></div>'
             +'<div class="d-actions">'
-              +'<button class="btn-accept" onclick="changeStatus(\'+a.id+\'\',\'confirmed\')">✓ Confirmar</button>'
-              +'<button class="btn-refuse" onclick="changeStatus(\'+a.id+\'\',\'cancelled\')">✕ Recusar</button>'
+              +'<button class="btn-accept" data-id="'+a.id+'" data-action="confirmed" onclick="apptAction(this)">✓ Confirmar</button>'
+              +'<button class="btn-refuse" data-id="'+a.id+'" data-action="cancelled" onclick="apptAction(this)">✕ Recusar</button>'
             +'</div></div>';
         }).join('');
       }
