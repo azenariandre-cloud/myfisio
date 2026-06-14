@@ -698,6 +698,7 @@ html,body{
   #app{width:100vw;height:100vh;border-radius:0;border:none;box-shadow:none;}
   html,body{background:#fff;align-items:flex-start;}
 }
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -1720,18 +1721,19 @@ function afterLogin(user){
 
   if(user.role === 'professional'){
     go('page-pro-dash');
-    // Carrega painel em background — sem travar
-    setTimeout(function(){ loadDashboard(); }, 100);
+    loadProfile();
+    // Carrega imediatamente — sem delay
+    loadDashboard();
   } else {
     go('page-map');
-    // Carrega profissionais em background — sem travar
-    setTimeout(function(){ loadProfessionals(); }, 100);
-    // Favoritos silenciosamente
+    loadProfile();
+    // Carrega profissionais sem bloquear
+    loadProfessionals();
+    // Pré-carrega favoritos silenciosamente
     api('GET','/api/patients/favorites').then(function(d){
       (d.favorites||[]).forEach(function(f){ favoritesSet.add(f.professional_id); });
     }).catch(function(){});
   }
-  loadProfile();
 }
 
 // ── Login — aceita e-mail OU CPF ─────────────────
@@ -2128,6 +2130,64 @@ async function loadTodayAgenda(){
 }
 
 
+
+// ── Detalhe do paciente (modo Pro) ──────────────────
+function openApptDetail(btn){
+  var id = btn.getAttribute('data-id');
+  if(!id) return;
+  // Find appointment in cache
+  var a = allProSessionsCache.find(function(x){ return x.id === id; });
+  if(!a){
+    toast('Detalhes não disponíveis');
+    return;
+  }
+  // Build modal content
+  var d  = new Date(a.scheduled_at);
+  var ds = d.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+  var ts = d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  var modal = document.getElementById('modal-overlay');
+  var box   = document.getElementById('modal-box');
+  if(!modal || !box) return;
+
+  box.innerHTML =
+    '<div style="font-size:22px;margin-bottom:8px;">👤</div>'
+    +'<div style="font-size:18px;font-weight:700;color:#0f172a;margin-bottom:4px;">'+(a.patient_name||'Paciente')+'</div>'
+    +'<div style="font-size:13px;color:#64748b;margin-bottom:18px;">'+(a.service_type==='domiciliar'?'🏠 Domiciliar':'🏥 Clínica')+' · '+ds+' às '+ts+'</div>'
+    +'<div style="display:flex;flex-direction:column;gap:10px;text-align:left;margin-bottom:18px;">'
+      // Phone
+      +(a.patient_phone
+        ? '<div style="background:#f8fafc;border-radius:10px;padding:12px;display:flex;align-items:center;gap:10px;">'
+          +'<span style="font-size:20px;">📱</span>'
+          +'<div><div style="font-size:11px;color:#94a3b8;margin-bottom:2px;">TELEFONE</div>'
+          +'<div style="font-size:14px;font-weight:600;color:#0f172a;">'+a.patient_phone+'</div></div>'
+          +'<a href="https://wa.me/55'+a.patient_phone.replace(/\D/g,'')+'" target="_blank" style="margin-left:auto;background:#25D366;color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;text-decoration:none;">WhatsApp</a>'
+          +'</div>'
+        : '<div style="background:#f8fafc;border-radius:10px;padding:12px;color:#94a3b8;font-size:13px;">📱 Telefone não informado</div>')
+      // Address
+      +(a.address
+        ? '<div style="background:#f8fafc;border-radius:10px;padding:12px;display:flex;align-items:flex-start;gap:10px;">'
+          +'<span style="font-size:20px;">📍</span>'
+          +'<div><div style="font-size:11px;color:#94a3b8;margin-bottom:2px;">ENDEREÇO DE ATENDIMENTO</div>'
+          +'<div style="font-size:14px;font-weight:600;color:#0f172a;line-height:1.4;">'+a.address+'</div></div>'
+          +'<a href="https://maps.google.com/?q='+encodeURIComponent(a.address)+'" target="_blank" style="margin-left:auto;background:#1a73e8;color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;text-decoration:none;">Maps</a>'
+          +'</div>'
+        : '<div style="background:#f8fafc;border-radius:10px;padding:12px;color:#94a3b8;font-size:13px;">📍 Endereço não informado</div>')
+      // Notes
+      +'<div style="background:#fefce8;border:1px solid #fde68a;border-radius:10px;padding:12px;">'
+        +'<div style="font-size:11px;color:#92400e;margin-bottom:6px;font-weight:700;">💬 OBSERVAÇÕES DO PACIENTE</div>'
+        +'<div style="font-size:13px;color:#78350f;line-height:1.6;">'+(a.notes||'Nenhuma observação informada.')+'</div>'
+        +'</div>'
+      // Price
+      +'<div style="background:#f8fafc;border-radius:10px;padding:12px;display:flex;justify-content:space-between;align-items:center;">'
+        +'<span style="font-size:13px;color:#64748b;">Valor da sessão</span>'
+        +'<span style="font-size:18px;font-weight:700;color:#1a73e8;">R$ '+parseFloat(a.gross_price||0).toFixed(2).replace('.',',')+'</span>'
+        +'</div>'
+    +'</div>'
+    +'<button onclick="closeModal()" style="width:100%;background:#1a73e8;color:#fff;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:Nunito,sans-serif;">Fechar</button>';
+
+  modal.style.display = 'flex';
+}
+
 // ── Filtro de especialidade ──────────────────
 function filterPros(el, specialty){
   document.querySelectorAll('.chip-row .chip').forEach(function(c){ c.classList.remove('on'); });
@@ -2343,14 +2403,23 @@ if(canComplete) actions += '<button data-id="'+a.id+'" data-action="completed" o
 if(canCancel)   actions += '<button data-id="'+a.id+'" data-action="cancel" onclick="apptAction(this)" style="flex:1;background:#fff;color:#dc2626;border:1.5px solid #dc2626;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;">✕ Cancelar</button>';
 if(canReview)   actions += '<button data-id="'+a.id+'" data-action="review" data-extra="'+name+'" onclick="apptAction(this)" style="flex:1;background:#fef3c7;color:#b45309;border:1.5px solid #fcd34d;border-radius:10px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;">⭐ Avaliar</button>';
   if(a.review_rating) actions += '<div style="font-size:12px;color:#b45309;text-align:center;padding:4px;">'+('⭐'.repeat(a.review_rating))+' Avaliado</div>';
+  // For pro: show patient info inline + details button
+  var patientInfo = '';
+  if(isPro){
+    if(a.address) patientInfo += '<div style="font-size:12px;color:#7fb3e8;margin-top:4px;display:flex;align-items:flex-start;gap:4px;"><span>📍</span><span>'+a.address+'</span></div>';
+    if(a.patient_phone) patientInfo += '<div style="font-size:12px;color:#7fb3e8;margin-top:2px;">📱 '+a.patient_phone+'</div>';
+    if(a.notes) patientInfo += '<div style="font-size:12px;color:#94a3b8;margin-top:4px;font-style:italic;background:rgba(255,255,255,.05);border-radius:8px;padding:6px 8px;">💬 '+a.notes+'</div>';
+  }
   return '<div class="appt" style="border-left-color:'+s.color+';">'
     +'<div class="appt-top">'
       +'<div><div class="appt-name">'+name+'</div>'
       +'<div class="appt-type">'+(a.service_type==='domiciliar'?'🏠 Domiciliar':'🏥 Clínica')+'</div></div>'
       +'<div><div class="appt-date">'+ds+'</div><div class="appt-time">'+ts+'</div></div>'
     +'</div>'
+    +patientInfo
     +'<div style="font-size:12px;color:#64748b;margin-top:5px;">R$ '+price+'</div>'
     +'<span class="status-pill '+s.cls+'">'+s.label+'</span>'
+    +(isPro ? '<button data-id="'+a.id+'" onclick="openApptDetail(this)" style="background:transparent;border:1px solid rgba(79,195,247,.3);color:#4fc3f7;border-radius:8px;padding:5px 12px;font-size:11px;cursor:pointer;margin-top:8px;width:100%;font-family:Nunito Sans,sans-serif;">👁 Ver detalhes do paciente</button>' : '')
     +(actions ? '<div style="display:flex;gap:6px;margin-top:8px;">'+actions+'</div>' : '')
     +'</div>';
 }
@@ -2964,6 +3033,11 @@ async function loadDashboard(){
   if(!user || user.role!=='professional') return;
   var greet = document.getElementById('pro-greet');
   if(greet) greet.textContent = 'Olá, '+((user.name||'').split(' ')[0])+' 👋';
+  // Show loading state in demand area while API wakes up
+  var demandArea = document.getElementById('pro-demand-area');
+  if(demandArea) demandArea.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;"><i class="ti ti-loader-2" style="animation:spin 1s linear infinite;display:inline-block;margin-right:6px;"></i>Carregando pedidos...</div>';
+  var agendaArea = document.getElementById('pro-agenda-today');
+  if(agendaArea) agendaArea.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Carregando agenda...</div>';
   try{
     var data    = await api('GET','/api/appointments?limit=100');
     var appts   = data.appointments || [];
