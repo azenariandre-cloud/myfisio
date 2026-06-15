@@ -1562,8 +1562,8 @@ html,body{
     <div class="stat-grid">
       <div class="stat-card"><div class="stat-n blue" id="stat-pending">—</div><div class="stat-l">Pedidos novos</div></div>
       <div class="stat-card"><div class="stat-n green" id="stat-today">—</div><div class="stat-l">Sessões hoje</div></div>
-      <div class="stat-card"><div class="stat-n amber">⭐ —</div><div class="stat-l">Avaliação</div></div>
-      <div class="stat-card"><div class="stat-n blue">—</div><div class="stat-l">Ganhos hoje</div></div>
+      <div class="stat-card"><div class="stat-n amber" id="stat-rating">⭐ —</div><div class="stat-l">Avaliação</div></div>
+      <div class="stat-card"><div class="stat-n blue" id="stat-today-earn">R$ 0</div><div class="stat-l">Ganhos hoje</div></div>
     </div>
     <div class="slbl dk">Pedidos pendentes</div>
     <div id="pro-demand-area">
@@ -1591,7 +1591,62 @@ html,body{
 
 </div><!-- #app -->
 
-<script>// ════════════════════════════════════════════════════
+<script>
+// ── Renderiza painel Pro com dados já carregados ────
+function renderDashboardData(appts){
+  var pending  = appts.filter(function(a){ return a.status==='pending'; });
+  var todayStr = new Date().toDateString();
+  var today    = appts.filter(function(a){
+    return new Date(a.scheduled_at).toDateString()===todayStr && a.status!=='cancelled';
+  });
+  var completed = appts.filter(function(a){ return a.status==='completed'; });
+  var totalEarnings = completed.reduce(function(acc,a){ return acc + parseFloat(a.net_price||0); }, 0);
+  var todayEarnings = today.filter(function(a){ return a.status==='completed'; })
+    .reduce(function(acc,a){ return acc + parseFloat(a.net_price||0); }, 0);
+  // Avaliação média (a partir do cache não temos — mostramos traço)
+  var sp  = document.getElementById('stat-pending');
+  var st  = document.getElementById('stat-today');
+  var se  = document.getElementById('stat-today-earn');
+  var sr  = document.getElementById('stat-rating');
+  if(sp) sp.textContent = pending.length;
+  if(st) st.textContent = today.length;
+  if(se) se.textContent = 'R$ '+todayEarnings.toFixed(0);
+  // Rating from completed sessions (approximation from cache)
+  var ratings = appts.filter(function(a){ return a.review_rating && a.status==='completed'; });
+  if(sr){
+    if(ratings.length){
+      var avg = ratings.reduce(function(acc,a){ return acc+parseFloat(a.review_rating||0); },0)/ratings.length;
+      sr.textContent = '⭐ '+avg.toFixed(1);
+    } else {
+      sr.textContent = '⭐ —';
+    }
+  }
+  // Demand area
+  var demandArea = document.getElementById('pro-demand-area');
+  if(demandArea){
+    if(!pending.length){
+      demandArea.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Nenhum pedido pendente no momento.</div>';
+    } else {
+      demandArea.innerHTML = pending.slice(0,5).map(function(a){
+        var d  = new Date(a.scheduled_at);
+        var ds = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
+        var ts = d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+        return '<div class="demand-card urgent" style="margin-bottom:10px;">'+
+          '<div class="d-top"><div>'+
+            '<div class="d-patient">'+(a.patient_name||'Paciente')+'</div>'+
+            '<div class="d-type">'+(a.service_type==='domiciliar'?'🏠 Dom.':'🏥 Clín.')+' · '+ds+' às '+ts+'</div>'+
+          '</div><span class="urg-badge">⚡ Novo</span></div>'+
+          '<div class="d-actions">'+
+            '<button class="btn-accept" data-id="'+a.id+'" data-action="confirmed" onclick="apptAction(this)">✓ Confirmar</button>'+
+            '<button class="btn-refuse" data-id="'+a.id+'" data-action="cancelled" onclick="apptAction(this)">✕ Recusar</button>'+
+          '</div></div>';
+      }).join('');
+    }
+  }
+  loadTodayAgenda();
+}
+
+// ════════════════════════════════════════════════════
 //  myFisio — Estado global (declarado no topo)
 // ════════════════════════════════════════════════════
 var API_URL             = 'https://myfisio-api.onrender.com';
@@ -2080,7 +2135,7 @@ function showPaymentInfo(){
 // ── Suporte WhatsApp ─────────────────────────────
 function openSupport(){
   var msg = encodeURIComponent('Olá! Preciso de ajuda com o myFisio.');
-  window.open('https://wa.me/5511981045900?text='+msg, '_blank');
+  window.open('https://wa.me/5511943531627?text='+msg, '_blank');
 }
 
 // ── Modal genérico ───────────────────────────────
@@ -2427,9 +2482,66 @@ if(canReview)   actions += '<button data-id="'+a.id+'" data-action="review" data
 async function changeStatus(id, status){
   try{
     await api('PATCH','/api/appointments/'+id+'/status',{status:status});
-    toast(status==='confirmed'?'✅ Sessão confirmada!':(status==='completed'?'✔ Sessão concluída!':'Status atualizado'));
-    setTimeout(function(){ loadSessions(); },600);
+    if(status==='confirmed'){
+      toast('✅ Sessão confirmada!');
+      // Find appointment in cache to send WhatsApp
+      var appt = allProSessionsCache.find(function(a){ return a.id===id; });
+      if(appt) sendWhatsAppNotification(appt);
+    } else if(status==='completed'){
+      toast('✔ Sessão concluída!');
+    } else {
+      toast('Status atualizado');
+    }
+    // Refresh data
+    setTimeout(function(){
+      loadSessions();
+      // Refresh dashboard cache
+      api('GET','/api/appointments?limit=100').then(function(d){
+        if(d && d.appointments){ allProSessionsCache = d.appointments; renderDashboardData(allProSessionsCache); }
+      }).catch(function(){});
+    },600);
   } catch(e){ toast(e.message||'Erro ao atualizar'); }
+}
+
+// ── Notificação WhatsApp ao confirmar sessão ─────────
+function sendWhatsAppNotification(appt){
+  var d  = new Date(appt.scheduled_at);
+  var ds = d.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
+  var ts = d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  var pro  = getUser();
+  var proName = pro ? pro.name : 'O fisioterapeuta';
+
+  // Mensagem para o PACIENTE
+  var patientPhone = (appt.patient_phone||''). replace(/\D/g,'');
+  if(patientPhone && patientPhone.length >= 10){
+    var msgPaciente = 'Olá '+( appt.patient_name||'')+'! ✅\n'+
+      'Sua sessão de fisioterapia foi *confirmada*!\n\n'+
+      '📅 *Data:* '+ds+'\n'+
+      '🕐 *Horário:* '+ts+'\n'+
+      '👩‍⚕️ *Profissional:* '+proName+'\n'+
+      '🏠 *Tipo:* '+(appt.service_type==='domiciliar'?'Domiciliar':'Clínica')+'\n\n'+
+      'Em caso de dúvidas, entre em contato pelo myFisio.';
+    window.open('https://wa.me/55'+patientPhone+'?text='+encodeURIComponent(msgPaciente), '_blank');
+  }
+
+  // Mensagem de confirmação para o PRO via WhatsApp (auto-notificação)
+  var proPhone = (getUser()||{}).phone || '';
+  proPhone = proPhone.replace(/\D/g,'');
+  if(proPhone && proPhone.length >= 10){
+    var msgPro = '✅ *myFisio — Sessão Confirmada*\n\n'+
+      '👤 *Paciente:* '+(appt.patient_name||'—')+'\n'+
+      '📅 *Data:* '+ds+'\n'+
+      '🕐 *Horário:* '+ts+'\n'+
+      '🏠 *Tipo:* '+(appt.service_type==='domiciliar'?'Domiciliar':'Clínica')+'\n'+
+      (appt.address ? '📍 *Endereço:* '+appt.address+'\n' : '')+
+      (appt.notes   ? '💬 *Obs:* '+appt.notes+'\n'       : '')+
+      '\nAcesse o app para mais detalhes.';
+    // Open pro notification after patient (slight delay)
+    setTimeout(function(){
+      window.open('https://wa.me/55'+proPhone+'?text='+encodeURIComponent(msgPro), '_blank');
+    }, 1500);
+  }
+  toast('✅ Confirmado! Notificações WhatsApp enviadas.');
 }
 
 async function cancelAppt(id){
@@ -2829,6 +2941,8 @@ async function loadProSessions(){
     var data  = await api('GET','/api/appointments?limit=100');
     allProSessionsCache = data.appointments || [];
     applyProSessFilters();
+    // Also refresh dashboard data with fresh cache
+    renderDashboardData(allProSessionsCache);
   } catch(e){
     if(container) container.innerHTML = '<div style="text-align:center;padding:20px;color:#ef5350;">'+e.message+'</div>';
   }
@@ -3033,51 +3147,30 @@ async function loadDashboard(){
   if(!user || user.role!=='professional') return;
   var greet = document.getElementById('pro-greet');
   if(greet) greet.textContent = 'Olá, '+((user.name||'').split(' ')[0])+' 👋';
-  // Show loading state in demand area while API wakes up
-  var demandArea = document.getElementById('pro-demand-area');
-  if(demandArea) demandArea.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;"><i class="ti ti-loader-2" style="animation:spin 1s linear infinite;display:inline-block;margin-right:6px;"></i>Carregando pedidos...</div>';
-  var agendaArea = document.getElementById('pro-agenda-today');
-  if(agendaArea) agendaArea.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Carregando agenda...</div>';
-  try{
-    var data    = await api('GET','/api/appointments?limit=100');
-    var appts   = data.appointments || [];
-    var pending = appts.filter(function(a){ return a.status==='pending'; });
-    var todayStr= new Date().toDateString();
-    var today   = appts.filter(function(a){
-      return new Date(a.scheduled_at).toDateString()===todayStr && a.status!=='cancelled';
-    });
-    var statPending = document.getElementById('stat-pending');
-    var statToday   = document.getElementById('stat-today');
-    if(statPending) statPending.textContent = pending.length;
-    if(statToday)   statToday.textContent   = today.length;
 
-    // Demand area
-    var demandArea = document.getElementById('pro-demand-area');
-    if(demandArea){
-      if(!pending.length){
-        demandArea.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Nenhum pedido pendente.</div>';
-      } else {
-        demandArea.innerHTML = pending.slice(0,3).map(function(a){
-          var d  = new Date(a.scheduled_at);
-          var ds = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
-          var ts = d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-          return '<div class="demand-card urgent" style="margin-bottom:10px;">'
-            +'<div class="d-top"><div>'
-              +'<div class="d-patient">'+(a.patient_name||'Paciente')+'</div>'
-              +'<div class="d-type">'+(a.service_type==='domiciliar'?'🏠':'🏥')+' '+ds+' às '+ts+'</div>'
-            +'</div><span class="urg-badge">⚡ Novo</span></div>'
-            +'<div class="d-actions">'
-              +'<button class="btn-accept" data-id="'+a.id+'" data-action="confirmed" onclick="apptAction(this)">✓ Confirmar</button>'
-              +'<button class="btn-refuse" data-id="'+a.id+'" data-action="cancelled" onclick="apptAction(this)">✕ Recusar</button>'
-            +'</div></div>';
-        }).join('');
-      }
-    }
+  // Use cache immediately if available — avoids waiting for API
+  if(allProSessionsCache && allProSessionsCache.length > 0){
+    renderDashboardData(allProSessionsCache);
     loadTodayAgenda();
-    // Preload sessions cache silently
-    api('GET','/api/appointments?limit=100').then(function(d){ allProSessionsCache = (d&&d.appointments)||[]; }).catch(function(){});
-  } catch(e){ console.error('loadDashboard', e.message); }
+  } else {
+    // Show loading indicators only on first load
+    var demandArea = document.getElementById('pro-demand-area');
+    if(demandArea) demandArea.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;"><i class="ti ti-loader-2" style="animation:spin 1s linear infinite;display:inline-block;margin-right:6px;"></i>Carregando pedidos...</div>';
+    var agendaArea = document.getElementById('pro-agenda-today');
+    if(agendaArea) agendaArea.innerHTML = '<div style="font-size:13px;color:#4a6fa5;padding:10px 0;">Carregando agenda...</div>';
+  }
+
+  // Always fetch fresh data in background
+  try{
+    var data = await api('GET','/api/appointments?limit=100');
+    allProSessionsCache = data.appointments || [];
+    renderDashboardData(allProSessionsCache);
+    loadTodayAgenda();
+  } catch(e){
+    console.error('loadDashboard', e.message);
+  }
 }
+
 
 function changeProStatus(id,status){ changeStatus(id,status); }
 
