@@ -3,6 +3,8 @@ const { body, validationResult } = require('express-validator');
 const db      = require('../config/database');
 const { authMiddleware, requirePro, requirePatient } = require('../middleware/auth');
 
+const { notifyProNewAppointment, notifyPatientConfirmed, notifyCancelled } = require('./whatsapp');
+
 const router = express.Router();
 const FEE    = parseFloat(process.env.APP_FEE_PERCENT || 5) / 100;
 
@@ -94,7 +96,30 @@ router.post('/', authMiddleware, requirePatient, [
        RETURNING *`,
       [req.user.id, professional_id, scheduled_at, service_type, gross, fee, net, address || null, notes || null]
     );
-    res.status(201).json(result.rows[0]);
+    const newAppt = result.rows[0];
+
+    // Notifica fisioterapeuta via WhatsApp (background — não bloqueia)
+    db.query(
+      `SELECT u.name AS pro_name, u.phone AS pro_phone
+       FROM professionals p JOIN users u ON u.id = p.user_id
+       WHERE p.id = $1`, [professional_id]
+    ).then(async (profData) => {
+      const patientData = await db.query('SELECT name FROM users WHERE id=$1', [req.user.id]);
+      const pro = profData.rows[0];
+      if (pro) {
+        notifyProNewAppointment({
+          proPhone:    pro.pro_phone,
+          proName:     pro.pro_name,
+          patientName: patientData.rows[0]?.name,
+          scheduledAt: scheduled_at,
+          serviceType: service_type,
+          address:     address || '',
+          notes:       notes   || '',
+        }).catch(() => {});
+      }
+    }).catch(() => {});
+
+    res.status(201).json(newAppt);
   } catch (err) {
     console.error('[appointments/create]', err.message);
     res.status(500).json({ error: 'Erro ao criar agendamento.' });
@@ -190,6 +215,57 @@ router.patch('/:id/status', authMiddleware, [
         [row.professional_id, id, row.gross_price, row.app_fee, row.net_price]
       );
     }
+
+    // WhatsApp notifications in background
+    if (status === 'confirmed') {
+      // Notify patient that session was confirmed
+      db.query(
+        `SELECT u.name AS patient_name, u.phone AS patient_phone,
+                uf.name AS pro_name, a.scheduled_at, a.service_type, a.address
+         FROM appointments a
+         JOIN users u  ON u.id  = a.patient_id
+         JOIN professionals p ON p.id = a.professional_id
+         JOIN users uf ON uf.id = p.user_id
+         WHERE a.id = $1`, [id]
+      ).then((r) => {
+        const d = r.rows[0];
+        if (d) {
+          notifyPatientConfirmed({
+            patientPhone: d.patient_phone,
+            patientName:  d.patient_name,
+            proName:      d.pro_name,
+            scheduledAt:  d.scheduled_at,
+            serviceType:  d.service_type,
+            address:      d.address,
+          }).catch(() => {});
+        }
+      }).catch(() => {});
+    }
+
+    if (status === 'cancelled') {
+      // Notify the other party
+      db.query(
+        `SELECT u.name AS patient_name, u.phone AS patient_phone,
+                uf.name AS pro_name, uf.phone AS pro_phone,
+                a.scheduled_at
+         FROM appointments a
+         JOIN users u  ON u.id  = a.patient_id
+         JOIN professionals p ON p.id = a.professional_id
+         JOIN users uf ON uf.id = p.user_id
+         WHERE a.id = $1`, [id]
+      ).then((r) => {
+        const d = r.rows[0];
+        if (!d) return;
+        if (isPro) {
+          // Pro cancelled → notify patient
+          notifyCancelled({ phone: d.patient_phone, name: d.patient_name, scheduledAt: d.scheduled_at, cancelledBy: d.pro_name }).catch(() => {});
+        } else {
+          // Patient cancelled → notify pro
+          notifyCancelled({ phone: d.pro_phone, name: d.pro_name, scheduledAt: d.scheduled_at, cancelledBy: d.patient_name }).catch(() => {});
+        }
+      }).catch(() => {});
+    }
+
     res.json({ message: `Agendamento ${status}.`, status, appointment_id: id });
   } catch (err) {
     console.error('[appointments/status]', err.message);
