@@ -2390,7 +2390,7 @@ async function confirmBooking(){
       notes:           notes   || '',
     });
     toast('✅ Sessão agendada com sucesso!');
-    setTimeout(function(){ go('page-sessions'); },1200);
+    setTimeout(function(){ goAndLoad('page-sessions'); },1200);
   } catch(e){
     toast(e.message || 'Erro ao agendar');
   }
@@ -2489,13 +2489,15 @@ async function changeStatus(id, status){
       if(appt) sendWhatsAppNotification(appt);
     } else if(status==='completed'){
       toast('✔ Sessão concluída!');
+    } else if(status==='cancelled'){
+      toast('Sessão cancelada.');
     } else {
       toast('Status atualizado');
     }
-    // Refresh data
+    // Refresh data — reload sessions for both patient and pro
     setTimeout(function(){
-      loadSessions();
-      // Refresh dashboard cache
+      loadSessions(); // works for both roles (dispatches to pro or patient)
+      // Also refresh dashboard
       api('GET','/api/appointments?limit=100').then(function(d){
         if(d && d.appointments){ allProSessionsCache = d.appointments; renderDashboardData(allProSessionsCache); }
       }).catch(function(){});
@@ -2549,7 +2551,14 @@ async function cancelAppt(id){
   try{
     await api('PATCH','/api/appointments/'+id+'/status',{status:'cancelled', cancel_reason: reason});
     toast('Sessão cancelada.');
-    setTimeout(function(){ loadSessions(); },600);
+    setTimeout(function(){
+      loadSessions();
+      if(allProSessionsCache.length){
+        api('GET','/api/appointments?limit=100').then(function(d){
+          if(d && d.appointments){ allProSessionsCache = d.appointments; renderDashboardData(allProSessionsCache); }
+        }).catch(function(){});
+      }
+    },600);
   } catch(e){ toast(e.message||'Erro ao cancelar'); }
 }
 
