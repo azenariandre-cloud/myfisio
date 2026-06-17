@@ -1676,9 +1676,9 @@ async function api(method, path, body){
   var token = getToken();
   if(token) headers['Authorization'] = 'Bearer '+token;
 
-  // Timeout de 15 segundos para não travar a UI
+  // Timeout de 35s — Render free pode demorar para acordar (cold start)
   var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
-  var timer = controller ? setTimeout(function(){ controller.abort(); }, 15000) : null;
+  var timer = controller ? setTimeout(function(){ controller.abort(); }, 35000) : null;
 
   try{
     var res = await fetch(API_URL+path, {
@@ -1736,7 +1736,11 @@ window.addEventListener('load', function(){
   var token = getToken();
   var user  = getUser();
 
-  // Splash curto (1s) depois navega — sem nenhum fetch
+  // Pré-aquece a API imediatamente (Render free pode levar 30-50s para acordar) —
+  // disparado em paralelo, sem bloquear o splash nem esperar resposta
+  fetch(API_URL + '/health').catch(function(){});
+
+  // Splash curto (1s) depois navega — sem nenhum fetch bloqueante
   setTimeout(function(){
     if(token && user){
       afterLogin(user);
@@ -1756,6 +1760,13 @@ function afterLogin(user){
     loadProfile();
     // Carrega imediatamente — sem delay
     loadDashboard();
+    // Retry automático em 4s caso o servidor ainda estivesse "dormindo"
+    // na primeira tentativa (não duplica se já carregou com sucesso)
+    setTimeout(function(){
+      if(!allProSessionsCache || !allProSessionsCache.length){
+        loadDashboard();
+      }
+    }, 4000);
   } else {
     go('page-map');
     loadProfile();
@@ -3177,6 +3188,15 @@ async function loadDashboard(){
     loadTodayAgenda();
   } catch(e){
     console.error('loadDashboard', e.message);
+    // Nunca deixa a tela travada em "Carregando..." — mostra retry
+    var demandArea2 = document.getElementById('pro-demand-area');
+    var agendaArea2 = document.getElementById('pro-agenda-today');
+    var retryHtml = '<div style="font-size:13px;color:#ef5350;padding:10px 0;">'
+      +'Servidor demorou para responder.<br>'
+      +'<button onclick="loadDashboard()" style="background:#4fc3f7;color:#0d2137;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;margin-top:8px;">🔄 Tentar novamente</button>'
+      +'</div>';
+    if(demandArea2) demandArea2.innerHTML = retryHtml;
+    if(agendaArea2) agendaArea2.innerHTML = '<div style="font-size:13px;color:#ef5350;padding:8px 0;">Erro ao carregar agenda.</div>';
   }
 }
 
