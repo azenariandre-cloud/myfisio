@@ -3,6 +3,7 @@ const bcrypt  = require('bcryptjs');
 const jwt     = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const db      = require('../config/database');
+const { notifyPasswordReminder } = require('./whatsapp');
 const { authMiddleware } = require('../middleware/auth');
 
 const router = express.Router();
@@ -185,6 +186,44 @@ router.put('/password', authMiddleware, [
     res.json({ message: 'Senha atualizada com sucesso.' });
   } catch (err) {
     res.status(500).json({ error: 'Erro ao atualizar senha.' });
+  }
+});
+
+// ── POST /api/auth/forgot-password ───────────
+// Envia senha por e-mail (simulado) + WhatsApp
+router.post('/forgot-password', async (req, res) => {
+  const { email, cpf } = req.body;
+  const identifier = email || cpf;
+  if (!identifier) return res.status(400).json({ error: 'Informe o e-mail ou CPF.' });
+
+  try {
+    // Busca por email ou CPF
+    const cleanId = identifier.replace(/\D/g, '');
+    const result  = await db.query(
+      `SELECT id, name, email, phone, password_hash FROM users
+       WHERE email = $1 OR cpf = $2`,
+      [identifier.toLowerCase(), cleanId]
+    );
+    // Sempre retorna 200 por segurança (não revela se e-mail existe)
+    if (!result.rows[0]) {
+      return res.json({ message: 'Se o cadastro existir, as instruções foram enviadas.' });
+    }
+    const user = result.rows[0];
+
+    // Envia senha via WhatsApp (background)
+    if (user.phone) {
+      notifyPasswordReminder({
+        phone:    user.phone,
+        name:     user.name,
+        email:    user.email,
+        password: '(redefinida — acesse o app para criar nova senha)',
+      }).catch(() => {});
+    }
+
+    res.json({ message: 'Instruções enviadas para seu WhatsApp e e-mail cadastrados.' });
+  } catch (err) {
+    console.error('[forgot-password]', err.message);
+    res.status(500).json({ error: 'Erro ao processar solicitação.' });
   }
 });
 
