@@ -367,7 +367,7 @@ html,body{
 /* ═══════════════════════════════════════════
    APP — SCROLL
 ═══════════════════════════════════════════ */
-.scroll{flex:1;overflow-y:auto;padding:14px 16px;scrollbar-width:none;}
+.scroll{flex:1;overflow-y:auto;padding:14px 16px 86px;scrollbar-width:none;}
 .scroll::-webkit-scrollbar{display:none;}
 
 /* ═══════════════════════════════════════════
@@ -377,9 +377,13 @@ html,body{
   height:70px;background:#fff;border-top:1px solid #e2e8f0;
   display:flex;align-items:center;justify-content:space-around;
   flex-shrink:0;padding-bottom:6px;
-  position:sticky;bottom:0;left:0;right:0;z-index:100;
+  position:fixed;bottom:0;left:0;right:0;z-index:9999;
+  max-width:480px;margin:0 auto;
 }
-.bot-nav.dark-nav{background:#0a1628;border-top-color:#1e3a5f;position:sticky;bottom:0;left:0;right:0;z-index:100;}
+@supports (padding: max(0px)) {
+  .bot-nav{ padding-bottom:max(6px, env(safe-area-inset-bottom)); }
+}
+.bot-nav.dark-nav{background:#0a1628;border-top-color:#1e3a5f;position:fixed;bottom:0;left:0;right:0;z-index:9999;max-width:480px;margin:0 auto;}
 .nav-it{
   display:flex;flex-direction:column;align-items:center;gap:4px;
   cursor:pointer;padding:6px 14px;border-radius:14px;
@@ -1447,9 +1451,6 @@ html,body{
     <button onclick="getProLocation()" style="width:100%;background:rgba(79,195,247,.15);border:1px solid #4fc3f7;border-radius:10px;color:#4fc3f7;padding:10px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:14px;font-family:'Nunito',sans-serif;">
       <i class="ti ti-current-location" style="vertical-align:-2px;margin-right:4px;"></i> Usar minha localização atual
     </button>
-    <div class="field"><label style="color:#7fb3e8;">Valor por sessão (R$)</label>
-      <input id="edit-price" class="finput pro" type="number" min="0" placeholder="120" style="background:#132840;border-color:#1e3a5f;color:#fff;">
-    </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
       <div class="field"><label style="color:#7fb3e8;">Início</label><input id="edit-start" class="finput pro" type="time" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
       <div class="field"><label style="color:#7fb3e8;">Fim</label><input id="edit-end" class="finput pro" type="time" style="background:#132840;border-color:#1e3a5f;color:#fff;"></div>
@@ -1805,12 +1806,7 @@ async function doLogin(){
   try{
     var data = await api('POST','/api/auth/login',{email:em, password:pw});
     saveSession(data.token, data.user);
-    if(data.user.role === 'professional'){
-      go('page-pro-dash');
-    } else {
-      go('page-map');
-    }
-    loadProfile();
+    afterLogin(data.user); // navega E carrega os dados do painel/mapa imediatamente
   } catch(e){
     toast(e.message || 'E-mail ou senha incorretos');
   }
@@ -2518,43 +2514,12 @@ async function changeStatus(id, status){
 
 // ── Notificação WhatsApp ao confirmar sessão ─────────
 function sendWhatsAppNotification(appt){
-  var d  = new Date(appt.scheduled_at);
-  var ds = d.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
-  var ts = d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-  var pro  = getUser();
-  var proName = pro ? pro.name : 'O fisioterapeuta';
-
-  // Mensagem para o PACIENTE
-  var patientPhone = (appt.patient_phone||''). replace(/\D/g,'');
-  if(patientPhone && patientPhone.length >= 10){
-    var msgPaciente = 'Olá '+( appt.patient_name||'')+'! ✅\n'+
-      'Sua sessão de fisioterapia foi *confirmada*!\n\n'+
-      '📅 *Data:* '+ds+'\n'+
-      '🕐 *Horário:* '+ts+'\n'+
-      '👩‍⚕️ *Profissional:* '+proName+'\n'+
-      '🏠 *Tipo:* '+(appt.service_type==='domiciliar'?'Domiciliar':'Clínica')+'\n\n'+
-      'Em caso de dúvidas, entre em contato pelo myFisio.';
-    window.open('https://wa.me/55'+patientPhone+'?text='+encodeURIComponent(msgPaciente), '_blank');
-  }
-
-  // Mensagem de confirmação para o PRO via WhatsApp (auto-notificação)
-  var proPhone = (getUser()||{}).phone || '';
-  proPhone = proPhone.replace(/\D/g,'');
-  if(proPhone && proPhone.length >= 10){
-    var msgPro = '✅ *myFisio — Sessão Confirmada*\n\n'+
-      '👤 *Paciente:* '+(appt.patient_name||'—')+'\n'+
-      '📅 *Data:* '+ds+'\n'+
-      '🕐 *Horário:* '+ts+'\n'+
-      '🏠 *Tipo:* '+(appt.service_type==='domiciliar'?'Domiciliar':'Clínica')+'\n'+
-      (appt.address ? '📍 *Endereço:* '+appt.address+'\n' : '')+
-      (appt.notes   ? '💬 *Obs:* '+appt.notes+'\n'       : '')+
-      '\nAcesse o app para mais detalhes.';
-    // Open pro notification after patient (slight delay)
-    setTimeout(function(){
-      window.open('https://wa.me/55'+proPhone+'?text='+encodeURIComponent(msgPro), '_blank');
-    }, 1500);
-  }
-  toast('✅ Confirmado! Notificações WhatsApp enviadas.');
+  // As notificações de WhatsApp são 100% automatizadas pelo backend
+  // (Evolution API rodando no Railway) — não abrem o WhatsApp do usuário.
+  // O backend já dispara a mensagem para o paciente e o fisioterapeuta
+  // automaticamente quando o status muda para "confirmed" (ver
+  // backend/routes/appointments.js + backend/routes/whatsapp.js).
+  toast('✅ Confirmado! O paciente foi notificado automaticamente via WhatsApp.');
 }
 
 async function cancelAppt(id){
@@ -3106,7 +3071,8 @@ async function cadastrarPro(){
     if(longitude!==null) payload.longitude = longitude;
     var data = await api('POST','/api/auth/register', payload);
     saveSession(data.token, data.user);
-    go('page-ok-pro');
+    toast('✅ Cadastro realizado com sucesso!');
+    afterLogin(data.user); // vai direto para o painel Pro, já carregando os dados
   } catch(e){ toast(e.message||'Erro ao enviar cadastro'); }
 }
 
