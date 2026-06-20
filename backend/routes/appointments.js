@@ -3,7 +3,7 @@ const { body, validationResult } = require('express-validator');
 const db      = require('../config/database');
 const { authMiddleware, requirePro, requirePatient } = require('../middleware/auth');
 
-const { notifyProNewAppointment, notifyPatientConfirmed, notifyCancelled } = require('./whatsapp');
+const { notifyProNewAppointment, notifyPatientConfirmed, notifyCancelled, sendWhatsApp } = require('./whatsapp');
 
 const router = express.Router();
 const FEE    = parseFloat(process.env.APP_FEE_PERCENT || 5) / 100;
@@ -298,6 +298,25 @@ router.post('/:id/review', authMiddleware, requirePatient, [
     res.status(201).json({ message: 'Avaliação enviada!' });
   } catch (err) {
     res.status(500).json({ error: 'Erro ao enviar avaliação.' });
+  }
+});
+
+// ── GET /api/appointments/test-whatsapp ────────
+// Rota de diagnóstico — envia uma mensagem de teste direto
+// Uso: /api/appointments/test-whatsapp?phone=5511999999999&key=SUA_SETUP_SECRET
+router.get('/test-whatsapp', async (req, res) => {
+  const { phone, key } = req.query;
+  if (!key || key !== process.env.SETUP_SECRET) {
+    return res.status(403).json({ error: 'Chave inválida.' });
+  }
+  if (!phone) {
+    return res.status(400).json({ error: 'Informe ?phone=5511999999999' });
+  }
+  try {
+    const result = await sendWhatsApp(phone, '🧪 *myFisio* — Esta é uma mensagem de teste! Se você recebeu isso, a integração com o Evolution API está funcionando corretamente. ✅');
+    res.json({ message: 'Tentativa de envio realizada. Veja o resultado:', result });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 

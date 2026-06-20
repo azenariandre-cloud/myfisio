@@ -1,6 +1,6 @@
 // ─────────────────────────────────────────────
 //  myFisio — WhatsApp via Evolution API (grátis)
-//  Docs: https://doc.evolution-api.com
+//  Docs: https://doc.evolution-api.com/v2/api-reference/message-controller/send-text
 //
 //  Como configurar:
 //  1. Suba Evolution API: github.com/EvolutionAPI/evolution-api
@@ -17,35 +17,51 @@ const EVOLUTION_INSTANCE = process.env.EVOLUTION_INSTANCE || 'myfisio';
 
 async function sendWhatsApp(phone, message) {
   if (!EVOLUTION_URL || !EVOLUTION_API_KEY) {
-    console.log('[WhatsApp] Evolution API não configurada.');
+    console.log('[WhatsApp] Evolution API não configurada — defina EVOLUTION_API_URL e EVOLUTION_API_KEY.');
     return { ok: false, reason: 'not_configured' };
   }
-  let p = phone.replace(/\D/g, '');
+  if (!phone) {
+    console.log('[WhatsApp] Número de telefone vazio — mensagem não enviada.');
+    return { ok: false, reason: 'no_phone' };
+  }
+
+  let p = String(phone).replace(/\D/g, '');
   if (p.startsWith('0'))   p = '55' + p.slice(1);
   if (!p.startsWith('55')) p = '55' + p;
 
+  const url = `${EVOLUTION_URL.replace(/\/$/, '')}/message/sendText/${EVOLUTION_INSTANCE}`;
+
   try {
-    const res = await fetch(`${EVOLUTION_URL}/message/sendText/${EVOLUTION_INSTANCE}`, {
+    const res = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'apikey': EVOLUTION_API_KEY },
+      // Formato V2 (atual) da Evolution API — payload FLAT, sem "textMessage" aninhado
       body: JSON.stringify({
         number: p,
-        options: { delay: 1000, presence: 'composing' },
-        textMessage: { text: message },
+        text: message,
+        delay: 1200,
       }),
     });
-    const data = await res.json();
-    if (!res.ok) { console.error('[WhatsApp] Erro:', data); return { ok: false, reason: data }; }
-    console.log(`[WhatsApp] ✅ Enviado para ${p}`);
+
+    const raw = await res.text();
+    let data;
+    try { data = JSON.parse(raw); } catch { data = raw; }
+
+    if (!res.ok) {
+      console.error(`[WhatsApp] ❌ Erro HTTP ${res.status} ao enviar para ${p}:`, JSON.stringify(data));
+      return { ok: false, status: res.status, reason: data };
+    }
+
+    console.log(`[WhatsApp] ✅ Enviado com sucesso para ${p}`);
     return { ok: true, data };
   } catch (err) {
-    console.error('[WhatsApp] Falha:', err.message);
+    console.error(`[WhatsApp] ❌ Falha de conexão ao enviar para ${p}:`, err.message);
     return { ok: false, reason: err.message };
   }
 }
 
 async function notifyProNewAppointment({ proPhone, proName, patientName, scheduledAt, serviceType, address, notes }) {
-  if (!proPhone) return;
+  if (!proPhone) { console.log('[WhatsApp] notifyProNewAppointment: telefone do fisio vazio.'); return; }
   const d  = new Date(scheduledAt);
   const ds = d.toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' });
   const ts = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
@@ -61,7 +77,7 @@ async function notifyProNewAppointment({ proPhone, proName, patientName, schedul
 }
 
 async function notifyPatientConfirmed({ patientPhone, patientName, proName, scheduledAt, serviceType, address }) {
-  if (!patientPhone) return;
+  if (!patientPhone) { console.log('[WhatsApp] notifyPatientConfirmed: telefone do paciente vazio.'); return; }
   const d  = new Date(scheduledAt);
   const ds = d.toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' });
   const ts = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
@@ -76,7 +92,7 @@ async function notifyPatientConfirmed({ patientPhone, patientName, proName, sche
 }
 
 async function notifyCancelled({ phone, name, scheduledAt, cancelledBy }) {
-  if (!phone) return;
+  if (!phone) { console.log('[WhatsApp] notifyCancelled: telefone vazio.'); return; }
   const d  = new Date(scheduledAt);
   const ds = d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' });
   const ts = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
@@ -89,7 +105,7 @@ async function notifyCancelled({ phone, name, scheduledAt, cancelledBy }) {
 }
 
 async function notifyPasswordReminder({ phone, name, email, password }) {
-  if (!phone) return;
+  if (!phone) { console.log('[WhatsApp] notifyPasswordReminder: telefone vazio.'); return; }
   const msg =
     `🔑 *myFisio — Seus dados de acesso*\n\n` +
     `Olá, ${name || 'usuário'}!\n\n` +
