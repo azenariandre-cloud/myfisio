@@ -190,37 +190,50 @@ router.put('/password', authMiddleware, [
 });
 
 // ── POST /api/auth/forgot-password ───────────
-// Envia senha por e-mail (simulado) + WhatsApp
+// Gera uma senha temporária REAL, salva o hash no banco
+// e envia a senha em texto puro via WhatsApp (única forma
+// segura de "revelar" a senha, já que a original fica
+// criptografada e não pode ser descriptografada de volta).
 router.post('/forgot-password', async (req, res) => {
   const { email, cpf } = req.body;
   const identifier = email || cpf;
   if (!identifier) return res.status(400).json({ error: 'Informe o e-mail ou CPF.' });
 
   try {
-    // Busca por email ou CPF
     const cleanId = identifier.replace(/\D/g, '');
     const result  = await db.query(
-      `SELECT id, name, email, phone, password_hash FROM users
+      `SELECT id, name, email, phone FROM users
        WHERE email = $1 OR cpf = $2`,
       [identifier.toLowerCase(), cleanId]
     );
-    // Sempre retorna 200 por segurança (não revela se e-mail existe)
+
+    // Sempre retorna 200 por segurança (não revela se o e-mail existe)
     if (!result.rows[0]) {
       return res.json({ message: 'Se o cadastro existir, as instruções foram enviadas.' });
     }
     const user = result.rows[0];
 
-    // Envia senha via WhatsApp (background)
-    if (user.phone) {
-      notifyPasswordReminder({
-        phone:    user.phone,
-        name:     user.name,
-        email:    user.email,
-        password: '(redefinida — acesse o app para criar nova senha)',
-      }).catch(() => {});
+    if (!user.phone) {
+      return res.json({ message: 'Cadastro encontrado, mas sem telefone para envio. Entre em contato com o suporte.' });
     }
 
-    res.json({ message: 'Instruções enviadas para seu WhatsApp e e-mail cadastrados.' });
+    // Gera senha temporária aleatória de 8 caracteres (letras + números)
+    const tempPassword = Math.random().toString(36).slice(-4).toUpperCase()
+                        + Math.random().toString(36).slice(-4);
+
+    // Atualiza o hash da senha no banco com a nova senha temporária
+    const newHash = await bcrypt.hash(tempPassword, 10);
+    await db.query('UPDATE users SET password_hash = $1 WHERE id = $2', [newHash, user.id]);
+
+    // Envia a senha temporária em texto puro via WhatsApp
+    notifyPasswordReminder({
+      phone:    user.phone,
+      name:     user.name,
+      email:    user.email,
+      password: tempPassword,
+    }).catch((err) => console.error('[forgot-password] WhatsApp falhou:', err.message));
+
+    res.json({ message: 'Uma nova senha temporária foi enviada para seu WhatsApp.' });
   } catch (err) {
     console.error('[forgot-password]', err.message);
     res.status(500).json({ error: 'Erro ao processar solicitação.' });

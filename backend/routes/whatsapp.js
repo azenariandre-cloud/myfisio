@@ -72,7 +72,7 @@ async function notifyProNewAppointment({ proPhone, proName, patientName, schedul
     `🏠 *Tipo:* ${serviceType === 'domiciliar' ? 'Domiciliar' : 'Clínica'}\n` +
     (address ? `📍 *Endereço:* ${address}\n` : '') +
     (notes   ? `💬 *Obs:* ${notes}\n`         : '') +
-    `\nAcesse o app myFisio para confirmar ou recusar.`;
+    `\nAcesse https://myfisio.pro para confirmar ou recusar.`;
   return sendWhatsApp(proPhone, msg);
 }
 
@@ -87,7 +87,7 @@ async function notifyPatientConfirmed({ patientPhone, patientName, proName, sche
     `👩‍⚕️ *Fisioterapeuta:* ${proName || '—'}\n📅 *Data:* ${ds}\n🕐 *Horário:* ${ts}\n` +
     `🏠 *Tipo:* ${serviceType === 'domiciliar' ? 'Domiciliar' : 'Clínica'}\n` +
     (address ? `📍 *Endereço:* ${address}\n` : '') +
-    `\nQualquer dúvida, acesse o myFisio. Até lá! 😊`;
+    `\nQualquer dúvida, acesse https://myfisio.pro. Até lá! 😊`;
   return sendWhatsApp(patientPhone, msg);
 }
 
@@ -100,18 +100,21 @@ async function notifyCancelled({ phone, name, scheduledAt, cancelledBy }) {
     `❌ *myFisio — Sessão Cancelada*\n\nOlá, ${name || ''}! ` +
     `A sessão do dia *${ds}* às *${ts}* foi cancelada.\n` +
     (cancelledBy ? `Cancelado por: ${cancelledBy}\n` : '') +
-    `\nAcesse o app para reagendar.`;
+    `\nAcesse https://myfisio.pro para reagendar.`;
   return sendWhatsApp(phone, msg);
 }
 
 async function notifyPasswordReminder({ phone, name, email, password }) {
   if (!phone) { console.log('[WhatsApp] notifyPasswordReminder: telefone vazio.'); return; }
   const msg =
-    `🔑 *myFisio — Seus dados de acesso*\n\n` +
+    `🔑 *myFisio — Recuperação de senha*\n\n` +
     `Olá, ${name || 'usuário'}!\n\n` +
-    `📧 *E-mail:* ${email}\n🔒 *Senha:* ${password}\n\n` +
-    `Por segurança, recomendamos alterar sua senha após o acesso.\n` +
-    `Dúvidas? Fale conosco: (11) 94353-1627`;
+    `Geramos uma nova senha temporária para o seu acesso:\n\n` +
+    `📧 *E-mail:* ${email}\n` +
+    `🔒 *Senha temporária:* ${password}\n\n` +
+    `Por segurança, recomendamos alterar essa senha assim que entrar.\n` +
+    `Dúvidas? Fale conosco: (11) 94353-1627\n\n` +
+    `Acesse agora: https://myfisio.pro`;
   return sendWhatsApp(phone, msg);
 }
 
