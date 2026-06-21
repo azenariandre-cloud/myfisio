@@ -192,4 +192,39 @@ router.patch('/professionals/:id/verify', requireAdmin, async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
+// ── DELETE /api/admin/professionals/:userId ────
+// Exclui permanentemente um fisioterapeuta (usuário + perfil profissional).
+// Agendamentos/avaliações vinculados são removidos via ON DELETE CASCADE
+// (definido no schema do banco — ver foreign keys de appointments/reviews).
+router.delete('/professionals/:userId', requireAdmin, async (req, res) => {
+  const { userId } = req.params;
+  try {
+    // Confirma que o usuário existe e é realmente um fisioterapeuta
+    const check = await db.query(
+      `SELECT u.id, u.name, p.id AS prof_id FROM users u
+       JOIN professionals p ON p.user_id = u.id
+       WHERE u.id = $1`, [userId]
+    );
+    if (!check.rows[0]) {
+      return res.status(404).json({ error: 'Fisioterapeuta não encontrado.' });
+    }
+    const profId = check.rows[0].prof_id;
+    const name   = check.rows[0].name;
+
+    // Exclui manualmente na ordem correta de dependência — não depende
+    // de ON DELETE CASCADE estar configurado em todas as foreign keys.
+    await db.query('DELETE FROM reviews WHERE professional_id = $1', [profId]);
+    await db.query('DELETE FROM earnings WHERE professional_id = $1', [profId]);
+    await db.query('DELETE FROM favorites WHERE professional_id = $1', [profId]).catch(() => {});
+    await db.query('DELETE FROM appointments WHERE professional_id = $1', [profId]);
+    await db.query('DELETE FROM professionals WHERE id = $1', [profId]);
+    await db.query('DELETE FROM users WHERE id = $1', [userId]);
+
+    res.json({ message: `Fisioterapeuta "${name}" excluído com sucesso.` });
+  } catch (err) {
+    console.error('[admin/delete-professional]', err.message);
+    res.status(500).json({ error: 'Erro ao excluir fisioterapeuta. ' + err.message });
+  }
+});
+
 module.exports = { router, requireAdmin };
