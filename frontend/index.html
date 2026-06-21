@@ -1162,6 +1162,7 @@ html,body{
     </div>
 
     <button class="loc-btn" onclick="toast('Localizando...')"><i class="ti ti-current-location" style="font-size:20px;color:#1a73e8;"></i></button>
+    <div id="map-pins-area"></div>
     <div class="map-sheet" style="max-height:58%;overflow:hidden;display:flex;flex-direction:column;">
       <div class="drag-hdl"></div>
       <div class="sheet-hdr">
@@ -2081,21 +2082,45 @@ function renderMapCard(pros){
   renderProfessionalsList(list, area);
 }
 
+// ── Posições espalhadas no "mapa" decorativo (% top/left) ──
+var MAP_PIN_SLOTS = [
+  {top:18, left:22}, {top:14, left:62}, {top:30, left:42},
+  {top:38, left:78}, {top:46, left:14}, {top:52, left:55},
+  {top:62, left:30}, {top:68, left:70}, {top:78, left:48},
+  {top:84, left:20}, {top:25, left:88}, {top:58, left:8},
+];
+var MAP_PIN_COLORS = ['#16a34a','#1a73e8','#d97706','#7c3aed','#0891b2','#dc2626'];
+
 function renderMapPins(pros){
-  // Pins dinâmicos — posiciona até 3 pins nos slots fixos do mapa
-  var pinEls = document.querySelectorAll('.map-pin');
-  var pinColors = ['#16a34a','#1a73e8','#d97706'];
-  pros.slice(0,3).forEach(function(p, i){
-    if(pinEls[i]){
-      var lbl = pinEls[i].querySelector('.pin-lbl');
-      var tri = pinEls[i].querySelector('.pin-tri');
-      if(lbl){
-        lbl.textContent = p.name.split(' ').slice(0,2).join(' ')+' · '+(p.session_price>0?'R$'+parseFloat(p.session_price).toFixed(0):'?');
-        lbl.style.background = pinColors[i];
-      }
-      if(tri) tri.style.borderTopColor = pinColors[i];
-      pinEls[i].onclick = function(){ openProfDetail(i); };
-    }
+  var area = document.getElementById('map-pins-area');
+  if(!area) return;
+  area.innerHTML = '';
+
+  // Mostra apenas fisioterapeutas DISPONÍVEIS (online) no mapa
+  var available = (pros||[]).filter(function(p){ return p.is_online === true; });
+
+  // Se nenhum estiver online, mostra todos mesmo assim (evita mapa vazio)
+  var toShow = available.length ? available : (pros||[]);
+
+  toShow.slice(0, MAP_PIN_SLOTS.length).forEach(function(p, i){
+    var slot  = MAP_PIN_SLOTS[i];
+    var color = MAP_PIN_COLORS[i % MAP_PIN_COLORS.length];
+    var price = p.session_price > 0 ? 'R$'+parseFloat(p.session_price).toFixed(0) : '?';
+    var label = p.name.split(' ').slice(0,2).join(' ') + ' · ' + price;
+    var realIdx = allPros.indexOf(p);
+    if(realIdx < 0) realIdx = i;
+
+    var pin = document.createElement('div');
+    pin.className = 'map-pin';
+    pin.style.left = slot.left + '%';
+    pin.style.top  = slot.top + '%';
+    pin.onclick = function(){ openProfDetail(realIdx); };
+    pin.innerHTML =
+      '<div class="pin-lbl" style="background:'+color+';">'+label
+        +(p.is_online ? ' <span style="display:inline-block;width:6px;height:6px;background:#4ade80;border-radius:50%;margin-left:4px;"></span>' : '')
+      +'</div>'
+      +'<div class="pin-tri" style="border-top:9px solid '+color+';"></div>';
+    area.appendChild(pin);
   });
 }
 
