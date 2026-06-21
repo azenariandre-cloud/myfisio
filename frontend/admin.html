@@ -726,7 +726,8 @@ async function loadProfessionals(){
         +'</div>'
         +'<div class="pro-actions">'
           +'<button class="btn-sm ghost" onclick="openProfessional(\''+p.id+'\')">Ver</button>'
-          +'<button class="btn-sm '+(verified?'warn':'btn-sm')+'" onclick="toggleVerify(\''+p.prof_id+'\','+(verified?'false':'true')+',loadProfessionals)">'+(verified?'Rever':'Verificar')+'</button>'
+          +'<button class="btn-sm '+(verified?'warn':'btn-sm')+'" onclick="toggleVerify(\''+p.prof_id+'\','+(verified?'false':'true')+',loadProfessionals)">'+(verified?'Suspender':'Verificar')+'</button>'
+          +'<button class="btn-sm danger" onclick="deleteProfessional(\''+p.id+'\',\''+p.name.replace(/\'/g,"")+'\')">Excluir</button>'
         +'</div>'
         +'</div>';
     }).join('');
@@ -888,7 +889,7 @@ async function toggleUser(id, activate, _, cb){
 }
 
 async function toggleVerify(profId, verify, cb){
-  if(!confirm((verify?'Verificar':'Remover verificação d')+'este profissional?')) return;
+  if(!confirm((verify?'Verificar':'Suspender a verificação d')+'este profissional?')) return;
   try{
     var res = await fetch(API+'/api/admin/professionals/'+profId+'/verify',{
       method:'PATCH',
@@ -900,6 +901,22 @@ async function toggleVerify(profId, verify, cb){
     alert(d.message);
     if(typeof cb === 'function') cb();
   } catch(e){ alert('Erro: '+e.message); }
+}
+
+async function deleteProfessional(userId, name){
+  if(!confirm('Tem certeza que deseja EXCLUIR permanentemente "'+name+'"?\n\nIsso vai remover o cadastro, agendamentos vinculados e não pode ser desfeito.')) return;
+  // Segunda confirmação para evitar exclusão acidental
+  if(!confirm('Confirme novamente: excluir "'+name+'" definitivamente?')) return;
+  try{
+    var res = await fetch(API+'/api/admin/professionals/'+userId,{
+      method:'DELETE',
+      headers:{'Authorization':'Bearer '+admToken}
+    });
+    var d = await res.json();
+    if(!res.ok) throw new Error(d.error);
+    alert(d.message||'Fisioterapeuta excluído com sucesso.');
+    loadProfessionals();
+  } catch(e){ alert('Erro ao excluir: '+e.message); }
 }
 
 // ════════════════════════════════════════════
