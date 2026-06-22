@@ -80,7 +80,7 @@ html,body{
 /* ═══════════════════════════════════════════
    FORM AREA
 ═══════════════════════════════════════════ */
-.form-area{flex:1;padding:20px 18px 18px;overflow-y:auto;scrollbar-width:none;background:#fff;}
+.form-area{flex:1;padding:20px 18px 86px;overflow-y:auto;scrollbar-width:none;background:#fff;}
 .form-area::-webkit-scrollbar{display:none;}
 
 /* CSS vars substitutos (sem depender do claude.ai) */
@@ -1444,6 +1444,28 @@ html,body{
     </div>
     <div class="field"><label style="color:#7fb3e8;">Telefone</label>
       <div class="finput-wrap"><input id="edit-tel" class="finput pro" type="tel" placeholder="(11) 99999-9999" style="background:#132840;border-color:#1e3a5f;color:#fff;" oninput="maskPhone(this)"></div>
+    </div>
+    <div style="font-size:12px;font-weight:700;color:#4fc3f7;margin:14px 0 8px;text-transform:uppercase;letter-spacing:.4px;">Alterar senha</div>
+    <div style="background:#0a1628;border-radius:12px;padding:12px;margin-bottom:14px;border:1px solid #1e3a5f;">
+      <div style="font-size:12px;color:#7fb3e8;margin-bottom:10px;">Deixe em branco se não quiser alterar sua senha atual. Se recebeu uma senha provisória por WhatsApp, use-a no campo "Senha atual".</div>
+      <div class="field"><label style="color:#7fb3e8;">Senha atual</label>
+        <div class="finput-wrap">
+          <input id="edit-current-pw" class="finput pro" type="password" placeholder="Sua senha atual (ou provisória)" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="current-password">
+          <i class="ti ti-eye fi-icon" style="cursor:pointer;" onclick="togglePwVisibility('edit-current-pw', this)"></i>
+        </div>
+      </div>
+      <div class="field"><label style="color:#7fb3e8;">Nova senha</label>
+        <div class="finput-wrap">
+          <input id="edit-new-pw" class="finput pro" type="password" placeholder="Mínimo 8 caracteres" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="new-password">
+          <i class="ti ti-eye fi-icon" style="cursor:pointer;" onclick="togglePwVisibility('edit-new-pw', this)"></i>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:0;"><label style="color:#7fb3e8;">Confirmar nova senha</label>
+        <div class="finput-wrap">
+          <input id="edit-new-pw2" class="finput pro" type="password" placeholder="Repita a nova senha" style="background:#132840;border-color:#1e3a5f;color:#fff;" autocomplete="new-password">
+          <i class="ti ti-eye fi-icon" style="cursor:pointer;" onclick="togglePwVisibility('edit-new-pw2', this)"></i>
+        </div>
+      </div>
     </div>
     <div style="font-size:12px;font-weight:700;color:#4fc3f7;margin:14px 0 8px;text-transform:uppercase;letter-spacing:.4px;">Endereço de atendimento</div>
     <div class="field"><label style="color:#7fb3e8;">Endereço manual</label>
@@ -3002,6 +3024,14 @@ async function loadProEdit(){
   } catch(e){ toast('Erro ao carregar: '+e.message); }
 }
 
+function togglePwVisibility(inputId, iconEl){
+  var inp = document.getElementById(inputId);
+  if(!inp) return;
+  var isHidden = inp.type === 'password';
+  inp.type = isHidden ? 'text' : 'password';
+  if(iconEl) iconEl.className = isHidden ? 'ti ti-eye-off fi-icon' : 'ti ti-eye fi-icon';
+}
+
 async function saveProEdit(){
   var nome       = document.getElementById('edit-nome')?.value?.trim();
   var tel        = document.getElementById('edit-tel')?.value?.trim();
@@ -3014,6 +3044,16 @@ async function saveProEdit(){
   var anoForm    = document.getElementById('edit-ano-form')?.value || '';
   var exp        = document.getElementById('edit-experiencia')?.value || '';
   var specs      = Array.from(document.querySelectorAll('#edit-specs .check-chip.sel')).map(function(c){ return c.textContent.trim(); });
+  var currentPw  = document.getElementById('edit-current-pw')?.value || '';
+  var newPw      = document.getElementById('edit-new-pw')?.value      || '';
+  var newPw2     = document.getElementById('edit-new-pw2')?.value     || '';
+
+  // Validação da nova senha (somente se o usuário preencheu algo)
+  if(newPw || newPw2 || currentPw){
+    if(!currentPw)         { toast('Informe sua senha atual (ou provisória) para trocar a senha'); return; }
+    if(newPw.length < 8)   { toast('A nova senha precisa ter no mínimo 8 caracteres'); return; }
+    if(newPw !== newPw2)   { toast('As senhas não coincidem'); return; }
+  }
 
   // Build bio combining manual text and formation fields
   var bioFinal = bioRaw;
@@ -3034,9 +3074,21 @@ async function saveProEdit(){
       bio: bioFinal || null,
       specialties: specs,
     });
+
+    // Troca de senha — chamada separada, só se preenchida
+    if(newPw){
+      await api('PUT','/api/auth/password', { current_password: currentPw, new_password: newPw });
+    }
+
     var user = getUser();
     if(user){ user.name = nome; saveSession(getToken(), user); }
-    toast('✅ Cadastro atualizado com sucesso!');
+
+    // Limpa os campos de senha após salvar com sucesso
+    if(document.getElementById('edit-current-pw')) document.getElementById('edit-current-pw').value = '';
+    if(document.getElementById('edit-new-pw'))      document.getElementById('edit-new-pw').value      = '';
+    if(document.getElementById('edit-new-pw2'))     document.getElementById('edit-new-pw2').value     = '';
+
+    toast(newPw ? '✅ Cadastro e senha atualizados com sucesso!' : '✅ Cadastro atualizado com sucesso!');
   } catch(e){ toast(e.message||'Erro ao salvar'); }
 }
 
