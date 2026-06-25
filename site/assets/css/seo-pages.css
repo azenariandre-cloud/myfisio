@@ -1,12 +1,12 @@
 /* myFisio — SEO landing pages
-   Tokens:
+   Tokens (identidade visual do app):
    --bg:        #FFFFFF   fundo principal
-   --surface:   #F2F7F5   fundo alternado (seções secundárias) - verde menta muito claro
-   --primary:   #1B4D3E   verde floresta - saúde, confiança, solidez
-   --primary-d: #123A2E   variante escura (hover/headers)
-   --accent:    #FF8552   coral quente - usado SÓ em CTAs, com moderação
-   --text:      #16261F   texto principal
-   --text-mute: #5B6B63   texto secundário
+   --surface:   #F4F7FD   fundo alternado (seções secundárias) - azul muito claro
+   --primary:   #1E50B8   azul myFisio - mesmo tom do header do app
+   --primary-d: #123875   variante escura (hover/headers)
+   --accent:    #2D6CF0   azul vivo - mesmo tom do botão "Entrar" do app
+   --text:      #16213A   texto principal (azul-marinho escuro)
+   --text-mute: #5B6B82   texto secundário
    Tipografia: Sora (títulos, geométrica e distinta) + Inter (corpo, legibilidade)
 */
 
@@ -14,12 +14,12 @@
 
 :root {
   --bg: #FFFFFF;
-  --surface: #F2F7F5;
-  --primary: #1B4D3E;
-  --primary-d: #123A2E;
-  --accent: #FF8552;
-  --text: #16261F;
-  --text-mute: #5B6B63;
+  --surface: #F4F7FD;
+  --primary: #1E50B8;
+  --primary-d: #123875;
+  --accent: #2D6CF0;
+  --text: #16213A;
+  --text-mute: #5B6B82;
   --radius: 14px;
   --max-w: 920px;
 }
@@ -55,7 +55,7 @@ a:hover { text-decoration: underline; }
 }
 
 header.site-header {
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--primary-d) 100%);
   padding: 18px 0;
 }
 header.site-header .container {
@@ -102,7 +102,7 @@ section.hero {
 .cta-btn:hover {
   text-decoration: none;
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(255, 133, 82, 0.35);
+  box-shadow: 0 6px 16px rgba(45, 108, 240, 0.35);
 }
 .cta-btn:focus-visible {
   outline: 3px solid var(--primary-d);
@@ -135,7 +135,7 @@ section.plain { padding: 48px 0; }
   background: var(--bg);
   border-radius: var(--radius);
   padding: 22px;
-  border: 1px solid #E3ECE8;
+  border: 1px solid #E1E8F5;
 }
 .step .num {
   display: inline-flex;
@@ -163,7 +163,7 @@ section.plain { padding: 48px 0; }
 .card-list a {
   display: block;
   background: var(--bg);
-  border: 1px solid #E3ECE8;
+  border: 1px solid #E1E8F5;
   border-radius: var(--radius);
   padding: 16px 18px;
   color: var(--text);
@@ -175,7 +175,7 @@ section.plain { padding: 48px 0; }
 }
 
 .faq-item {
-  border-bottom: 1px solid #E3ECE8;
+  border-bottom: 1px solid #E1E8F5;
   padding: 18px 0;
 }
 .faq-item:last-child { border-bottom: none; }
