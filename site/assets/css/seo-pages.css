@@ -1,0 +1,207 @@
+/* myFisio — SEO landing pages
+   Tokens:
+   --bg:        #FFFFFF   fundo principal
+   --surface:   #F2F7F5   fundo alternado (seções secundárias) - verde menta muito claro
+   --primary:   #1B4D3E   verde floresta - saúde, confiança, solidez
+   --primary-d: #123A2E   variante escura (hover/headers)
+   --accent:    #FF8552   coral quente - usado SÓ em CTAs, com moderação
+   --text:      #16261F   texto principal
+   --text-mute: #5B6B63   texto secundário
+   Tipografia: Sora (títulos, geométrica e distinta) + Inter (corpo, legibilidade)
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #FFFFFF;
+  --surface: #F2F7F5;
+  --primary: #1B4D3E;
+  --primary-d: #123A2E;
+  --accent: #FF8552;
+  --text: #16261F;
+  --text-mute: #5B6B63;
+  --radius: 14px;
+  --max-w: 920px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-family: 'Sora', system-ui, sans-serif;
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0 0 0.6em;
+}
+
+h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 800; }
+h2 { font-size: clamp(1.4rem, 2.6vw, 1.8rem); color: var(--primary-d); }
+
+p { margin: 0 0 1em; color: var(--text); }
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header.site-header {
+  background: var(--primary);
+  padding: 18px 0;
+}
+header.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header.site-header .logo {
+  color: #fff;
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+header.site-header .logo:hover { text-decoration: none; }
+
+section.hero {
+  padding: 56px 0 40px;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin: 22px 0 6px;
+  font-size: 0.92rem;
+  color: var(--text-mute);
+}
+.badges span { white-space: nowrap; }
+
+.cta-btn {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  padding: 14px 28px;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.cta-btn:hover {
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(255, 133, 82, 0.35);
+}
+.cta-btn:focus-visible {
+  outline: 3px solid var(--primary-d);
+  outline-offset: 2px;
+}
+.cta-btn.secondary {
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+.cta-btn.secondary:hover { box-shadow: none; }
+
+section.alt {
+  background: var(--surface);
+  padding: 48px 0;
+}
+section.plain { padding: 48px 0; }
+
+/* Passo a passo — sequência real, numeração se justifica */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 28px;
+}
+@media (max-width: 720px) {
+  .steps { grid-template-columns: 1fr; }
+}
+.step {
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 22px;
+  border: 1px solid #E3ECE8;
+}
+.step .num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.card-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+@media (max-width: 720px) {
+  .card-list { grid-template-columns: 1fr; }
+}
+.card-list a {
+  display: block;
+  background: var(--bg);
+  border: 1px solid #E3ECE8;
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  color: var(--text);
+  font-weight: 600;
+}
+.card-list a:hover {
+  border-color: var(--primary);
+  text-decoration: none;
+}
+
+.faq-item {
+  border-bottom: 1px solid #E3ECE8;
+  padding: 18px 0;
+}
+.faq-item:last-child { border-bottom: none; }
+.faq-item h3 { font-size: 1.05rem; margin-bottom: 6px; color: var(--text); }
+.faq-item p { color: var(--text-mute); margin: 0; }
+
+.final-cta {
+  text-align: center;
+  padding: 56px 0;
+}
+.final-cta h2 { color: #fff; }
+.final-cta { background: var(--primary); }
+.final-cta p { color: rgba(255,255,255,0.85); }
+
+footer.site-footer {
+  padding: 28px 0 40px;
+  color: var(--text-mute);
+  font-size: 0.85rem;
+}
+
+.implementation-note {
+  background: #FFF8EC;
+  border: 1px dashed #E0B873;
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 0.85rem;
+  color: #6B5419;
+  margin: 18px 0;
+}
