@@ -452,6 +452,11 @@ html,body{
   background:#fff;border-radius:22px 22px 0 0;
   padding:10px 16px 14px;
   box-shadow:0 -4px 20px rgba(0,0,0,.1);z-index:20;
+  /* Reserva espaço para não ficar atrás do rodapé fixo (.bot-nav) */
+  bottom:70px;
+}
+@supports (padding: max(0px)) {
+  .map-sheet{ bottom:max(70px, calc(70px + env(safe-area-inset-bottom))); }
 }
 .drag-hdl{width:40px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 12px;}
 .sheet-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
