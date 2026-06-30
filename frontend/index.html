@@ -2069,9 +2069,27 @@ function loadProfessionals(specialty){
       var data = await api('GET','/api/professionals?'+params,null);
       allPros  = data.professionals || [];
 
-      renderProfessionalsList(allPros, listEl);
+      // Reaplica os filtros ativos (preço/distância/busca) em vez de
+      // sempre mostrar a lista completa — evita que um filtro já
+      // selecionado pelo usuário seja "desfeito" quando esta função
+      // termina de buscar dados em segundo plano (ex: após o timeout
+      // do GPS, que pode levar até 3s e rodar DEPOIS do clique no filtro).
+      var listPageActive = document.getElementById('page-list') && document.getElementById('page-list').classList.contains('active');
+      var mapPageActive  = document.getElementById('page-map')  && document.getElementById('page-map').classList.contains('active');
+
+      if(listPageActive){
+        applyListFilters();
+      } else if(listEl){
+        renderProfessionalsList(allPros, listEl);
+      }
+
       renderMapPins(allPros);
-      renderMapCard(allPros);
+
+      if(mapPageActive){
+        applyMapFilters();
+      } else if(mapArea){
+        renderMapCard(allPros);
+      }
     } catch(e){
       if(listEl) listEl.innerHTML =
         '<div style="text-align:center;padding:24px;color:#64748b;font-size:13px;">'
